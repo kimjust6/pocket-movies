@@ -1,410 +1,508 @@
 <div
-    x-data="weddingPage()"
-    class="min-h-screen bg-gradient-to-b from-rose-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
+    x-data="rsvpPage()"
+    class="relative isolate overflow-hidden bg-gradient-to-b from-white/60 via-rose-50/60 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
 >
-    <!-- Hero Section -->
-    <section
-        class="relative h-screen flex items-center justify-center overflow-hidden"
+    <div
+        class="pointer-events-none absolute inset-0 -z-10 mix-blend-multiply dark:opacity-80"
     >
-        <div
-            x-data="{ loaded: false }"
-            x-init="setTimeout(() => loaded = true, 100)"
-            :class="loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
-            class="text-center z-10 px-4 transition-all duration-1000 ease-out"
-        >
-            <div class="mb-8">
+        <div class="absolute left-0 top-0 h-72 w-72 rounded-full bg-rose-200/50 blur-3xl dark:bg-rose-900/30"></div>
+        <div class="absolute right-20 top-20 h-80 w-80 rounded-full bg-amber-100/60 blur-3xl dark:bg-amber-500/20"></div>
+        <div class="absolute -bottom-20 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-sky-100/50 blur-3xl dark:bg-sky-500/10"></div>
+    </div>
+
+    <!-- Floating hearts animation -->
+    <div class="pointer-events-none absolute inset-0 -z-10">
+        <template x-for="heart in hearts" :key="heart">
+            <div
+                class="absolute text-rose-300/70 dark:text-rose-500/50"
+                :style="heartStyle(heart)"
+                aria-hidden="true"
+            >
                 <svg
-                    class="w-16 h-16 mx-auto text-rose-400 animate-pulse"
+                    class="h-8 w-8 animate-float-slow"
+                    viewBox="0 0 24 24"
                     fill="currentColor"
-                    viewBox="0 0 20 20"
                 >
                     <path
                         fill-rule="evenodd"
-                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        d="M4.318 6.318a4.5 4.5 0 0 1 6.364 0L12 7.636l1.318-1.318a4.5 4.5 0 0 1 6.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 0 1 0-6.364Z"
                         clip-rule="evenodd"
                     />
                 </svg>
             </div>
-            <h1
-                class="text-6xl md:text-8xl font-serif text-gray-800 dark:text-gray-100 mb-4"
-            >
-                Yvonne <span class="text-rose-500">&</span> Justin
-            </h1>
-            <p
-                class="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8"
-            >
-                are getting married!
-            </p>
-            <div class="text-lg text-gray-700 dark:text-gray-400 space-y-2">
-                <p class="font-semibold">Save the Date</p>
-                <p class="text-3xl font-serif text-rose-500">June 14, 2026</p>
-            </div>
-            <div class="mt-8">
-                <a
-                    href="#rsvp"
-                    @click.prevent="scrollToRsvp"
-                    class="inline-block bg-rose-500 hover:bg-rose-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                    RSVP Now
-                </a>
-            </div>
-        </div>
+        </template>
+    </div>
 
-        <!-- Floating hearts animation -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <template x-for="i in 15" :key="i">
-                <div
-                    class="absolute text-rose-300 opacity-30 dark:text-rose-400"
-                    :style="`
-                        left: ${Math.random() * 100}%;
-                        animation-delay: ${Math.random() * 5}s;
-                        animation-duration: ${15 + Math.random() * 10}s;
-                    `"
-                    style="animation: floatUp linear infinite"
-                >
-                    <svg
-                        class="w-8 h-8"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
+    <!-- Hero -->
+    <section class="relative px-6 pb-24 pt-12 lg:pt-20">
+        <div
+            class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]"
+        >
+            <div
+                class="space-y-6"
+                :class="heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+                x-init="setTimeout(() => heroReady = true, 120)"
+            >
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-rose-500 shadow-sm ring-1 ring-rose-100 backdrop-blur dark:bg-slate-900/70 dark:ring-rose-900/50">
+                    You are invited
                 </div>
-            </template>
+                <p class="text-lg font-semibold text-slate-700 dark:text-slate-200">
+                    June 14, 2026 · The Garden Venue · Toronto
+                </p>
+                <h1 class="script-font text-5xl leading-tight text-slate-900 sm:text-6xl lg:text-7xl dark:text-white">
+                    Yvonne <span class="text-rose-500">&amp;</span> Justin
+                </h1>
+                <p class="text-lg text-slate-600 dark:text-slate-300">
+                    We cannot wait to celebrate with you. Join us for a weekend of vows under the trees, dinner under the lights, and dancing until the stars come out.
+                </p>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a
+                        href="#rsvp"
+                        @click.prevent="scrollTo('rsvp')"
+                        class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-rose-500 via-rose-500 to-amber-400 px-7 py-3 text-base font-semibold text-white shadow-lg shadow-rose-200 transition hover:-translate-y-0.5 hover:shadow-rose-200/80 dark:shadow-rose-900/50"
+                    >
+                        RSVP Now
+                        <span class="text-lg">→</span>
+                    </a>
+                    <button
+                        class="inline-flex items-center gap-3 rounded-full border border-rose-100 bg-white/80 px-6 py-3 text-base font-semibold text-rose-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg dark:border-rose-900/30 dark:bg-slate-900/70 dark:text-rose-200"
+                        @click="scrollTo('weekend')"
+                    >
+                        Weekend Plans
+                        <span class="text-sm text-rose-400">View schedule</span>
+                    </button>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                        <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                            Ceremony
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
+                            4:00 PM · Garden Arbor
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Shuttle departs 3:15 PM
+                        </p>
+                    </div>
+                    <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                        <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                            Reception
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
+                            Dinner &amp; Dancing
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Under the marquee tent
+                        </p>
+                    </div>
+                    <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                        <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                            Dress Code
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
+                            Garden Formal
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Pastels &amp; linen encouraged
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -left-10 -top-10 h-24 w-24 rounded-full bg-amber-200/70 blur-2xl dark:bg-amber-500/20"></div>
+                <div class="absolute -right-6 bottom-0 h-28 w-28 rounded-full bg-rose-200/70 blur-2xl dark:bg-rose-600/30"></div>
+                <div class="glass-surface relative overflow-hidden rounded-3xl p-6 shadow-2xl ring-1 ring-white/60 dark:ring-slate-800/80">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs uppercase tracking-[0.3em] text-rose-400">
+                            Countdown
+                        </p>
+                        <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-rose-600 shadow-sm dark:bg-slate-900/80 dark:text-rose-200"
+                            >Save the date</span
+                        >
+                    </div>
+                    <div class="mt-6 grid grid-cols-4 gap-3 text-center">
+                        <template x-for="(value, label) in countdown" :key="label">
+                            <div class="rounded-2xl bg-white/70 px-3 py-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                                <div class="text-3xl font-semibold text-slate-900 dark:text-white" x-text="value">0</div>
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-rose-400" x-text="label"></p>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="mt-6 rounded-2xl border border-white/70 bg-white/80 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/70">
+                        <div class="flex items-center gap-3">
+                            <div class="grid h-10 w-10 place-content-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-200 dark:shadow-rose-900/50">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25c.621-1.037 1.744-1.75 3.03-1.75A3.25 3.25 0 0 1 18.28 9.7L12 18l-6.28-8.3a3.25 3.25 0 0 1 3.25-3.2c1.286 0 2.409.713 3.03 1.75Z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                                    RSVP by
+                                </p>
+                                <p class="text-sm font-semibold text-slate-800 dark:text-white">
+                                    April 14, 2026
+                                </p>
+                            </div>
+                            <button
+                                class="ml-auto rounded-full bg-rose-500 px-3 py-2 text-xs font-semibold text-white shadow hover:bg-rose-600"
+                                @click="scrollTo('rsvp')"
+                            >
+                                RSVP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Our Story Section -->
-    <section class="py-20 px-4">
-        <div class="max-w-4xl mx-auto">
-            <div
-                x-data="{ inView: false }"
-                x-intersect="inView = true"
-                :class="inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
-                class="transition-all duration-1000 ease-out"
-            >
-                <h2
-                    class="text-5xl font-serif text-center text-gray-800 dark:text-gray-100 mb-12"
-                >
+    <!-- Story -->
+    <section id="story" class="px-6 py-20">
+        <div class="mx-auto max-w-6xl">
+            <div class="flex flex-col items-center gap-3 text-center">
+                <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                    A gentle timeline
+                </p>
+                <h2 class="script-font text-4xl text-slate-900 dark:text-white">
                     Our Story
                 </h2>
-                <div class="grid md:grid-cols-2 gap-8 mb-12">
-                    <div
-                        class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105"
-                    >
-                        <div class="text-rose-500 text-4xl mb-4">✨</div>
-                        <h3
-                            class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100"
-                        >
-                            How We Met
-                        </h3>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            Our paths crossed in the most unexpected way, and
-                            from that moment, we knew something special had
-                            begun.
-                        </p>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105"
-                    >
-                        <div class="text-rose-500 text-4xl mb-4">💍</div>
-                        <h3
-                            class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100"
-                        >
-                            The Proposal
-                        </h3>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            A magical moment that we'll cherish forever, marking
-                            the beginning of our journey to forever.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Event Details Section -->
-    <section class="py-20 px-4 bg-white dark:bg-gray-800">
-        <div class="max-w-6xl mx-auto">
-            <div
-                x-data="{ inView: false }"
-                x-intersect="inView = true"
-                :class="inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
-                class="transition-all duration-1000 ease-out"
-            >
-                <h2
-                    class="text-5xl font-serif text-center text-gray-800 dark:text-gray-100 mb-12"
-                >
-                    Event Details
-                </h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div
-                        class="text-center p-8 bg-rose-50 dark:bg-gray-700 rounded-lg"
-                    >
-                        <div class="text-rose-500 text-5xl mb-4">📅</div>
-                        <h3
-                            class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100"
-                        >
-                            When
-                        </h3>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            Saturday, June 14, 2026
-                        </p>
-                        <p class="text-gray-600 dark:text-gray-400">4:00 PM</p>
-                    </div>
-                    <div
-                        class="text-center p-8 bg-rose-50 dark:bg-gray-700 rounded-lg"
-                    >
-                        <div class="text-rose-500 text-5xl mb-4">📍</div>
-                        <h3
-                            class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100"
-                        >
-                            Where
-                        </h3>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            The Garden Venue
-                        </p>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            123 Beautiful St
-                        </p>
-                    </div>
-                    <div
-                        class="text-center p-8 bg-rose-50 dark:bg-gray-700 rounded-lg"
-                    >
-                        <div class="text-rose-500 text-5xl mb-4">🎉</div>
-                        <h3
-                            class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100"
-                        >
-                            Reception
-                        </h3>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            Immediately Following
-                        </p>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            Dinner & Dancing
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- RSVP Section -->
-    <section id="rsvp" class="py-20 px-4">
-        <div class="max-w-2xl mx-auto">
-            <div
-                x-data="{ inView: false }"
-                x-intersect="inView = true"
-                :class="inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
-                class="transition-all duration-1000 ease-out"
-            >
-                <h2
-                    class="text-5xl font-serif text-center text-gray-800 dark:text-gray-100 mb-4"
-                >
-                    RSVP
-                </h2>
-                <p class="text-center text-gray-600 dark:text-gray-400 mb-12">
-                    Please respond by April 14, 2026
+                <p class="max-w-3xl text-slate-600 dark:text-slate-300">
+                    From first hello to forever, here are the chapters that led us to this day.
                 </p>
+            </div>
 
+            <div class="mt-12 grid gap-6 md:grid-cols-3">
+                <template x-for="(moment, idx) in story" :key="moment.title">
+                    <div
+                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-white/80 p-6 shadow-lg ring-1 ring-rose-100/70 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-rose-200/60 dark:border-slate-800 dark:bg-slate-900/60 dark:ring-slate-800"
+                        x-data="{ visible: false }"
+                        x-intersect="visible = true"
+                        :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
+                    >
+                        <div class="absolute right-3 top-3 h-10 w-10 rounded-full bg-gradient-to-br from-rose-500/90 to-amber-400/90 opacity-70 blur-xl transition duration-500 group-hover:scale-125"></div>
+                        <div class="relative">
+                            <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-200/70 dark:shadow-rose-900/60">
+                                <span class="text-lg font-semibold" x-text="idx + 1"></span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="moment.title"></h3>
+                            <p class="mt-2 text-sm text-rose-500" x-text="moment.meta"></p>
+                            <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300" x-text="moment.copy"></p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weekend Plans -->
+    <section id="weekend" class="bg-white/70 px-6 py-20 backdrop-blur dark:bg-slate-900/50">
+        <div class="mx-auto max-w-6xl">
+            <div class="flex flex-col gap-3 text-center">
+                <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                    The Weekend
+                </p>
+                <h2 class="script-font text-4xl text-slate-900 dark:text-white">
+                    Celebrate with us
+                </h2>
+                <p class="mx-auto max-w-3xl text-slate-600 dark:text-slate-300">
+                    Three moments to share with the people we love most.
+                </p>
+            </div>
+            <div class="mt-12 grid gap-6 lg:grid-cols-3">
+                <template x-for="event in weekend" :key="event.title">
+                    <div
+                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-gradient-to-b from-white/90 to-rose-50/70 p-6 shadow-lg ring-1 ring-rose-100/70 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-rose-200/60 dark:from-slate-900/60 dark:to-slate-900/30 dark:border-slate-800 dark:ring-slate-800"
+                        x-data="{ visible: false }"
+                        x-intersect="visible = true"
+                        :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
+                    >
+                        <div class="absolute -right-8 -top-10 h-24 w-24 rounded-full bg-amber-200/60 blur-2xl transition group-hover:scale-125 dark:bg-amber-500/10"></div>
+                        <div class="relative flex items-center gap-3">
+                            <div class="grid h-12 w-12 place-content-center rounded-2xl bg-rose-500 text-white shadow-lg shadow-rose-200/70 dark:shadow-rose-900/60">
+                                <span x-text="event.emoji" class="text-xl"></span>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.2em] text-rose-400" x-text="event.day"></p>
+                                <h3 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="event.title"></h3>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-sm text-slate-600 dark:text-slate-300" x-text="event.copy"></p>
+                        <div class="mt-4 flex items-center gap-3 text-sm text-rose-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span x-text="event.time"></span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-3 text-sm text-rose-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5c1.657 0 3-1.12 3-2.5S13.657 5.5 12 5.5s-3 1.12-3 2.5 1.343 2.5 3 2.5ZM6.75 18.25a5.25 5.25 0 0 1 10.5 0V19a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75v-.75Z" />
+                            </svg>
+                            <span x-text="event.location"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp" class="px-6 py-20">
+        <div class="mx-auto max-w-5xl">
+            <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
                 <div
-                    x-show="!submitted"
-                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-xl"
+                    class="rounded-3xl bg-white/90 p-8 shadow-xl ring-1 ring-white/80 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800"
+                    x-data="{ visible: false }"
+                    x-intersect="visible = true"
+                    :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                 >
-                    <form @submit.prevent="submitRsvp" class="space-y-6">
-                        <div>
-                            <label
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
+                    <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                        RSVP
+                    </p>
+                    <h2 class="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">
+                        Let us know you are coming
+                    </h2>
+                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                        Please respond by April 14, 2026. We will follow up with weekend logistics and shuttle details.
+                    </p>
+
+                    <form
+                        class="mt-6 space-y-4"
+                        @submit.prevent="submitForm"
+                        x-show="!submitted"
+                    >
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
                                 Full Name *
+                                <input
+                                    type="text"
+                                    x-model="form.name"
+                                    required
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    placeholder="Alex Guest"
+                                />
                             </label>
-                            <input
-                                type="text"
-                                x-model="form.name"
-                                required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-                                placeholder="Enter your name"
-                            />
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
                                 Email *
+                                <input
+                                    type="email"
+                                    x-model="form.email"
+                                    required
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    placeholder="you@example.com"
+                                />
                             </label>
-                            <input
-                                type="email"
-                                x-model="form.email"
-                                required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-                                placeholder="your.email@example.com"
-                            />
                         </div>
 
-                        <div>
-                            <label
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                Will you attend? *
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Phone
+                                <input
+                                    type="tel"
+                                    x-model="form.phone"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    placeholder="Optional"
+                                />
                             </label>
-                            <div class="space-y-2">
-                                <label
-                                    class="flex items-center space-x-3 cursor-pointer"
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Guests
+                                <select
+                                    x-model="form.guests"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
                                 >
-                                    <input
-                                        type="radio"
-                                        x-model="form.attending"
-                                        value="yes"
-                                        class="w-5 h-5 text-rose-500 focus:ring-rose-500"
-                                    />
-                                    <span
-                                        class="text-gray-700 dark:text-gray-300"
-                                        >Joyfully accepts</span
+                                    <option value="1">Just me</option>
+                                    <option value="2">Plus one</option>
+                                    <option value="3">Party of three</option>
+                                    <option value="4">Party of four</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Will you attend? *
+                            </p>
+                            <div class="grid gap-3 sm:grid-cols-2">
+                                <template x-for="option in attendanceOptions" :key="option.value">
+                                    <label
+                                        class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-rose-500/40"
                                     >
-                                </label>
-                                <label
-                                    class="flex items-center space-x-3 cursor-pointer"
-                                >
-                                    <input
-                                        type="radio"
-                                        x-model="form.attending"
-                                        value="no"
-                                        class="w-5 h-5 text-rose-500 focus:ring-rose-500"
-                                    />
-                                    <span
-                                        class="text-gray-700 dark:text-gray-300"
-                                        >Regretfully declines</span
-                                    >
-                                </label>
+                                        <input
+                                            class="h-5 w-5 text-rose-500 focus:ring-rose-500"
+                                            type="radio"
+                                            :value="option.value"
+                                            x-model="form.attending"
+                                            required
+                                        />
+                                        <span x-text="option.label"></span>
+                                    </label>
+                                </template>
                             </div>
                         </div>
 
-                        <div x-show="form.attending === 'yes'">
-                            <label
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                Number of Guests
+                        <div
+                            class="grid gap-4 sm:grid-cols-2"
+                            x-show="form.attending === 'yes'"
+                        >
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Meal Preference
+                                <select
+                                    x-model="form.meal"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                >
+                                    <option value="chef">Chef's Choice</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                    <option value="kids">Kids menu</option>
+                                </select>
                             </label>
-                            <select
-                                x-model="form.guests"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-                            >
-                                <option value="1">1 Guest</option>
-                                <option value="2">2 Guests</option>
-                                <option value="3">3 Guests</option>
-                                <option value="4">4 Guests</option>
-                            </select>
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Dietary Notes
+                                <input
+                                    type="text"
+                                    x-model="form.dietary"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    placeholder="Allergies or restrictions"
+                                />
+                            </label>
                         </div>
 
-                        <div>
-                            <label
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                Dietary Restrictions
-                            </label>
+                        <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                            Note or song request
                             <textarea
-                                x-model="form.dietary"
                                 rows="3"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-                                placeholder="Please let us know of any dietary restrictions..."
-                            ></textarea>
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                Special Message
-                            </label>
-                            <textarea
                                 x-model="form.message"
-                                rows="3"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-                                placeholder="Share your excitement or well wishes..."
+                                class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                placeholder="We would love to dance to..."
                             ></textarea>
-                        </div>
+                        </label>
 
                         <button
                             type="submit"
-                            class="w-full bg-rose-500 hover:bg-rose-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            class="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-rose-500 via-rose-500 to-amber-400 px-6 py-3 text-base font-semibold text-white shadow-xl shadow-rose-200 transition hover:shadow-rose-200/80 dark:shadow-rose-900/40"
                         >
-                            Submit RSVP
+                            <span
+                                class="absolute inset-0 translate-y-full bg-white/30 opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100"
+                            ></span>
+                            <span class="relative">Send our RSVP</span>
                         </button>
                     </form>
+
+                    <div
+                        x-show="submitted"
+                        x-transition
+                        class="relative overflow-hidden rounded-3xl border border-white/70 bg-gradient-to-br from-rose-50 via-white to-amber-50 p-6 text-center shadow-xl backdrop-blur dark:border-slate-800 dark:from-rose-900/40 dark:via-slate-900 dark:to-amber-900/20"
+                    >
+                        <div class="absolute inset-0 animate-pulse-slow bg-[radial-gradient(circle_at_20%_20%,rgba(244,114,182,0.12),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(251,191,36,0.12),transparent_32%)]"></div>
+                        <div class="relative space-y-3">
+                            <div class="text-5xl">🎉</div>
+                            <h3 class="text-2xl font-semibold text-slate-900 dark:text-white">
+                                RSVP received
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                Thank you for letting us know. A confirmation is on its way to your inbox with travel tips and shuttle times.
+                            </p>
+                            <button
+                                class="rounded-full border border-rose-200 bg-white/70 px-5 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-rose-900/40 dark:bg-slate-900/70 dark:text-rose-200"
+                                @click="resetForm"
+                            >
+                                Submit another response
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Success Message -->
                 <div
-                    x-show="submitted"
-                    x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-xl text-center"
+                    class="glass-surface relative overflow-hidden rounded-3xl p-6 shadow-2xl ring-1 ring-white/60 backdrop-blur dark:ring-slate-800/80"
+                    x-data="{ visible: false }"
+                    x-intersect="visible = true"
+                    :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                 >
-                    <div class="text-6xl mb-4">🎉</div>
-                    <h3
-                        class="text-3xl font-serif text-gray-800 dark:text-gray-100 mb-4"
-                    >
-                        Thank You!
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6">
-                        We've received your RSVP and can't wait to celebrate
-                        with you!
-                    </p>
-                    <button
-                        @click="resetForm"
-                        class="text-rose-500 hover:text-rose-600 font-semibold"
-                    >
-                        Submit Another RSVP
-                    </button>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                            Travel &amp; stay
+                        </p>
+                        <span class="rounded-full bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 dark:bg-slate-900/70 dark:text-slate-200">
+                            Helpful notes
+                        </span>
+                    </div>
+                    <div class="mt-6 space-y-4">
+                        <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                Shuttle service
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                Pickups begin at 3:00 PM from downtown hotels. Please indicate if you need a seat in your RSVP.
+                            </p>
+                        </div>
+                        <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                Nearby stays
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                We have blocks at Garden Inn (code: YJLOVE) and Lakeside Suites. Both include late checkout for brunch.
+                            </p>
+                        </div>
+                        <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                Registry
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                Your presence is the best gift. If you would like, we have a small registry and honeymoon fund below.
+                            </p>
+                            <div class="mt-3 flex flex-wrap gap-3">
+                                <a
+                                    href="/registry"
+                                    class="rounded-full bg-rose-500 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-rose-600"
+                                >
+                                    View registry
+                                </a>
+                                <a
+                                    href="#registry"
+                                    class="rounded-full border border-rose-200 px-4 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50 dark:border-rose-900/40 dark:text-rose-200 dark:hover:bg-rose-900/30"
+                                >
+                                    Honeymoon fund
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Countdown Section -->
-    <section class="py-20 px-4 bg-gradient-to-r from-rose-500 to-pink-500">
-        <div class="max-w-4xl mx-auto text-center text-white">
-            <h2 class="text-4xl font-serif mb-8">
-                Counting Down to Our Big Day
-            </h2>
-            <div class="grid grid-cols-4 gap-4 max-w-2xl mx-auto">
-                <div
-                    class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-6"
-                >
-                    <div class="text-5xl font-bold" x-text="countdown.days">
-                        0
-                    </div>
-                    <div class="text-sm uppercase mt-2">Days</div>
-                </div>
-                <div
-                    class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-6"
-                >
-                    <div class="text-5xl font-bold" x-text="countdown.hours">
-                        0
-                    </div>
-                    <div class="text-sm uppercase mt-2">Hours</div>
-                </div>
-                <div
-                    class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-6"
-                >
-                    <div class="text-5xl font-bold" x-text="countdown.minutes">
-                        0
-                    </div>
-                    <div class="text-sm uppercase mt-2">Minutes</div>
-                </div>
-                <div
-                    class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-6"
-                >
-                    <div class="text-5xl font-bold" x-text="countdown.seconds">
-                        0
-                    </div>
-                    <div class="text-sm uppercase mt-2">Seconds</div>
+    <!-- Registry & travel highlights -->
+    <section id="travel" class="px-6 pb-24">
+        <div class="mx-auto max-w-6xl rounded-3xl bg-gradient-to-r from-rose-500 via-rose-500 to-amber-400 p-[1px] shadow-2xl">
+            <div class="rounded-[22px] bg-white/95 p-8 text-center shadow-xl backdrop-blur dark:bg-slate-950/90">
+                <p class="text-xs uppercase tracking-[0.3em] text-rose-400">
+                    Registry &amp; Sunday brunch
+                </p>
+                <h3 class="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">
+                    Celebrate all weekend
+                </h3>
+                <p class="mx-auto mt-2 max-w-3xl text-sm text-slate-600 dark:text-slate-300">
+                    Join us Sunday at 11:00 AM for brunch at Lakeside Terrace. If you would like to contribute to our honeymoon or view the registry, you can do that below.
+                </p>
+                <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+                    <a
+                        href="/registry"
+                        class="rounded-full bg-white px-5 py-3 text-sm font-semibold text-rose-600 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-slate-900 dark:text-rose-200"
+                    >
+                        Open registry
+                    </a>
+                    <a
+                        href="/"
+                        class="rounded-full border border-white/60 bg-white/20 px-5 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/30"
+                    >
+                        Honeymoon fund
+                    </a>
+                    <button
+                        class="rounded-full border border-white/60 bg-white/20 px-5 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/30"
+                        @click="scrollTo('rsvp')"
+                    >
+                        RSVP for brunch
+                    </button>
                 </div>
             </div>
         </div>
@@ -412,33 +510,56 @@
 </div>
 
 <style>
-    @keyframes floatUp {
+    @keyframes floatHeart {
         0% {
             transform: translateY(100vh) rotate(0deg);
             opacity: 0;
         }
         10% {
-            opacity: 0.3;
+            opacity: 0.4;
         }
-        90% {
-            opacity: 0.3;
+        80% {
+            opacity: 0.4;
         }
         100% {
-            transform: translateY(-100vh) rotate(360deg);
+            transform: translateY(-20vh) rotate(360deg);
             opacity: 0;
         }
+    }
+    .animate-float-slow {
+        animation: floatHeart linear infinite;
+    }
+    @keyframes pulseSlow {
+        0%,
+        100% {
+            opacity: 0.9;
+        }
+        50% {
+            opacity: 0.6;
+        }
+    }
+    .animate-pulse-slow {
+        animation: pulseSlow 6s ease-in-out infinite;
     }
 </style>
 
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('weddingPage', () => ({
+        Alpine.data('rsvpPage', () => ({
+            heroReady: false,
             submitted: false,
+            hearts: Array.from({ length: 18 }, (_, i) => i),
+            attendanceOptions: [
+                { label: 'Joyfully accepts', value: 'yes' },
+                { label: 'Regretfully declines', value: 'no' },
+            ],
             form: {
                 name: '',
                 email: '',
-                attending: '',
+                phone: '',
                 guests: '1',
+                attending: '',
+                meal: 'chef',
                 dietary: '',
                 message: '',
             },
@@ -448,16 +569,66 @@
                 minutes: 0,
                 seconds: 0,
             },
+            story: [
+                {
+                    title: 'A chance hello',
+                    meta: 'Spring 2020 · Downtown Toronto',
+                    copy: 'An unexpected introduction over coffee turned into a marathon conversation, and our lives quietly changed course.',
+                },
+                {
+                    title: 'Across the world',
+                    meta: 'Autumn 2022 · Kyoto',
+                    copy: 'We promised to chase sunsets together. Between temples and tea houses, we wrote the next chapter of our story.',
+                },
+                {
+                    title: 'He asked, she said yes',
+                    meta: 'Winter 2024 · Under the lights',
+                    copy: 'Surrounded by family, he asked, she said yes, and the city skyline twinkled as we celebrated the start of forever.',
+                },
+            ],
+            weekend: [
+                {
+                    emoji: '🥂',
+                    day: 'Friday welcome',
+                    title: 'Golden hour cocktails',
+                    copy: 'A relaxed evening to mingle, meet the wedding party, and toast to the weekend ahead.',
+                    time: '6:00 PM · Garden Terrace',
+                    location: 'Welcome lounge',
+                },
+                {
+                    emoji: '💍',
+                    day: 'Saturday',
+                    title: 'Ceremony & celebration',
+                    copy: 'Our vows under the arbor followed by dinner, live music, and a dance floor beneath the lights.',
+                    time: '4:00 PM · Ceremony | 6:00 PM · Dinner',
+                    location: 'The Garden Venue',
+                },
+                {
+                    emoji: '🥞',
+                    day: 'Sunday',
+                    title: 'Brunch by the lake',
+                    copy: 'Come as you are for coffee, pastries, and a slow goodbye before everyone heads home.',
+                    time: '11:00 AM · Lakeside Terrace',
+                    location: 'Farewell brunch',
+                },
+            ],
 
             init() {
                 this.updateCountdown()
-                setInterval(() => this.updateCountdown(), 1000)
+                this.timer = setInterval(() => this.updateCountdown(), 1000)
+            },
+
+            heartStyle(index) {
+                const left = (index * 53) % 100
+                const delay = (index % 7) * 0.9
+                const duration = 14 + (index % 5) * 2
+                return `left:${left}%; animation-delay:${delay}s; animation-duration:${duration}s; bottom:-40px;`
             },
 
             updateCountdown() {
                 const weddingDate = new Date('2026-06-14T16:00:00').getTime()
                 const now = new Date().getTime()
-                const distance = weddingDate - now
+                const distance = Math.max(weddingDate - now, 0)
 
                 this.countdown.days = Math.floor(
                     distance / (1000 * 60 * 60 * 24)
@@ -473,8 +644,7 @@
                 )
             },
 
-            submitRsvp() {
-                // Here you would typically send the data to your backend
+            submitForm() {
                 console.log('RSVP submitted:', this.form)
                 this.submitted = true
             },
@@ -484,17 +654,20 @@
                 this.form = {
                     name: '',
                     email: '',
-                    attending: '',
+                    phone: '',
                     guests: '1',
+                    attending: '',
+                    meal: 'chef',
                     dietary: '',
                     message: '',
                 }
             },
 
-            scrollToRsvp() {
-                document
-                    .getElementById('rsvp')
-                    .scrollIntoView({ behavior: 'smooth' })
+            scrollTo(target) {
+                const el = document.getElementById(target)
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' })
+                }
             },
         }))
     })
