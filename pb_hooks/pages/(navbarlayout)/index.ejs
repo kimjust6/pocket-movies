@@ -1,20 +1,20 @@
 <div
     x-data="rsvpPage()"
-    class="relative isolate overflow-hidden bg-gradient-to-b from-white/60 via-rose-50/60 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
+    class="relative isolate overflow-hidden bg-gradient-to-b from-purple-50/80 via-white to-purple-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
 >
     <div
         class="pointer-events-none absolute inset-0 -z-10 mix-blend-multiply dark:opacity-80"
     >
-        <div class="absolute left-0 top-0 h-72 w-72 rounded-full bg-rose-200/50 blur-3xl dark:bg-rose-900/30"></div>
-        <div class="absolute right-20 top-20 h-80 w-80 rounded-full bg-amber-100/60 blur-3xl dark:bg-amber-500/20"></div>
-        <div class="absolute -bottom-20 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-sky-100/50 blur-3xl dark:bg-sky-500/10"></div>
+        <div class="absolute left-0 top-0 h-72 w-72 rounded-full bg-purple-200/50 blur-3xl dark:bg-purple-900/30"></div>
+        <div class="absolute right-20 top-20 h-80 w-80 rounded-full bg-purple-100/60 blur-3xl dark:bg-purple-700/25"></div>
+        <div class="absolute -bottom-20 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-purple-100/50 blur-3xl dark:bg-purple-800/20"></div>
     </div>
 
     <!-- Floating hearts animation -->
     <div class="pointer-events-none absolute inset-0 -z-10">
         <template x-for="heart in hearts" :key="heart">
             <div
-                class="absolute text-rose-300/70 dark:text-rose-500/50"
+                class="absolute text-purple-300/70 dark:text-purple-500/50"
                 :style="heartStyle(heart)"
                 aria-hidden="true"
             >
@@ -36,21 +36,21 @@
     <!-- Hero -->
     <section class="relative px-6 pb-24 pt-12 lg:pt-20">
         <div
-            class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]"
+            class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]"
         >
             <div
                 class="space-y-6"
                 :class="heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                 x-init="setTimeout(() => heroReady = true, 120)"
             >
-                <div class="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-rose-500 shadow-sm ring-1 ring-rose-100 backdrop-blur dark:bg-slate-900/70 dark:ring-rose-900/50">
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-purple-500 shadow-sm ring-1 ring-purple-100 backdrop-blur dark:bg-slate-900/70 dark:ring-purple-900/50">
                     You are invited
                 </div>
                 <p class="text-lg font-semibold text-slate-700 dark:text-slate-200">
                     June 14, 2026 · The Garden Venue · Toronto
                 </p>
                 <h1 class="script-font text-5xl leading-tight text-slate-900 sm:text-6xl lg:text-7xl dark:text-white">
-                    Yvonne <span class="text-rose-500">&amp;</span> Justin
+                    Yvonne <span class="text-purple-600">&amp;</span> Justin
                 </h1>
                 <p class="text-lg text-slate-600 dark:text-slate-300">
                     We cannot wait to celebrate with you. Join us for a weekend of vows under the trees, dinner under the lights, and dancing until the stars come out.
@@ -59,22 +59,22 @@
                     <a
                         href="#rsvp"
                         @click.prevent="scrollTo('rsvp')"
-                        class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-rose-500 via-rose-500 to-amber-400 px-7 py-3 text-base font-semibold text-white shadow-lg shadow-rose-200 transition hover:-translate-y-0.5 hover:shadow-rose-200/80 dark:shadow-rose-900/50"
+                        class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 px-7 py-3 text-base font-semibold text-white shadow-lg shadow-purple-200 transition hover:-translate-y-0.5 hover:shadow-purple-300/80 dark:shadow-purple-900/50"
                     >
                         RSVP Now
                         <span class="text-lg">→</span>
                     </a>
                     <button
-                        class="inline-flex items-center gap-3 rounded-full border border-rose-100 bg-white/80 px-6 py-3 text-base font-semibold text-rose-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg dark:border-rose-900/30 dark:bg-slate-900/70 dark:text-rose-200"
+                        class="inline-flex items-center gap-3 rounded-full border border-purple-100 bg-white/80 px-6 py-3 text-base font-semibold text-purple-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg dark:border-purple-900/30 dark:bg-slate-900/70 dark:text-purple-200"
                         @click="scrollTo('weekend')"
                     >
                         Weekend Plans
-                        <span class="text-sm text-rose-400">View schedule</span>
+                        <span class="text-sm text-purple-400">View schedule</span>
                     </button>
                 </div>
                 <div class="grid gap-4 sm:grid-cols-3">
                     <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
-                        <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                        <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
                             Ceremony
                         </p>
                         <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
@@ -85,7 +85,7 @@
                         </p>
                     </div>
                     <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
-                        <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                        <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
                             Reception
                         </p>
                         <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
@@ -96,7 +96,7 @@
                         </p>
                     </div>
                     <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
-                        <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                        <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
                             Dress Code
                         </p>
                         <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
@@ -109,15 +109,28 @@
                 </div>
             </div>
 
-            <div class="relative">
-                <div class="absolute -left-10 -top-10 h-24 w-24 rounded-full bg-amber-200/70 blur-2xl dark:bg-amber-500/20"></div>
-                <div class="absolute -right-6 bottom-0 h-28 w-28 rounded-full bg-rose-200/70 blur-2xl dark:bg-rose-600/30"></div>
+            <div class="relative space-y-4">
+                <div class="relative overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/60 dark:ring-slate-800/80">
+                    <img
+                        src="https://images.unsplash.com/photo-1511288593014-8acb33db1c83?auto=format&fit=crop&w=1200&q=80"
+                        alt="Wedding couple"
+                        class="h-72 w-full object-cover sm:h-96"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <p class="text-xs uppercase tracking-[0.25em]">
+                            Toronto
+                        </p>
+                        <p class="text-lg font-semibold">The Garden Venue</p>
+                    </div>
+                </div>
+
                 <div class="glass-surface relative overflow-hidden rounded-3xl p-6 shadow-2xl ring-1 ring-white/60 dark:ring-slate-800/80">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs uppercase tracking-[0.3em] text-rose-400">
+                        <p class="text-xs uppercase tracking-[0.3em] text-purple-400">
                             Countdown
                         </p>
-                        <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-rose-600 shadow-sm dark:bg-slate-900/80 dark:text-rose-200"
+                        <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-purple-700 shadow-sm dark:bg-slate-900/80 dark:text-purple-200"
                             >Save the date</span
                         >
                     </div>
@@ -125,19 +138,19 @@
                         <template x-for="(value, label) in countdown" :key="label">
                             <div class="rounded-2xl bg-white/70 px-3 py-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
                                 <div class="text-3xl font-semibold text-slate-900 dark:text-white" x-text="value">0</div>
-                                <p class="text-[11px] uppercase tracking-[0.2em] text-rose-400" x-text="label"></p>
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-purple-400" x-text="label"></p>
                             </div>
                         </template>
                     </div>
                     <div class="mt-6 rounded-2xl border border-white/70 bg-white/80 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/70">
                         <div class="flex items-center gap-3">
-                            <div class="grid h-10 w-10 place-content-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-200 dark:shadow-rose-900/50">
+                            <div class="grid h-10 w-10 place-content-center rounded-full bg-purple-600 text-white shadow-lg shadow-purple-200 dark:shadow-purple-900/50">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25c.621-1.037 1.744-1.75 3.03-1.75A3.25 3.25 0 0 1 18.28 9.7L12 18l-6.28-8.3a3.25 3.25 0 0 1 3.25-3.2c1.286 0 2.409.713 3.03 1.75Z" />
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-xs uppercase tracking-[0.2em] text-rose-400">
+                                <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
                                     RSVP by
                                 </p>
                                 <p class="text-sm font-semibold text-slate-800 dark:text-white">
@@ -145,7 +158,7 @@
                                 </p>
                             </div>
                             <button
-                                class="ml-auto rounded-full bg-rose-500 px-3 py-2 text-xs font-semibold text-white shadow hover:bg-rose-600"
+                                class="ml-auto rounded-full bg-purple-600 px-3 py-2 text-xs font-semibold text-white shadow hover:bg-purple-700"
                                 @click="scrollTo('rsvp')"
                             >
                                 RSVP
@@ -161,7 +174,7 @@
     <section id="story" class="px-6 py-20">
         <div class="mx-auto max-w-6xl">
             <div class="flex flex-col items-center gap-3 text-center">
-                <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
                     A gentle timeline
                 </p>
                 <h2 class="script-font text-4xl text-slate-900 dark:text-white">
@@ -175,18 +188,18 @@
             <div class="mt-12 grid gap-6 md:grid-cols-3">
                 <template x-for="(moment, idx) in story" :key="moment.title">
                     <div
-                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-white/80 p-6 shadow-lg ring-1 ring-rose-100/70 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-rose-200/60 dark:border-slate-800 dark:bg-slate-900/60 dark:ring-slate-800"
+                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-white/80 p-6 shadow-lg ring-1 ring-purple-100/60 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-purple-200/70 dark:border-slate-800 dark:bg-slate-900/60 dark:ring-slate-800"
                         x-data="{ visible: false }"
                         x-intersect="visible = true"
                         :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
                     >
-                        <div class="absolute right-3 top-3 h-10 w-10 rounded-full bg-gradient-to-br from-rose-500/90 to-amber-400/90 opacity-70 blur-xl transition duration-500 group-hover:scale-125"></div>
+                        <div class="absolute right-3 top-3 h-10 w-10 rounded-full bg-gradient-to-br from-purple-500/90 to-purple-400/80 opacity-70 blur-xl transition duration-500 group-hover:scale-125"></div>
                         <div class="relative">
-                            <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-200/70 dark:shadow-rose-900/60">
+                            <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg shadow-purple-200/70 dark:shadow-purple-900/60">
                                 <span class="text-lg font-semibold" x-text="idx + 1"></span>
                             </div>
                             <h3 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="moment.title"></h3>
-                            <p class="mt-2 text-sm text-rose-500" x-text="moment.meta"></p>
+                            <p class="mt-2 text-sm text-purple-500" x-text="moment.meta"></p>
                             <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300" x-text="moment.copy"></p>
                         </div>
                     </div>
@@ -196,10 +209,10 @@
     </section>
 
     <!-- Weekend Plans -->
-    <section id="weekend" class="bg-white/70 px-6 py-20 backdrop-blur dark:bg-slate-900/50">
+    <section id="weekend" class="bg-white/80 px-6 py-20 backdrop-blur dark:bg-slate-900/50">
         <div class="mx-auto max-w-6xl">
             <div class="flex flex-col gap-3 text-center">
-                <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
                     The Weekend
                 </p>
                 <h2 class="script-font text-4xl text-slate-900 dark:text-white">
@@ -212,29 +225,29 @@
             <div class="mt-12 grid gap-6 lg:grid-cols-3">
                 <template x-for="event in weekend" :key="event.title">
                     <div
-                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-gradient-to-b from-white/90 to-rose-50/70 p-6 shadow-lg ring-1 ring-rose-100/70 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-rose-200/60 dark:from-slate-900/60 dark:to-slate-900/30 dark:border-slate-800 dark:ring-slate-800"
+                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-gradient-to-b from-white/90 to-purple-50/70 p-6 shadow-lg ring-1 ring-purple-100/70 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-purple-200/60 dark:from-slate-900/60 dark:to-slate-900/30 dark:border-slate-800 dark:ring-slate-800"
                         x-data="{ visible: false }"
                         x-intersect="visible = true"
                         :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
                     >
-                        <div class="absolute -right-8 -top-10 h-24 w-24 rounded-full bg-amber-200/60 blur-2xl transition group-hover:scale-125 dark:bg-amber-500/10"></div>
+                        <div class="absolute -right-8 -top-10 h-24 w-24 rounded-full bg-purple-200/50 blur-2xl transition group-hover:scale-125 dark:bg-purple-500/15"></div>
                         <div class="relative flex items-center gap-3">
-                            <div class="grid h-12 w-12 place-content-center rounded-2xl bg-rose-500 text-white shadow-lg shadow-rose-200/70 dark:shadow-rose-900/60">
+                            <div class="grid h-12 w-12 place-content-center rounded-2xl bg-purple-600 text-white shadow-lg shadow-purple-200/70 dark:shadow-purple-900/60">
                                 <span x-text="event.emoji" class="text-xl"></span>
                             </div>
                             <div>
-                                <p class="text-xs uppercase tracking-[0.2em] text-rose-400" x-text="event.day"></p>
+                                <p class="text-xs uppercase tracking-[0.2em] text-purple-400" x-text="event.day"></p>
                                 <h3 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="event.title"></h3>
                             </div>
                         </div>
                         <p class="mt-4 text-sm text-slate-600 dark:text-slate-300" x-text="event.copy"></p>
-                        <div class="mt-4 flex items-center gap-3 text-sm text-rose-500">
+                        <div class="mt-4 flex items-center gap-3 text-sm text-purple-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                             <span x-text="event.time"></span>
                         </div>
-                        <div class="mt-2 flex items-center gap-3 text-sm text-rose-500">
+                        <div class="mt-2 flex items-center gap-3 text-sm text-purple-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5c1.657 0 3-1.12 3-2.5S13.657 5.5 12 5.5s-3 1.12-3 2.5 1.343 2.5 3 2.5ZM6.75 18.25a5.25 5.25 0 0 1 10.5 0V19a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75v-.75Z" />
                             </svg>
@@ -256,7 +269,7 @@
                     x-intersect="visible = true"
                     :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                 >
-                    <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                    <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
                         RSVP
                     </p>
                     <h2 class="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">
@@ -278,7 +291,7 @@
                                     type="text"
                                     x-model="form.name"
                                     required
-                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
                                     placeholder="Alex Guest"
                                 />
                             </label>
@@ -288,7 +301,7 @@
                                     type="email"
                                     x-model="form.email"
                                     required
-                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
                                     placeholder="you@example.com"
                                 />
                             </label>
@@ -300,7 +313,7 @@
                                 <input
                                     type="tel"
                                     x-model="form.phone"
-                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
                                     placeholder="Optional"
                                 />
                             </label>
@@ -308,7 +321,7 @@
                                 Guests
                                 <select
                                     x-model="form.guests"
-                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
                                 >
                                     <option value="1">Just me</option>
                                     <option value="2">Plus one</option>
@@ -325,10 +338,10 @@
                             <div class="grid gap-3 sm:grid-cols-2">
                                 <template x-for="option in attendanceOptions" :key="option.value">
                                     <label
-                                        class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-rose-500/40"
+                                        class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-purple-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-purple-500/40"
                                     >
                                         <input
-                                            class="h-5 w-5 text-rose-500 focus:ring-rose-500"
+                                            class="h-5 w-5 text-purple-600 focus:ring-purple-500"
                                             type="radio"
                                             :value="option.value"
                                             x-model="form.attending"
@@ -348,7 +361,7 @@
                                 Meal Preference
                                 <select
                                     x-model="form.meal"
-                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
                                 >
                                     <option value="chef">Chef's Choice</option>
                                     <option value="vegetarian">Vegetarian</option>
@@ -361,7 +374,7 @@
                                 <input
                                     type="text"
                                     x-model="form.dietary"
-                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
                                     placeholder="Allergies or restrictions"
                                 />
                             </label>
@@ -372,14 +385,14 @@
                             <textarea
                                 rows="3"
                                 x-model="form.message"
-                                class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-rose-50/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-rose-500 dark:focus:ring-rose-500/30"
+                                class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
                                 placeholder="We would love to dance to..."
                             ></textarea>
                         </label>
 
                         <button
                             type="submit"
-                            class="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-rose-500 via-rose-500 to-amber-400 px-6 py-3 text-base font-semibold text-white shadow-xl shadow-rose-200 transition hover:shadow-rose-200/80 dark:shadow-rose-900/40"
+                            class="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 px-6 py-3 text-base font-semibold text-white shadow-xl shadow-purple-200 transition hover:shadow-purple-200/80 dark:shadow-purple-900/40"
                         >
                             <span
                                 class="absolute inset-0 translate-y-full bg-white/30 opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100"
@@ -391,9 +404,9 @@
                     <div
                         x-show="submitted"
                         x-transition
-                        class="relative overflow-hidden rounded-3xl border border-white/70 bg-gradient-to-br from-rose-50 via-white to-amber-50 p-6 text-center shadow-xl backdrop-blur dark:border-slate-800 dark:from-rose-900/40 dark:via-slate-900 dark:to-amber-900/20"
+                        class="relative overflow-hidden rounded-3xl border border-white/70 bg-gradient-to-br from-purple-50 via-white to-purple-50 p-6 text-center shadow-xl backdrop-blur dark:border-slate-800 dark:from-purple-900/40 dark:via-slate-900 dark:to-purple-900/20"
                     >
-                        <div class="absolute inset-0 animate-pulse-slow bg-[radial-gradient(circle_at_20%_20%,rgba(244,114,182,0.12),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(251,191,36,0.12),transparent_32%)]"></div>
+                        <div class="absolute inset-0 animate-pulse-slow bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.14),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(167,139,250,0.14),transparent_32%)]"></div>
                         <div class="relative space-y-3">
                             <div class="text-5xl">🎉</div>
                             <h3 class="text-2xl font-semibold text-slate-900 dark:text-white">
@@ -403,7 +416,7 @@
                                 Thank you for letting us know. A confirmation is on its way to your inbox with travel tips and shuttle times.
                             </p>
                             <button
-                                class="rounded-full border border-rose-200 bg-white/70 px-5 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-rose-900/40 dark:bg-slate-900/70 dark:text-rose-200"
+                                class="rounded-full border border-purple-200 bg-white/70 px-5 py-2 text-sm font-semibold text-purple-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-purple-900/40 dark:bg-slate-900/70 dark:text-purple-200"
                                 @click="resetForm"
                             >
                                 Submit another response
@@ -419,7 +432,7 @@
                     :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                 >
                     <div class="flex items-center justify-between">
-                        <p class="text-xs uppercase tracking-[0.25em] text-rose-400">
+                        <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
                             Travel &amp; stay
                         </p>
                         <span class="rounded-full bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 dark:bg-slate-900/70 dark:text-slate-200">
@@ -453,13 +466,13 @@
                             <div class="mt-3 flex flex-wrap gap-3">
                                 <a
                                     href="/registry"
-                                    class="rounded-full bg-rose-500 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-rose-600"
+                                    class="rounded-full bg-purple-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-purple-700"
                                 >
                                     View registry
                                 </a>
                                 <a
                                     href="#registry"
-                                    class="rounded-full border border-rose-200 px-4 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50 dark:border-rose-900/40 dark:text-rose-200 dark:hover:bg-rose-900/30"
+                                    class="rounded-full border border-purple-200 px-4 py-2 text-xs font-semibold text-purple-700 transition hover:bg-purple-50 dark:border-purple-900/40 dark:text-purple-200 dark:hover:bg-purple-900/30"
                                 >
                                     Honeymoon fund
                                 </a>
@@ -473,9 +486,9 @@
 
     <!-- Registry & travel highlights -->
     <section id="travel" class="px-6 pb-24">
-        <div class="mx-auto max-w-6xl rounded-3xl bg-gradient-to-r from-rose-500 via-rose-500 to-amber-400 p-[1px] shadow-2xl">
+        <div class="mx-auto max-w-6xl rounded-3xl bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 p-[1px] shadow-2xl">
             <div class="rounded-[22px] bg-white/95 p-8 text-center shadow-xl backdrop-blur dark:bg-slate-950/90">
-                <p class="text-xs uppercase tracking-[0.3em] text-rose-400">
+                <p class="text-xs uppercase tracking-[0.3em] text-purple-400">
                     Registry &amp; Sunday brunch
                 </p>
                 <h3 class="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">
@@ -487,7 +500,7 @@
                 <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
                     <a
                         href="/registry"
-                        class="rounded-full bg-white px-5 py-3 text-sm font-semibold text-rose-600 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-slate-900 dark:text-rose-200"
+                        class="rounded-full bg-white px-5 py-3 text-sm font-semibold text-purple-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-slate-900 dark:text-purple-200"
                     >
                         Open registry
                     </a>

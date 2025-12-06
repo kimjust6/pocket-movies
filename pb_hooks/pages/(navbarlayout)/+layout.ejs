@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en" data-theme="nord" x-data="shell()">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <script>
+            ;(() => {
+                const saved = localStorage.getItem('theme') || 'light'
+                const themeToken = saved === 'dark' ? 'dark' : 'nord'
+                document.documentElement.setAttribute('data-theme', themeToken)
+                document.documentElement.classList.toggle(
+                    'dark',
+                    saved === 'dark'
+                )
+            })()
+        </script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+        ></script>
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('shell', () => ({
+                    navOpen: false,
+                    theme: localStorage.getItem('theme') || 'light',
+                    navigation: [
+                        { title: 'Story', target: 'story' },
+                        { title: 'Weekend', target: 'weekend' },
+                        { title: 'RSVP', target: 'rsvp' },
+                        { title: 'Travel', target: 'travel' },
+                        { title: 'Registry', target: 'registry' },
+                    ],
+
+                    init() {
+                        this.applyTheme()
+                    },
+
+                    toggleTheme() {
+                        this.theme = this.theme === 'dark' ? 'light' : 'dark'
+                        this.applyTheme()
+                    },
+
+                    applyTheme() {
+                        const token = this.theme === 'dark' ? 'dark' : 'nord'
+                        localStorage.setItem('theme', this.theme)
+                        document.documentElement.setAttribute(
+                            'data-theme',
+                            token
+                        )
+                        document.documentElement.classList.toggle(
+                            'dark',
+                            this.theme === 'dark'
+                        )
+                    },
+
+                    scrollTo(target) {
+                        const el = document.getElementById(target)
+                        if (el) {
+                            el.scrollIntoView({ behavior: 'smooth' })
+                            this.navOpen = false
+                        }
+                    },
+                }))
+            })
+        </script>
+
+        <% data.metadata.forEach(function(ogTag) { %>
+        <meta name="<%= ogTag.name %>" content="<%= ogTag.content %>" />
+        <% }); %>
+
+        <title>
+            <%= data.metadata.find(x => x.name === 'title')?.content %>
+        </title>
+        <link href="<%=asset('/app.css')%>" rel="stylesheet" />
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+        <style>
+            body {
+                font-family: 'Plus Jakarta Sans', system-ui, -apple-system,
+                    BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            }
+            .script-font {
+                font-family: 'Playfair Display', 'Times New Roman', serif;
+                letter-spacing: 0.02em;
+            }
+            .glass-surface {
+                background: radial-gradient(
+                        circle at 20% 20%,
+                        rgba(139, 92, 246, 0.14),
+                        transparent 32%
+                    ),
+                    radial-gradient(
+                        circle at 80% 0%,
+                        rgba(167, 139, 250, 0.12),
+                        transparent 34%
+                    ),
+                    rgba(255, 255, 255, 0.85);
+            }
+            .dark .glass-surface {
+                background: radial-gradient(
+                        circle at 20% 20%,
+                        rgba(139, 92, 246, 0.18),
+                        transparent 32%
+                    ),
+                    radial-gradient(
+                        circle at 80% 0%,
+                        rgba(129, 140, 248, 0.14),
+                        transparent 34%
+                    ),
+                    rgba(15, 23, 42, 0.82);
+            }
+        </style>
+    </head>
+    <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+        <div class="relative min-h-screen overflow-hidden">
+            <div
+                class="pointer-events-none absolute inset-0 z-0 opacity-70 blur-3xl"
+                aria-hidden="true"
+            >
+                <div
+                    class="absolute -left-24 top-10 h-64 w-64 rounded-full bg-purple-200/50 dark:bg-purple-600/20"
+                ></div>
+                <div
+                    class="absolute right-0 top-32 h-72 w-72 rounded-full bg-purple-300/40 dark:bg-purple-500/20"
+                ></div>
+                <div
+                    class="absolute -bottom-10 left-1/3 h-64 w-64 rounded-full bg-purple-100/50 dark:bg-purple-700/20"
+                ></div>
+            </div>
+
+            <header class="fixed inset-x-0 top-0 z-50">
+                <div
+                    class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3"
+                >
+                    <a
+                        href="/"
+                        class="flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-white/60 hover:shadow-sm dark:hover:bg-slate-800/70"
+                    >
+                        <div
+                            class="grid h-12 w-12 place-content-center rounded-full bg-white text-purple-600 shadow-sm ring-1 ring-purple-100/70 transition dark:bg-slate-900 dark:text-purple-300 dark:ring-purple-500/30"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.4"
+                                stroke="currentColor"
+                                class="h-6 w-6"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 8.25c.621-1.037 1.744-1.75 3.03-1.75A3.25 3.25 0 0 1 18.28 9.7L12 18l-6.28-8.3a3.25 3.25 0 0 1 3.25-3.2c1.286 0 2.409.713 3.03 1.75Z"
+                                />
+                            </svg>
+                        </div>
+                        <div class="leading-tight">
+                            <p
+                                class="text-[11px] font-semibold uppercase tracking-[0.3em] text-purple-500"
+                            >
+                                June 14, 2026
+                            </p>
+                            <p class="text-lg font-semibold text-slate-900 dark:text-white">
+                                Yvonne &amp; Justin
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="hidden items-center gap-8 md:flex">
+                        <template
+                            x-for="item in navigation"
+                            :key="item.target"
+                        >
+                            <button
+                                class="text-sm font-semibold text-slate-700 transition hover:text-purple-600 dark:text-slate-200"
+                                @click="scrollTo(item.target)"
+                                x-text="item.title"
+                            ></button>
+                        </template>
+                        <a
+                            href="#rsvp"
+                            @click.prevent="scrollTo('rsvp')"
+                            class="rounded-full bg-gradient-to-r from-purple-600 to-purple-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-100 transition hover:scale-[1.02] hover:shadow-purple-200/70 dark:shadow-purple-900/40"
+                        >
+                            RSVP
+                        </a>
+                        <button
+                            class="rounded-full border border-white/40 bg-white/70 p-2 text-slate-700 shadow-sm backdrop-blur transition hover:shadow-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-purple-200"
+                            @click="toggleTheme"
+                            aria-label="Toggle theme"
+                        >
+                            <svg
+                                x-show="theme === 'light'"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-5 w-5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 3v1.5M12 19.5V21m9-9h-1.5M4.5 12H3m14.45 6.364-1.06-1.06M6.61 7.697 5.55 6.636m12.9 0-1.06 1.061M6.61 16.303l-1.06 1.061M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                                />
+                            </svg>
+                            <svg
+                                x-show="theme === 'dark'"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-5 w-5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M20.25 12.75a8.25 8.25 0 0 1-9 8.21 6 6 0 1 0-7.21-7.21 8.25 8.25 0 0 1 16.21-1Z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-3 md:hidden">
+                        <button
+                            class="rounded-full border border-white/40 bg-white/70 p-2 text-slate-700 shadow-sm backdrop-blur transition hover:shadow-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-purple-200"
+                            @click="toggleTheme"
+                            aria-label="Toggle theme"
+                        >
+                            <svg
+                                x-show="theme === 'light'"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-5 w-5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 3v1.5M12 19.5V21m9-9h-1.5M4.5 12H3m14.45 6.364-1.06-1.06M6.61 7.697 5.55 6.636m12.9 0-1.06 1.061M6.61 16.303l-1.06 1.061M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                                />
+                            </svg>
+                            <svg
+                                x-show="theme === 'dark'"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-5 w-5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M20.25 12.75a8.25 8.25 0 0 1-9 8.21 6 6 0 1 0-7.21-7.21 8.25 8.25 0 0 1 16.21-1Z"
+                                />
+                            </svg>
+                        </button>
+                        <button
+                            class="rounded-full border border-white/40 bg-white/80 p-2 text-slate-900 shadow-sm backdrop-blur transition hover:shadow-md dark:border-slate-700 dark:bg-slate-900/80 dark:text-white"
+                            @click="navOpen = !navOpen"
+                            aria-label="Toggle menu"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-6 w-6"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="glass-surface mx-auto mt-2 hidden max-w-6xl flex-col gap-2 rounded-3xl px-4 pb-4 shadow-xl shadow-purple-100/40 ring-1 ring-white/60 backdrop-blur md:hidden dark:shadow-black/30 dark:ring-slate-800/80"
+                    x-show="navOpen"
+                    x-transition
+                >
+                    <template x-for="item in navigation" :key="item.target">
+                        <button
+                            class="flex items-center justify-between rounded-2xl px-3 py-3 text-base font-semibold text-slate-800 transition hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800"
+                            @click="scrollTo(item.target)"
+                        >
+                            <span x-text="item.title"></span>
+                            <span aria-hidden="true" class="text-purple-500"
+                                >&rarr;</span
+                            >
+                        </button>
+                    </template>
+                    <a
+                        href="#rsvp"
+                        @click.prevent="scrollTo('rsvp')"
+                        class="mt-2 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-purple-600 to-purple-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-200 transition hover:scale-[1.01]"
+                    >
+                        RSVP Now
+                    </a>
+                </div>
+            </header>
+
+            <main class="relative z-10 pt-24">
+                <%- slot %>
+            </main>
+
+            <footer class="relative z-10 border-t border-white/60 px-6 py-8">
+                <div
+                    class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-slate-600 sm:flex-row dark:text-slate-400"
+                >
+                    <p>
+                        Crafted with love for June 14, 2026 — Yvonne &
+                        Justin.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <a
+                            href="mailto:hello@wedding.com"
+                            class="transition hover:text-purple-500"
+                            >Contact</a
+                        >
+                        <span aria-hidden="true">•</span>
+                        <a
+                            href="#rsvp"
+                            class="transition hover:text-purple-500"
+                            @click.prevent="scrollTo('rsvp')"
+                            >RSVP</a
+                        >
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
