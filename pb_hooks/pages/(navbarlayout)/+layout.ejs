@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en" data-theme="nord" x-data="appData()">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+        ></script>
+        <script>
+            // Set theme before page renders to prevent flash
+            ;(function () {
+                const theme = localStorage.getItem('theme') || 'dark'
+                document.documentElement.setAttribute('data-theme', theme)
+                // Add 'dark' class for Tailwind dark mode
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark')
+                } else {
+                    document.documentElement.classList.remove('dark')
+                }
+            })()
+
+            // Alpine.js data
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('appData', () => ({
+                    navigation: [
+                        { title: 'About', url: '/about' },
+                        { title: 'Gallery', url: '/gallery' },
+                        { title: 'RSVP', url: '/rsvp' },
+                        { title: 'Contact', url: '/contact' },
+                    ],
+                }))
+
+                Alpine.data('themeToggle', () => ({
+                    theme: localStorage.getItem('theme') || 'nord',
+                    init() {
+                        this.theme = localStorage.getItem('theme') || 'nord'
+                    },
+                    toggleTheme() {
+                        this.theme = this.theme === 'nord' ? 'dark' : 'nord'
+                        localStorage.setItem('theme', this.theme)
+                        document.documentElement.setAttribute(
+                            'data-theme',
+                            this.theme
+                        )
+                        if (this.theme === 'dark') {
+                            document.documentElement.classList.add('dark')
+                        } else {
+                            document.documentElement.classList.remove('dark')
+                        }
+                    },
+                }))
+            })
+        </script>
+
+        <% data.metadata.forEach(function(ogTag) { %>
+        <meta name="<%= ogTag.name %>" content="<%= ogTag.content %>" />
+        <% }); %>
+
+        <title>
+            <%= data.metadata.find(x => x.name === 'title')?.content %>
+        </title>
+        <link href="<%=asset('/app.css')%>" rel="stylesheet" />
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    </head>
+    <body>
+        <div class="drawer">
+            <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content flex flex-col">
+                <!-- Navbar -->
+                <nav class="navbar bg-base-300 w-full fixed z-40">
+                    <div class="flex-none lg:hidden">
+                        <!-- hamburger icon -->
+                        <label
+                            for="my-drawer-3"
+                            aria-label="open sidebar"
+                            class="btn btn-square btn-ghost"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                class="inline-block h-6 w-6 stroke-current"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                ></path>
+                            </svg>
+                        </label>
+                    </div>
+
+                    <div class="menu menu-horizontal mx-2 flex-1 px-2">
+                        <a href="/">Home </a>
+                    </div>
+                    <div class="hidden flex-none lg:block">
+                        <ul class="menu menu-horizontal">
+                            <template
+                                x-for="(item, index) in navigation"
+                                :key="index"
+                            >
+                                <li>
+                                    <a :href="item.url" x-text="item.title"></a>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                    <div
+                        class="flex-none"
+                        x-data="themeToggle()"
+                        x-init="init()"
+                    >
+                        <button
+                            @click="toggleTheme"
+                            class="btn btn-ghost btn-circle group"
+                        >
+                            <svg
+                                x-show="theme === 'nord'"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                class="inline-block h-5 w-5 stroke-blue-300 group-hover:stroke-blue-500"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                                ></path>
+                            </svg>
+                            <svg
+                                x-show="theme !== 'nord'"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                class="inline-block h-5 w-5 stroke-yellow-200"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                </nav>
+                <article class="prose max-w-none pt-16"><%- slot %></article>
+            </div>
+            <div class="drawer-side z-50">
+                <label
+                    for="my-drawer-3"
+                    aria-label="close sidebar"
+                    class="drawer-overlay"
+                ></label>
+                <ul class="menu bg-base-200 min-h-full w-80 p-4">
+                    <!-- Sidebar content here -->
+                    <template x-for="(item, index) in navigation" :key="index">
+                        <li>
+                            <a :href="item.url" x-text="item.title"></a>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
