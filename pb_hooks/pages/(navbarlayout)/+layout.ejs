@@ -36,7 +36,8 @@
                     navOpen: false,
                     navigation: [
                         { title: 'Home', target: 'home' },
-                        { title: 'Photos', target: 'photos' },
+                        { title: 'Schedule', target: 'schedule' },
+                        { title: 'Directions', target: 'directions' },
                         { title: 'Gallery', target: 'gallery' },
                     ],
 
@@ -45,7 +46,18 @@
                     scrollTo(target) {
                         const el = document.getElementById(target)
                         if (el) {
-                            el.scrollIntoView({ behavior: 'smooth' })
+                            const headerOffset = 80
+                            const elementPosition =
+                                el.getBoundingClientRect().top
+                            const offsetPosition =
+                                elementPosition +
+                                window.pageYOffset -
+                                headerOffset
+
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth',
+                            })
                             this.navOpen = false
                         }
                     },
@@ -64,6 +76,9 @@
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
         <style>
+            [x-cloak] {
+                display: none !important;
+            }
             body {
                 font-family:
                     'Lato',
@@ -114,19 +129,21 @@
     </head>
     <body class="bg-[#f5f5f0] text-slate-900">
         <div class="relative min-h-screen">
-            <header class="border-b border-gray-200 bg-white shadow-sm">
+            <header
+                class="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm"
+            >
                 <div
                     class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4"
                 >
                     <a href="/" class="flex items-center gap-3">
                         <div class="leading-tight">
                             <p class="script-font text-2xl text-gray-800">
-                                Conchi &amp; Javi
+                                Yvonne &amp; Justin
                             </p>
                             <p
                                 class="text-xs font-semibold uppercase tracking-wider text-gray-500"
                             >
-                                June 24, 2023
+                                August 1, 2027
                             </p>
                         </div>
                     </a>
@@ -187,7 +204,7 @@
                 <div
                     class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-gray-600 sm:flex-row"
                 >
-                    <p>© 2023 Conchi & Javi Wedding</p>
+                    <p>© 2027 Yvonne & Justin Wedding</p>
                     <div class="flex items-center gap-3">
                         <a
                             href="mailto:hello@wedding.com"
