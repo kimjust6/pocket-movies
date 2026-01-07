@@ -6,12 +6,12 @@ module.exports = function (api) {
             {
                 name: 'title',
                 content:
-                    "The Justin Blog",
+                    "Yvonne & Justin's Wedding",
             },
             {
                 name: 'description',
                 content:
-                    'Keeping a personal record of my mistakes and lessons learned as a developer.',
+                    'Join us in celebrating the wedding of Yvonne Lam and Justin Kim. RSVP and find all the details for our special day.',
             },
             { name: 'url', content: 'https://www.jkim.win/' },
 
@@ -19,33 +19,29 @@ module.exports = function (api) {
             {
                 name: 'og:title',
                 content:
-                    "The Justin Blog",
+                    "Yvonne & Justin's Wedding",
             },
             { name: 'og:type', content: 'website' },
-            { name: 'og:url', content: 'https://www.justink.dev/' },
+            { name: 'og:url', content: 'https://www.jkim.win/' },
             {
                 name: 'og:image',
                 content: 'https://www.jkim.win/og-image.png',
             },
-            { name: 'og:image:alt', content: 'Blog Page Photo' },
+            { name: 'og:image:alt', content: 'Yvonne and Justin Wedding Photo' },
             { name: 'og:image:width', content: '1200' },
             { name: 'og:image:height', content: '630' },
             {
                 name: 'og:description',
                 content:
-                    'Keeping a personal record of my mistakes and lessons learned as a developer.',
+                    'Join us in celebrating the wedding of Yvonne Lam and Justin Kim. RSVP and find all the details for our special day.',
             },
-            { name: 'og:site_name', content: "The Justin Blog" },
+            { name: 'og:site_name', content: "Yvonne & Justin's Wedding" },
             { name: 'og:locale', content: 'en_CA' },
 
-            // Encourage connection—author details
-            { name: 'author', content: 'Justin Kim' },
-            {
-                name: 'article:author',
-                content: 'https://www.justink.dev',
-            },
-            { name: 'article:author:name', content: 'Justin Kim' },
-            { name: 'article:publisher', content: 'https://www.justink.dev/' },
+            // Wedding event details
+            { name: 'author', content: 'Yvonne Lam & Justin Kim' },
+            { name: 'event:type', content: 'wedding' },
+            { name: 'event:hosts', content: 'Yvonne Lam and Justin Kim' },
 
             // Twitter Card metadata (optional, but helpful)
             { name: 'twitter:card', content: 'summary_large_image' },
@@ -53,12 +49,12 @@ module.exports = function (api) {
             {
                 name: 'twitter:title',
                 content:
-                    "The Justin Blog",
+                    "Yvonne & Justin's Wedding",
             },
             {
                 name: 'twitter:description',
                 content:
-                    'Keeping a personal record of my mistakes and lessons learned as a developer.',
+                    'Join us in celebrating the wedding of Yvonne Lam and Justin Kim. RSVP and find all the details for our special day.',
             },
             {
                 name: 'twitter:image',
