@@ -1,0 +1,19 @@
+<!-- Reusable schedule event component -->
+<div class="flex gap-3 lg:gap-6 xl:gap-8">
+    <div
+        class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
+    >
+        <%= time %>
+    </div>
+    <div>
+        <div class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl">
+            <%= title %>
+        </div>
+        <div
+            class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
+        >
+            <span><%= icon %></span>
+            <span><%= location %></span>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,13 @@
 <div x-data="weddingPage()" class="min-h-screen bg-transparent">
     <!-- Main content card -->
     <div
-        class="space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-6 sm:p-10 lg:p-16 xl:p-24 shadow-xl border border-gray-100"
+        class="content-card space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 p-6 sm:p-10 lg:p-16 xl:p-24"
     >
         <!-- Title and Date Section -->
-        <section id="home" class="scroll-mt-24 lg:scroll-mt-28">
+        <section id="home" class="section-spacing">
             <div class="text-center">
                 <h1
-                    class="script-font text-4xl sm:text-5xl lg:text-8xl xl:text-9xl text-gray-800 mb-2 sm:mb-3 lg:mb-6 leading-tight"
+                    class="section-title text-9xl xl:text-9xl mb-2 sm:mb-3 lg:mb-6 leading-tight"
                 >
                     Yvonne & Justin
                 </h1>
@@ -35,66 +35,42 @@
                     class="flex justify-center items-center gap-3 sm:gap-6 lg:gap-16 xl:gap-24"
                 >
                     <div class="text-center">
-                        <div
-                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
-                            x-text="countdown.days"
-                        >
+                        <div class="countdown-number" x-text="countdown.days">
                             183
                         </div>
-                        <div
-                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
-                        >
-                            days
-                        </div>
+                        <div class="countdown-label">days</div>
                     </div>
                     <div class="text-center">
-                        <div
-                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
-                            x-text="countdown.hours"
-                        >
+                        <div class="countdown-number" x-text="countdown.hours">
                             23
                         </div>
-                        <div
-                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
-                        >
-                            hours
-                        </div>
+                        <div class="countdown-label">hours</div>
                     </div>
                     <div class="text-center">
                         <div
-                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
+                            class="countdown-number"
                             x-text="countdown.minutes"
                         >
                             11
                         </div>
-                        <div
-                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
-                        >
-                            minutes
-                        </div>
+                        <div class="countdown-label">minutes</div>
                     </div>
                     <div class="text-center">
                         <div
-                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
+                            class="countdown-number"
                             x-text="countdown.seconds"
                         >
                             23
                         </div>
-                        <div
-                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
-                        >
-                            seconds
-                        </div>
+                        <div class="countdown-label">seconds</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Schedule Section -->
-        <section id="schedule" class="scroll-mt-24 lg:scroll-mt-28">
-            <h2
-                class="script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center mb-8 sm:mb-10 lg:mb-16 xl:mb-20 text-gray-800"
-            >
+        <section id="schedule" class="section-spacing">
+            <h2 class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20">
                 Schedule
             </h2>
 
@@ -130,20 +106,12 @@
 
                         <div class="space-y-4 lg:space-y-6 xl:space-y-7">
                             <div class="flex gap-3 lg:gap-6 xl:gap-8">
-                                <div
-                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
-                                >
-                                    17:30
-                                </div>
+                                <div class="schedule-time">17:30</div>
                                 <div>
-                                    <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
-                                    >
+                                    <div class="schedule-title">
                                         GROOM & GUESTS ARRIVAL TO CHURCH
                                     </div>
-                                    <div
-                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
-                                    >
+                                    <div class="schedule-location">
                                         <span>📍</span>
                                         <span>Iglesia de San Bartolomé</span>
                                     </div>
@@ -151,20 +119,10 @@
                             </div>
 
                             <div class="flex gap-3 lg:gap-6 xl:gap-8">
-                                <div
-                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
-                                >
-                                    18:00
-                                </div>
+                                <div class="schedule-time">18:00</div>
                                 <div>
-                                    <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
-                                    >
-                                        CEREMONY
-                                    </div>
-                                    <div
-                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
-                                    >
+                                    <div class="schedule-title">CEREMONY</div>
+                                    <div class="schedule-location">
                                         <span>📍</span>
                                         <span>Iglesia de San Bartolomé</span>
                                     </div>
@@ -172,20 +130,12 @@
                             </div>
 
                             <div class="flex gap-3 lg:gap-6 xl:gap-8">
-                                <div
-                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
-                                >
-                                    19:30
-                                </div>
+                                <div class="schedule-time">19:30</div>
                                 <div>
-                                    <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
-                                    >
+                                    <div class="schedule-title">
                                         BUS TO CELEBRATION VENUE
                                     </div>
-                                    <div
-                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
-                                    >
+                                    <div class="schedule-location">
                                         <span>📍</span>
                                         <span>In SOC Bedford</span>
                                     </div>
@@ -193,20 +143,12 @@
                             </div>
 
                             <div class="flex gap-3 lg:gap-6 xl:gap-8">
-                                <div
-                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
-                                >
-                                    20:00
-                                </div>
+                                <div class="schedule-time">20:00</div>
                                 <div>
-                                    <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
-                                    >
+                                    <div class="schedule-title">
                                         CELEBRATION
                                     </div>
-                                    <div
-                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
-                                    >
+                                    <div class="schedule-location">
                                         <span>📍</span>
                                         <span>Cerroqueña</span>
                                     </div>
@@ -236,22 +178,20 @@
                     <img
                         src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80"
                         alt="Venue photo 1"
-                        class="w-full h-32 sm:h-36 lg:h-64 xl:h-80 object-cover rounded-lg sm:rounded-xl shadow-md ring-1 ring-gray-900/5"
+                        class="venue-photo h-32 sm:h-36 lg:h-64 xl:h-80"
                     />
                     <img
                         src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&q=80"
                         alt="Venue photo 2"
-                        class="w-full h-32 sm:h-36 lg:h-64 xl:h-80 object-cover rounded-lg sm:rounded-xl shadow-md ring-1 ring-gray-900/5"
+                        class="venue-photo h-32 sm:h-36 lg:h-64 xl:h-80"
                     />
                 </div>
             </div>
         </section>
 
         <!-- Directions & Points of Interest Section -->
-        <section id="directions" class="scroll-mt-24 lg:scroll-mt-28">
-            <h2
-                class="script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center mb-8 sm:mb-10 lg:mb-16 xl:mb-20 text-gray-800"
-            >
+        <section id="directions" class="section-spacing">
+            <h2 class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20">
                 Directions
             </h2>
 
@@ -274,37 +214,29 @@
                     <div
                         class="space-y-2 sm:space-y-3 lg:space-y-4 xl:space-y-5"
                     >
-                        <div
-                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
-                        >
+                        <div class="poi-item">
                             <span class="text-lg lg:text-2xl">📍</span>
                             <span>Iglesia de San Bartolomé</span>
                         </div>
 
-                        <div
-                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
-                        >
+                        <div class="poi-item">
                             <span class="text-lg lg:text-2xl">📍</span>
                             <span>Cerroqueña (Ceremony)</span>
                         </div>
 
-                        <div
-                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
-                        >
+                        <div class="poi-item">
                             <span class="text-lg lg:text-2xl">🏨</span>
                             <span>Hotel conestable</span>
                         </div>
 
-                        <div
-                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
-                        >
+                        <div class="poi-item">
                             <span class="text-lg lg:text-2xl">🚌</span>
                             <span>Bus to celebration</span>
                         </div>
                     </div>
 
                     <button
-                        class="mt-5 sm:mt-6 lg:mt-10 xl:mt-12 w-full rounded-lg sm:rounded-xl bg-gray-700 px-5 sm:px-6 py-3 sm:py-3.5 lg:py-5 xl:py-6 text-sm lg:text-lg xl:text-xl font-semibold text-white hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-[0.98] sm:hover:scale-[1.02]"
+                        class="btn-primary mt-5 sm:mt-6 lg:mt-10 xl:mt-12 w-full"
                     >
                         See other recommended places
                     </button>
@@ -313,10 +245,8 @@
         </section>
 
         <!-- Instagram/Gallery Section -->
-        <section id="gallery" class="scroll-mt-24 lg:scroll-mt-28">
-            <h2
-                class="script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center mb-3 sm:mb-4 lg:mb-6 xl:mb-8 text-gray-800"
-            >
+        <section id="gallery" class="section-spacing">
+            <h2 class="section-title mb-3 sm:mb-4 lg:mb-6 xl:mb-8">
                 Instagram
             </h2>
             <p
@@ -338,7 +268,7 @@
                     <img
                         :src="getImageUrl(image, 400)"
                         alt="Wedding photo"
-                        class="aspect-square w-full object-cover rounded-md sm:rounded-lg lg:rounded-xl cursor-pointer hover:opacity-80 transition-all active:scale-95 sm:hover:scale-105 shadow-sm ring-1 ring-gray-900/5"
+                        class="gallery-image"
                         @click="openModal(index)"
                     />
                 </template>
@@ -346,7 +276,7 @@
 
             <button
                 @click="openModal(0)"
-                class="w-full lg:max-w-3xl lg:mx-auto lg:block rounded-lg sm:rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 px-5 sm:px-6 py-3.5 sm:py-4 lg:py-6 xl:py-7 text-sm lg:text-lg xl:text-xl font-semibold text-white hover:from-gray-800 hover:to-gray-900 transition-all shadow-md hover:shadow-xl active:scale-[0.98] sm:hover:scale-[1.02]"
+                class="btn-gradient w-full lg:max-w-3xl lg:mx-auto lg:block"
             >
                 Open Gallery
             </button>
@@ -395,7 +325,7 @@
     <!-- Previous Button -->
     <button
         @click="previousImage()"
-        class="absolute left-2 sm:left-4 z-[110] text-white hover:text-gray-300 transition p-1.5 sm:p-2 bg-black bg-opacity-50 rounded-full active:scale-95"
+        class="modal-btn absolute left-2 sm:left-4 z-[110]"
         aria-label="Previous image"
     >
         <svg
@@ -417,7 +347,7 @@
     <!-- Next Button -->
     <button
         @click="nextImage()"
-        class="absolute right-2 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-1.5 sm:p-2 bg-black bg-opacity-50 rounded-full active:scale-95"
+        class="modal-btn absolute right-2 sm:right-4 z-[110]"
         aria-label="Next image"
     >
         <svg
