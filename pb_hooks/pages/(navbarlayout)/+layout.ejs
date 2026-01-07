@@ -110,7 +110,7 @@
                 transition: background 0.3s ease;
             }
             .dark body {
-                background: linear-gradient(to bottom, #0f172a, #1e293b);
+                background: linear-gradient(to bottom, #18181b, #27272a);
             }
             .script-font {
                 font-family: 'Dancing Script', cursive;
@@ -150,10 +150,10 @@
             }
         </style>
     </head>
-    <body class="bg-transparent text-slate-900 dark:text-slate-100">
+    <body class="bg-transparent text-zinc-900 dark:text-zinc-100">
         <div class="relative min-h-screen">
             <header
-                class="fixed inset-x-0 top-0 z-50 border-b border-gray-200/60 dark:border-gray-700/60 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm"
+                class="fixed inset-x-0 top-0 z-50 border-b border-gray-200/60 dark:border-zinc-800/60 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm"
             >
                 <div
                     class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5"
@@ -234,7 +234,7 @@
                         <!-- Theme Toggle Button (Mobile) -->
                         <button
                             @click="toggleTheme()"
-                            class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            class="rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
                             aria-label="Toggle dark mode"
                         >
                             <svg
@@ -269,7 +269,7 @@
                             </svg>
                         </button>
                         <button
-                            class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            class="rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
                             @click="navOpen = !navOpen"
                             aria-label="Toggle menu"
                         >
@@ -292,7 +292,7 @@
                 </div>
 
                 <div
-                    class="mx-auto max-w-7xl bg-white dark:bg-slate-900 shadow-lg md:hidden"
+                    class="mx-auto max-w-7xl bg-white dark:bg-zinc-900 shadow-lg md:hidden"
                     x-show="navOpen"
                     x-transition
                 >
@@ -310,7 +310,7 @@
             <main class="relative pt-24 md:pt-28"><%- slot %></main>
 
             <footer
-                class="border-t border-gray-200/60 dark:border-gray-700/60 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm px-6 py-10"
+                class="border-t border-gray-200/60 dark:border-zinc-800/60 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm px-6 py-10"
             >
                 <div
                     class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-gray-600 dark:text-gray-400 sm:flex-row"
