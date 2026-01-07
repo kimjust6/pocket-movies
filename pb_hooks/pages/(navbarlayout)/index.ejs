@@ -357,7 +357,7 @@
             >
                 <template x-for="(image, index) in galleryImages" :key="index">
                     <img
-                        :src="getImageUrl(image, 400)"
+                        :src="image"
                         alt="Wedding photo"
                         class="gallery-image"
                         @click="openModal(index)"
@@ -373,128 +373,129 @@
             </button>
         </section>
     </div>
-</div>
 
-<!-- Full-Screen Gallery Modal -->
-<div
-    x-show="modalOpen"
-    @keydown.escape.window="closeModal()"
-    @keydown.arrow-left.window="modalOpen && previousImage()"
-    @keydown.arrow-right.window="modalOpen && nextImage()"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-[100] bg-black bg-opacity-95"
-    style="display: none"
-    @click.self="closeModal()"
->
-    <!-- Close Button -->
-    <button
-        @click="closeModal()"
-        class="absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-2 sm:p-2.5 active:scale-95"
-        aria-label="Close gallery"
-    >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="w-7 h-7 sm:w-8 sm:h-8"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-            />
-        </svg>
-    </button>
-
-    <!-- Previous Button -->
-    <button
-        @click="previousImage()"
-        class="modal-btn absolute left-2 sm:left-4 z-[110]"
-        aria-label="Previous image"
-    >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="currentColor"
-            class="w-6 h-6 sm:w-8 sm:h-8"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-        </svg>
-    </button>
-
-    <!-- Next Button -->
-    <button
-        @click="nextImage()"
-        class="modal-btn absolute right-2 sm:right-4 z-[110]"
-        aria-label="Next image"
-    >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="currentColor"
-            class="w-6 h-6 sm:w-8 sm:h-8"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-        </svg>
-    </button>
-
-    <!-- Image Counter -->
+    <!-- Full-Screen Gallery Modal -->
     <div
-        class="absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] text-white text-xs sm:text-sm font-semibold bg-black bg-opacity-50 px-2 sm:px-3 py-1 rounded"
+        x-show="modalOpen"
+        x-cloak
+        @keydown.escape.window="closeModal()"
+        @keydown.arrow-left.window="modalOpen && previousImage()"
+        @keydown.arrow-right.window="modalOpen && nextImage()"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[100] bg-black bg-opacity-95"
+        @click.self="closeModal()"
     >
-        <span x-text="currentImageIndex + 1"></span> /
-        <span x-text="galleryImages.length"></span>
-    </div>
-
-    <!-- Main Image -->
-    <div
-        class="absolute inset-0 flex items-center justify-center pb-24 sm:pb-28 lg:pb-32 pt-12 sm:pt-14 lg:pt-16 px-2 sm:px-4 lg:px-16"
-        @click="closeModal()"
-    >
-        <img
-            :src="galleryImages[currentImageIndex]"
-            alt="Wedding photo"
-            class="max-w-full max-h-full object-contain"
-            @click.stop
-        />
-    </div>
-
-    <!-- Thumbnail Navigation (bottom) -->
-    <div
-        class="absolute bottom-0 left-0 right-0 z-[110] bg-black bg-opacity-80 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
-        @click.stop
-    >
-        <div
-            class="flex gap-1.5 sm:gap-2 justify-start lg:justify-center items-center min-w-max lg:min-w-0"
+        <!-- Close Button -->
+        <button
+            @click="closeModal()"
+            class="absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-2 sm:p-2.5 active:scale-95"
+            aria-label="Close gallery"
         >
-            <template x-for="(image, index) in galleryImages" :key="index">
-                <img
-                    :src="getImageUrl(image, 200)"
-                    alt="Thumbnail"
-                    class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded cursor-pointer transition-all flex-shrink-0 active:scale-95"
-                    :class="currentImageIndex === index ? 'ring-2 sm:ring-4 ring-white opacity-100' : 'opacity-60 hover:opacity-100'"
-                    @click.stop="currentImageIndex = index"
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-7 h-7 sm:w-8 sm:h-8"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
                 />
-            </template>
+            </svg>
+        </button>
+
+        <!-- Previous Button -->
+        <button
+            @click="previousImage()"
+            class="modal-btn absolute left-2 sm:left-4 z-[110]"
+            aria-label="Previous image"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6 sm:w-8 sm:h-8"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+            </svg>
+        </button>
+
+        <!-- Next Button -->
+        <button
+            @click="nextImage()"
+            class="modal-btn absolute right-2 sm:right-4 z-[110]"
+            aria-label="Next image"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6 sm:w-8 sm:h-8"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                />
+            </svg>
+        </button>
+
+        <!-- Image Counter -->
+        <div
+            class="absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] text-white text-xs sm:text-sm font-semibold bg-black bg-opacity-50 px-2 sm:px-3 py-1 rounded"
+        >
+            <span x-text="currentImageIndex + 1"></span> /
+            <span x-text="galleryImages.length"></span>
+        </div>
+
+        <!-- Main Image -->
+        <div
+            class="absolute inset-0 flex items-center justify-center pb-24 sm:pb-28 lg:pb-32 pt-12 sm:pt-14 lg:pt-16 px-2 sm:px-4 lg:px-16"
+            @click="closeModal()"
+        >
+            <img
+                :src="galleryImages[currentImageIndex]"
+                alt="Wedding photo"
+                class="max-w-full max-h-full object-contain"
+                @click.stop
+                x-show="galleryImages[currentImageIndex]"
+            />
+        </div>
+
+        <!-- Thumbnail Navigation (bottom) -->
+        <div
+            class="absolute bottom-0 left-0 right-0 z-[110] bg-black bg-opacity-80 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
+            @click.stop
+        >
+            <div
+                class="flex gap-1.5 sm:gap-2 justify-start lg:justify-center items-center min-w-max lg:min-w-0"
+            >
+                <template x-for="(image, index) in galleryImages" :key="index">
+                    <img
+                        :src="image"
+                        alt="Thumbnail"
+                        class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded cursor-pointer transition-all flex-shrink-0 active:scale-95"
+                        :class="currentImageIndex === index ? 'ring-2 sm:ring-4 ring-white opacity-100' : 'opacity-60 hover:opacity-100'"
+                        @click.stop="currentImageIndex = index"
+                    />
+                </template>
+            </div>
         </div>
     </div>
 </div>
@@ -535,10 +536,6 @@
             closeModal() {
                 this.modalOpen = false
                 document.body.style.overflow = ''
-            },
-
-            getImageUrl(url, width) {
-                return url.replace(/w=\d+/, `w=${width}`)
             },
 
             nextImage() {
