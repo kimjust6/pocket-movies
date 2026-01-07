@@ -412,50 +412,6 @@
             </svg>
         </button>
 
-        <!-- Previous Button -->
-        <button
-            @click="previousImage()"
-            class="modal-btn absolute left-2 sm:left-4 z-[110]"
-            aria-label="Previous image"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="2.5"
-                stroke="currentColor"
-                class="w-6 h-6 sm:w-8 sm:h-8"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                />
-            </svg>
-        </button>
-
-        <!-- Next Button -->
-        <button
-            @click="nextImage()"
-            class="modal-btn absolute right-2 sm:right-4 z-[110]"
-            aria-label="Next image"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="2.5"
-                stroke="currentColor"
-                class="w-6 h-6 sm:w-8 sm:h-8"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                />
-            </svg>
-        </button>
-
         <!-- Image Counter -->
         <div
             class="absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] text-white text-xs sm:text-sm font-semibold bg-black bg-opacity-50 px-2 sm:px-3 py-1 rounded"
@@ -467,7 +423,6 @@
         <!-- Main Image -->
         <div
             class="absolute inset-0 flex items-center justify-center pb-24 sm:pb-28 lg:pb-32 pt-12 sm:pt-14 lg:pt-16 px-2 sm:px-4 lg:px-16"
-            @click="closeModal()"
         >
             <img
                 :src="galleryImages[currentImageIndex]"
@@ -476,12 +431,55 @@
                 @click.stop
                 x-show="galleryImages[currentImageIndex]"
             />
+            <!-- Previous Button -->
+            <button
+                @click="previousImage()"
+                class="modal-btn absolute left-2 sm:left-4 z-[110]"
+                aria-label="Previous image"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 sm:w-8 sm:h-8"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.75 19.5L8.25 12l7.5-7.5"
+                    />
+                </svg>
+            </button>
+
+            <!-- Next Button -->
+            <button
+                @click="nextImage()"
+                class="modal-btn absolute right-2 sm:right-4 z-[110]"
+                aria-label="Next image"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 sm:w-8 sm:h-8"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    />
+                </svg>
+            </button>
         </div>
 
         <!-- Thumbnail Navigation (bottom) -->
         <div
             class="absolute bottom-0 left-0 right-0 z-[110] bg-black bg-opacity-80 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
-            @click.stop
+            @click="closeModal()"
         >
             <div
                 class="flex gap-1.5 sm:gap-2 justify-start lg:justify-center items-center min-w-max lg:min-w-0"
