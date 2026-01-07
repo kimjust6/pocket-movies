@@ -1,114 +1,115 @@
 <div x-data="weddingPage()" class="min-h-screen bg-transparent">
-    <!-- Main container - single column centered -->
-    <div class="mx-auto max-w-md lg:max-w-5xl p-3 sm:p-4 lg:p-12">
-        <!-- Main content card -->
-        <div
-            class="space-y-10 sm:space-y-14 lg:space-y-20 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-6 sm:p-10 lg:p-20 shadow-xl border border-gray-100"
-        >
-            <!-- Title and Date Section -->
-            <section id="home" class="scroll-mt-20">
-                <div class="text-center">
-                    <h1
-                        class="script-font text-4xl sm:text-5xl lg:text-7xl text-gray-800 mb-2 sm:mb-3 leading-tight"
-                    >
-                        Yvonne & Justin
-                    </h1>
-                    <p
-                        class="mt-2 sm:mt-3 lg:mt-4 text-[10px] sm:text-xs lg:text-sm tracking-[0.25em] sm:tracking-[0.3em] text-gray-500 font-light uppercase"
-                    >
-                        August 1st 2027
-                    </p>
-                </div>
-
-                <!-- Photo - Single main photo -->
-                <div class="flex justify-center mt-6 sm:mt-10 lg:mt-12">
-                    <img
-                        src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
-                        alt="Wedding photo"
-                        class="w-full max-h-[400px] sm:max-h-[500px] lg:max-h-[650px] object-cover rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl ring-1 ring-gray-900/5"
-                    />
-                </div>
-
-                <!-- Countdown Timer -->
-                <div
-                    class="text-center py-6 sm:py-10 lg:py-14 border-y border-gray-100 mt-6 sm:mt-10 lg:mt-12"
+    <!-- Main content card -->
+    <div
+        class="space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-6 sm:p-10 lg:p-16 xl:p-24 shadow-xl border border-gray-100"
+    >
+        <!-- Title and Date Section -->
+        <section id="home" class="scroll-mt-24 lg:scroll-mt-28">
+            <div class="text-center">
+                <h1
+                    class="script-font text-4xl sm:text-5xl lg:text-8xl xl:text-9xl text-gray-800 mb-2 sm:mb-3 lg:mb-6 leading-tight"
                 >
-                    <div
-                        class="flex justify-center items-center gap-3 sm:gap-6 lg:gap-14"
-                    >
-                        <div class="text-center">
-                            <div
-                                class="text-3xl sm:text-5xl lg:text-6xl font-extralight text-gray-800 mb-1 sm:mb-2"
-                                x-text="countdown.days"
-                            >
-                                183
-                            </div>
-                            <div
-                                class="text-[10px] sm:text-xs lg:text-sm text-gray-400 mt-1 sm:mt-2 uppercase tracking-wider font-medium"
-                            >
-                                days
-                            </div>
+                    Yvonne & Justin
+                </h1>
+                <p
+                    class="mt-2 sm:mt-3 lg:mt-6 xl:mt-8 text-[10px] sm:text-xs lg:text-base xl:text-lg tracking-[0.25em] sm:tracking-[0.3em] lg:tracking-[0.4em] text-gray-500 font-light uppercase"
+                >
+                    August 1st 2027
+                </p>
+            </div>
+
+            <!-- Photo - Single main photo -->
+            <div class="flex justify-center mt-6 sm:mt-10 lg:mt-16 xl:mt-20">
+                <img
+                    src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
+                    alt="Wedding photo"
+                    class="w-full max-h-[400px] sm:max-h-[500px] lg:max-h-[700px] xl:max-h-[800px] object-cover rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl ring-1 ring-gray-900/5"
+                />
+            </div>
+
+            <!-- Countdown Timer -->
+            <div
+                class="text-center py-6 sm:py-10 lg:py-16 xl:py-20 border-y border-gray-100 mt-6 sm:mt-10 lg:mt-16 xl:mt-20"
+            >
+                <div
+                    class="flex justify-center items-center gap-3 sm:gap-6 lg:gap-16 xl:gap-24"
+                >
+                    <div class="text-center">
+                        <div
+                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
+                            x-text="countdown.days"
+                        >
+                            183
                         </div>
-                        <div class="text-center">
-                            <div
-                                class="text-3xl sm:text-5xl lg:text-6xl font-extralight text-gray-800 mb-1 sm:mb-2"
-                                x-text="countdown.hours"
-                            >
-                                23
-                            </div>
-                            <div
-                                class="text-[10px] sm:text-xs lg:text-sm text-gray-400 mt-1 sm:mt-2 uppercase tracking-wider font-medium"
-                            >
-                                hours
-                            </div>
+                        <div
+                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
+                        >
+                            days
                         </div>
-                        <div class="text-center">
-                            <div
-                                class="text-3xl sm:text-5xl lg:text-6xl font-extralight text-gray-800 mb-1 sm:mb-2"
-                                x-text="countdown.minutes"
-                            >
-                                11
-                            </div>
-                            <div
-                                class="text-[10px] sm:text-xs lg:text-sm text-gray-400 mt-1 sm:mt-2 uppercase tracking-wider font-medium"
-                            >
-                                minutes
-                            </div>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
+                            x-text="countdown.hours"
+                        >
+                            23
                         </div>
-                        <div class="text-center">
-                            <div
-                                class="text-3xl sm:text-5xl lg:text-6xl font-extralight text-gray-800 mb-1 sm:mb-2"
-                                x-text="countdown.seconds"
-                            >
-                                23
-                            </div>
-                            <div
-                                class="text-[10px] sm:text-xs lg:text-sm text-gray-400 mt-1 sm:mt-2 uppercase tracking-wider font-medium"
-                            >
-                                seconds
-                            </div>
+                        <div
+                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
+                        >
+                            hours
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
+                            x-text="countdown.minutes"
+                        >
+                            11
+                        </div>
+                        <div
+                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
+                        >
+                            minutes
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extralight text-gray-800 mb-1 sm:mb-2 lg:mb-4"
+                            x-text="countdown.seconds"
+                        >
+                            23
+                        </div>
+                        <div
+                            class="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-400 mt-1 sm:mt-2 lg:mt-3 uppercase tracking-wider font-medium"
+                        >
+                            seconds
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Schedule Section -->
-            <section id="schedule" class="scroll-mt-20">
-                <h2
-                    class="script-font text-4xl sm:text-5xl lg:text-6xl text-center mb-8 sm:mb-10 lg:mb-14 text-gray-800"
-                >
-                    Schedule
-                </h2>
+        <!-- Schedule Section -->
+        <section id="schedule" class="scroll-mt-24 lg:scroll-mt-28">
+            <h2
+                class="script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center mb-8 sm:mb-10 lg:mb-16 xl:mb-20 text-gray-800"
+            >
+                Schedule
+            </h2>
 
+            <div
+                class="lg:grid lg:grid-cols-2 lg:gap-12 xl:gap-16 lg:items-start"
+            >
                 <!-- Timeline -->
-                <div class="space-y-6 sm:space-y-8 lg:space-y-10">
+                <div class="space-y-6 sm:space-y-8 lg:space-y-12 xl:space-y-14">
                     <!-- July 31st -->
                     <div
-                        class="border-l-2 border-gray-200 pl-4 sm:pl-5 lg:pl-8"
+                        class="border-l-2 border-gray-200 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
                     >
-                        <div class="mb-3 sm:mb-4 lg:mb-2">
+                        <div class="mb-3 sm:mb-4 lg:mb-3">
                             <div
-                                class="font-medium text-gray-400 text-xs sm:text-sm lg:text-sm mb-2 tracking-wide"
+                                class="font-medium text-gray-400 text-xs sm:text-sm lg:text-base xl:text-lg mb-2 tracking-wide"
                             >
                                 July 31st
                             </div>
@@ -117,31 +118,31 @@
 
                     <!-- August 1st -->
                     <div
-                        class="border-l-3 border-gray-700 pl-4 sm:pl-5 lg:pl-8"
+                        class="border-l-3 border-gray-700 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
                     >
-                        <div class="mb-2 sm:mb-3">
+                        <div class="mb-2 sm:mb-3 lg:mb-4">
                             <div
-                                class="serif-font font-bold text-gray-800 text-base sm:text-lg lg:text-xl mb-3 sm:mb-4 lg:mb-5"
+                                class="serif-font font-bold text-gray-800 text-base sm:text-lg lg:text-2xl xl:text-3xl mb-3 sm:mb-4 lg:mb-6 xl:mb-8"
                             >
                                 August 1st
                             </div>
                         </div>
 
-                        <div class="space-y-4 lg:space-y-5">
-                            <div class="flex gap-3 lg:gap-4">
+                        <div class="space-y-4 lg:space-y-6 xl:space-y-7">
+                            <div class="flex gap-3 lg:gap-6 xl:gap-8">
                                 <div
-                                    class="font-bold text-gray-800 text-sm lg:text-base w-14 lg:w-20 flex-shrink-0"
+                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
                                 >
                                     17:30
                                 </div>
                                 <div>
                                     <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-base"
+                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
                                     >
                                         GROOM & GUESTS ARRIVAL TO CHURCH
                                     </div>
                                     <div
-                                        class="text-xs lg:text-[10px] text-gray-600 flex items-center gap-1 mt-1"
+                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
                                     >
                                         <span>📍</span>
                                         <span>Iglesia de San Bartolomé</span>
@@ -149,20 +150,20 @@
                                 </div>
                             </div>
 
-                            <div class="flex gap-3 lg:gap-4">
+                            <div class="flex gap-3 lg:gap-6 xl:gap-8">
                                 <div
-                                    class="font-bold text-gray-800 text-sm lg:text-base w-14 lg:w-20 flex-shrink-0"
+                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
                                 >
                                     18:00
                                 </div>
                                 <div>
                                     <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-base"
+                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
                                     >
                                         CEREMONY
                                     </div>
                                     <div
-                                        class="text-xs lg:text-sm text-gray-600 flex items-center gap-1 mt-1"
+                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
                                     >
                                         <span>📍</span>
                                         <span>Iglesia de San Bartolomé</span>
@@ -170,20 +171,20 @@
                                 </div>
                             </div>
 
-                            <div class="flex gap-3 lg:gap-4">
+                            <div class="flex gap-3 lg:gap-6 xl:gap-8">
                                 <div
-                                    class="font-bold text-gray-800 text-sm lg:text-base w-14 lg:w-20 flex-shrink-0"
+                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
                                 >
                                     19:30
                                 </div>
                                 <div>
                                     <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-base"
+                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
                                     >
                                         BUS TO CELEBRATION VENUE
                                     </div>
                                     <div
-                                        class="text-xs lg:text-sm text-gray-600 flex items-center gap-1 mt-1"
+                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
                                     >
                                         <span>📍</span>
                                         <span>In SOC Bedford</span>
@@ -191,20 +192,20 @@
                                 </div>
                             </div>
 
-                            <div class="flex gap-3 lg:gap-4">
+                            <div class="flex gap-3 lg:gap-6 xl:gap-8">
                                 <div
-                                    class="font-bold text-gray-800 text-sm lg:text-base w-14 lg:w-20 flex-shrink-0"
+                                    class="font-bold text-gray-800 text-sm lg:text-lg xl:text-xl w-14 lg:w-24 xl:w-28 flex-shrink-0"
                                 >
                                     20:00
                                 </div>
                                 <div>
                                     <div
-                                        class="font-semibold text-gray-800 text-sm lg:text-base"
+                                        class="font-semibold text-gray-800 text-sm lg:text-lg xl:text-xl"
                                     >
                                         CELEBRATION
                                     </div>
                                     <div
-                                        class="text-xs lg:text-sm text-gray-600 flex items-center gap-1 mt-1"
+                                        class="text-xs lg:text-base xl:text-lg text-gray-600 flex items-center gap-1 mt-1 lg:mt-2"
                                     >
                                         <span>📍</span>
                                         <span>Cerroqueña</span>
@@ -215,10 +216,12 @@
                     </div>
 
                     <!-- June 25th -->
-                    <div class="border-l-2 border-gray-300 pl-4 lg:pl-6">
-                        <div class="mb-4 lg:mb-2">
+                    <div
+                        class="border-l-2 border-gray-300 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
+                    >
+                        <div class="mb-4 lg:mb-3">
                             <div
-                                class="font-semibold text-gray-400 text-sm lg:text-sm"
+                                class="font-semibold text-gray-400 text-sm lg:text-base xl:text-lg"
                             >
                                 August 2nd
                             </div>
@@ -228,32 +231,36 @@
 
                 <!-- Photos below schedule -->
                 <div
-                    class="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-5 mt-6 sm:mt-8 lg:mt-10"
+                    class="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6 xl:gap-8 mt-6 sm:mt-8 lg:mt-0 xl:mt-0"
                 >
                     <img
                         src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80"
                         alt="Venue photo 1"
-                        class="w-full h-32 sm:h-36 lg:h-48 object-cover rounded-lg sm:rounded-xl shadow-md ring-1 ring-gray-900/5"
+                        class="w-full h-32 sm:h-36 lg:h-64 xl:h-80 object-cover rounded-lg sm:rounded-xl shadow-md ring-1 ring-gray-900/5"
                     />
                     <img
                         src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&q=80"
                         alt="Venue photo 2"
-                        class="w-full h-32 sm:h-36 lg:h-48 object-cover rounded-lg sm:rounded-xl shadow-md ring-1 ring-gray-900/5"
+                        class="w-full h-32 sm:h-36 lg:h-64 xl:h-80 object-cover rounded-lg sm:rounded-xl shadow-md ring-1 ring-gray-900/5"
                     />
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Directions & Points of Interest Section -->
-            <section id="directions" class="scroll-mt-20">
-                <h2
-                    class="script-font text-4xl sm:text-5xl lg:text-6xl text-center mb-8 sm:mb-10 lg:mb-14 text-gray-800"
-                >
-                    Directions
-                </h2>
+        <!-- Directions & Points of Interest Section -->
+        <section id="directions" class="scroll-mt-24 lg:scroll-mt-28">
+            <h2
+                class="script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center mb-8 sm:mb-10 lg:mb-16 xl:mb-20 text-gray-800"
+            >
+                Directions
+            </h2>
 
+            <div
+                class="lg:grid lg:grid-cols-2 lg:gap-12 xl:gap-16 lg:items-start"
+            >
                 <!-- Map -->
                 <div
-                    class="mb-5 sm:mb-6 lg:mb-8 h-64 sm:h-72 lg:h-96 rounded-xl sm:rounded-2xl bg-gray-100 overflow-hidden shadow-lg ring-1 ring-gray-900/5"
+                    class="mb-5 sm:mb-6 lg:mb-0 h-64 sm:h-72 lg:h-[520px] xl:h-[600px] rounded-xl sm:rounded-2xl bg-gray-100 overflow-hidden shadow-lg ring-1 ring-gray-900/5"
                 >
                     <img
                         src="https://api.mapbox.com/styles/v1/mapbox/light-v11/static/pin-s+0066cc(-3.5,37.2)/-3.5,37.2,10,0/600x300@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA"
@@ -262,210 +269,211 @@
                     />
                 </div>
 
-                <!-- Points of Interest List -->
-                <div class="space-y-2 sm:space-y-3 lg:space-y-4">
+                <div>
+                    <!-- Points of Interest List -->
                     <div
-                        class="flex items-center gap-2 sm:gap-3 lg:gap-4 text-sm lg:text-base text-gray-700 py-2 px-3 hover:bg-gray-50 rounded-lg transition-colors"
+                        class="space-y-2 sm:space-y-3 lg:space-y-4 xl:space-y-5"
                     >
-                        <span>📍</span>
-                        <span>Iglesia de San Bartolomé</span>
+                        <div
+                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <span class="text-lg lg:text-2xl">📍</span>
+                            <span>Iglesia de San Bartolomé</span>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <span class="text-lg lg:text-2xl">📍</span>
+                            <span>Cerroqueña (Ceremony)</span>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <span class="text-lg lg:text-2xl">🏨</span>
+                            <span>Hotel conestable</span>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-2 sm:gap-3 lg:gap-4 xl:gap-5 text-sm lg:text-lg xl:text-xl text-gray-700 py-2 px-3 lg:py-4 lg:px-5 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <span class="text-lg lg:text-2xl">🚌</span>
+                            <span>Bus to celebration</span>
+                        </div>
                     </div>
 
-                    <div
-                        class="flex items-center gap-2 sm:gap-3 lg:gap-4 text-sm lg:text-base text-gray-700 py-2 px-3 hover:bg-gray-50 rounded-lg transition-colors"
+                    <button
+                        class="mt-5 sm:mt-6 lg:mt-10 xl:mt-12 w-full rounded-lg sm:rounded-xl bg-gray-700 px-5 sm:px-6 py-3 sm:py-3.5 lg:py-5 xl:py-6 text-sm lg:text-lg xl:text-xl font-semibold text-white hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-[0.98] sm:hover:scale-[1.02]"
                     >
-                        <span>📍</span>
-                        <span>Cerroqueña (Ceremony)</span>
-                    </div>
-
-                    <div
-                        class="flex items-center gap-2 sm:gap-3 lg:gap-4 text-sm lg:text-base text-gray-700 py-2 px-3 hover:bg-gray-50 rounded-lg transition-colors"
-                    >
-                        <span>🏨</span>
-                        <span>Hotel conestable</span>
-                    </div>
-
-                    <div
-                        class="flex items-center gap-2 sm:gap-3 lg:gap-4 text-sm lg:text-base text-gray-700 py-2 px-3 hover:bg-gray-50 rounded-lg transition-colors"
-                    >
-                        <span>🚌</span>
-                        <span>Bus to celebration</span>
-                    </div>
+                        See other recommended places
+                    </button>
                 </div>
+            </div>
+        </section>
 
-                <button
-                    class="mt-5 sm:mt-6 lg:mt-8 w-full rounded-lg sm:rounded-xl bg-gray-700 px-5 sm:px-6 py-3 sm:py-3.5 lg:py-4 text-sm lg:text-base font-semibold text-white hover:bg-gray-800 transition-all shadow-md hover:shadow-lg active:scale-[0.98] sm:hover:scale-[1.02]"
-                >
-                    See other recommended places
-                </button>
-            </section>
-
-            <!-- Instagram/Gallery Section -->
-            <section id="gallery" class="scroll-mt-20">
-                <h2
-                    class="script-font text-4xl sm:text-5xl lg:text-6xl text-center mb-3 sm:mb-4 lg:mb-5 text-gray-800"
-                >
-                    Instagram
-                </h2>
-                <p
-                    class="text-center text-[10px] sm:text-xs lg:text-sm text-gray-500 mb-2 sm:mb-3 lg:mb-4 tracking-widest font-light uppercase"
-                >
-                    Connect to Instagram and Tag This Event
-                </p>
-                <p
-                    class="text-center text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 lg:mb-10 tracking-tight"
-                >
-                    #YVONNE-JUSTIN
-                </p>
-
-                <!-- Instagram Photo Grid -->
-                <div
-                    class="grid grid-cols-4 gap-2 sm:gap-2.5 lg:gap-3 mb-6 sm:mb-8 lg:mb-10"
-                >
-                    <template
-                        x-for="(image, index) in galleryImages"
-                        :key="index"
-                    >
-                        <img
-                            :src="getImageUrl(image, 400)"
-                            alt="Wedding photo"
-                            class="aspect-square w-full object-cover rounded-md sm:rounded-lg cursor-pointer hover:opacity-80 transition-all active:scale-95 sm:hover:scale-105 shadow-sm ring-1 ring-gray-900/5"
-                            @click="openModal(index)"
-                        />
-                    </template>
-                </div>
-
-                <button
-                    @click="openModal(0)"
-                    class="w-full rounded-lg sm:rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 px-5 sm:px-6 py-3.5 sm:py-4 lg:py-5 text-sm lg:text-base font-semibold text-white hover:from-gray-800 hover:to-gray-900 transition-all shadow-md hover:shadow-xl active:scale-[0.98] sm:hover:scale-[1.02]"
-                >
-                    Open Gallery
-                </button>
-            </section>
-        </div>
-    </div>
-
-    <!-- Full-Screen Gallery Modal -->
-    <div
-        x-show="modalOpen"
-        @keydown.escape.window="closeModal()"
-        @keydown.arrow-left.window="modalOpen && previousImage()"
-        @keydown.arrow-right.window="modalOpen && nextImage()"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-[100] bg-black bg-opacity-95"
-        style="display: none"
-        @click.self="closeModal()"
-    >
-        <!-- Close Button -->
-        <button
-            @click="closeModal()"
-            class="absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-2 sm:p-2.5 active:scale-95"
-            aria-label="Close gallery"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor"
-                class="w-7 h-7 sm:w-8 sm:h-8"
+        <!-- Instagram/Gallery Section -->
+        <section id="gallery" class="scroll-mt-24 lg:scroll-mt-28">
+            <h2
+                class="script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center mb-3 sm:mb-4 lg:mb-6 xl:mb-8 text-gray-800"
             >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                />
-            </svg>
-        </button>
-
-        <!-- Previous Button -->
-        <button
-            @click="previousImage()"
-            class="absolute left-2 sm:left-4 z-[110] text-white hover:text-gray-300 transition p-1.5 sm:p-2 bg-black bg-opacity-50 rounded-full active:scale-95"
-            aria-label="Previous image"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="2.5"
-                stroke="currentColor"
-                class="w-6 h-6 sm:w-8 sm:h-8"
+                Instagram
+            </h2>
+            <p
+                class="text-center text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-500 mb-2 sm:mb-3 lg:mb-5 xl:mb-6 tracking-widest font-light uppercase"
             >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                />
-            </svg>
-        </button>
-
-        <!-- Next Button -->
-        <button
-            @click="nextImage()"
-            class="absolute right-2 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-1.5 sm:p-2 bg-black bg-opacity-50 rounded-full active:scale-95"
-            aria-label="Next image"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="2.5"
-                stroke="currentColor"
-                class="w-6 h-6 sm:w-8 sm:h-8"
+                Connect to Instagram and Tag This Event
+            </p>
+            <p
+                class="text-center text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold text-gray-800 mb-6 sm:mb-8 lg:mb-14 xl:mb-16 tracking-tight"
             >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                />
-            </svg>
-        </button>
+                #YVONNE-JUSTIN
+            </p>
 
-        <!-- Image Counter -->
-        <div
-            class="absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] text-white text-xs sm:text-sm font-semibold bg-black bg-opacity-50 px-2 sm:px-3 py-1 rounded"
-        >
-            <span x-text="currentImageIndex + 1"></span> /
-            <span x-text="galleryImages.length"></span>
-        </div>
-
-        <!-- Main Image -->
-        <div
-            class="absolute inset-0 flex items-center justify-center pb-24 sm:pb-28 lg:pb-32 pt-12 sm:pt-14 lg:pt-16 px-2 sm:px-4 lg:px-16"
-            @click="closeModal()"
-        >
-            <img
-                :src="galleryImages[currentImageIndex]"
-                alt="Wedding photo"
-                class="max-w-full max-h-full object-contain"
-                @click.stop
-            />
-        </div>
-
-        <!-- Thumbnail Navigation (bottom) -->
-        <div
-            class="absolute bottom-0 left-0 right-0 z-[110] bg-black bg-opacity-80 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
-            @click.stop
-        >
+            <!-- Instagram Photo Grid -->
             <div
-                class="flex gap-1.5 sm:gap-2 justify-start lg:justify-center items-center min-w-max lg:min-w-0"
+                class="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 sm:gap-2.5 lg:gap-4 xl:gap-5 mb-6 sm:mb-8 lg:mb-12 xl:mb-16"
             >
                 <template x-for="(image, index) in galleryImages" :key="index">
                     <img
-                        :src="getImageUrl(image, 200)"
-                        alt="Thumbnail"
-                        class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded cursor-pointer transition-all flex-shrink-0 active:scale-95"
-                        :class="currentImageIndex === index ? 'ring-2 sm:ring-4 ring-white opacity-100' : 'opacity-60 hover:opacity-100'"
-                        @click.stop="currentImageIndex = index"
+                        :src="getImageUrl(image, 400)"
+                        alt="Wedding photo"
+                        class="aspect-square w-full object-cover rounded-md sm:rounded-lg lg:rounded-xl cursor-pointer hover:opacity-80 transition-all active:scale-95 sm:hover:scale-105 shadow-sm ring-1 ring-gray-900/5"
+                        @click="openModal(index)"
                     />
                 </template>
             </div>
+
+            <button
+                @click="openModal(0)"
+                class="w-full lg:max-w-3xl lg:mx-auto lg:block rounded-lg sm:rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 px-5 sm:px-6 py-3.5 sm:py-4 lg:py-6 xl:py-7 text-sm lg:text-lg xl:text-xl font-semibold text-white hover:from-gray-800 hover:to-gray-900 transition-all shadow-md hover:shadow-xl active:scale-[0.98] sm:hover:scale-[1.02]"
+            >
+                Open Gallery
+            </button>
+        </section>
+    </div>
+</div>
+
+<!-- Full-Screen Gallery Modal -->
+<div
+    x-show="modalOpen"
+    @keydown.escape.window="closeModal()"
+    @keydown.arrow-left.window="modalOpen && previousImage()"
+    @keydown.arrow-right.window="modalOpen && nextImage()"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-[100] bg-black bg-opacity-95"
+    style="display: none"
+    @click.self="closeModal()"
+>
+    <!-- Close Button -->
+    <button
+        @click="closeModal()"
+        class="absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-2 sm:p-2.5 active:scale-95"
+        aria-label="Close gallery"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="w-7 h-7 sm:w-8 sm:h-8"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+            />
+        </svg>
+    </button>
+
+    <!-- Previous Button -->
+    <button
+        @click="previousImage()"
+        class="absolute left-2 sm:left-4 z-[110] text-white hover:text-gray-300 transition p-1.5 sm:p-2 bg-black bg-opacity-50 rounded-full active:scale-95"
+        aria-label="Previous image"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="currentColor"
+            class="w-6 h-6 sm:w-8 sm:h-8"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
+        </svg>
+    </button>
+
+    <!-- Next Button -->
+    <button
+        @click="nextImage()"
+        class="absolute right-2 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-1.5 sm:p-2 bg-black bg-opacity-50 rounded-full active:scale-95"
+        aria-label="Next image"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="currentColor"
+            class="w-6 h-6 sm:w-8 sm:h-8"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+        </svg>
+    </button>
+
+    <!-- Image Counter -->
+    <div
+        class="absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] text-white text-xs sm:text-sm font-semibold bg-black bg-opacity-50 px-2 sm:px-3 py-1 rounded"
+    >
+        <span x-text="currentImageIndex + 1"></span> /
+        <span x-text="galleryImages.length"></span>
+    </div>
+
+    <!-- Main Image -->
+    <div
+        class="absolute inset-0 flex items-center justify-center pb-24 sm:pb-28 lg:pb-32 pt-12 sm:pt-14 lg:pt-16 px-2 sm:px-4 lg:px-16"
+        @click="closeModal()"
+    >
+        <img
+            :src="galleryImages[currentImageIndex]"
+            alt="Wedding photo"
+            class="max-w-full max-h-full object-contain"
+            @click.stop
+        />
+    </div>
+
+    <!-- Thumbnail Navigation (bottom) -->
+    <div
+        class="absolute bottom-0 left-0 right-0 z-[110] bg-black bg-opacity-80 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
+        @click.stop
+    >
+        <div
+            class="flex gap-1.5 sm:gap-2 justify-start lg:justify-center items-center min-w-max lg:min-w-0"
+        >
+            <template x-for="(image, index) in galleryImages" :key="index">
+                <img
+                    :src="getImageUrl(image, 200)"
+                    alt="Thumbnail"
+                    class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded cursor-pointer transition-all flex-shrink-0 active:scale-95"
+                    :class="currentImageIndex === index ? 'ring-2 sm:ring-4 ring-white opacity-100' : 'opacity-60 hover:opacity-100'"
+                    @click.stop="currentImageIndex = index"
+                />
+            </template>
         </div>
     </div>
 </div>
