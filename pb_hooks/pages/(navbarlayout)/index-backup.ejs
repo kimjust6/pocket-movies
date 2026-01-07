@@ -1,0 +1,687 @@
+<div
+    x-data="rsvpPage()"
+    class="relative isolate overflow-hidden bg-gradient-to-b from-purple-50/80 via-white to-purple-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
+>
+    <div
+        class="pointer-events-none absolute inset-0 -z-10 mix-blend-multiply dark:opacity-80"
+    >
+        <div class="absolute left-0 top-0 h-72 w-72 rounded-full bg-purple-200/50 blur-3xl dark:bg-purple-900/30"></div>
+        <div class="absolute right-20 top-20 h-80 w-80 rounded-full bg-purple-100/60 blur-3xl dark:bg-purple-700/25"></div>
+        <div class="absolute -bottom-20 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-purple-100/50 blur-3xl dark:bg-purple-800/20"></div>
+    </div>
+
+    <!-- Floating hearts animation -->
+    <div class="pointer-events-none absolute inset-0 -z-10">
+        <template x-for="heart in hearts" :key="heart">
+            <div
+                class="absolute text-purple-300/70 dark:text-purple-500/50"
+                :style="heartStyle(heart)"
+                aria-hidden="true"
+            >
+                <svg
+                    class="h-8 w-8 animate-float-slow"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M4.318 6.318a4.5 4.5 0 0 1 6.364 0L12 7.636l1.318-1.318a4.5 4.5 0 0 1 6.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 0 1 0-6.364Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            </div>
+        </template>
+    </div>
+
+    <!-- Hero -->
+    <section class="relative px-6 pb-24 pt-12 lg:pt-20">
+        <div
+            class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]"
+        >
+            <div
+                class="space-y-6"
+                :class="heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+                x-init="setTimeout(() => heroReady = true, 120)"
+            >
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-purple-500 shadow-sm ring-1 ring-purple-100 backdrop-blur dark:bg-slate-900/70 dark:ring-purple-900/50">
+                    You are invited
+                </div>
+                <p class="text-lg font-semibold text-slate-700 dark:text-slate-200">
+                    June 14, 2026 · The Garden Venue · Toronto
+                </p>
+                <h1 class="script-font text-5xl leading-tight text-slate-900 sm:text-6xl lg:text-7xl dark:text-white">
+                    Yvonne <span class="text-purple-600">&amp;</span> Justin
+                </h1>
+                <p class="text-lg text-slate-600 dark:text-slate-300">
+                    We cannot wait to celebrate with you. Join us for a weekend of vows under the trees, dinner under the lights, and dancing until the stars come out.
+                </p>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a
+                        href="#rsvp"
+                        @click.prevent="scrollTo('rsvp')"
+                        class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 px-7 py-3 text-base font-semibold text-white shadow-lg shadow-purple-200 transition hover:-translate-y-0.5 hover:shadow-purple-300/80 dark:shadow-purple-900/50"
+                    >
+                        RSVP Now
+                        <span class="text-lg">→</span>
+                    </a>
+                    <button
+                        class="inline-flex items-center gap-3 rounded-full border border-purple-100 bg-white/80 px-6 py-3 text-base font-semibold text-purple-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg dark:border-purple-900/30 dark:bg-slate-900/70 dark:text-purple-200"
+                        @click="scrollTo('weekend')"
+                    >
+                        Weekend Plans
+                        <span class="text-sm text-purple-400">View schedule</span>
+                    </button>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                        <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
+                            Ceremony
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
+                            4:00 PM · Garden Arbor
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Shuttle departs 3:15 PM
+                        </p>
+                    </div>
+                    <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                        <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
+                            Reception
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
+                            Dinner &amp; Dancing
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Under the marquee tent
+                        </p>
+                    </div>
+                    <div class="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                        <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
+                            Dress Code
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">
+                            Garden Formal
+                        </p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Pastels &amp; linen encouraged
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative space-y-4">
+                <div class="relative overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/60 dark:ring-slate-800/80">
+                    <img
+                        src="https://images.unsplash.com/photo-1511288593014-8acb33db1c83?auto=format&fit=crop&w=1200&q=80"
+                        alt="Wedding couple"
+                        class="h-72 w-full object-cover sm:h-96"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <p class="text-xs uppercase tracking-[0.25em]">
+                            Toronto
+                        </p>
+                        <p class="text-lg font-semibold">The Garden Venue</p>
+                    </div>
+                </div>
+
+                <div class="glass-surface relative overflow-hidden rounded-3xl p-6 shadow-2xl ring-1 ring-white/60 dark:ring-slate-800/80">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs uppercase tracking-[0.3em] text-purple-400">
+                            Countdown
+                        </p>
+                        <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-purple-700 shadow-sm dark:bg-slate-900/80 dark:text-purple-200"
+                            >Save the date</span
+                        >
+                    </div>
+                    <div class="mt-6 grid grid-cols-4 gap-3 text-center">
+                        <template x-for="(value, label) in countdown" :key="label">
+                            <div class="rounded-2xl bg-white/70 px-3 py-4 shadow-sm ring-1 ring-white/70 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800">
+                                <div class="text-3xl font-semibold text-slate-900 dark:text-white" x-text="value">0</div>
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-purple-400" x-text="label"></p>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="mt-6 rounded-2xl border border-white/70 bg-white/80 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/70">
+                        <div class="flex items-center gap-3">
+                            <div class="grid h-10 w-10 place-content-center rounded-full bg-purple-600 text-white shadow-lg shadow-purple-200 dark:shadow-purple-900/50">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25c.621-1.037 1.744-1.75 3.03-1.75A3.25 3.25 0 0 1 18.28 9.7L12 18l-6.28-8.3a3.25 3.25 0 0 1 3.25-3.2c1.286 0 2.409.713 3.03 1.75Z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.2em] text-purple-400">
+                                    RSVP by
+                                </p>
+                                <p class="text-sm font-semibold text-slate-800 dark:text-white">
+                                    April 14, 2026
+                                </p>
+                            </div>
+                            <button
+                                class="ml-auto rounded-full bg-purple-600 px-3 py-2 text-xs font-semibold text-white shadow hover:bg-purple-700"
+                                @click="scrollTo('rsvp')"
+                            >
+                                RSVP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story -->
+    <section id="story" class="px-6 py-20">
+        <div class="mx-auto max-w-6xl">
+            <div class="flex flex-col items-center gap-3 text-center">
+                <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
+                    A gentle timeline
+                </p>
+                <h2 class="script-font text-4xl text-slate-900 dark:text-white">
+                    Our Story
+                </h2>
+                <p class="max-w-3xl text-slate-600 dark:text-slate-300">
+                    From first hello to forever, here are the chapters that led us to this day.
+                </p>
+            </div>
+
+            <div class="mt-12 grid gap-6 md:grid-cols-3">
+                <template x-for="(moment, idx) in story" :key="moment.title">
+                    <div
+                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-white/80 p-6 shadow-lg ring-1 ring-purple-100/60 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-purple-200/70 dark:border-slate-800 dark:bg-slate-900/60 dark:ring-slate-800"
+                        x-data="{ visible: false }"
+                        x-intersect="visible = true"
+                        :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
+                    >
+                        <div class="absolute right-3 top-3 h-10 w-10 rounded-full bg-gradient-to-br from-purple-500/90 to-purple-400/80 opacity-70 blur-xl transition duration-500 group-hover:scale-125"></div>
+                        <div class="relative">
+                            <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg shadow-purple-200/70 dark:shadow-purple-900/60">
+                                <span class="text-lg font-semibold" x-text="idx + 1"></span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="moment.title"></h3>
+                            <p class="mt-2 text-sm text-purple-500" x-text="moment.meta"></p>
+                            <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300" x-text="moment.copy"></p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weekend Plans -->
+    <section id="weekend" class="bg-white/80 px-6 py-20 backdrop-blur dark:bg-slate-900/50">
+        <div class="mx-auto max-w-6xl">
+            <div class="flex flex-col gap-3 text-center">
+                <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
+                    The Weekend
+                </p>
+                <h2 class="script-font text-4xl text-slate-900 dark:text-white">
+                    Celebrate with us
+                </h2>
+                <p class="mx-auto max-w-3xl text-slate-600 dark:text-slate-300">
+                    Three moments to share with the people we love most.
+                </p>
+            </div>
+            <div class="mt-12 grid gap-6 lg:grid-cols-3">
+                <template x-for="event in weekend" :key="event.title">
+                    <div
+                        class="group relative overflow-hidden rounded-3xl border border-white/80 bg-gradient-to-b from-white/90 to-purple-50/70 p-6 shadow-lg ring-1 ring-purple-100/70 backdrop-blur transition duration-500 hover:-translate-y-1 hover:shadow-purple-200/60 dark:from-slate-900/60 dark:to-slate-900/30 dark:border-slate-800 dark:ring-slate-800"
+                        x-data="{ visible: false }"
+                        x-intersect="visible = true"
+                        :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
+                    >
+                        <div class="absolute -right-8 -top-10 h-24 w-24 rounded-full bg-purple-200/50 blur-2xl transition group-hover:scale-125 dark:bg-purple-500/15"></div>
+                        <div class="relative flex items-center gap-3">
+                            <div class="grid h-12 w-12 place-content-center rounded-2xl bg-purple-600 text-white shadow-lg shadow-purple-200/70 dark:shadow-purple-900/60">
+                                <span x-text="event.emoji" class="text-xl"></span>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.2em] text-purple-400" x-text="event.day"></p>
+                                <h3 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="event.title"></h3>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-sm text-slate-600 dark:text-slate-300" x-text="event.copy"></p>
+                        <div class="mt-4 flex items-center gap-3 text-sm text-purple-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span x-text="event.time"></span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-3 text-sm text-purple-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5c1.657 0 3-1.12 3-2.5S13.657 5.5 12 5.5s-3 1.12-3 2.5 1.343 2.5 3 2.5ZM6.75 18.25a5.25 5.25 0 0 1 10.5 0V19a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75v-.75Z" />
+                            </svg>
+                            <span x-text="event.location"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp" class="px-6 py-20">
+        <div class="mx-auto max-w-5xl">
+            <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                <div
+                    class="rounded-3xl bg-white/90 p-8 shadow-xl ring-1 ring-white/80 backdrop-blur dark:bg-slate-900/70 dark:ring-slate-800"
+                    x-data="{ visible: false }"
+                    x-intersect="visible = true"
+                    :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+                >
+                    <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
+                        RSVP
+                    </p>
+                    <h2 class="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">
+                        Let us know you are coming
+                    </h2>
+                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                        Please respond by April 14, 2026. We will follow up with weekend logistics and shuttle details.
+                    </p>
+
+                    <form
+                        class="mt-6 space-y-4"
+                        @submit.prevent="submitForm"
+                        x-show="!submitted"
+                    >
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Full Name *
+                                <input
+                                    type="text"
+                                    x-model="form.name"
+                                    required
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
+                                    placeholder="Alex Guest"
+                                />
+                            </label>
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Email *
+                                <input
+                                    type="email"
+                                    x-model="form.email"
+                                    required
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
+                                    placeholder="you@example.com"
+                                />
+                            </label>
+                        </div>
+
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Phone
+                                <input
+                                    type="tel"
+                                    x-model="form.phone"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
+                                    placeholder="Optional"
+                                />
+                            </label>
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Guests
+                                <select
+                                    x-model="form.guests"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
+                                >
+                                    <option value="1">Just me</option>
+                                    <option value="2">Plus one</option>
+                                    <option value="3">Party of three</option>
+                                    <option value="4">Party of four</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Will you attend? *
+                            </p>
+                            <div class="grid gap-3 sm:grid-cols-2">
+                                <template x-for="option in attendanceOptions" :key="option.value">
+                                    <label
+                                        class="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-purple-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-purple-500/40"
+                                    >
+                                        <input
+                                            class="h-5 w-5 text-purple-600 focus:ring-purple-500"
+                                            type="radio"
+                                            :value="option.value"
+                                            x-model="form.attending"
+                                            required
+                                        />
+                                        <span x-text="option.label"></span>
+                                    </label>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div
+                            class="grid gap-4 sm:grid-cols-2"
+                            x-show="form.attending === 'yes'"
+                        >
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Meal Preference
+                                <select
+                                    x-model="form.meal"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
+                                >
+                                    <option value="chef">Chef's Choice</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                    <option value="kids">Kids menu</option>
+                                </select>
+                            </label>
+                            <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                Dietary Notes
+                                <input
+                                    type="text"
+                                    x-model="form.dietary"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
+                                    placeholder="Allergies or restrictions"
+                                />
+                            </label>
+                        </div>
+
+                        <label class="space-y-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                            Note or song request
+                            <textarea
+                                rows="3"
+                                x-model="form.message"
+                                class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-inner shadow-purple-50/60 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:shadow-none dark:focus:border-purple-500 dark:focus:ring-purple-500/30"
+                                placeholder="We would love to dance to..."
+                            ></textarea>
+                        </label>
+
+                        <button
+                            type="submit"
+                            class="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 px-6 py-3 text-base font-semibold text-white shadow-xl shadow-purple-200 transition hover:shadow-purple-200/80 dark:shadow-purple-900/40"
+                        >
+                            <span
+                                class="absolute inset-0 translate-y-full bg-white/30 opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100"
+                            ></span>
+                            <span class="relative">Send our RSVP</span>
+                        </button>
+                    </form>
+
+                    <div
+                        x-show="submitted"
+                        x-transition
+                        class="relative overflow-hidden rounded-3xl border border-white/70 bg-gradient-to-br from-purple-50 via-white to-purple-50 p-6 text-center shadow-xl backdrop-blur dark:border-slate-800 dark:from-purple-900/40 dark:via-slate-900 dark:to-purple-900/20"
+                    >
+                        <div class="absolute inset-0 animate-pulse-slow bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.14),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(167,139,250,0.14),transparent_32%)]"></div>
+                        <div class="relative space-y-3">
+                            <div class="text-5xl">🎉</div>
+                            <h3 class="text-2xl font-semibold text-slate-900 dark:text-white">
+                                RSVP received
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                Thank you for letting us know. A confirmation is on its way to your inbox with travel tips and shuttle times.
+                            </p>
+                            <button
+                                class="rounded-full border border-purple-200 bg-white/70 px-5 py-2 text-sm font-semibold text-purple-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-purple-900/40 dark:bg-slate-900/70 dark:text-purple-200"
+                                @click="resetForm"
+                            >
+                                Submit another response
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="glass-surface relative overflow-hidden rounded-3xl p-6 shadow-2xl ring-1 ring-white/60 backdrop-blur dark:ring-slate-800/80"
+                    x-data="{ visible: false }"
+                    x-intersect="visible = true"
+                    :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+                >
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs uppercase tracking-[0.25em] text-purple-400">
+                            Travel &amp; stay
+                        </p>
+                        <span class="rounded-full bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 dark:bg-slate-900/70 dark:text-slate-200">
+                            Helpful notes
+                        </span>
+                    </div>
+                    <div class="mt-6 space-y-4">
+                        <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                Shuttle service
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                Pickups begin at 3:00 PM from downtown hotels. Please indicate if you need a seat in your RSVP.
+                            </p>
+                        </div>
+                        <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                Nearby stays
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                We have blocks at Garden Inn (code: YJLOVE) and Lakeside Suites. Both include late checkout for brunch.
+                            </p>
+                        </div>
+                        <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                Registry
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">
+                                Your presence is the best gift. If you would like, we have a small registry and honeymoon fund below.
+                            </p>
+                            <div class="mt-3 flex flex-wrap gap-3">
+                                <a
+                                    href="/registry"
+                                    class="rounded-full bg-purple-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-purple-700"
+                                >
+                                    View registry
+                                </a>
+                                <a
+                                    href="#registry"
+                                    class="rounded-full border border-purple-200 px-4 py-2 text-xs font-semibold text-purple-700 transition hover:bg-purple-50 dark:border-purple-900/40 dark:text-purple-200 dark:hover:bg-purple-900/30"
+                                >
+                                    Honeymoon fund
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registry & travel highlights -->
+    <section id="travel" class="px-6 pb-24">
+        <div class="mx-auto max-w-6xl rounded-3xl bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 p-[1px] shadow-2xl">
+            <div class="rounded-[22px] bg-white/95 p-8 text-center shadow-xl backdrop-blur dark:bg-slate-950/90">
+                <p class="text-xs uppercase tracking-[0.3em] text-purple-400">
+                    Registry &amp; Sunday brunch
+                </p>
+                <h3 class="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">
+                    Celebrate all weekend
+                </h3>
+                <p class="mx-auto mt-2 max-w-3xl text-sm text-slate-600 dark:text-slate-300">
+                    Join us Sunday at 11:00 AM for brunch at Lakeside Terrace. If you would like to contribute to our honeymoon or view the registry, you can do that below.
+                </p>
+                <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+                    <a
+                        href="/registry"
+                        class="rounded-full bg-white px-5 py-3 text-sm font-semibold text-purple-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-slate-900 dark:text-purple-200"
+                    >
+                        Open registry
+                    </a>
+                    <a
+                        href="/"
+                        class="rounded-full border border-white/60 bg-white/20 px-5 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/30"
+                    >
+                        Honeymoon fund
+                    </a>
+                    <button
+                        class="rounded-full border border-white/60 bg-white/20 px-5 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/30"
+                        @click="scrollTo('rsvp')"
+                    >
+                        RSVP for brunch
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    @keyframes floatHeart {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 0.4;
+        }
+        80% {
+            opacity: 0.4;
+        }
+        100% {
+            transform: translateY(-20vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    .animate-float-slow {
+        animation: floatHeart linear infinite;
+    }
+    @keyframes pulseSlow {
+        0%,
+        100% {
+            opacity: 0.9;
+        }
+        50% {
+            opacity: 0.6;
+        }
+    }
+    .animate-pulse-slow {
+        animation: pulseSlow 6s ease-in-out infinite;
+    }
+</style>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('rsvpPage', () => ({
+            heroReady: false,
+            submitted: false,
+            hearts: Array.from({ length: 18 }, (_, i) => i),
+            attendanceOptions: [
+                { label: 'Joyfully accepts', value: 'yes' },
+                { label: 'Regretfully declines', value: 'no' },
+            ],
+            form: {
+                name: '',
+                email: '',
+                phone: '',
+                guests: '1',
+                attending: '',
+                meal: 'chef',
+                dietary: '',
+                message: '',
+            },
+            countdown: {
+                days: 0,
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+            },
+            story: [
+                {
+                    title: 'A chance hello',
+                    meta: 'Spring 2020 · Downtown Toronto',
+                    copy: 'An unexpected introduction over coffee turned into a marathon conversation, and our lives quietly changed course.',
+                },
+                {
+                    title: 'Across the world',
+                    meta: 'Autumn 2022 · Kyoto',
+                    copy: 'We promised to chase sunsets together. Between temples and tea houses, we wrote the next chapter of our story.',
+                },
+                {
+                    title: 'He asked, she said yes',
+                    meta: 'Winter 2024 · Under the lights',
+                    copy: 'Surrounded by family, he asked, she said yes, and the city skyline twinkled as we celebrated the start of forever.',
+                },
+            ],
+            weekend: [
+                {
+                    emoji: '🥂',
+                    day: 'Friday welcome',
+                    title: 'Golden hour cocktails',
+                    copy: 'A relaxed evening to mingle, meet the wedding party, and toast to the weekend ahead.',
+                    time: '6:00 PM · Garden Terrace',
+                    location: 'Welcome lounge',
+                },
+                {
+                    emoji: '💍',
+                    day: 'Saturday',
+                    title: 'Ceremony & celebration',
+                    copy: 'Our vows under the arbor followed by dinner, live music, and a dance floor beneath the lights.',
+                    time: '4:00 PM · Ceremony | 6:00 PM · Dinner',
+                    location: 'The Garden Venue',
+                },
+                {
+                    emoji: '🥞',
+                    day: 'Sunday',
+                    title: 'Brunch by the lake',
+                    copy: 'Come as you are for coffee, pastries, and a slow goodbye before everyone heads home.',
+                    time: '11:00 AM · Lakeside Terrace',
+                    location: 'Farewell brunch',
+                },
+            ],
+
+            init() {
+                this.updateCountdown()
+                this.timer = setInterval(() => this.updateCountdown(), 1000)
+            },
+
+            heartStyle(index) {
+                const left = (index * 53) % 100
+                const delay = (index % 7) * 0.9
+                const duration = 14 + (index % 5) * 2
+                return `left:${left}%; animation-delay:${delay}s; animation-duration:${duration}s; bottom:-40px;`
+            },
+
+            updateCountdown() {
+                const weddingDate = new Date('2026-06-14T16:00:00').getTime()
+                const now = new Date().getTime()
+                const distance = Math.max(weddingDate - now, 0)
+
+                this.countdown.days = Math.floor(
+                    distance / (1000 * 60 * 60 * 24)
+                )
+                this.countdown.hours = Math.floor(
+                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                )
+                this.countdown.minutes = Math.floor(
+                    (distance % (1000 * 60 * 60)) / (1000 * 60)
+                )
+                this.countdown.seconds = Math.floor(
+                    (distance % (1000 * 60)) / 1000
+                )
+            },
+
+            submitForm() {
+                console.log('RSVP submitted:', this.form)
+                this.submitted = true
+            },
+
+            resetForm() {
+                this.submitted = false
+                this.form = {
+                    name: '',
+                    email: '',
+                    phone: '',
+                    guests: '1',
+                    attending: '',
+                    meal: 'chef',
+                    dietary: '',
+                    message: '',
+                }
+            },
+
+            scrollTo(target) {
+                const el = document.getElementById(target)
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' })
+                }
+            },
+        }))
+    })
+</script>
