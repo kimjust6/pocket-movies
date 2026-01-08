@@ -2614,6 +2614,10 @@ html {
   max-width: 80rem;
 }
 
+.max-w-\[120rem\] {
+  max-width: 120rem;
+}
+
 .max-w-full {
   max-width: 100%;
 }
@@ -3456,10 +3460,6 @@ html {
 
   .md\:hidden {
     display: none;
-  }
-
-  .md\:pt-28 {
-    padding-top: 7rem;
   }
 }
 
