@@ -395,13 +395,13 @@
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-[100] bg-black bg-opacity-95"
+        class="fixed inset-0 z-[100] bg-base-100"
         @click.self="closeModal()"
     >
         <!-- Close Button -->
         <button
             @click="closeModal()"
-            class="btn btn-ghost btn-circle absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-white"
+            class="btn btn-ghost btn-circle absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-base"
             aria-label="Close gallery"
         >
             <svg
@@ -422,7 +422,7 @@
 
         <!-- Image Counter -->
         <div
-            class="badge badge-lg absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] bg-black/50 text-white border-0"
+            class="badge badge-lg absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] bg-base-100 text-base border-0"
         >
             <span x-text="currentImageIndex + 1"></span> /
             <span x-text="galleryImages.length"></span>
@@ -442,7 +442,7 @@
             <!-- Previous Button -->
             <button
                 @click="previousImage()"
-                class="btn btn-circle btn-ghost absolute left-2 sm:left-4 z-[110] text-white"
+                class="btn btn-circle btn-ghost absolute left-2 sm:left-4 z-[110] text-base"
                 aria-label="Previous image"
             >
                 <svg
@@ -464,7 +464,7 @@
             <!-- Next Button -->
             <button
                 @click="nextImage()"
-                class="btn btn-circle btn-ghost absolute right-2 sm:right-4 z-[110] text-white"
+                class="btn btn-circle btn-ghost absolute right-2 sm:right-4 z-[110] text-base"
                 aria-label="Next image"
             >
                 <svg
@@ -486,7 +486,7 @@
 
         <!-- Thumbnail Navigation (bottom) -->
         <div
-            class="absolute bottom-0 left-0 right-0 z-[110] bg-black bg-opacity-80 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
+            class="absolute bottom-0 left-0 right-0 z-[110] bg-base-100 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
             @click="closeModal()"
         >
             <div
