@@ -2468,6 +2468,10 @@ html {
   z-index: 110;
 }
 
+.m-3 {
+  margin: 0.75rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -2567,10 +2571,6 @@ html {
 
 .max-h-\[400px\] {
   max-height: 400px;
-}
-
-.max-h-full {
-  max-height: 100%;
 }
 
 .min-h-screen {
@@ -2857,20 +2857,20 @@ html {
   padding-bottom: 1.5rem;
 }
 
-.pb-24 {
-  padding-bottom: 6rem;
+.pb-20 {
+  padding-bottom: 5rem;
 }
 
 .pl-4 {
   padding-left: 1rem;
 }
 
-.pt-12 {
-  padding-top: 3rem;
-}
-
 .pt-24 {
   padding-top: 6rem;
+}
+
+.pt-64 {
+  padding-top: 16rem;
 }
 
 .text-left {
@@ -3249,6 +3249,10 @@ html {
     top: 1rem;
   }
 
+  .sm\:m-6 {
+    margin: 1.5rem;
+  }
+
   .sm\:mb-10 {
     margin-bottom: 2.5rem;
   }
@@ -3405,16 +3409,12 @@ html {
     padding-bottom: 0.75rem;
   }
 
-  .sm\:pb-28 {
-    padding-bottom: 7rem;
+  .sm\:pb-24 {
+    padding-bottom: 6rem;
   }
 
   .sm\:pl-5 {
     padding-left: 1.25rem;
-  }
-
-  .sm\:pt-14 {
-    padding-top: 3.5rem;
   }
 
   .sm\:text-2xl {
@@ -3464,6 +3464,10 @@ html {
 }
 
 @media (min-width: 1024px) {
+  .lg\:m-10 {
+    margin: 2.5rem;
+  }
+
   .lg\:mx-auto {
     margin-left: auto;
     margin-right: auto;
@@ -3661,16 +3665,12 @@ html {
     padding-bottom: 1rem;
   }
 
-  .lg\:pb-32 {
-    padding-bottom: 8rem;
+  .lg\:pb-28 {
+    padding-bottom: 7rem;
   }
 
   .lg\:pl-10 {
     padding-left: 2.5rem;
-  }
-
-  .lg\:pt-16 {
-    padding-top: 4rem;
   }
 
   .lg\:text-2xl {

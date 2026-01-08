@@ -1,10 +1,10 @@
 <div
     x-data="weddingPage()"
-    class="min-h-screen flex justify-center bg-base-100/95 backdrop-blur-sm shadow-xl"
+    class="min-h-screen flex justify-center bg-base-200"
 >
     <!-- Main content card -->
     <div
-        class="space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 p-6 sm:p-10 lg:p-16 xl:p-24 max-w-[120rem]"
+        class="w-full mx-auto m-3 sm:m-6 lg:m-10 space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 p-6 sm:p-10 lg:p-16 xl:p-24 max-w-[120rem] bg-base-100/95 backdrop-blur-sm rounded-box shadow-xl ring-1 ring-base-content/10"
     >
         <!-- Title and Date Section -->
         <section id="home" class="section-spacing">
@@ -441,12 +441,12 @@
 
         <!-- Main Image -->
         <div
-            class="absolute inset-0 flex items-center justify-center pb-24 sm:pb-28 lg:pb-32 pt-12 sm:pt-14 lg:pt-16 px-2 sm:px-4 lg:px-16"
+            class="absolute inset-0 flex items-center justify-center pb-20 sm:pb-24 lg:pb-28 px-2 sm:px-4 lg:px-16"
         >
             <img
                 :src="galleryImages[currentImageIndex]"
                 alt="Wedding photo"
-                class="max-w-full max-h-full object-contain"
+                class="max-w-full object-contain pt-64"
                 @click.stop
                 x-show="galleryImages[currentImageIndex]"
             />
