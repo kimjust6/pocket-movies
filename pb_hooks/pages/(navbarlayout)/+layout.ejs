@@ -30,7 +30,7 @@
             defer
             src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
         ></script>
-        <script>
+        <script defer>
             document.addEventListener('alpine:init', () => {
                 Alpine.data('shell', () => ({
                     navOpen: false,
@@ -151,142 +151,157 @@
     </head>
     <body class="bg-transparent text-zinc-900 dark:text-zinc-100">
         <div class="relative min-h-screen">
-            <header
-                class="navbar fixed inset-x-0 top-0 z-50 border-b border-base-300 bg-base-100/80 backdrop-blur-md shadow-sm"
-            >
-                <div
-                    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5"
+            <div x-on:click.outside="navOpen = false">
+                <header
+                    class="navbar fixed inset-x-0 top-0 z-50 border-b border-base-300 bg-base-100/80 backdrop-blur-md shadow-sm"
                 >
-                    <a
-                        href="/"
-                        class="flex items-center gap-3 transition-opacity hover:opacity-80"
-                    >
-                        <div class="leading-tight">
-                            <p
-                                class="script-font text-2xl lg:text-3xl text-base-content"
-                            >
-                                Yvonne &amp; Justin
-                            </p>
-                            <p
-                                class="text-[10px] lg:text-xs font-semibold uppercase tracking-widest text-base-content/60"
-                            >
-                                August 1, 2027
-                            </p>
-                        </div>
-                    </a>
-
                     <div
-                        class="hidden items-center gap-6 lg:gap-10 xl:gap-12 md:flex"
+                        class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5"
                     >
-                        <template x-for="item in navigation" :key="item.target">
+                        <!-- Logo - visible on all screens -->
+                        <a
+                            href="/"
+                            class="flex items-center gap-3 transition-opacity hover:opacity-80"
+                        >
+                            <div class="leading-tight">
+                                <p
+                                    class="script-font text-2xl lg:text-3xl text-base-content"
+                                >
+                                    Yvonne &amp; Justin
+                                </p>
+                                <p
+                                    class="text-[10px] lg:text-xs font-semibold uppercase tracking-widest text-base-content/60"
+                                >
+                                    August 1, 2027
+                                </p>
+                            </div>
+                        </a>
+
+                        <!-- Desktop Navigation -->
+                        <div
+                            class="hidden items-center gap-6 lg:gap-10 xl:gap-12 md:flex"
+                        >
+                            <template
+                                x-for="item in navigation"
+                                :key="item.target"
+                            >
+                                <button
+                                    class="text-sm lg:text-base xl:text-lg font-semibold text-base-content/70 transition-all duration-200 hover:text-base-content hover:scale-105 relative group"
+                                    @click="scrollTo(item.target)"
+                                    x-text="item.title"
+                                >
+                                    <span
+                                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"
+                                    ></span>
+                                </button>
+                            </template>
+
+                            <!-- Theme Toggle Button -->
+                            <label
+                                class="btn btn-ghost btn-circle swap swap-rotate"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="darkMode"
+                                    @change="toggleTheme()"
+                                />
+                                <svg
+                                    class="swap-off w-5 h-5 lg:w-6 lg:h-6 fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                                    />
+                                </svg>
+                                <svg
+                                    class="swap-on w-5 h-5 lg:w-6 lg:h-6 fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"
+                                    />
+                                </svg>
+                            </label>
+                        </div>
+
+                        <!-- Mobile Menu Buttons -->
+                        <div class="flex items-center gap-2 md:hidden">
+                            <!-- Theme Toggle Button (Mobile) -->
+                            <label
+                                class="btn btn-ghost btn-square swap swap-rotate"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="darkMode"
+                                    @change="toggleTheme()"
+                                />
+                                <svg
+                                    class="swap-off h-5 w-5 fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                                    />
+                                </svg>
+                                <svg
+                                    class="swap-on h-5 w-5 fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"
+                                    />
+                                </svg>
+                            </label>
+
+                            <!-- Hamburger Menu Button -->
                             <button
-                                class="text-sm lg:text-base xl:text-lg font-semibold text-base-content/70 transition-all duration-200 hover:text-base-content hover:scale-105 relative group"
-                                @click="scrollTo(item.target)"
-                                x-text="item.title"
+                                class="btn btn-ghost btn-square text-base-content"
+                                @click="navOpen = !navOpen"
+                                aria-label="Toggle menu"
                             >
-                                <span
-                                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"
-                                ></span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    class="h-6 w-6"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                                    />
+                                </svg>
                             </button>
-                        </template>
-
-                        <!-- Theme Toggle Button -->
-                        <label
-                            class="btn btn-ghost btn-circle swap swap-rotate"
-                        >
-                            <input
-                                type="checkbox"
-                                :checked="darkMode"
-                                @change="toggleTheme()"
-                            />
-                            <svg
-                                class="swap-off w-5 h-5 lg:w-6 lg:h-6 fill-current"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-                                />
-                            </svg>
-                            <svg
-                                class="swap-on w-5 h-5 lg:w-6 lg:h-6 fill-current"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"
-                                />
-                            </svg>
-                        </label>
+                        </div>
                     </div>
+                </header>
 
-                    <div class="flex items-center gap-3 md:hidden">
-                        <!-- Theme Toggle Button (Mobile) -->
-                        <label
-                            class="btn btn-ghost btn-square swap swap-rotate"
-                        >
-                            <input
-                                type="checkbox"
-                                :checked="darkMode"
-                                @change="toggleTheme()"
-                            />
-                            <svg
-                                class="swap-off h-5 w-5 fill-current"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-                                />
-                            </svg>
-                            <svg
-                                class="swap-on h-5 w-5 fill-current"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"
-                                />
-                            </svg>
-                        </label>
-                        <button
-                            class="btn btn-ghost btn-square"
-                            @click="navOpen = !navOpen"
-                            aria-label="Toggle menu"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="h-6 w-6"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
+                <!-- Mobile Menu Dropdown (Outside navbar) -->
                 <div
-                    class="mx-auto max-w-7xl bg-base-100 shadow-lg md:hidden"
+                    class="fixed top-[5.5rem] inset-x-0 w-full bg-base-100 shadow-lg md:hidden border-b border-base-300"
                     x-show="navOpen"
                     x-transition
+                    x-cloak
+                    style="z-index: 60; display: none"
                 >
-                    <template x-for="item in navigation" :key="item.target">
-                        <button
-                            class="flex w-full items-center justify-between border-t border-base-300 px-4 py-3 text-base font-semibold text-base-content transition duration-200 hover:bg-base-200"
-                            @click="scrollTo(item.target)"
-                        >
-                            <span x-text="item.title"></span>
-                        </button>
-                    </template>
+                    <div class="max-w-7xl mx-auto">
+                        <template x-for="item in navigation" :key="item.target">
+                            <button
+                                class="flex w-full items-start px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 hover:bg-base-200 border-b border-base-300 last:border-b-0"
+                                @click="scrollTo(item.target)"
+                            >
+                                <span x-text="item.title"></span>
+                            </button>
+                        </template>
+                    </div>
                 </div>
-            </header>
+            </div>
 
             <main class="relative pt-24 md:pt-28"><%- slot %></main>
 
