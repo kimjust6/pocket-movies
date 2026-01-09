@@ -9,7 +9,7 @@
         "push": "npx phio deploy weddings",
         "login": "npx phio login",
         "update": "pocketbase update",
-        "typegen": "npx pocketbase-typegen --env -o src/lib/pocketbase-types.ts"
+        "typegen": "node scripts/typegen.mjs"
     },
     "description": "Wedding website built with PocketPages (PocketBase), Tailwind CSS, and DaisyUI.",
     "author": {
@@ -41,6 +41,7 @@
         "tailwindcss": "^3.4.17"
     },
     "dependencies": {
+        "pocketbase": "^0.26.5",
         "pocketpages": ">=0.22.3",
         "pocketpages-plugin-js-sdk": "^0.2.0"
     },
