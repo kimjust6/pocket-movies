@@ -441,12 +441,12 @@
 
         <!-- Main Image -->
         <div
-            class="absolute inset-0 flex items-center justify-center pb-20 sm:pb-24 lg:pb-28 px-2 sm:px-4 lg:px-16"
+            class="absolute inset-0 flex items-center justify-center pb-20 sm:pb-24 lg:pb-28 px-2 sm:px-4 lg:px-16 max-h-screen"
         >
             <img
                 :src="galleryImages[currentImageIndex]"
                 alt="Wedding photo"
-                class="max-w-full object-contain pt-64"
+                class="max-w-full max-h-[calc(100vh-18rem)] object-cover"
                 @click.stop
                 x-show="galleryImages[currentImageIndex]"
             />
