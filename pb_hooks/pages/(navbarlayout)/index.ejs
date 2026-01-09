@@ -1,18 +1,21 @@
-<div x-data="weddingPage()" class="min-h-screen bg-transparent">
+<div
+    x-data="weddingPage()"
+    class="min-h-screen flex justify-center bg-base-100/95"
+>
     <!-- Main content card -->
     <div
-        class="content-card space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 p-6 sm:p-10 lg:p-16 xl:p-24"
+        class="w-full mx-auto m-3 sm:m-6 space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 p-6 sm:p-10 lg:p-16 xl:p-24 max-w-[120rem] bg-base-100/95 backdrop-blur-sm rounded-box"
     >
         <!-- Title and Date Section -->
         <section id="home" class="section-spacing">
             <div class="text-center">
                 <h1
-                    class="section-title text-9xl xl:text-9xl mb-2 sm:mb-3 lg:mb-6 leading-tight"
+                    class="section-title text-6xl xl:text-9xl mb-2 sm:mb-3 lg:mb-6 leading-tight select-none"
                 >
                     Yvonne & Justin
                 </h1>
                 <p
-                    class="mt-2 sm:mt-3 lg:mt-6 xl:mt-8 text-[10px] sm:text-xs lg:text-base xl:text-lg tracking-[0.25em] sm:tracking-[0.3em] lg:tracking-[0.4em] text-gray-500 font-light uppercase"
+                    class="mt-2 sm:mt-3 lg:mt-6 xl:mt-8 text-lg tracking-[0.25em] sm:tracking-[0.3em] lg:tracking-[0.4em] text-base-content/60 font-light uppercase select-none"
                 >
                     August 1st 2027
                 </p>
@@ -23,13 +26,13 @@
                 <img
                     src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
                     alt="Wedding photo"
-                    class="w-full max-h-[400px] sm:max-h-[500px] lg:max-h-[700px] xl:max-h-[800px] object-cover rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl ring-1 ring-gray-900/5"
+                    class="w-full max-h-[400px] sm:max-h-[500px] lg:max-h-[700px] xl:max-h-[800px] object-cover rounded-box shadow-xl ring-1 ring-base-content/10"
                 />
             </div>
 
             <!-- Countdown Timer -->
             <div
-                class="text-center py-6 sm:py-10 lg:py-16 xl:py-20 border-y border-gray-100 mt-6 sm:mt-10 lg:mt-16 xl:mt-20"
+                class="text-center py-6 sm:py-10 lg:py-16 xl:py-20 border-y border-base-300 mt-6 sm:mt-10 lg:mt-16 xl:mt-20 select-none"
             >
                 <div
                     class="flex justify-center items-center gap-3 sm:gap-6 lg:gap-16 xl:gap-24"
@@ -70,11 +73,15 @@
 
         <!-- RSVP Section -->
         <section id="rsvp" class="section-spacing">
-            <h2 class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20">RSVP</h2>
+            <h2
+                class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20 select-none"
+            >
+                RSVP
+            </h2>
 
             <div class="max-w-2xl mx-auto">
                 <p
-                    class="text-center text-gray-600 text-sm lg:text-base xl:text-lg mb-6 sm:mb-8 lg:mb-10"
+                    class="text-center text-base-content/70 text-sm lg:text-base xl:text-lg mb-6 sm:mb-8 lg:mb-10"
                 >
                     Please let us know if you'll be joining us for our special
                     day
@@ -82,77 +89,85 @@
 
                 <form class="space-y-4 sm:space-y-5 lg:space-y-6">
                     <div class="grid sm:grid-cols-2 gap-4 sm:gap-5">
-                        <div>
-                            <label
-                                class="block text-sm lg:text-base font-semibold text-gray-700 mb-2"
-                            >
-                                First Name
-                            </label>
+                        <label class="form-control">
+                            <div class="label">
+                                <span
+                                    class="label-text text-sm lg:text-base font-semibold"
+                                    >First Name</span
+                                >
+                            </div>
                             <input
                                 type="text"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 transition-colors"
                                 placeholder="John"
+                                class="input input-bordered w-full"
                             />
-                        </div>
-                        <div>
-                            <label
-                                class="block text-sm lg:text-base font-semibold text-gray-700 mb-2"
-                            >
-                                Last Name
-                            </label>
+                        </label>
+                        <label class="form-control">
+                            <div class="label">
+                                <span
+                                    class="label-text text-sm lg:text-base font-semibold"
+                                    >Last Name</span
+                                >
+                            </div>
                             <input
                                 type="text"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 transition-colors"
                                 placeholder="Doe"
+                                class="input input-bordered w-full"
                             />
-                        </div>
+                        </label>
                     </div>
 
-                    <div>
-                        <label
-                            class="block text-sm lg:text-base font-semibold text-gray-700 mb-2"
-                        >
-                            Email Address
-                        </label>
+                    <label class="form-control">
+                        <div class="label">
+                            <span
+                                class="label-text text-sm lg:text-base font-semibold"
+                                >Email Address</span
+                            >
+                        </div>
                         <input
                             type="email"
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 transition-colors"
                             placeholder="john.doe@example.com"
+                            class="input input-bordered w-full"
                         />
-                    </div>
+                    </label>
 
-                    <div>
-                        <label
-                            class="block text-sm lg:text-base font-semibold text-gray-700 mb-2"
-                        >
-                            Number of Guests
-                        </label>
-                        <select
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 transition-colors"
-                        >
-                            <option value="">Select number of guests</option>
+                    <label class="form-control">
+                        <div class="label">
+                            <span
+                                class="label-text text-sm lg:text-base font-semibold"
+                                >Number of Guests</span
+                            >
+                        </div>
+                        <select class="select select-bordered w-full">
+                            <option disabled selected>
+                                Select number of guests
+                            </option>
                             <option value="1">1 Guest</option>
                             <option value="2">2 Guests</option>
                             <option value="3">3 Guests</option>
                             <option value="4">4 Guests</option>
                             <option value="5">5+ Guests</option>
                         </select>
-                    </div>
+                    </label>
 
-                    <div>
-                        <label
-                            class="block text-sm lg:text-base font-semibold text-gray-700 mb-2"
-                        >
-                            Dietary Restrictions
-                        </label>
+                    <label class="form-control">
+                        <div class="label">
+                            <span
+                                class="label-text text-sm lg:text-base font-semibold"
+                                >Dietary Restrictions</span
+                            >
+                        </div>
                         <textarea
                             rows="3"
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 transition-colors resize-none"
+                            class="textarea textarea-bordered w-full"
                             placeholder="Please let us know of any dietary restrictions or allergies"
                         ></textarea>
-                    </div>
+                    </label>
 
-                    <button type="submit" class="btn-gradient w-full">
+                    <button
+                        type="submit"
+                        class="btn btn-neutral w-full text-sm lg:text-lg xl:text-xl"
+                    >
                         Submit RSVP
                     </button>
                 </form>
@@ -161,7 +176,9 @@
 
         <!-- Schedule Section -->
         <section id="schedule" class="section-spacing">
-            <h2 class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20">
+            <h2
+                class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20 select-none"
+            >
                 Schedule
             </h2>
 
@@ -172,11 +189,11 @@
                 <div class="space-y-6 sm:space-y-8 lg:space-y-12 xl:space-y-14">
                     <!-- July 31st -->
                     <div
-                        class="border-l-2 border-gray-200 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
+                        class="border-l-2 border-base-300 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
                     >
                         <div class="mb-3 sm:mb-4 lg:mb-3">
                             <div
-                                class="font-medium text-gray-400 text-xs sm:text-sm lg:text-base xl:text-lg mb-2 tracking-wide"
+                                class="font-medium text-base-content/60 text-xs sm:text-sm lg:text-base xl:text-lg mb-2 tracking-wide"
                             >
                                 July 31st
                             </div>
@@ -185,11 +202,11 @@
 
                     <!-- August 1st -->
                     <div
-                        class="border-l-3 border-gray-700 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
+                        class="border-l-3 border-primary pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
                     >
                         <div class="mb-2 sm:mb-3 lg:mb-4">
                             <div
-                                class="serif-font font-bold text-gray-800 text-base sm:text-lg lg:text-2xl xl:text-3xl mb-3 sm:mb-4 lg:mb-6 xl:mb-8"
+                                class="serif-font font-bold text-base-content text-base sm:text-lg lg:text-2xl xl:text-3xl mb-3 sm:mb-4 lg:mb-6 xl:mb-8"
                             >
                                 August 1st
                             </div>
@@ -250,11 +267,11 @@
 
                     <!-- June 25th -->
                     <div
-                        class="border-l-2 border-gray-300 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
+                        class="border-l-2 border-base-300 pl-4 sm:pl-5 lg:pl-10 xl:pl-12"
                     >
                         <div class="mb-4 lg:mb-3">
                             <div
-                                class="font-semibold text-gray-400 text-sm lg:text-base xl:text-lg"
+                                class="font-semibold text-base-content/60 text-sm lg:text-base xl:text-lg"
                             >
                                 August 2nd
                             </div>
@@ -282,7 +299,9 @@
 
         <!-- Directions & Points of Interest Section -->
         <section id="directions" class="section-spacing">
-            <h2 class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20">
+            <h2
+                class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20 select-none"
+            >
                 Directions
             </h2>
 
@@ -291,7 +310,7 @@
             >
                 <!-- Map -->
                 <div
-                    class="mb-5 sm:mb-6 lg:mb-0 h-64 sm:h-72 lg:h-[520px] xl:h-[600px] rounded-xl sm:rounded-2xl bg-gray-100 overflow-hidden shadow-lg ring-1 ring-gray-900/5"
+                    class="mb-5 sm:mb-6 lg:mb-0 h-64 sm:h-72 lg:h-[520px] xl:h-[600px] rounded-box bg-base-200 overflow-hidden shadow-lg ring-1 ring-base-content/10"
                 >
                     <img
                         src="https://api.mapbox.com/styles/v1/mapbox/light-v11/static/pin-s+0066cc(-3.5,37.2)/-3.5,37.2,10,0/600x300@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA"
@@ -327,7 +346,7 @@
                     </div>
 
                     <button
-                        class="btn-primary mt-5 sm:mt-6 lg:mt-10 xl:mt-12 w-full"
+                        class="btn btn-neutral mt-5 sm:mt-6 lg:mt-10 xl:mt-12 w-full text-sm lg:text-lg xl:text-xl"
                     >
                         See other recommended places
                     </button>
@@ -337,16 +356,16 @@
 
         <!-- Instagram/Gallery Section -->
         <section id="gallery" class="section-spacing">
-            <h2 class="section-title mb-3 sm:mb-4 lg:mb-6 xl:mb-8">
+            <h2 class="section-title mb-3 sm:mb-4 lg:mb-6 xl:mb-8 select-none">
                 Instagram
             </h2>
             <p
-                class="text-center text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-500 mb-2 sm:mb-3 lg:mb-5 xl:mb-6 tracking-widest font-light uppercase"
+                class="text-center text-[10px] sm:text-xs lg:text-base xl:text-lg text-base-content/60 mb-2 sm:mb-3 lg:mb-5 xl:mb-6 tracking-widest font-light uppercase"
             >
                 Connect to Instagram and Tag This Event
             </p>
             <p
-                class="text-center text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold text-gray-800 mb-6 sm:mb-8 lg:mb-14 xl:mb-16 tracking-tight"
+                class="text-center text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold text-base-content mb-6 sm:mb-8 lg:mb-14 xl:mb-16 tracking-tight"
             >
                 #YVONNE-JUSTIN
             </p>
@@ -367,7 +386,7 @@
 
             <button
                 @click="openModal(0)"
-                class="btn-gradient w-full lg:max-w-3xl lg:mx-auto lg:block"
+                class="btn btn-neutral w-full lg:max-w-3xl lg:mx-auto lg:block text-sm lg:text-lg xl:text-xl"
             >
                 Open Gallery
             </button>
@@ -387,13 +406,13 @@
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-[100] bg-black bg-opacity-95"
+        class="fixed inset-0 z-[100] bg-base-100"
         @click.self="closeModal()"
     >
         <!-- Close Button -->
         <button
             @click="closeModal()"
-            class="absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-white hover:text-gray-300 transition p-2 sm:p-2.5 active:scale-95"
+            class="btn btn-ghost btn-circle absolute top-2 right-2 sm:top-4 sm:right-4 z-[110] text-base"
             aria-label="Close gallery"
         >
             <svg
@@ -414,7 +433,7 @@
 
         <!-- Image Counter -->
         <div
-            class="absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] text-white text-xs sm:text-sm font-semibold bg-black bg-opacity-50 px-2 sm:px-3 py-1 rounded"
+            class="badge badge-lg absolute top-2 left-2 sm:top-4 sm:left-4 z-[110] bg-base-100 text-base border-0"
         >
             <span x-text="currentImageIndex + 1"></span> /
             <span x-text="galleryImages.length"></span>
@@ -422,19 +441,19 @@
 
         <!-- Main Image -->
         <div
-            class="absolute inset-0 flex items-center justify-center pb-24 sm:pb-28 lg:pb-32 pt-12 sm:pt-14 lg:pt-16 px-2 sm:px-4 lg:px-16"
+            class="absolute inset-0 flex items-center justify-center pb-20 sm:pb-24 lg:pb-28 px-2 sm:px-4 lg:px-16 max-h-screen"
         >
             <img
                 :src="galleryImages[currentImageIndex]"
                 alt="Wedding photo"
-                class="max-w-full max-h-full object-contain"
+                class="max-w-full max-h-[calc(100vh-18rem)] object-cover"
                 @click.stop
                 x-show="galleryImages[currentImageIndex]"
             />
             <!-- Previous Button -->
             <button
                 @click="previousImage()"
-                class="modal-btn absolute left-2 sm:left-4 z-[110]"
+                class="btn btn-circle btn-ghost absolute left-2 sm:left-4 z-[110] text-base"
                 aria-label="Previous image"
             >
                 <svg
@@ -456,7 +475,7 @@
             <!-- Next Button -->
             <button
                 @click="nextImage()"
-                class="modal-btn absolute right-2 sm:right-4 z-[110]"
+                class="btn btn-circle btn-ghost absolute right-2 sm:right-4 z-[110] text-base"
                 aria-label="Next image"
             >
                 <svg
@@ -478,7 +497,7 @@
 
         <!-- Thumbnail Navigation (bottom) -->
         <div
-            class="absolute bottom-0 left-0 right-0 z-[110] bg-black bg-opacity-80 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
+            class="absolute bottom-0 left-0 right-0 z-[110] bg-base-100 py-2 sm:py-3 px-1 sm:px-2 overflow-x-auto scrollbar-hide"
             @click="closeModal()"
         >
             <div
@@ -520,20 +539,110 @@
                 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80',
             ],
 
+            _openedFromDeepLink: false,
+
             init() {
                 this.updateCountdown()
                 this.timer = setInterval(() => this.updateCountdown(), 1000)
+
+                const restored = this._applyModalStateFromUrl()
+                this._openedFromDeepLink = restored
+
+                window.addEventListener('popstate', () => {
+                    this._openedFromDeepLink = false
+                    this._applyModalStateFromUrl()
+                })
+
+                this.$watch('currentImageIndex', () => {
+                    if (!this.modalOpen) return
+                    this._syncModalQueryParams('replace')
+                })
+            },
+
+            _clampImageIndex(index) {
+                if (!Number.isFinite(index)) return 0
+                const max = Math.max(this.galleryImages.length - 1, 0)
+                return Math.min(Math.max(index, 0), max)
+            },
+
+            _getModalStateFromUrl() {
+                const url = new URL(window.location.href)
+                const hasGallery =
+                    url.searchParams.get('gallery') === '1' ||
+                    url.searchParams.has('image')
+
+                if (!hasGallery) {
+                    return { open: false, index: 0 }
+                }
+
+                const raw = url.searchParams.get('image')
+                const parsed = raw === null ? 0 : parseInt(raw, 10)
+                return { open: true, index: this._clampImageIndex(parsed) }
+            },
+
+            _applyModalStateFromUrl() {
+                const state = this._getModalStateFromUrl()
+
+                if (!state.open) {
+                    if (this.modalOpen) {
+                        this.modalOpen = false
+                        document.body.style.overflow = ''
+                    }
+                    return false
+                }
+
+                this.currentImageIndex = state.index
+                if (!this.modalOpen) {
+                    this.modalOpen = true
+                    document.body.style.overflow = 'hidden'
+                }
+
+                this._syncModalQueryParams('replace')
+                return true
+            },
+
+            _syncModalQueryParams(mode) {
+                const url = new URL(window.location.href)
+
+                if (this.modalOpen) {
+                    url.searchParams.set('gallery', '1')
+                    url.searchParams.set(
+                        'image',
+                        String(this._clampImageIndex(this.currentImageIndex))
+                    )
+                } else {
+                    url.searchParams.delete('gallery')
+                    url.searchParams.delete('image')
+                }
+
+                const nextUrl = url.pathname + url.search + url.hash
+
+                if (mode === 'push') {
+                    history.pushState({ galleryModal: true }, '', nextUrl)
+                } else {
+                    history.replaceState(history.state, '', nextUrl)
+                }
             },
 
             openModal(index) {
                 this.currentImageIndex = index
                 this.modalOpen = true
                 document.body.style.overflow = 'hidden'
+
+                this._openedFromDeepLink = false
+                this._syncModalQueryParams('push')
             },
 
             closeModal() {
                 this.modalOpen = false
                 document.body.style.overflow = ''
+
+                if (this._openedFromDeepLink) {
+                    this._syncModalQueryParams('replace')
+                    this._openedFromDeepLink = false
+                } else {
+                    history.back()
+                }
             },
 
             nextImage() {
