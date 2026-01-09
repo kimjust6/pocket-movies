@@ -1,5 +1,5 @@
 {
-    "name": "justins-blog",
+    "name": "weddings-rsvp",
     "private": true,
     "version": "0.0.2",
     "scripts": {
@@ -10,7 +10,7 @@
         "login": "npx phio login",
         "update": "pocketbase update"
     },
-    "description": "Justin's personal blog using PocketPages and DaisyUI.",
+    "description": "Wedding website built with PocketPages (PocketBase), Tailwind CSS, and DaisyUI.",
     "author": {
         "name": "Justin Kim",
         "github": "kimjust6"
@@ -21,9 +21,13 @@
     },
     "keywords": [
         "pocketpages",
-        "blog",
+        "pocketbase",
+        "wedding",
+        "wedding-website",
+        "rsvp",
+        "schedule",
         "daisyui",
-        "justin kim"
+        "tailwindcss"
     ],
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",
