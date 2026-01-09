@@ -1,0 +1,18 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet"
+/>
+
+<% data.metadata.forEach(function(ogTag) { %>
+<meta name="<%= ogTag.name %>" content="<%= ogTag.content %>" />
+<% }); %>
+
+<title><%= data.metadata.find(x => x.name === 'title')?.content %></title>
+
+<link href="<%=asset('/app.css')%>" rel="stylesheet" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />

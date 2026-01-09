@@ -1,0 +1,8 @@
+<%
+const shellDataFunc = resolve('shell-data').toString()
+%>
+<script defer>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('shell', <%- shellDataFunc %>)
+    })
+</script>
