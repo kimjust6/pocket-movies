@@ -42,7 +42,7 @@
     },
     "dependencies": {
         "pocketbase": "^0.26.5",
-        "pocketpages": ">=0.22.3",
+        "pocketpages": "^0.22.3",
         "pocketpages-plugin-js-sdk": "^0.2.0"
     },
     "files": [
