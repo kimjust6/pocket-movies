@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1768538019676,
+    "generatedTime": 1768671062559,
     "data": [
         {
             "type": "file",
@@ -23,9 +23,9 @@
         },
         {
             "type": "file",
-            "name": "pb_public/og-image.png",
-            "size": 97898,
-            "hash": "62372f6ca94928ce68bc7321b2185e493b979d074b87a9e078a27f3c8a8b9f14"
+            "name": "pb_public/og-image.jpg",
+            "size": 9484823,
+            "hash": "fcdecf1d21567c2989c86a99ed573f38ce4bdefb9077cbe09fe277c44afbfe78"
         },
         {
             "type": "folder",
@@ -36,6 +36,12 @@
             "name": "pb_public/favicon.ico",
             "size": 131070,
             "hash": "eade4d177060fc5f49cee53a4a1cc1d3e757de60ba8178c568465cd2b4436ebe"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768575189_updated_images.js",
+            "size": 483,
+            "hash": "b25ea004717a79b8139f8041bd08575772e38ad2963a69f8e326e160308ec361"
         },
         {
             "type": "file",
@@ -147,7 +153,7 @@
             "type": "file",
             "name": "pb_hooks/pages/_private/shell-data.js",
             "size": 1616,
-            "hash": "37c549f5cf0638c48331fab0656a26709aad43c627283957ce3ed80a9dfa3b98"
+            "hash": "30fa6516d368af313b51016f7f0359b86400f774d188d61feb81e42087a73e54"
         },
         {
             "type": "file",
@@ -188,8 +194,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/index.ejs",
-            "size": 674,
-            "hash": "daa48082e826e39c09943567ca09303ee33083dd2a879a4cdd1fcd651cbc0bad"
+            "size": 816,
+            "hash": "fd6d0c78b92393d3045b300411bce1565bc49a30de29758ae4d36930adc09597"
         },
         {
             "type": "folder",
@@ -198,8 +204,14 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+middleware.js",
-            "size": 2586,
-            "hash": "d986e3f83fb1117fd341fa57bdcd1ab1379cb32ecdadc3fc4a265df9ead77e83"
+            "size": 2587,
+            "hash": "687e1b09cf2d7c1ee22dc037915f4289c9f2d08d27d2c66b326b088e7832d240"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/(navbarlayout)/+load.js",
+            "size": 1257,
+            "hash": "f30aa98b84cf9467e52bad0f0af4fc7d557216b06c59b4cef7666cee7f00b289"
         },
         {
             "type": "file",
@@ -226,8 +238,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/_private/wedding-data.js",
-            "size": 5759,
-            "hash": "11048f72bdb62000651c540f9a6993dd989f8371706ab724d727bef33c3518f8"
+            "size": 4898,
+            "hash": "90ca686f4e621957115f01494af4eafc741bee5a21c9a8b9e57b7429972b3856"
         },
         {
             "type": "file",
@@ -250,14 +262,14 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/_private/gallery-section.ejs",
-            "size": 1313,
-            "hash": "cac380ee43371a2013c5d044b60fda7c066a158bc06028176d77eb34660d440f"
+            "size": 1199,
+            "hash": "7427a96da4ee4aaa2c7f696470028d3f9ab3e7c2591af7fbddb4dad0b873516a"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/_private/gallery-modal.ejs",
-            "size": 4382,
-            "hash": "9f3cce1aebb43d614acab4dbdeb7f0d72cc058a79557a91b1339a5c90e2f40ec"
+            "size": 3597,
+            "hash": "57dc45ffa4dda2e6de543d889421d04690aef22cf5ef7b7587fd96138c1d03df"
         },
         {
             "type": "file",
