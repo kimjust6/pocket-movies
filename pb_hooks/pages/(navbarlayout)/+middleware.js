@@ -25,7 +25,7 @@ module.exports = function (api) {
             { name: 'og:url', content: 'https://www.jkim.win/' },
             {
                 name: 'og:image',
-                content: 'https://ylam.jkim.win/og-image.jpg',
+                content: 'https://ylam.jkim.win/og-image.webp',
             },
             { name: 'og:image:alt', content: 'Yvonne and Justin Wedding Photo' },
             { name: 'og:image:width', content: '1200' },
@@ -58,7 +58,7 @@ module.exports = function (api) {
             },
             {
                 name: 'twitter:image',
-                content: 'https://www.jkim.win/og-image.png',
+                content: 'https://www.jkim.win/og-image.webp',
             },
         ],
     }

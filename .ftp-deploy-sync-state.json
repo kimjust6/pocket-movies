@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1768671062559,
+    "generatedTime": 1768671467115,
     "data": [
         {
             "type": "file",
@@ -24,8 +24,8 @@
         {
             "type": "file",
             "name": "pb_public/og-image.jpg",
-            "size": 9484823,
-            "hash": "fcdecf1d21567c2989c86a99ed573f38ce4bdefb9077cbe09fe277c44afbfe78"
+            "size": 399124,
+            "hash": "65ef63f34477922ed2202e582fa3ec40300f7cd7a74d5a70ffcde40c52000f88"
         },
         {
             "type": "folder",
