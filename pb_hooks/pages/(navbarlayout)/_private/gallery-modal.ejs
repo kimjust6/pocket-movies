@@ -24,7 +24,7 @@
     <!-- Main Image -->
     <div
         class="absolute inset-0 flex items-center justify-center pb-20 sm:pb-24 lg:pb-28 px-2 sm:px-4 lg:px-16 max-h-screen">
-        <img :src="galleryImages[currentImageIndex]" alt="Wedding photo"
+        <img :src="galleryImages[currentImageIndex]?.original" alt="Wedding photo"
             class="max-w-full max-h-[calc(100vh-18rem)] object-cover" @click.stop
             x-show="galleryImages[currentImageIndex]" />
         <!-- Previous Button -->
@@ -51,7 +51,7 @@
         @click="closeModal()">
         <div class="flex gap-1.5 sm:gap-2 justify-start lg:justify-center items-center min-w-max lg:min-w-0">
             <% data.galleryImages.forEach((image, index)=> { %>
-                <img src="<%= image %>" alt="Thumbnail"
+                <img src="<%= image.thumbnail %>" alt="Thumbnail"
                     class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded cursor-pointer transition-all flex-shrink-0 active:scale-95"
                     :class="currentImageIndex === <%= index %> ? 'ring-2 sm:ring-4 ring-white opacity-100' : 'opacity-60 hover:opacity-100'"
                     @click.stop="currentImageIndex = <%= index %>" />
