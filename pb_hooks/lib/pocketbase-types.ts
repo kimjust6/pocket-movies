@@ -12,6 +12,7 @@ export enum Collections {
 	Otps = "_otps",
 	Superusers = "_superusers",
 	Images = "images",
+	Invitations = "invitations",
 	Users = "users",
 }
 
@@ -96,9 +97,24 @@ export type SuperusersRecord = {
 export type ImagesRecord = {
 	alt_text?: string
 	created: IsoAutoDateString
-	field?: FileNameString
+	field: FileNameString
 	id: string
 	is_active?: boolean
+	updated: IsoAutoDateString
+}
+
+export type InvitationsRecord = {
+	created: IsoAutoDateString
+	dietary_restrictions?: string
+	email?: string
+	first_name?: string
+	id: string
+	last_name?: string
+	plus_on_last_name?: string
+	plus_one_allowed?: boolean
+	plus_one_email?: string
+	plus_one_first_name?: string
+	rsvp_status?: string
 	updated: IsoAutoDateString
 }
 
@@ -122,6 +138,7 @@ export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemF
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
 export type ImagesResponse<Texpand = unknown> = Required<ImagesRecord> & BaseSystemFields<Texpand>
+export type InvitationsResponse<Texpand = unknown> = Required<InvitationsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -133,6 +150,7 @@ export type CollectionRecords = {
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
 	images: ImagesRecord
+	invitations: InvitationsRecord
 	users: UsersRecord
 }
 
@@ -143,6 +161,7 @@ export type CollectionResponses = {
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
 	images: ImagesResponse
+	invitations: InvitationsResponse
 	users: UsersResponse
 }
 
