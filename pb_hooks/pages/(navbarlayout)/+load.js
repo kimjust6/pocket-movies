@@ -2,20 +2,28 @@
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (api) {
-    // Future: Fetch images from PocketBase
-    // const records = $app.findRecordsByFilter('images', 'active = true', { sort: '-created' })
-    // const galleryImages = records.map(r => $app.files.getUrl(r, r.image))
+    let galleryImages = [];
+    try {
+        console.log("Attempting to fetch with fixed arguments...");
+        const records = $app.findRecordsByFilter('images', 'is_active = true', '-created', 100, 0);
 
-    const galleryImages = [
-        'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1920&q=80',
-        'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80',
-        'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1920&q=80',
-        'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1920&q=80',
-        'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1920&q=80',
-        'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1920&q=80',
-        'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1920&q=80',
-        'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1920&q=80',
-    ];
+        if (records.length > 0) {
+            // Debug log to confirm methods
+            try {
+                console.log("Debug Record:", {
+                    id: records[0].id,
+                    collectionId: records[0].collection().id,
+                    field: records[0].getString('field')
+                });
+            } catch (e) { console.log("Debug error", e); }
+        }
+
+        // Use PocketBase Record methods to access fields
+        galleryImages = records.map(r => `/api/files/${r.collection().id}/${r.id}/${r.getString('field')}`);
+        console.log({ galleryImages });
+    } catch (e) {
+        console.error('Failed to load gallery images:', e);
+    }
 
     return {
         galleryImages
