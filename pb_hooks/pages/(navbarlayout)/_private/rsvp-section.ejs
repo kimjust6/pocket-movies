@@ -1,0 +1,93 @@
+<!-- RSVP Section -->
+<section id="rsvp" class="section-spacing">
+    <h2 class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20 select-none">
+        RSVP
+    </h2>
+
+    <div class="max-w-2xl mx-auto">
+        <div class="w-full flex justify-content">
+            <p
+                class="max-w-xl text-center text-[10px] sm:text-xs lg:text-base xl:text-lg text-base-content/60 mb-2 sm:mb-3 lg:mb-5 xl:mb-6 tracking-widest font-light uppercase"
+            >
+                Please let us know if you'll be joining us for our special day
+            </p>
+        </div>
+
+        <form class="space-y-4 sm:space-y-5 lg:space-y-6">
+            <div class="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                <label class="form-control">
+                    <div class="label">
+                        <span
+                            class="label-text text-sm lg:text-base font-semibold"
+                            >First Name</span
+                        >
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="John"
+                        class="input input-bordered w-full"
+                    />
+                </label>
+                <label class="form-control">
+                    <div class="label">
+                        <span
+                            class="label-text text-sm lg:text-base font-semibold"
+                            >Last Name</span
+                        >
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Doe"
+                        class="input input-bordered w-full"
+                    />
+                </label>
+            </div>
+
+            <label class="form-control">
+                <div class="label">
+                    <span class="label-text text-sm lg:text-base font-semibold"
+                        >Email Address</span
+                    >
+                </div>
+                <input
+                    type="email"
+                    placeholder="john.doe@example.com"
+                    class="input input-bordered w-full"
+                />
+            </label>
+
+            <label class="form-control">
+                <div class="label">
+                    <span class="label-text text-sm lg:text-base font-semibold"
+                        >Number of Guests</span
+                    >
+                </div>
+                <select class="select select-bordered w-full">
+                    <option disabled selected>Select number of guests</option>
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                </select>
+            </label>
+
+            <label class="form-control">
+                <div class="label">
+                    <span class="label-text text-sm lg:text-base font-semibold"
+                        >Dietary Restrictions</span
+                    >
+                </div>
+                <textarea
+                    rows="3"
+                    class="textarea textarea-bordered w-full"
+                    placeholder="Please let us know of any dietary restrictions or allergies"
+                ></textarea>
+            </label>
+
+            <button
+                type="submit"
+                class="btn btn-neutral w-full text-sm lg:text-lg xl:text-xl"
+            >
+                Submit RSVP
+            </button>
+        </form>
+    </div>
+</section>

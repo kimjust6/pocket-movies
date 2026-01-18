@@ -1,0 +1,51 @@
+/**
+ * Shell Alpine.js component for navigation and theme management
+ */
+module.exports = function shellData() {
+    return {
+        navOpen: false,
+        darkMode: localStorage.getItem('theme') === 'dark',
+        navigation: [
+            { title: 'Gallery', target: 'gallery' },
+            { title: 'RSVP', target: 'rsvp' },
+            { title: 'Schedule', target: 'schedule' },
+            { title: 'Directions', target: 'directions' },
+        ],
+
+        init() { },
+
+        toggleTheme() {
+            this.darkMode = !this.darkMode
+            const theme = this.darkMode ? 'dark' : 'light'
+            const themeToken = this.darkMode ? 'dark' : 'nord'
+            localStorage.setItem('theme', theme)
+            document.documentElement.setAttribute(
+                'data-theme',
+                themeToken
+            )
+            document.documentElement.classList.toggle(
+                'dark',
+                this.darkMode
+            )
+        },
+
+        scrollTo(target) {
+            const el = document.getElementById(target)
+            if (el) {
+                const headerOffset = 80
+                const elementPosition =
+                    el.getBoundingClientRect().top
+                const offsetPosition =
+                    elementPosition +
+                    window.pageYOffset -
+                    headerOffset
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth',
+                })
+                this.navOpen = false
+            }
+        },
+    }
+}

@@ -2467,6 +2467,10 @@ html::-webkit-scrollbar,
   top: 5.5rem;
 }
 
+.z-0 {
+  z-index: 0;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -2488,20 +2492,12 @@ html::-webkit-scrollbar,
   margin-right: auto;
 }
 
-.mb-1 {
-  margin-bottom: 0.25rem;
-}
-
 .mb-2 {
   margin-bottom: 0.5rem;
 }
 
 .mb-3 {
   margin-bottom: 0.75rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
 }
 
 .mb-5 {
@@ -2516,10 +2512,6 @@ html::-webkit-scrollbar,
   margin-bottom: 2rem;
 }
 
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -2528,12 +2520,12 @@ html::-webkit-scrollbar,
   margin-top: 1rem;
 }
 
-.mt-5 {
-  margin-top: 1.25rem;
-}
-
 .mt-6 {
   margin-top: 1.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .flex {
@@ -2574,10 +2566,6 @@ html::-webkit-scrollbar,
 
 .h-7 {
   height: 1.75rem;
-}
-
-.h-full {
-  height: 100%;
 }
 
 .max-h-\[400px\] {
@@ -2629,6 +2617,14 @@ html::-webkit-scrollbar,
   max-width: 42rem;
 }
 
+.max-w-3xl {
+  max-width: 48rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -2639,6 +2635,10 @@ html::-webkit-scrollbar,
 
 .max-w-full {
   max-width: 100%;
+}
+
+.max-w-xl {
+  max-width: 36rem;
 }
 
 .flex-shrink-0 {
@@ -2685,10 +2685,6 @@ html::-webkit-scrollbar,
 
 .justify-between {
   justify-content: space-between;
-}
-
-.gap-1 {
-  gap: 0.25rem;
 }
 
 .gap-1\.5 {
@@ -2751,10 +2747,6 @@ html::-webkit-scrollbar,
   border-radius: var(--rounded-box, 1rem);
 }
 
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
 .border-0 {
   border-width: 0px;
 }
@@ -2766,10 +2758,6 @@ html::-webkit-scrollbar,
 
 .border-b {
   border-bottom-width: 1px;
-}
-
-.border-l-2 {
-  border-left-width: 2px;
 }
 
 .border-t {
@@ -2836,11 +2824,6 @@ html::-webkit-scrollbar,
   padding-right: 0.5rem;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -2896,11 +2879,6 @@ html::-webkit-scrollbar,
   line-height: 2rem;
 }
 
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-}
-
 .text-6xl {
   font-size: 3.75rem;
   line-height: 1;
@@ -2935,25 +2913,12 @@ html::-webkit-scrollbar,
   line-height: 1.75rem;
 }
 
-.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-
 .font-bold {
   font-weight: 700;
 }
 
-.font-extralight {
-  font-weight: 200;
-}
-
 .font-light {
   font-weight: 300;
-}
-
-.font-medium {
-  font-weight: 500;
 }
 
 .font-semibold {
@@ -2962,6 +2927,10 @@ html::-webkit-scrollbar,
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.leading-relaxed {
+  line-height: 1.625;
 }
 
 .leading-tight {
@@ -2974,14 +2943,6 @@ html::-webkit-scrollbar,
 
 .tracking-tight {
   letter-spacing: -0.025em;
-}
-
-.tracking-wide {
-  letter-spacing: 0.025em;
-}
-
-.tracking-wider {
-  letter-spacing: 0.05em;
 }
 
 .tracking-widest {
@@ -3001,24 +2962,8 @@ html::-webkit-scrollbar,
   color: var(--fallback-bc,oklch(var(--bc)/0.7));
 }
 
-.text-gray-400 {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
-}
-
-.text-gray-600 {
-  --tw-text-opacity: 1;
-  color: rgb(75 85 99 / var(--tw-text-opacity, 1));
-}
-
-.text-gray-700 {
-  --tw-text-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
-}
-
-.text-gray-800 {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+.text-base-content\/80 {
+  color: var(--fallback-bc,oklch(var(--bc)/0.8));
 }
 
 .text-primary {
@@ -3104,12 +3049,6 @@ html::-webkit-scrollbar,
 
 .transition-all {
   transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.transition-colors {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -3227,11 +3166,6 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity, 1)));
 }
 
-.hover\:bg-gray-50:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
-}
-
 .hover\:text-base-content:hover {
   --tw-text-opacity: 1;
   color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity, 1)));
@@ -3281,10 +3215,6 @@ html::-webkit-scrollbar,
     margin-bottom: 2.5rem;
   }
 
-  .sm\:mb-2 {
-    margin-bottom: 0.5rem;
-  }
-
   .sm\:mb-3 {
     margin-bottom: 0.75rem;
   }
@@ -3305,16 +3235,8 @@ html::-webkit-scrollbar,
     margin-top: 2.5rem;
   }
 
-  .sm\:mt-2 {
-    margin-top: 0.5rem;
-  }
-
   .sm\:mt-3 {
     margin-top: 0.75rem;
-  }
-
-  .sm\:mt-6 {
-    margin-top: 1.5rem;
   }
 
   .sm\:mt-8 {
@@ -3369,10 +3291,6 @@ html::-webkit-scrollbar,
     gap: 0.625rem;
   }
 
-  .sm\:gap-3 {
-    gap: 0.75rem;
-  }
-
   .sm\:gap-4 {
     gap: 1rem;
   }
@@ -3401,6 +3319,12 @@ html::-webkit-scrollbar,
     --tw-space-y-reverse: 0;
     margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
+  }
+
+  .sm\:space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
   }
 
   .sm\:space-y-8 > :not([hidden]) ~ :not([hidden]) {
@@ -3446,19 +3370,14 @@ html::-webkit-scrollbar,
     line-height: 2rem;
   }
 
-  .sm\:text-5xl {
-    font-size: 3rem;
-    line-height: 1;
+  .sm\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .sm\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
-  }
-
-  .sm\:text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
   }
 
   .sm\:text-xs {
@@ -3497,10 +3416,6 @@ html::-webkit-scrollbar,
     margin-bottom: 0px;
   }
 
-  .lg\:mb-10 {
-    margin-bottom: 2.5rem;
-  }
-
   .lg\:mb-12 {
     margin-bottom: 3rem;
   }
@@ -3511,10 +3426,6 @@ html::-webkit-scrollbar,
 
   .lg\:mb-16 {
     margin-bottom: 4rem;
-  }
-
-  .lg\:mb-3 {
-    margin-bottom: 0.75rem;
   }
 
   .lg\:mb-4 {
@@ -3533,20 +3444,12 @@ html::-webkit-scrollbar,
     margin-top: 0px;
   }
 
-  .lg\:mt-10 {
-    margin-top: 2.5rem;
+  .lg\:mt-14 {
+    margin-top: 3.5rem;
   }
 
   .lg\:mt-16 {
     margin-top: 4rem;
-  }
-
-  .lg\:mt-2 {
-    margin-top: 0.5rem;
-  }
-
-  .lg\:mt-3 {
-    margin-top: 0.75rem;
   }
 
   .lg\:mt-6 {
@@ -3583,10 +3486,6 @@ html::-webkit-scrollbar,
 
   .lg\:w-20 {
     width: 5rem;
-  }
-
-  .lg\:w-24 {
-    width: 6rem;
   }
 
   .lg\:w-6 {
@@ -3661,6 +3560,12 @@ html::-webkit-scrollbar,
     margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
   }
 
+  .lg\:space-y-8 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+  }
+
   .lg\:p-16 {
     padding: 4rem;
   }
@@ -3670,19 +3575,9 @@ html::-webkit-scrollbar,
     padding-right: 4rem;
   }
 
-  .lg\:px-5 {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
-
   .lg\:py-16 {
     padding-top: 4rem;
     padding-bottom: 4rem;
-  }
-
-  .lg\:py-4 {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
   }
 
   .lg\:pb-28 {
@@ -3708,11 +3603,6 @@ html::-webkit-scrollbar,
     line-height: 2.5rem;
   }
 
-  .lg\:text-7xl {
-    font-size: 4.5rem;
-    line-height: 1;
-  }
-
   .lg\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -3720,6 +3610,11 @@ html::-webkit-scrollbar,
 
   .lg\:text-lg {
     font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .lg\:text-xl {
+    font-size: 1.25rem;
     line-height: 1.75rem;
   }
 
@@ -3754,10 +3649,6 @@ html::-webkit-scrollbar,
     margin-top: 0px;
   }
 
-  .xl\:mt-12 {
-    margin-top: 3rem;
-  }
-
   .xl\:mt-20 {
     margin-top: 5rem;
   }
@@ -3776,10 +3667,6 @@ html::-webkit-scrollbar,
 
   .xl\:max-h-\[800px\] {
     max-height: 800px;
-  }
-
-  .xl\:w-28 {
-    width: 7rem;
   }
 
   .xl\:grid-cols-8 {
@@ -3843,6 +3730,11 @@ html::-webkit-scrollbar,
     padding-left: 3rem;
   }
 
+  .xl\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
   .xl\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
@@ -3850,11 +3742,6 @@ html::-webkit-scrollbar,
 
   .xl\:text-5xl {
     font-size: 3rem;
-    line-height: 1;
-  }
-
-  .xl\:text-8xl {
-    font-size: 6rem;
     line-height: 1;
   }
 

@@ -1,0 +1,60 @@
+<!-- Directions & Points of Interest Section -->
+<section id="directions" class="section-spacing">
+    <h2 class="section-title mb-8 sm:mb-10 lg:mb-16 xl:mb-20 select-none">
+        Directions
+    </h2>
+
+    <div class="lg:grid lg:grid-cols-2 lg:gap-12 xl:gap-16 lg:items-start">
+        <!-- Map -->
+        <div id="map"
+            class="mb-5 sm:mb-6 lg:mb-0 h-64 sm:h-72 lg:h-[520px] xl:h-[600px] rounded-box bg-base-200 overflow-hidden shadow-lg ring-1 ring-base-content/10 z-0">
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Coordinates
+                const graydonHallCoords = [43.7639, -79.3428]; // Graydon Hall Manor
+                const hotelCoords = [43.7535, -79.3323]; // Pan Pacific Toronto (Approx for 1.02km away, ensuring correctness)
+
+                // Initialize map
+                const map = L.map('map').setView(graydonHallCoords, 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+
+                // Add markers
+                const manorMarker = L.marker(graydonHallCoords).addTo(map)
+                    .bindPopup('<b>Graydon Hall Manor</b><br>Ceremony & Reception');
+
+                const hotelMarker = L.marker(hotelCoords).addTo(map)
+                    .bindPopup('<b>Pan Pacific Toronto</b><br>Nearby Accommodation');
+
+                // Fit bounds to show all markers
+                const group = new L.featureGroup([manorMarker, hotelMarker]);
+                map.fitBounds(group.getBounds(), { padding: [50, 50] });
+            });
+        </script>
+
+        <div>
+            <!-- Points of Interest List -->
+            <div class="space-y-2 sm:space-y-3 lg:space-y-4 xl:space-y-5">
+                <div class="poi-item">
+                    <span class="text-lg lg:text-2xl">📍</span>
+                    <span>Graydon Hall Manor (Ceremony & Reception)</span>
+                </div>
+
+                <div class="poi-item">
+                    <span class="text-lg lg:text-2xl">🏨</span>
+                    <span>Pan Pacific Toronto</span>
+                </div>
+
+                <div class="poi-item">
+                    <span class="text-lg lg:text-2xl">🚗</span>
+                    <span>Parking available on site</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
