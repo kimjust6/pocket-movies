@@ -1,32 +1,31 @@
 {
-    "name": "weddings-rsvp",
+    "name": "pocket-movies",
     "private": true,
-    "version": "0.0.2",
+    "version": "0.1.0",
     "scripts": {
         "dev": "concurrently \"tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch\" \"pocketbase serve --dir=pb_data --dev\"",
         "start": "pocketbase serve --dir=pb_data --dev",
         "css": "tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch\"",
-        "push": "npx phio deploy weddings",
+        "push": "npx phio deploy pocket-movies",
         "login": "npx phio login",
         "update": "pocketbase update",
         "typegen": "node scripts/typegen.mjs"
     },
-    "description": "Wedding website built with PocketPages (PocketBase), Tailwind CSS, and DaisyUI.",
+    "description": "Personal movie watchlist application built with PocketPages.",
     "author": {
         "name": "Justin Kim",
         "github": "kimjust6"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/kimjust6/pocketpages-photo"
+        "url": "https://github.com/kimjust6/pocket-movies"
     },
     "keywords": [
         "pocketpages",
         "pocketbase",
-        "wedding",
-        "wedding-website",
-        "rsvp",
-        "schedule",
+        "movies",
+        "watchlist",
+        "tmdb",
         "daisyui",
         "tailwindcss"
     ],

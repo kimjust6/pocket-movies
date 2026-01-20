@@ -42,8 +42,11 @@
                                     <%= movie.overview %>
                                 </td>
                                 <td>
-                                    <!-- TODO: Add remove logic -->
-                                    <button class="btn btn-ghost btn-xs text-error">Remove</button>
+                                    <form method="POST">
+                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="hidden" name="watchlist_id" value="<%= movie.watchlist_id %>" />
+                                        <button type="submit" class="btn btn-ghost btn-xs text-error">Remove</button>
+                                    </form>
                                 </td>
                             </tr>
                             <% }) %>

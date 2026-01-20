@@ -9,6 +9,25 @@ module.exports = function (api) {
         };
     }
 
+    if (api.request.method === 'POST') {
+        const data = api.formData;
+        const action = data.action;
+
+        if (action === 'delete') {
+            const watchlistId = data.watchlist_id;
+            if (watchlistId) {
+                try {
+                    const record = $app.dao().findRecordById("watchlist", watchlistId);
+                    if (record.getString('user') === user) {
+                        $app.dao().deleteRecord(record);
+                    }
+                } catch (e) {
+                    // Ignore if not found or other error for now
+                }
+            }
+        }
+    }
+
     try {
         const watchlist = $app.findRecordsByFilter(
             'watchlist',
