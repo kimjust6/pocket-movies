@@ -11,8 +11,9 @@ export enum Collections {
 	Mfas = "_mfas",
 	Otps = "_otps",
 	Superusers = "_superusers",
-	Images = "images",
-	Invitations = "invitations",
+	Genre = "genre",
+	Movies = "movies",
+	MoviesGenres = "movies_genres",
 	Pw = "pw",
 	Users = "users",
 }
@@ -95,27 +96,39 @@ export type SuperusersRecord = {
 	verified?: boolean
 }
 
-export type ImagesRecord = {
-	alt_text?: string
+export type GenreRecord = {
 	created: IsoAutoDateString
-	field: FileNameString
+	genre_id?: string
 	id: string
-	is_active?: boolean
+	name?: string
 	updated: IsoAutoDateString
 }
 
-export type InvitationsRecord = {
+export type MoviesRecord = {
+	adult?: boolean
+	backdrop_path?: string
 	created: IsoAutoDateString
-	dietary_restrictions?: string
-	email?: string
-	first_name?: string
+	homepage?: string
 	id: string
-	last_name?: string
-	plus_on_last_name?: string
-	plus_one_allowed?: boolean
-	plus_one_email?: string
-	plus_one_first_name?: string
-	rsvp_status?: string
+	imdb_id?: string
+	original_language?: string
+	original_title?: string
+	overview?: string
+	poster_path?: string
+	release_date?: IsoDateString
+	runtime?: number
+	status?: string
+	tagline?: string
+	title?: string
+	tmdb_id?: string
+	updated: IsoAutoDateString
+}
+
+export type MoviesGenresRecord = {
+	created: IsoAutoDateString
+	genre?: RecordIdString
+	id: string
+	movie?: RecordIdString
 	updated: IsoAutoDateString
 }
 
@@ -145,8 +158,9 @@ export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRec
 export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemFields<Texpand>
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
-export type ImagesResponse<Texpand = unknown> = Required<ImagesRecord> & BaseSystemFields<Texpand>
-export type InvitationsResponse<Texpand = unknown> = Required<InvitationsRecord> & BaseSystemFields<Texpand>
+export type GenreResponse<Texpand = unknown> = Required<GenreRecord> & BaseSystemFields<Texpand>
+export type MoviesResponse<Texpand = unknown> = Required<MoviesRecord> & BaseSystemFields<Texpand>
+export type MoviesGenresResponse<Texpand = unknown> = Required<MoviesGenresRecord> & BaseSystemFields<Texpand>
 export type PwResponse<Texpand = unknown> = Required<PwRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
@@ -158,8 +172,9 @@ export type CollectionRecords = {
 	_mfas: MfasRecord
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
-	images: ImagesRecord
-	invitations: InvitationsRecord
+	genre: GenreRecord
+	movies: MoviesRecord
+	movies_genres: MoviesGenresRecord
 	pw: PwRecord
 	users: UsersRecord
 }
@@ -170,8 +185,9 @@ export type CollectionResponses = {
 	_mfas: MfasResponse
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
-	images: ImagesResponse
-	invitations: InvitationsResponse
+	genre: GenreResponse
+	movies: MoviesResponse
+	movies_genres: MoviesGenresResponse
 	pw: PwResponse
 	users: UsersResponse
 }
