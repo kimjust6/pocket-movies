@@ -1,19 +1,12 @@
 <!-- Mobile Menu Dropdown -->
-<div
-    class="fixed top-[5.5rem] inset-x-0 w-full bg-base-100 shadow-lg md:hidden border-b border-base-300"
-    x-show="navOpen"
-    x-transition
-    x-cloak
-    style="z-index: 60; display: none"
->
+<div class="fixed top-[5.5rem] inset-x-0 w-full bg-base-100 shadow-lg md:hidden border-b border-base-300"
+    x-show="navOpen" x-transition x-cloak style="z-index: 60; display: none">
     <div class="max-w-7xl mx-auto">
-        <template x-for="item in navigation" :key="item.target">
-            <button
-                class="flex w-full items-start px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 hover:bg-base-200 border-b border-base-300 last:border-b-0"
-                @click="scrollTo(item.target)"
-            >
+        <template x-for="item in navigation" :key="item.title">
+            <a class="flex w-full items-start px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 hover:bg-base-200 border-b border-base-300 last:border-b-0"
+                :href="item.href" @click="navOpen = false">
                 <span x-text="item.title"></span>
-            </button>
+            </a>
         </template>
     </div>
 </div>

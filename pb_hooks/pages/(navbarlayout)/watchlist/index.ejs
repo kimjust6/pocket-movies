@@ -1,0 +1,54 @@
+<div class="container mx-auto p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">My Watchlist</h1>
+        <a href="/movies/search" class="btn btn-primary">Add Movie</a>
+    </div>
+
+    <% if (data.movies.length===0) { %>
+        <div class="alert">
+            <span>Your watchlist is empty. Search for movies to add them!</span>
+        </div>
+        <% } else { %>
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Poster</th>
+                            <th>Title</th>
+                            <th>Release Date</th>
+                            <th>Overview</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data.movies.forEach(movie=> { %>
+                            <tr>
+                                <td>
+                                    <% if (movie.poster_path) { %>
+                                        <img src="https://image.tmdb.org/t/p/w92<%= movie.poster_path %>"
+                                            alt="<%= movie.title %>" class="w-16 rounded shadow" />
+                                        <% } else { %>
+                                            <div class="w-16 h-24 bg-gray-200 flex items-center justify-center text-xs">
+                                                No Img</div>
+                                            <% } %>
+                                </td>
+                                <td class="font-bold">
+                                    <%= movie.title %>
+                                </td>
+                                <td>
+                                    <%= movie.release_date %>
+                                </td>
+                                <td class="max-w-md truncate">
+                                    <%= movie.overview %>
+                                </td>
+                                <td>
+                                    <!-- TODO: Add remove logic -->
+                                    <button class="btn btn-ghost btn-xs text-error">Remove</button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+</div>

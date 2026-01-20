@@ -16,6 +16,7 @@ export enum Collections {
 	MoviesGenres = "movies_genres",
 	Pw = "pw",
 	Users = "users",
+	WatchedHistory = "watched_history",
 }
 
 // Alias types for improved usability
@@ -140,6 +141,7 @@ export type PwRecord = {
 }
 
 export type UsersRecord = {
+	active?: boolean
 	avatar?: FileNameString
 	created: IsoAutoDateString
 	email: string
@@ -150,6 +152,16 @@ export type UsersRecord = {
 	tokenKey: string
 	updated: IsoAutoDateString
 	verified?: boolean
+}
+
+export type WatchedHistoryRecord = {
+	created: IsoAutoDateString
+	id: string
+	movie?: RecordIdString
+	succeeded?: boolean
+	updated: IsoAutoDateString
+	user?: RecordIdString
+	watched_at?: IsoDateString
 }
 
 // Response types include system fields and match responses from the PocketBase API
@@ -163,6 +175,7 @@ export type MoviesResponse<Texpand = unknown> = Required<MoviesRecord> & BaseSys
 export type MoviesGenresResponse<Texpand = unknown> = Required<MoviesGenresRecord> & BaseSystemFields<Texpand>
 export type PwResponse<Texpand = unknown> = Required<PwRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
+export type WatchedHistoryResponse<Texpand = unknown> = Required<WatchedHistoryRecord> & BaseSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
@@ -177,6 +190,7 @@ export type CollectionRecords = {
 	movies_genres: MoviesGenresRecord
 	pw: PwRecord
 	users: UsersRecord
+	watched_history: WatchedHistoryRecord
 }
 
 export type CollectionResponses = {
@@ -190,6 +204,7 @@ export type CollectionResponses = {
 	movies_genres: MoviesGenresResponse
 	pw: PwResponse
 	users: UsersResponse
+	watched_history: WatchedHistoryResponse
 }
 
 // Utility types for create/update operations

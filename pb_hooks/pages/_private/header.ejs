@@ -11,13 +11,13 @@
 
         <!-- Desktop Navigation -->
         <div class="hidden items-center gap-6 lg:gap-10 xl:gap-12 md:flex">
-            <template x-for="item in navigation" :key="item.target">
-                <button
+            <template x-for="item in navigation" :key="item.title">
+                <a :href="item.href"
                     class="text-sm lg:text-base xl:text-lg font-semibold text-base-content/70 transition-all duration-200 hover:text-base-content hover:scale-105 relative group"
-                    @click="scrollTo(item.target)" x-text="item.title">
+                    x-text="item.title">
                     <span
                         class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
-                </button>
+                </a>
             </template>
 
             <%- include('theme-toggle') %>
