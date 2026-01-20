@@ -1,17 +1,14 @@
-﻿<%- include('wedding-init') %>
+﻿<div class="min-h-screen flex justify-center bg-base-100/95" id="home">
+    <div
+        class="w-full mx-auto m-3 sm:m-6 p-6 sm:p-10 max-w-7xl bg-base-100/95 backdrop-blur-sm rounded-box text-center">
+        <h1 class="text-4xl font-bold mb-4">Welcome to My Project</h1>
+        <p class="text-lg mb-8">This is a generic template page.</p>
 
-    <div x-data="weddingPage(<%= JSON.stringify(data.galleryImages) %>)"
-        class="min-h-screen flex justify-center bg-base-100/95">
-        <!-- Main content card -->
-        <div
-            class="w-full mx-auto m-3 sm:m-6 space-y-10 sm:space-y-14 lg:space-y-24 xl:space-y-32 p-6 sm:p-10 lg:p-16 xl:p-24 max-w-[120rem] bg-base-100/95 backdrop-blur-sm rounded-box">
-            <%- include('hero-section') %>
-                <%- include('welcome') %>
-                    <%- include('gallery-section') %>
-                        <%- include('rsvp-section') %>
-                            <%- include('schedule-section') %>
-                                <%- include('directions-section') %>
+        <div class="divider"></div>
+
+        <div id="about" class="py-10">
+            <h2 class="text-2xl font-bold mb-4">About</h2>
+            <p>Modify this content in <code>pb_hooks/pages/(navbarlayout)/index.ejs</code>.</p>
         </div>
-
-        <%- include('gallery-modal') %>
     </div>
+</div>

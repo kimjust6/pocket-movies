@@ -13,6 +13,7 @@ export enum Collections {
 	Superusers = "_superusers",
 	Images = "images",
 	Invitations = "invitations",
+	Pw = "pw",
 	Users = "users",
 }
 
@@ -118,6 +119,13 @@ export type InvitationsRecord = {
 	updated: IsoAutoDateString
 }
 
+export type PwRecord = {
+	created: IsoAutoDateString
+	id: string
+	password?: string
+	updated: IsoAutoDateString
+}
+
 export type UsersRecord = {
 	avatar?: FileNameString
 	created: IsoAutoDateString
@@ -139,6 +147,7 @@ export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemF
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
 export type ImagesResponse<Texpand = unknown> = Required<ImagesRecord> & BaseSystemFields<Texpand>
 export type InvitationsResponse<Texpand = unknown> = Required<InvitationsRecord> & BaseSystemFields<Texpand>
+export type PwResponse<Texpand = unknown> = Required<PwRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -151,6 +160,7 @@ export type CollectionRecords = {
 	_superusers: SuperusersRecord
 	images: ImagesRecord
 	invitations: InvitationsRecord
+	pw: PwRecord
 	users: UsersRecord
 }
 
@@ -162,6 +172,7 @@ export type CollectionResponses = {
 	_superusers: SuperusersResponse
 	images: ImagesResponse
 	invitations: InvitationsResponse
+	pw: PwResponse
 	users: UsersResponse
 }
 

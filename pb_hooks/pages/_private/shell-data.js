@@ -6,10 +6,8 @@ module.exports = function shellData() {
         navOpen: false,
         darkMode: localStorage.getItem('theme') === 'dark',
         navigation: [
-            { title: 'Gallery', target: 'gallery' },
-            { title: 'RSVP', target: 'rsvp' },
-            { title: 'Schedule', target: 'schedule' },
-            { title: 'Directions', target: 'directions' },
+            { title: 'Home', target: 'home' },
+            { title: 'About', target: 'about' },
         ],
 
         init() { },

@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1768772312635,
+    "generatedTime": 1768887905617,
     "data": [
         {
             "type": "file",
@@ -34,8 +34,20 @@
         {
             "type": "file",
             "name": "pb_public/favicon.ico",
-            "size": 131070,
-            "hash": "eade4d177060fc5f49cee53a4a1cc1d3e757de60ba8178c568465cd2b4436ebe"
+            "size": 15406,
+            "hash": "146f530d205c28118522025837de5a9dacbea4b17bd6c236244debc92e1bb00c"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768773523_updated_pw.js",
+            "size": 949,
+            "hash": "979754d7d1c123e2dcd8aee0639221ad8f3ec0538d75031cf0a8032060e6b402"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768772836_created_pw.js",
+            "size": 1666,
+            "hash": "031ae51affc5e8ebdfa92f9f2fc1ca11d6dd5d87db97791b50036691d57a2f47"
         },
         {
             "type": "file",
@@ -142,6 +154,10 @@
             "hash": "8d87b2e302fec0106ac002c1392e37cd569db71afcead8772c1546971533ac42"
         },
         {
+            "type": "folder",
+            "name": "pb_hooks/pages/login"
+        },
+        {
             "type": "file",
             "name": "pb_hooks/pages/index.ejs",
             "size": 5,
@@ -156,8 +172,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 81144,
-            "hash": "ff442c7e44c26a8ba43ba1ff272129e5c09b0b214ccdf41251db3b46e89be708"
+            "size": 83110,
+            "hash": "58c391d05015376309c4b51b0610d5e4b238f04ace6a9dbd2d213e7c7cb94e93"
         },
         {
             "type": "folder",
@@ -172,6 +188,18 @@
         {
             "type": "folder",
             "name": "pb_hooks/pages/(navbarlayout)"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/login/index.ejs",
+            "size": 2103,
+            "hash": "e30381014125e7dfe209a0a4f6b6ccc7abd8de725fda1251651dcf2a81f7daf8"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/login/+load.js",
+            "size": 1996,
+            "hash": "1632b6b9dfda754e0816af985004d9ba39f7fe328aa1c2b068104ba0d2e2a591"
         },
         {
             "type": "file",
@@ -246,24 +274,20 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+middleware.js",
-            "size": 2588,
-            "hash": "1206d385e98efba7f2aea7a6450a0b5f514d3ee024ddacd37017d7f15fe3e1a4"
+            "size": 4340,
+            "hash": "9124d9a8721c352106b2b31f5bc7983ed8619d22487c7dfb8048a2c4a217c262"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+load.js",
-            "size": 644,
-            "hash": "b42e2b55a945c0858b64b2b8c3c3fa94cf1c224517b2a4b58064b880a03cb120"
+            "size": 662,
+            "hash": "3741671b43ed5efcf7926c940be9c1c1cca2675d753d581faea50bf0d5464d99"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+layout.ejs",
             "size": 686,
             "hash": "4eba69fb4789f00ab48005f784d93460ae64d385958faa49687f896adb42d649"
-        },
-        {
-            "type": "folder",
-            "name": "pb_hooks/pages/(navbarlayout)/(partials)"
         },
         {
             "type": "file",
@@ -322,8 +346,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/pocketbase-types.ts",
-            "size": 6153,
-            "hash": "5a859798ab96ba304afefb79de3e57d44fdab43317169ef8a7c38694b74de586"
+            "size": 6401,
+            "hash": "006e300c9a88b7d49ac061f12c2235fc221053a2de4042da4f57f452f79d9d35"
         }
     ]
 }

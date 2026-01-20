@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lofi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/app.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-base-200">
+    <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title justify-center mb-4">Login</h2>
+
+            <% if (typeof errorMessage !=='undefined' && errorMessage) { %>
+                <div class="alert alert-error mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>
+                        <%= errorMessage %>
+                    </span>
+                </div>
+                <% } %>
+
+                    <form method="POST" class="form-control gap-4">
+                        <div>
+                            <label class="label">
+                                <span class="label-text">Password</span>
+                            </label>
+                            <input type="password" name="password" placeholder="Enter password"
+                                autocomplete="current-password" class="input input-bordered w-full" required
+                                autofocus />
+                        </div>
+
+                        <div class="card-actions justify-end mt-4">
+                            <button type="submit" class="btn btn-primary w-full">Enter</button>
+                        </div>
+                    </form>
+        </div>
+    </div>
+</body>
+
+</html>
