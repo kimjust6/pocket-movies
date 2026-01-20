@@ -1,6 +1,6 @@
 module.exports = function (context) {
     try {
-        const authCookie = context.request.cookies('wedding_auth');
+        const authCookie = context.request.cookies('dank_auth');
         const currentPath = context.request.url.pathname;
 
         // Check for 'pw' query parameter for auto-login
@@ -12,7 +12,7 @@ module.exports = function (context) {
 
                 if (records.length > 0) {
                     // Valid password, set cookie
-                    context.response.cookie('wedding_auth', 'true', {
+                    context.response.cookie('dank_auth', 'true', {
                         path: '/',
                         secure: true,
                         httpOnly: true,
@@ -52,12 +52,12 @@ module.exports = function (context) {
             {
                 name: 'title',
                 content:
-                    "Yvonne & Justin's Wedding",
+                    "Dank Movies",
             },
             {
                 name: 'description',
                 content:
-                    'Join us in celebrating the wedding of Yvonne Lam and Justin Kim. RSVP and find all the details for our special day.',
+                    'Personal movie watchlist application.',
             },
             { name: 'url', content: 'https://www.jkim.win/' },
 
@@ -65,7 +65,7 @@ module.exports = function (context) {
             {
                 name: 'og:title',
                 content:
-                    "Yvonne & Justin's Wedding",
+                    "Dank Movies",
             },
             { name: 'og:type', content: 'website' },
             { name: 'og:url', content: 'https://www.jkim.win/' },
@@ -73,21 +73,16 @@ module.exports = function (context) {
                 name: 'og:image',
                 content: 'https://ylam.jkim.win/og-image.webp',
             },
-            { name: 'og:image:alt', content: 'Yvonne and Justin Wedding Photo' },
+            { name: 'og:image:alt', content: 'Dank Movies' },
             { name: 'og:image:width', content: '637' },
             { name: 'og:image:height', content: '425' },
             {
                 name: 'og:description',
                 content:
-                    'Join us in celebrating the wedding of Yvonne Lam and Justin Kim. RSVP and find all the details for our special day.',
+                    'Personal movie watchlist application.',
             },
-            { name: 'og:site_name', content: "Yvonne & Justin's Wedding" },
+            { name: 'og:site_name', content: "Dank Movies" },
             { name: 'og:locale', content: 'en_CA' },
-
-            // Wedding event details
-            { name: 'author', content: 'Yvonne Lam & Justin Kim' },
-            { name: 'event:type', content: 'wedding' },
-            { name: 'event:hosts', content: 'Yvonne Lam and Justin Kim' },
 
             // Twitter Card metadata (optional, but helpful)
             { name: 'twitter:card', content: 'summary_large_image' },
@@ -95,12 +90,12 @@ module.exports = function (context) {
             {
                 name: 'twitter:title',
                 content:
-                    "Yvonne & Justin's Wedding",
+                    "Dank Movies",
             },
             {
                 name: 'twitter:description',
                 content:
-                    'Join us in celebrating the wedding of Yvonne Lam and Justin Kim. RSVP and find all the details for our special day.',
+                    'Personal movie watchlist application.',
             },
             {
                 name: 'twitter:image',

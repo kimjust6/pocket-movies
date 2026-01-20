@@ -1,17 +1,17 @@
 {
-    "name": "pocket-movies",
+    "name": "dank-movies",
     "private": true,
     "version": "0.1.0",
     "scripts": {
         "dev": "concurrently \"tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch\" \"pocketbase serve --dir=pb_data --dev\"",
         "start": "pocketbase serve --dir=pb_data --dev",
         "css": "tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch\"",
-        "push": "npx phio deploy pocket-movies",
+        "push": "npx phio deploy dank-movies",
         "login": "npx phio login",
         "update": "pocketbase update",
         "typegen": "node scripts/typegen.mjs"
     },
-    "description": "Personal movie watchlist application built with PocketPages.",
+    "description": "Dank movies watchlist application.",
     "author": {
         "name": "Justin Kim",
         "github": "kimjust6"
@@ -49,6 +49,6 @@
         "*.md"
     ],
     "pockethost": {
-        "instanceName": "weddings"
+        "instanceName": "dank-movies"
     }
 }

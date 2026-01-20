@@ -1,6 +1,6 @@
-# Wedding Website (PocketPages + DaisyUI)
+# Dank Movies (PocketPages + DaisyUI)
 
-Wedding website built on **PocketBase** using **PocketPages** for server-rendered pages (EJS), styled with **Tailwind CSS** + **DaisyUI**.
+Personal movie watchlist application built on **PocketBase** using **PocketPages** for server-rendered pages (EJS), styled with **Tailwind CSS** + **DaisyUI**.
 
 ## Tech
 

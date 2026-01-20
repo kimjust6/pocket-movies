@@ -30,7 +30,7 @@ module.exports = function (context) {
 
             if (result) {
                 // Set valid cookie (1 year expiry)
-                response.cookie('wedding_auth', 'true', {
+                response.cookie('dank_auth', 'true', {
                     path: '/',
                     secure: true,
                     httpOnly: true,

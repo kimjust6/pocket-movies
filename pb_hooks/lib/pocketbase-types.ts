@@ -12,6 +12,8 @@ export enum Collections {
 	Otps = "_otps",
 	Superusers = "_superusers",
 	Genre = "genre",
+	ListUser = "list_user",
+	Lists = "lists",
 	Movies = "movies",
 	MoviesGenres = "movies_genres",
 	Pw = "pw",
@@ -105,6 +107,22 @@ export type GenreRecord = {
 	updated: IsoAutoDateString
 }
 
+export type ListUserRecord = {
+	created: IsoAutoDateString
+	id: string
+	invited_user?: RecordIdString
+	updated: IsoAutoDateString
+	user_permission?: string
+}
+
+export type ListsRecord = {
+	created: IsoAutoDateString
+	id: string
+	list_title?: string
+	owner?: RecordIdString
+	updated: IsoAutoDateString
+}
+
 export type MoviesRecord = {
 	adult?: boolean
 	backdrop_path?: string
@@ -158,6 +176,7 @@ export type WatchedHistoryRecord = {
 	created: IsoAutoDateString
 	id: string
 	movie?: RecordIdString
+	rating?: number
 	succeeded?: boolean
 	updated: IsoAutoDateString
 	user?: RecordIdString
@@ -171,6 +190,8 @@ export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemF
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
 export type GenreResponse<Texpand = unknown> = Required<GenreRecord> & BaseSystemFields<Texpand>
+export type ListUserResponse<Texpand = unknown> = Required<ListUserRecord> & BaseSystemFields<Texpand>
+export type ListsResponse<Texpand = unknown> = Required<ListsRecord> & BaseSystemFields<Texpand>
 export type MoviesResponse<Texpand = unknown> = Required<MoviesRecord> & BaseSystemFields<Texpand>
 export type MoviesGenresResponse<Texpand = unknown> = Required<MoviesGenresRecord> & BaseSystemFields<Texpand>
 export type PwResponse<Texpand = unknown> = Required<PwRecord> & BaseSystemFields<Texpand>
@@ -186,6 +207,8 @@ export type CollectionRecords = {
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
 	genre: GenreRecord
+	list_user: ListUserRecord
+	lists: ListsRecord
 	movies: MoviesRecord
 	movies_genres: MoviesGenresRecord
 	pw: PwRecord
@@ -200,6 +223,8 @@ export type CollectionResponses = {
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
 	genre: GenreResponse
+	list_user: ListUserResponse
+	lists: ListsResponse
 	movies: MoviesResponse
 	movies_genres: MoviesGenresResponse
 	pw: PwResponse
