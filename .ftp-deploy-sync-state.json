@@ -1,13 +1,13 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1768971037380,
+    "generatedTime": 1768978153513,
     "data": [
         {
             "type": "file",
             "name": "package.json",
-            "size": 1707,
-            "hash": "01bc86465798e541308c084610b518cd563822d345f28230db80f40dcc28cba8"
+            "size": 1755,
+            "hash": "679004a2ae8f80d8a929711920c8c618672a4e8bf100814df2d2c72aa48ae41b"
         },
         {
             "type": "folder",
@@ -36,6 +36,12 @@
             "name": "pb_public/favicon.ico",
             "size": 181598,
             "hash": "42852b72e4963165d078b06d7a62a8d64d14b07ea19ad0c0aa30466079481fe8"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768974421_updated_users.js",
+            "size": 492,
+            "hash": "27080379319fa18df0e1a350a6d39e667adb28c1a6f8ec411911a5fadded7170"
         },
         {
             "type": "file",
@@ -278,6 +284,10 @@
             "hash": "c9d04c9565fc665c80681fb1d829938026871f66e14f501e08531df66938a789"
         },
         {
+            "type": "folder",
+            "name": "pb_hooks/pages/auth"
+        },
+        {
             "type": "file",
             "name": "pb_hooks/pages/app.tailwind.css",
             "size": 3662,
@@ -286,8 +296,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 117230,
-            "hash": "e24f1653c0a39ab47e421842bc5174c85efbdeb659771244e94c285b91f71800"
+            "size": 126022,
+            "hash": "3af33beef52e073d37abb5af778d4c20528ca37fea424accb6aa259a5bdcc300"
         },
         {
             "type": "folder",
@@ -296,8 +306,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/+config.js",
-            "size": 186,
-            "hash": "b557a8a972b0919b46937d9f1ed195db1c3f86de904e47e1236fc94a0e40c658"
+            "size": 225,
+            "hash": "400b7b3dd1e79da46c32b20dac5c74c5448589bd030c908210798c930ec9680f"
         },
         {
             "type": "folder",
@@ -306,14 +316,44 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/login/index.ejs",
-            "size": 63,
-            "hash": "67a802d6576e899b0db6052d92daeb9aa4337006bb8bb3679958046e69f2e594"
+            "size": 3880,
+            "hash": "e3f90a9e3da36f21847c17eeb48de89df0889a2e4a9f71e0587960c55888f617"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/login/+load.js",
             "size": 81,
             "hash": "8ea665694981c6a582e2a7bec75ff3aa73c7cfbf4ece03dafdd1702acf4edce9"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/login/+layout.ejs",
+            "size": 449,
+            "hash": "1d9a003fe173f235276ec625aefab011b25a7a00e3e45e5cbced2fb645e2c95b"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/auth/oauth"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/auth/logout"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/auth/oauth/redirect"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/auth/oauth/redirect/index.ejs",
+            "size": 742,
+            "hash": "1e9cf4b65281c0ac9f024600134f2a8332e41d6ab67b86a7831ea4f1056661ad"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/auth/logout/index.ejs",
+            "size": 60,
+            "hash": "77f324e1e5c89f763b6995ec09972c4005243e4d9ca00d88977eee576a2e0df8"
         },
         {
             "type": "file",
@@ -336,26 +376,26 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/shell-data.js",
-            "size": 1363,
-            "hash": "2e8758cd31ba57992f75ec35bcc86f000cc58e073ffa498b621ddfe1e2c33a57"
+            "size": 1365,
+            "hash": "4ccaaec8ba207c81c8aa1c30288d3a03fba695704e69a44716fd4a89514b2580"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/mobile-menu.ejs",
-            "size": 733,
-            "hash": "1b501d5a95c92c799a846c70538b0061f417fd094250e8df6c03e10d429f2d1a"
+            "size": 1765,
+            "hash": "9f8a716f2fd0a76f8b6d472a79e3af0f0777c1d13de98fe58438cb27f3cf9ad2"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/header.ejs",
-            "size": 1992,
-            "hash": "92c25591bc20b55705ec8aff16198e665dfba1ed9a4600d3d02643cb346899dc"
+            "size": 3400,
+            "hash": "c0c27fb7ae6479a885e405985d5ea8050b95494ebfda05604c406eba277c832c"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/head.ejs",
-            "size": 1161,
-            "hash": "a7b907cc343e96a1f20572ff897b85d6b4a411956cfbd698de3761fed33ed39a"
+            "size": 1162,
+            "hash": "1f1176597870fce97410d45033cd0bc43df3ffe328822e4b9611219a22d05a54"
         },
         {
             "type": "file",
@@ -436,8 +476,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/search/+load.js",
-            "size": 4217,
-            "hash": "bbec5338f934b77db27c0abbe1cbcd7251b96b2752bb5f5d314211ed0470d3da"
+            "size": 4249,
+            "hash": "e878e5bf3c3f3a03b19f6b41ff9f2dc43f01c477c6cda6a9bc731ce306fb6752"
         },
         {
             "type": "file",

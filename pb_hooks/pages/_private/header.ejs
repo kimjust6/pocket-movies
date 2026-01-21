@@ -28,8 +28,9 @@
                         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                             <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                                 <%# Check if avatarUrl exists, otherwise use UI Avatars %>
-                                    <img alt="User Avatar"
-                                        src="<%= auth.avatarUrl || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(auth.email) + '&background=random' %>" />
+                                    src="<%= (auth.avatar) ? '/api/files/' + auth.collectionId + '/' + auth.id + '/' +
+                                        auth.avatar : 'https://ui-avatars.com/api/?name=' +
+                                        encodeURIComponent(String(auth.email).slice(0, 1)) + '&background=random' %>" />
                             </div>
                         </div>
                         <ul tabindex="0"
