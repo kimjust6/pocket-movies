@@ -7,12 +7,12 @@
         "wsl": "wsl bash -c \"set -a && source .env && set +a && npm run dev\"",
         "start": "pocketbase serve --dir=pb_data --dev",
         "css": "tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch",
-        "push": "npx phio deploy dank-movies",
+        "push": "npx phio deploy dank",
         "login": "npx phio login",
         "update": "pocketbase update",
         "typegen": "node scripts/typegen.mjs"
     },
-    "description": "Dank movies watchlist application.",
+    "description": "Dank movies watchlist web app.",
     "author": {
         "name": "Justin Kim",
         "github": "kimjust6"
@@ -50,6 +50,6 @@
         "*.md"
     ],
     "pockethost": {
-        "instanceName": "dank-movies"
+        "instanceName": "dank"
     }
 }

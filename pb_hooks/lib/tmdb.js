@@ -5,7 +5,7 @@
 // We can access environment variables via $os.getenv() or process.env depending on JSVM vs Node.
 // In PocketBase JSVM (Go), use $os.getenv(). In Node, process.env.
 // Try $os.getenv first if available (Go environment), else process.env (testing).
-const apiKey = $os.getenv('TMDB_API_KEY') || ''
+const apiKey = process.env.TMDB_API_KEY || $os.getenv('TMDB_API_KEY') || ''
 
 const BASE_URL = 'https://api.themoviedb.org/3'
 
