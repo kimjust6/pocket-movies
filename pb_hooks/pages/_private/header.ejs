@@ -24,19 +24,27 @@
             <%- include('theme-toggle') %>
 
                 <% if (locals.auth) { %>
-                    <div class="dropdown dropdown-end">
-                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                    <div class="dropdown dropdown-end" x-data="{ open: false }" :class="{ 'dropdown-open': open }"
+                        @click.outside="open = false">
+                        <div role="button" class="btn btn-ghost btn-circle avatar"
+                            @click="open = !open; if(!open) $el.blur()">
                             <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                                 <%# Check if avatarUrl exists, otherwise use UI Avatars %>
-                                    src="<%= (auth.avatar) ? '/api/files/' + auth.collectionId + '/' + auth.id + '/' +
-                                        auth.avatar : 'https://ui-avatars.com/api/?name=' +
-                                        encodeURIComponent(String(auth.email).slice(0, 1)) + '&background=random' %>" />
+                                    <% if (auth.avatar) { %>
+                                        <img src="<%= '/api/files/' + auth.collectionId + '/' + auth.id + '/' + auth.avatar %>"
+                                            alt="User Avatar" />
+                                        <% } else { %>
+                                            <span
+                                                class="text-xl font-bold flex h-full w-full items-center justify-center">
+                                                <%= auth.email().slice(0, 1).toUpperCase() %>
+                                            </span>
+                                            <% } %>
                             </div>
                         </div>
                         <ul tabindex="0"
                             class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
                             <li class="menu-title px-4 py-2 text-xs text-base-content/50">
-                                <%= auth.email %>
+                                <%= auth.email() %>
                             </li>
                             <li><a href="/auth/logout">Logout</a></li>
                         </ul>
