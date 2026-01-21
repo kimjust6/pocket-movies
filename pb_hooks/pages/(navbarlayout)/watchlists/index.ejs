@@ -5,62 +5,57 @@
     </div>
 
     <% if (data.movies.length===0) { %>
-    <div class="alert">
-        <span>Your watchlist is empty. Search for movies to add them!</span>
-    </div>
-    <% } else { %>
-    <div class="overflow-x-auto">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Poster</th>
-                    <th>Title</th>
-                    <th>Release Date</th>
-                    <th>Overview</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% data.movies.forEach(movie=> { %>
-                <tr>
-                    <td>
-                        <% if (movie.poster_path) { %>
-                        <img
-                            src="https://image.tmdb.org/t/p/w92<%= movie.poster_path %>"
-                            alt="<%= movie.title %>"
-                            class="w-16 rounded shadow"
-                        />
-                        <% } else { %>
-                        <div
-                            class="flex h-24 w-16 items-center justify-center bg-gray-200 text-xs"
-                        >
-                            No Img
-                        </div>
-                        <% } %>
-                    </td>
-                    <td class="font-bold"><%= movie.title %></td>
-                    <td><%= movie.release_date %></td>
-                    <td class="max-w-md truncate"><%= movie.overview %></td>
-                    <td>
-                        <form method="POST">
-                            <input type="hidden" name="action" value="delete" />
-                            <input
-                                type="hidden"
-                                name="watchlist_id"
-                                value="<%= movie.watchlist_id %>"
-                            />
-                            <button
-                                type="submit"
-                                class="btn btn-ghost btn-xs text-error"
-                            >
-                                Remove
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    </div>
-    <% } %>
+        <div class="alert">
+            <span>Your watchlist is empty. Search for movies to add them!</span>
+        </div>
+        <% } else { %>
+            <div
+                class="overflow-x-auto rounded-xl border border-base-content/5 bg-base-100/40 shadow-xl backdrop-blur-sm">
+                <table class="table">
+                    <thead class="bg-base-200/50 text-base-content">
+                        <tr>
+                            <th>Poster</th>
+                            <th>Title</th>
+                            <th>Release Date</th>
+                            <th>Overview</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data.movies.forEach(movie=> { %>
+                            <tr>
+                                <td>
+                                    <% if (movie.poster_path) { %>
+                                        <img src="https://image.tmdb.org/t/p/w92<%= movie.poster_path %>"
+                                            alt="<%= movie.title %>" class="w-16 rounded shadow" />
+                                        <% } else { %>
+                                            <div class="flex h-24 w-16 items-center justify-center bg-gray-200 text-xs">
+                                                No Img
+                                            </div>
+                                            <% } %>
+                                </td>
+                                <td class="font-bold">
+                                    <%= movie.title %>
+                                </td>
+                                <td>
+                                    <%= movie.release_date %>
+                                </td>
+                                <td class="max-w-md truncate">
+                                    <%= movie.overview %>
+                                </td>
+                                <td>
+                                    <form method="POST">
+                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="hidden" name="watchlist_id" value="<%= movie.watchlist_id %>" />
+                                        <button type="submit" class="btn btn-ghost btn-xs text-error">
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
 </div>

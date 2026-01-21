@@ -1,19 +1,21 @@
 <!doctype html>
-<html lang="en" data-theme="nord" x-data="shell()">
-    <head>
-        <%- include('head') %> <%- include('theme-init') %> <%-
-        include('alpine-setup') %> <%- include('shell-init') %> <%-
-        include('custom-styles') %>
-    </head>
-    <body class="bg-transparent text-zinc-900 dark:text-zinc-100">
-        <div class="relative min-h-screen">
-            <div x-on:click.outside="navOpen = false">
-                <%- include('header') %> <%- include('mobile-menu') %>
-            </div>
+<html lang="en" data-theme="sunset" x-data="shell()">
 
-            <main class="relative pt-24"><%- slot %></main>
+<head>
+    <%- include('head') %> <%- include('theme-init') %> <%- include('alpine-setup') %> <%- include('shell-init') %> <%-
+                        include('custom-styles') %>
+</head>
 
-            <%- include('footer') %>
+<body class="bg-transparent text-zinc-900 dark:text-zinc-100">
+    <div class="relative min-h-screen">
+        <div x-on:click.outside="navOpen = false">
+            <%- include('header') %> <%- include('mobile-menu') %>
         </div>
-    </body>
+
+        <main class="relative pt-24"><%- slot %></main>
+
+        <%- include('footer') %>
+    </div>
+</body>
+
 </html>

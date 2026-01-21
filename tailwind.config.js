@@ -6,11 +6,11 @@ export default {
         extend: {},
     },
     daisyui: {
-        themes: ['nord', 'dark'],
-        darkTheme: 'dark',
-        base: true, // applies background color and foreground color
-        styled: true, // include daisyUI colors and design decisions
-        utils: true, // adds responsive and modifier utility classes
+        themes: ['sunset', 'winter', 'corporate', 'night', 'business', 'dark'],
+        darkTheme: 'winter',
+        base: true,
+        styled: true,
+        utils: true,
     },
     plugins: [require('@tailwindcss/typography'), require('daisyui')],
 }

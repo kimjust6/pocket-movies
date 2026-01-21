@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+}
+
+@layer base {
     /* Custom font families defined in layout.ejs */
     .script-font {
         font-family: 'Dancing Script', cursive;
