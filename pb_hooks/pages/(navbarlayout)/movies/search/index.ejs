@@ -1,66 +1,168 @@
-<div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Search Movies</h1>
+<div class="min-h-screen bg-base-200" x-data="{ query: '<%= data.q || '' %>' }">
+    <!-- Hero / Search Section -->
+    <div class="hero bg-base-100 py-12 shadow-sm">
+        <div class="hero-content text-center w-full max-w-4xl flex-col">
+            <h1
+                class="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Search for a Film
+            </h1>
 
+            <form method="GET" class="w-full max-w-2xl relative join">
+                <input type="text" name="q" placeholder="Search for movies..."
+                    class="input input-lg input-bordered join-item w-full focus:outline-none focus:border-primary transition-all duration-300"
+                    x-model="query" value="<%= data.q || '' %>" autofocus />
+                <button type="submit" class="btn btn-primary btn-lg join-item px-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Search
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Messages -->
     <% if (data.message) { %>
-        <div class="alert alert-success mb-6">
-            <span>
-                <%= data.message %>
-            </span>
+        <div class="max-w-4xl mx-auto mt-6 px-4">
+            <div class="alert alert-success shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>
+                    <%= data.message %>
+                </span>
+            </div>
         </div>
         <% } %>
 
             <% if (data.error) { %>
-                <div class="alert alert-error mb-6">
-                    <span>
-                        <%= data.error %>
-                    </span>
+                <div class="max-w-4xl mx-auto mt-6 px-4">
+                    <div class="alert alert-error shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <%= data.error %>
+                        </span>
+                    </div>
                 </div>
                 <% } %>
 
-                    <!-- Search Form -->
-                    <form method="GET" class="flex gap-2 mb-8">
-                        <input type="text" name="q" value="<%= data.q || '' %>" placeholder="Enter movie title..."
-                            class="input input-bordered w-full max-w-md" />
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </form>
-
-                    <!-- Results -->
-                    <% if (data.results && data.results.length> 0) { %>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <% data.results.forEach(movie=> { %>
-                                <div class="card card-side bg-base-100 shadow-xl border border-base-200">
-                                    <figure class="w-1/3 max-w-[150px]">
-                                        <% if (movie.poster_path) { %>
-                                            <img src="https://image.tmdb.org/t/p/w200<%= movie.poster_path %>"
-                                                alt="<%= movie.title %>" class="h-full object-cover" />
-                                            <% } else { %>
-                                                <div
-                                                    class="bg-gray-200 w-full h-full flex items-center justify-center text-xs">
-                                                    No Img</div>
-                                                <% } %>
-                                    </figure>
-                                    <div class="card-body w-2/3">
-                                        <h2 class="card-title text-lg">
-                                            <%= movie.title %>
-                                        </h2>
-                                        <p class="text-sm text-gray-500">
-                                            <%= movie.release_date ? movie.release_date.split('-')[0] : 'N/A' %>
-                                        </p>
-                                        <p class="text-xs line-clamp-3">
-                                            <%= movie.overview %>
-                                        </p>
-                                        <div class="card-actions justify-end mt-auto">
-                                            <form method="POST">
-                                                <input type="hidden" name="tmdb_id" value="<%= movie.id %>" />
-                                                <button type="submit" class="btn btn-sm btn-secondary">Add to
-                                                    Watchlist</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <% }) %>
+                    <!-- DEBUG -->
+                    <% if (data.debug) { %>
+                        <div class="max-w-4xl mx-auto mt-6 px-4">
+                            <div class="alert alert-info shadow-lg">
+                                <span>DEBUG: <%= data.debug %></span>
+                            </div>
                         </div>
-                        <% } else if (data.q) { %>
-                            <p>No results found for "<%= data.q %>".</p>
-                            <% } %>
+                        <% } %>
+
+                            <!-- Results Section -->
+                            <div class="max-w-7xl mx-auto p-6 md:p-10">
+                                <% if (data.results && data.results.length> 0) { %>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                                        <% data.results.forEach(movie=> { %>
+                                            <div
+                                                class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group border border-base-content/5">
+                                                <figure class="aspect-[2/3] relative overflow-hidden bg-base-300">
+                                                    <% if (movie.poster_path) { %>
+                                                        <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                                                            alt="<%= movie.title %>"
+                                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                                        <% } else { %>
+                                                            <div
+                                                                class="flex items-center justify-center h-full w-full bg-base-300 text-base-content/50">
+                                                                <span class="text-4xl font-bold opacity-20">?</span>
+                                                            </div>
+                                                            <% } %>
+
+                                                                <!-- Overlay with Year -->
+                                                                <div
+                                                                    class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                                                    <span class="text-white font-medium">
+                                                                        <%= movie.release_date ? new
+                                                                            Date(movie.release_date).getFullYear()
+                                                                            : 'Unknown' %>
+                                                                    </span>
+                                                                </div>
+                                                </figure>
+
+                                                <div class="card-body p-5">
+                                                    <h2 class="card-title text-lg leading-tight mb-2 h-14 overflow-hidden"
+                                                        title="<%= movie.title %>">
+                                                        <%= movie.title %>
+                                                    </h2>
+                                                    <p class="text-sm text-base-content/70 line-clamp-3 mb-4 h-15">
+                                                        <%= movie.overview || "No description available." %>
+                                                    </p>
+                                                    <div class="card-actions justify-end mt-auto">
+                                                        <form method="POST" class="w-full">
+                                                            <input type="hidden" name="tmdb_id" value="<%= movie.id %>">
+                                                            <input type="hidden" name="q" value="<%= data.q %>">
+
+                                                            <% if (data.user) { %>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary btn-sm w-full gap-2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        class="h-4 w-4" viewBox="0 0 20 20"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                                                    </svg>
+                                                                    Add to Watchlist
+                                                                </button>
+                                                                <% } else { %>
+                                                                    <div class="tooltip w-full"
+                                                                        data-tip="Login to track movies">
+                                                                        <button type="button" disabled
+                                                                            class="btn btn-outline btn-sm w-full gap-2 opacity-50 cursor-not-allowed">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                class="h-4 w-4" viewBox="0 0 20 20"
+                                                                                fill="currentColor">
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 6.898a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
+                                                                                    clip-rule="evenodd" />
+                                                                            </svg>
+                                                                            Login to Add
+                                                                        </button>
+                                                                    </div>
+                                                                    <% } %>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                    <% } else if (data.q) { %>
+                                        <div class="text-center py-20 opacity-70">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-24 w-24 mx-auto mb-4 text-base-content/30" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                            </svg>
+                                            <h3 class="text-2xl font-bold mb-2">No results found</h3>
+                                            <p>We couldn't find any movies matching "<%= data.q %>". Try another search!
+                                            </p>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="text-center py-20 opacity-70">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-24 w-24 mx-auto mb-4 text-base-content/30" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                                </svg>
+                                                <h3 class="text-2xl font-bold mb-2">Start your collection</h3>
+                                                <p>Search for movies above to add them to your watchlist.</p>
+                                            </div>
+                                            <% } %>
+                            </div>
 </div>
