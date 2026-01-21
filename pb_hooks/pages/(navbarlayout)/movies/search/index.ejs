@@ -10,7 +10,9 @@
             <form method="GET" class="w-full max-w-2xl relative join">
                 <input type="text" name="q" placeholder="Search for movies..."
                     class="input input-lg input-bordered join-item w-full focus:outline-none focus:border-primary transition-all duration-300"
-                    x-model="query" value="<%= data.q || '' %>" autofocus />
+                    x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
+                    x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
+                    x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
                 <button type="submit" class="btn btn-primary btn-lg join-item px-8">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
