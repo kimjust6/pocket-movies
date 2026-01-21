@@ -1,20 +1,33 @@
 <!-- Mobile Menu Dropdown -->
-<div
-    class="fixed inset-x-0 top-[5.5rem] w-full border-b border-base-300 bg-base-100 shadow-lg md:hidden"
-    x-show="navOpen"
-    x-transition
-    x-cloak
-    style="z-index: 60; display: none"
->
+<div class="fixed inset-x-0 top-[5.5rem] w-full border-b border-base-300 bg-base-100 shadow-lg md:hidden"
+    x-show="navOpen" x-transition x-cloak style="z-index: 60; display: none">
     <div class="mx-auto max-w-7xl">
         <template x-for="item in navigation" :key="item.title">
-            <a
-                class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
-                :href="item.href"
-                @click="navOpen = false"
-            >
+            <a class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                :href="item.href" @click="navOpen = false">
                 <span x-text="item.title"></span>
             </a>
         </template>
+
+        <div class="border-t border-base-300 p-4 bg-base-200/50">
+            <% if (locals.auth) { %>
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-center gap-3 px-2">
+                        <div class="avatar">
+                            <div class="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <img
+                                    src="<%= auth.avatarUrl || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(auth.email) + '&background=random' %>" />
+                            </div>
+                        </div>
+                        <span class="font-semibold text-sm truncate max-w-[200px]">
+                            <%= auth.email %>
+                        </span>
+                    </div>
+                    <a href="/auth/logout" class="btn btn-outline btn-sm w-full">Logout</a>
+                </div>
+                <% } else { %>
+                    <a href="/login" class="btn btn-primary w-full">Login</a>
+                    <% } %>
+        </div>
     </div>
 </div>

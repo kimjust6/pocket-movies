@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" data-theme="business" x-data="shell()">
+
+<head>
+    <%- include('head') %>
+        <%- include('theme-init') %>
+            <%- include('alpine-setup') %>
+                <%- include('shell-init') %>
+                    <%- include('custom-styles') %>
+</head>
+
+<body class="bg-base-100 text-base-content min-h-screen">
+    <main class="w-full h-full">
+        <%- slot %>
+    </main>
+</body>
+
+</html>

@@ -17,7 +17,7 @@
             <% } %>
 
                 <title>
-                    <%= data.metadata.find(x=> x.name === 'title')?.content || 'Dank Movies' %>
+                    <%= data.metadata?.find(x=> x.name === 'title')?.content || 'Dank Movies' %>
                 </title>
 
                 <link href="<%=asset('/app.css')%>" rel="stylesheet" />

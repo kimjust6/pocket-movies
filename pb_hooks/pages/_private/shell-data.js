@@ -7,7 +7,7 @@ module.exports = function shellData() {
         darkMode: localStorage.getItem('theme') === 'dark',
         navigation: [
             { title: 'Home', href: '/' },
-            { title: 'Watchlist', href: '/watchlist' },
+            { title: 'Watchlists', href: '/watchlists' },
             { title: 'Search', href: '/movies/search' },
         ],
 

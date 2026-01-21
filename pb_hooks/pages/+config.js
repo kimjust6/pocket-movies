@@ -3,6 +3,7 @@ module.exports = function (api) {
         plugins: [
             'pocketpages-plugin-js-sdk',
             'pocketpages-plugin-ejs',
+            'pocketpages-plugin-auth',
         ],
         debug: false,
     }

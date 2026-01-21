@@ -22,6 +22,27 @@
             <div class="h-6 w-px bg-base-content/10"></div>
 
             <%- include('theme-toggle') %>
+
+                <% if (locals.auth) { %>
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <%# Check if avatarUrl exists, otherwise use UI Avatars %>
+                                    <img alt="User Avatar"
+                                        src="<%= auth.avatarUrl || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(auth.email) + '&background=random' %>" />
+                            </div>
+                        </div>
+                        <ul tabindex="0"
+                            class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
+                            <li class="menu-title px-4 py-2 text-xs text-base-content/50">
+                                <%= auth.email %>
+                            </li>
+                            <li><a href="/auth/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                    <% } else { %>
+                        <a href="/login" class="btn btn-primary btn-sm">Login</a>
+                        <% } %>
         </div>
 
         <!-- Mobile Menu Buttons -->
