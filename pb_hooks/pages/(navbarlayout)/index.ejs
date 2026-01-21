@@ -1,12 +1,205 @@
-﻿<div class="min-h-screen flex justify-center bg-base-100/95" id="home">
+﻿<!-- Hero Section with Gradient Background -->
+<div class="min-h-screen" id="home">
+    <!-- Hero -->
     <div
-        class="w-full mx-auto m-3 sm:m-6 p-6 sm:p-10 max-w-7xl bg-base-100/95 backdrop-blur-sm rounded-box text-center">
-        <h1 class="text-4xl font-bold mb-4">Dank Movies</h1>
-        <p class="text-lg mb-8">Keep track of movies you want to watch.</p>
+        class="hero min-h-[70vh] bg-gradient-to-br from-primary/20 via-base-100 to-secondary/20 relative overflow-hidden">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse"
+                style="animation-delay: 1s;"></div>
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl">
+            </div>
+        </div>
 
-        <div class="flex justify-center gap-4">
-            <a href="/movies/search" class="btn btn-primary">Search Movies</a>
-            <a href="/watchlist" class="btn btn-secondary">My Watchlist</a>
+        <div class="hero-content text-center relative z-10">
+            <div class="max-w-2xl">
+                <!-- Movie Icon -->
+                <div class="mb-8 flex justify-center">
+                    <div class="p-6 rounded-full bg-gradient-to-br from-primary to-secondary shadow-2xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary-content" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Title with Gradient -->
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6">
+                    <span class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                        Dank Movies
+                    </span>
+                </h1>
+
+                <!-- Tagline -->
+                <p class="text-xl md:text-2xl text-base-content/70 mb-8 leading-relaxed">
+                    Your personal movie watchlist. Discover, save, and never miss a film you want to watch.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="/movies/search"
+                        class="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        Search Movies
+                    </a>
+                    <a href="/watchlist"
+                        class="btn btn-secondary btn-lg gap-2 shadow-lg hover:shadow-secondary/25 hover:scale-105 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        </svg>
+                        My Watchlists
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-base-content/30" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
         </div>
     </div>
+
+    <!-- Features Section -->
+    <section class="py-20 px-4 bg-base-200/50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Why Dank Movies?</h2>
+            <p class="text-base-content/60 text-center mb-12 max-w-2xl mx-auto">
+                The easiest way to keep track of all the movies you want to watch
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature Card 1 -->
+                <div
+                    class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="card-body items-center text-center">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title text-xl">Discover Movies</h3>
+                        <p class="text-base-content/60">
+                            Search through millions of movies powered by TMDB's extensive database
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div
+                    class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="card-body items-center text-center">
+                        <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-secondary" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title text-xl">Save to Watchlist</h3>
+                        <p class="text-base-content/60">
+                            Add movies to your personal watchlist with a single click
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div
+                    class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="card-body items-center text-center">
+                        <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title text-xl">Never Forget</h3>
+                        <p class="text-base-content/60">
+                            Keep track of every movie recommendation you receive
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 px-4 bg-gradient-to-r from-primary to-secondary">
+        <div class="max-w-4xl mx-auto">
+            <div class="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-100/95 backdrop-blur">
+                <div class="stat">
+                    <div class="stat-figure text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                        </svg>
+                    </div>
+                    <div class="stat-title">TMDB Database</div>
+                    <div class="stat-value text-primary">500K+</div>
+                    <div class="stat-desc">Movies Available</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-figure text-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="stat-title">Quick Actions</div>
+                    <div class="stat-value text-secondary">1 Click</div>
+                    <div class="stat-desc">To Save Movies</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-figure text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <div class="stat-title">Made With</div>
+                    <div class="stat-value text-accent">❤️</div>
+                    <div class="stat-desc">For Movie Lovers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 bg-base-100">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Start?</h2>
+            <p class="text-base-content/60 text-lg mb-8">
+                Begin building your ultimate movie watchlist today
+            </p>
+            <a href="/movies/search"
+                class="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Get Started Now
+            </a>
+        </div>
+    </section>
 </div>
