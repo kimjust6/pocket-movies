@@ -1,50 +1,6 @@
 module.exports = function (context) {
-    try {
-        const authCookie = context.request.cookies('dank_auth');
-        const currentPath = context.request.url.pathname;
-
-        // Check for 'pw' query parameter for auto-login
-        const queryPw = context?.params?.pw;
-        if (queryPw) {
-            try {
-                // Find record with this password
-                const records = $app.findRecordsByFilter('pw', 'password = {:p}', '-created', 1, 0, { p: queryPw });
-
-                if (records.length > 0) {
-                    // Valid password, set cookie
-                    context.response.cookie('dank_auth', 'true', {
-                        path: '/',
-                        secure: true,
-                        httpOnly: true,
-                        maxAge: 31536000
-                    });
-
-                    // Redirect to clean URL (strip pw param)
-                    // If on /login, redirect to /
-                    const redirectPath = currentPath === '/login' ? '/' : currentPath;
-                    return context.redirect(redirectPath, { status: 303 });
-                }
-            } catch (authErr) {
-                // Ignore, fall through to normal check
-            }
-        }
-
-        // Check if we are already on the login page to avoid infinite loop
-        if (currentPath === '/login') {
-            return {};
-        }
-
-        if (!authCookie) {
-            // Preserve query parameters (like pw) when redirecting
-            const search = context.request.url.search || '';
-            const loginUrl = '/login' + search;
-
-            // Signature: redirect(path, options)
-            return context.redirect(loginUrl, { status: 303 });
-        }
-    } catch (e) {
-        return context.redirect('/login', { status: 303 });
-    }
+    // Auth logic removed.
+    // Returning metadata required by head.ejs
 
     return {
         metadata: [

@@ -2938,10 +2938,6 @@ html::-webkit-scrollbar,
   width: 1.75rem;
 }
 
-.w-96 {
-  width: 24rem;
-}
-
 .w-full {
   width: 100%;
 }
@@ -2984,10 +2980,6 @@ html::-webkit-scrollbar,
 }
 
 .flex-shrink-0 {
-  flex-shrink: 0;
-}
-
-.shrink-0 {
   flex-shrink: 0;
 }
 
@@ -3171,10 +3163,6 @@ html::-webkit-scrollbar,
 
 .fill-current {
   fill: currentColor;
-}
-
-.stroke-current {
-  stroke: currentColor;
 }
 
 .object-cover {
