@@ -1,12 +1,21 @@
 <script server>
+    let error = null
+    console.log('Processing request method:', request.method)
     if (request.method === 'POST') {
         const provider = body().provider
+        console.log('Provider:', provider)
         if (provider) {
             try {
-                const url = requestOAuth2Login(provider, { redirectPath: '/auth/oauth/redirect' })
+                // Disable autoRedirect so we can handle it explicitly
+                const url = requestOAuth2Login(provider, {
+                    redirectPath: '/auth/oauth/redirect',
+                    autoRedirect: false
+                })
+                console.log('Redirecting to:', url)
                 redirect(url)
             } catch (e) {
                 console.error('Login error:', e)
+                error = e.message
             }
         }
     }
