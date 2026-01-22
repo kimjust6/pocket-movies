@@ -1,6 +1,4 @@
-*,
-::before,
-::after {
+*, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -10,19 +8,19 @@
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x: ;
-  --tw-pan-y: ;
-  --tw-pinch-zoom: ;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position: ;
-  --tw-gradient-via-position: ;
-  --tw-gradient-to-position: ;
-  --tw-ordinal: ;
-  --tw-slashed-zero: ;
-  --tw-numeric-figure: ;
-  --tw-numeric-spacing: ;
-  --tw-numeric-fraction: ;
-  --tw-ring-inset: ;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -30,28 +28,28 @@
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  --tw-blur: ;
-  --tw-brightness: ;
-  --tw-contrast: ;
-  --tw-grayscale: ;
-  --tw-hue-rotate: ;
-  --tw-invert: ;
-  --tw-saturate: ;
-  --tw-sepia: ;
-  --tw-drop-shadow: ;
-  --tw-backdrop-blur: ;
-  --tw-backdrop-brightness: ;
-  --tw-backdrop-contrast: ;
-  --tw-backdrop-grayscale: ;
-  --tw-backdrop-hue-rotate: ;
-  --tw-backdrop-invert: ;
-  --tw-backdrop-opacity: ;
-  --tw-backdrop-saturate: ;
-  --tw-backdrop-sepia: ;
-  --tw-contain-size: ;
-  --tw-contain-layout: ;
-  --tw-contain-paint: ;
-  --tw-contain-style: ;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
 }
 
 ::backdrop {
@@ -64,19 +62,19 @@
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x: ;
-  --tw-pan-y: ;
-  --tw-pinch-zoom: ;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  --tw-gradient-from-position: ;
-  --tw-gradient-via-position: ;
-  --tw-gradient-to-position: ;
-  --tw-ordinal: ;
-  --tw-slashed-zero: ;
-  --tw-numeric-figure: ;
-  --tw-numeric-spacing: ;
-  --tw-numeric-fraction: ;
-  --tw-ring-inset: ;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -84,28 +82,28 @@
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  --tw-blur: ;
-  --tw-brightness: ;
-  --tw-contrast: ;
-  --tw-grayscale: ;
-  --tw-hue-rotate: ;
-  --tw-invert: ;
-  --tw-saturate: ;
-  --tw-sepia: ;
-  --tw-drop-shadow: ;
-  --tw-backdrop-blur: ;
-  --tw-backdrop-brightness: ;
-  --tw-backdrop-contrast: ;
-  --tw-backdrop-grayscale: ;
-  --tw-backdrop-hue-rotate: ;
-  --tw-backdrop-invert: ;
-  --tw-backdrop-opacity: ;
-  --tw-backdrop-saturate: ;
-  --tw-backdrop-sepia: ;
-  --tw-contain-size: ;
-  --tw-contain-layout: ;
-  --tw-contain-paint: ;
-  --tw-contain-style: ;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
 }
 
 /*
@@ -154,7 +152,7 @@ html,
   -moz-tab-size: 4;
   /* 3 */
   -o-tab-size: 4;
-  tab-size: 4;
+     tab-size: 4;
   /* 3 */
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
@@ -199,7 +197,7 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 
 abbr:where([title]) {
   -webkit-text-decoration: underline dotted;
-  text-decoration: underline dotted;
+          text-decoration: underline dotted;
 }
 
 /*
@@ -488,8 +486,7 @@ textarea {
 2. Set the default placeholder color to the user's configured gray 400 color.
 */
 
-input::-moz-placeholder,
-textarea::-moz-placeholder {
+input::-moz-placeholder, textarea::-moz-placeholder {
   opacity: 1;
   /* 1 */
   color: #9ca3af;
@@ -559,8 +556,8 @@ video {
 
 :root,
 [data-theme] {
-  background-color: var(--fallback-b1, oklch(var(--b1)/1));
-  color: var(--fallback-bc, oklch(var(--bc)/1));
+  background-color: var(--fallback-b1,oklch(var(--b1)/1));
+  color: var(--fallback-bc,oklch(var(--bc)/1));
 }
 
 @supports not (color: oklch(0% 0 0)) {
@@ -980,7 +977,7 @@ html {
   --btn-focus-scale: 0.95;
   --border-btn: 1px;
   --tab-border: 1px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
   --p: 74.22% 0.209 6.35;
   --s: 83.33% 0.184 204.72;
   --a: 71.86% 0.2176 310.43;
@@ -1273,7 +1270,7 @@ html {
   --btn-focus-scale: 0.95;
   --border-btn: 1px;
   --tab-border: 1px;
-  font-family: Chalkboard, comic sans ms, 'sans-serif';
+  font-family: Chalkboard,comic sans ms,'sans-serif';
   --p: 78.2604% 0 0;
   --s: 78.2604% 0 0;
   --a: 78.2604% 0 0;
@@ -1770,13 +1767,13 @@ body {
 }
 
 html,
-body {
+    body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
 html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+    body::-webkit-scrollbar {
   display: none;
 }
 
@@ -1826,19 +1823,19 @@ body::-webkit-scrollbar {
   border-radius: var(--rounded-box, 1rem);
   border-width: 1px;
   --tw-border-opacity: 1;
-  border-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-border-opacity)));
+  border-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
   padding: 1rem;
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
-  --alert-bg: var(--fallback-b2, oklch(var(--b2)/1));
-  --alert-bg-mix: var(--fallback-b1, oklch(var(--b1)/1));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
+  --alert-bg: var(--fallback-b2,oklch(var(--b2)/1));
+  --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
   background-color: var(--alert-bg);
 }
 
 @media (min-width: 640px) {
   .alert {
     grid-auto-flow: column;
-    grid-template-columns: auto minmax(auto, 1fr);
+    grid-template-columns: auto minmax(auto,1fr);
     justify-items: start;
     text-align: start;
   }
@@ -1849,7 +1846,7 @@ body::-webkit-scrollbar {
   display: inline-flex;
 }
 
-.avatar>div {
+.avatar > div {
   display: block;
   aspect-ratio: 1 / 1;
   overflow: hidden;
@@ -1859,10 +1856,10 @@ body::-webkit-scrollbar {
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 
-.avatar.placeholder>div {
+.avatar.placeholder > div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1871,28 +1868,28 @@ body::-webkit-scrollbar {
 @media (hover:hover) {
   .label a:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+    color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   }
 
-  .menu li>*:not(ul, .menu-title, details, .btn):active,
-  .menu li>*:not(ul, .menu-title, details, .btn).active,
-  .menu li>details>summary:active {
+  .menu li > *:not(ul, .menu-title, details, .btn):active,
+.menu li > *:not(ul, .menu-title, details, .btn).active,
+.menu li > details > summary:active {
     --tw-bg-opacity: 1;
-    background-color: var(--fallback-n, oklch(var(--n)/var(--tw-bg-opacity)));
+    background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
     --tw-text-opacity: 1;
-    color: var(--fallback-nc, oklch(var(--nc)/var(--tw-text-opacity)));
+    color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity)));
   }
 
   .table tr.hover:hover,
   .table tr.hover:nth-child(even):hover {
     --tw-bg-opacity: 1;
-    background-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-bg-opacity)));
+    background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
   }
 
   .table-zebra tr.hover:hover,
   .table-zebra tr.hover:nth-child(even):hover {
     --tw-bg-opacity: 1;
-    background-color: var(--fallback-b3, oklch(var(--b3)/var(--tw-bg-opacity)));
+    background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
   }
 }
 
@@ -1903,8 +1900,8 @@ body::-webkit-scrollbar {
   flex-shrink: 0;
   cursor: pointer;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -1924,19 +1921,19 @@ body::-webkit-scrollbar {
   border-width: var(--border-btn, 1px);
   transition-property: color, background-color, border-color, opacity, box-shadow, transform;
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  outline-color: var(--fallback-bc, oklch(var(--bc)/1));
+  outline-color: var(--fallback-bc,oklch(var(--bc)/1));
   background-color: oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity));
   --tw-bg-opacity: 1;
   --tw-border-opacity: 1;
 }
 
 .btn-disabled,
-.btn[disabled],
-.btn:disabled {
+  .btn[disabled],
+  .btn:disabled {
   pointer-events: none;
 }
 
@@ -1957,8 +1954,8 @@ body::-webkit-scrollbar {
 :where(.btn:is(input[type="radio"])) {
   width: auto;
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .btn:is(input[type="checkbox"]):after,
@@ -2014,42 +2011,42 @@ body::-webkit-scrollbar {
   z-index: 10;
   border-radius: var(--rounded-box, 1rem);
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-n, oklch(var(--n)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
   opacity: 0.75;
 }
 
 .card.image-full:before,
-.card.image-full>* {
+    .card.image-full > * {
   grid-column-start: 1;
   grid-row-start: 1;
 }
 
-.card.image-full>figure img {
+.card.image-full > figure img {
   height: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 
-.card.image-full>.card-body {
+.card.image-full > .card-body {
   position: relative;
   z-index: 20;
   --tw-text-opacity: 1;
-  color: var(--fallback-nc, oklch(var(--nc)/var(--tw-text-opacity)));
+  color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity)));
 }
 
 .checkbox {
   flex-shrink: 0;
-  --chkbg: var(--fallback-bc, oklch(var(--bc)/1));
-  --chkfg: var(--fallback-b1, oklch(var(--b1)/1));
+  --chkbg: var(--fallback-bc,oklch(var(--bc)/1));
+  --chkfg: var(--fallback-b1,oklch(var(--b1)/1));
   height: 1.5rem;
   width: 1.5rem;
   cursor: pointer;
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   border-radius: var(--rounded-btn, 0.5rem);
   border-width: 1px;
-  border-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-border-opacity)));
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
   --tw-border-opacity: 0.2;
 }
 
@@ -2058,7 +2055,7 @@ body::-webkit-scrollbar {
   display: inline-block;
 }
 
-.dropdown>*:not(summary):focus {
+.dropdown > *:not(summary):focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
@@ -2135,31 +2132,35 @@ body::-webkit-scrollbar {
     opacity: 1;
   }
 
-  .btm-nav>*.disabled:hover,
-  .btm-nav>*[disabled]:hover {
+  .btm-nav > *.disabled:hover,
+      .btm-nav > *[disabled]:hover {
     pointer-events: none;
     --tw-border-opacity: 0;
-    background-color: var(--fallback-n, oklch(var(--n)/var(--tw-bg-opacity)));
+    background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
     --tw-bg-opacity: 0.1;
-    color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+    color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
     --tw-text-opacity: 0.2;
   }
 
   .btn:hover {
     --tw-border-opacity: 1;
-    border-color: var(--fallback-b3, oklch(var(--b3)/var(--tw-border-opacity)));
+    border-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-border-opacity)));
     --tw-bg-opacity: 1;
-    background-color: var(--fallback-b3, oklch(var(--b3)/var(--tw-bg-opacity)));
+    background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn:hover {
-      background-color: color-mix(in oklab,
-          oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity, 1)) 90%,
-          black);
-      border-color: color-mix(in oklab,
-          oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity, 1)) 90%,
-          black);
+      background-color: color-mix(
+            in oklab,
+            oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity, 1)) 90%,
+            black
+          );
+      border-color: color-mix(
+            in oklab,
+            oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity, 1)) 90%,
+            black
+          );
     }
   }
 
@@ -2181,119 +2182,117 @@ body::-webkit-scrollbar {
 
   @supports (color: oklch(0% 0 0)) {
     .btn-ghost:hover {
-      background-color: var(--fallback-bc, oklch(var(--bc)/0.2));
+      background-color: var(--fallback-bc,oklch(var(--bc)/0.2));
     }
   }
 
   .btn-outline:hover {
     --tw-border-opacity: 1;
-    border-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-border-opacity)));
+    border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
     --tw-bg-opacity: 1;
-    background-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-bg-opacity)));
+    background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
     --tw-text-opacity: 1;
-    color: var(--fallback-b1, oklch(var(--b1)/var(--tw-text-opacity)));
+    color: var(--fallback-b1,oklch(var(--b1)/var(--tw-text-opacity)));
   }
 
   .btn-outline.btn-primary:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-pc, oklch(var(--pc)/var(--tw-text-opacity)));
+    color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn-outline.btn-primary:hover {
-      background-color: color-mix(in oklab, var(--fallback-p, oklch(var(--p)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-p, oklch(var(--p)/1)) 90%, black);
+      background-color: color-mix(in oklab, var(--fallback-p,oklch(var(--p)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-p,oklch(var(--p)/1)) 90%, black);
     }
   }
 
   .btn-outline.btn-secondary:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-sc, oklch(var(--sc)/var(--tw-text-opacity)));
+    color: var(--fallback-sc,oklch(var(--sc)/var(--tw-text-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn-outline.btn-secondary:hover {
-      background-color: color-mix(in oklab, var(--fallback-s, oklch(var(--s)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-s, oklch(var(--s)/1)) 90%, black);
+      background-color: color-mix(in oklab, var(--fallback-s,oklch(var(--s)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-s,oklch(var(--s)/1)) 90%, black);
     }
   }
 
   .btn-outline.btn-accent:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-ac, oklch(var(--ac)/var(--tw-text-opacity)));
+    color: var(--fallback-ac,oklch(var(--ac)/var(--tw-text-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn-outline.btn-accent:hover {
-      background-color: color-mix(in oklab, var(--fallback-a, oklch(var(--a)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-a, oklch(var(--a)/1)) 90%, black);
+      background-color: color-mix(in oklab, var(--fallback-a,oklch(var(--a)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-a,oklch(var(--a)/1)) 90%, black);
     }
   }
 
   .btn-outline.btn-success:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-suc, oklch(var(--suc)/var(--tw-text-opacity)));
+    color: var(--fallback-suc,oklch(var(--suc)/var(--tw-text-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn-outline.btn-success:hover {
-      background-color: color-mix(in oklab, var(--fallback-su, oklch(var(--su)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-su, oklch(var(--su)/1)) 90%, black);
+      background-color: color-mix(in oklab, var(--fallback-su,oklch(var(--su)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-su,oklch(var(--su)/1)) 90%, black);
     }
   }
 
   .btn-outline.btn-info:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-inc, oklch(var(--inc)/var(--tw-text-opacity)));
+    color: var(--fallback-inc,oklch(var(--inc)/var(--tw-text-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn-outline.btn-info:hover {
-      background-color: color-mix(in oklab, var(--fallback-in, oklch(var(--in)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-in, oklch(var(--in)/1)) 90%, black);
+      background-color: color-mix(in oklab, var(--fallback-in,oklch(var(--in)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-in,oklch(var(--in)/1)) 90%, black);
     }
   }
 
   .btn-outline.btn-warning:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-wac, oklch(var(--wac)/var(--tw-text-opacity)));
+    color: var(--fallback-wac,oklch(var(--wac)/var(--tw-text-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn-outline.btn-warning:hover {
-      background-color: color-mix(in oklab, var(--fallback-wa, oklch(var(--wa)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-wa, oklch(var(--wa)/1)) 90%, black);
+      background-color: color-mix(in oklab, var(--fallback-wa,oklch(var(--wa)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-wa,oklch(var(--wa)/1)) 90%, black);
     }
   }
 
   .btn-outline.btn-error:hover {
     --tw-text-opacity: 1;
-    color: var(--fallback-erc, oklch(var(--erc)/var(--tw-text-opacity)));
+    color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity)));
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
     .btn-outline.btn-error:hover {
-      background-color: color-mix(in oklab, var(--fallback-er, oklch(var(--er)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-er, oklch(var(--er)/1)) 90%, black);
+      background-color: color-mix(in oklab, var(--fallback-er,oklch(var(--er)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-er,oklch(var(--er)/1)) 90%, black);
     }
   }
 
   .btn-disabled:hover,
-  .btn[disabled]:hover,
-  .btn:disabled:hover {
+    .btn[disabled]:hover,
+    .btn:disabled:hover {
     --tw-border-opacity: 0;
-    background-color: var(--fallback-n, oklch(var(--n)/var(--tw-bg-opacity)));
+    background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
     --tw-bg-opacity: 0.2;
-    color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+    color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
     --tw-text-opacity: 0.2;
   }
 
   @supports (color: color-mix(in oklab, black, black)) {
-
-    .btn:is(input[type="checkbox"]:checked):hover,
-    .btn:is(input[type="radio"]:checked):hover {
-      background-color: color-mix(in oklab, var(--fallback-p, oklch(var(--p)/1)) 90%, black);
-      border-color: color-mix(in oklab, var(--fallback-p, oklch(var(--p)/1)) 90%, black);
+    .btn:is(input[type="checkbox"]:checked):hover, .btn:is(input[type="radio"]:checked):hover {
+      background-color: color-mix(in oklab, var(--fallback-p,oklch(var(--p)/1)) 90%, black);
+      border-color: color-mix(in oklab, var(--fallback-p,oklch(var(--p)/1)) 90%, black);
     }
   }
 
@@ -2303,18 +2302,15 @@ body::-webkit-scrollbar {
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 
-  :where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(.active, .btn):hover,
-  :where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(.active, .btn):hover {
+  :where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(.active, .btn):hover, :where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(.active, .btn):hover {
     cursor: pointer;
     outline: 2px solid transparent;
     outline-offset: 2px;
   }
 
   @supports (color: oklch(0% 0 0)) {
-
-    :where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(.active, .btn):hover,
-    :where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(.active, .btn):hover {
-      background-color: var(--fallback-bc, oklch(var(--bc)/0.1));
+    :where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(.active, .btn):hover, :where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(.active, .btn):hover {
+      background-color: var(--fallback-bc,oklch(var(--bc)/0.1));
     }
   }
 }
@@ -2329,13 +2325,13 @@ body::-webkit-scrollbar {
   grid-auto-flow: row;
   place-items: start;
   -moz-column-gap: 1rem;
-  column-gap: 1rem;
+       column-gap: 1rem;
   row-gap: 2.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.footer>* {
+.footer > * {
   display: grid;
   place-items: start;
   gap: 0.5rem;
@@ -2354,8 +2350,8 @@ body::-webkit-scrollbar {
 .label {
   display: flex;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   align-items: center;
   justify-content: space-between;
   padding-left: 0.25rem;
@@ -2372,7 +2368,7 @@ body::-webkit-scrollbar {
   background-position: center;
 }
 
-.hero>* {
+.hero > * {
   grid-column-start: 1;
   grid-row-start: 1;
 }
@@ -2390,8 +2386,8 @@ body::-webkit-scrollbar {
 .input {
   flex-shrink: 1;
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   height: 3rem;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -2402,7 +2398,7 @@ body::-webkit-scrollbar {
   border-width: 1px;
   border-color: transparent;
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1, oklch(var(--b1)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
 }
 
 .input[type="number"]::-webkit-inner-spin-button,
@@ -2432,7 +2428,7 @@ body::-webkit-scrollbar {
 }
 
 .join .join-item:not(:first-child):not(:last-child),
-.join *:not(:first-child):not(:last-child) .join-item {
+  .join *:not(:first-child):not(:last-child) .join-item {
   border-start-end-radius: 0;
   border-end-end-radius: 0;
   border-end-start-radius: 0;
@@ -2440,31 +2436,31 @@ body::-webkit-scrollbar {
 }
 
 .join .join-item:first-child:not(:last-child),
-.join *:first-child:not(:last-child) .join-item {
+  .join *:first-child:not(:last-child) .join-item {
   border-start-end-radius: 0;
   border-end-end-radius: 0;
 }
 
 .join .dropdown .join-item:first-child:not(:last-child),
-.join *:first-child:not(:last-child) .dropdown .join-item {
+  .join *:first-child:not(:last-child) .dropdown .join-item {
   border-start-end-radius: inherit;
   border-end-end-radius: inherit;
 }
 
 .join :where(.join-item:first-child:not(:last-child)),
-.join :where(*:first-child:not(:last-child) .join-item) {
+  .join :where(*:first-child:not(:last-child) .join-item) {
   border-end-start-radius: inherit;
   border-start-start-radius: inherit;
 }
 
 .join .join-item:last-child:not(:first-child),
-.join *:last-child:not(:first-child) .join-item {
+  .join *:last-child:not(:first-child) .join-item {
   border-end-start-radius: 0;
   border-start-start-radius: 0;
 }
 
 .join :where(.join-item:last-child:not(:first-child)),
-.join :where(*:last-child:not(:first-child) .join-item) {
+  .join :where(*:last-child:not(:first-child) .join-item) {
   border-start-end-radius: inherit;
   border-end-end-radius: inherit;
 }
@@ -2502,8 +2498,7 @@ body::-webkit-scrollbar {
   padding-inline-start: 0.5rem;
 }
 
-.menu :where(li:not(.menu-title) > *:not(ul, details, .menu-title, .btn)),
-.menu :where(li:not(.menu-title) > details > summary:not(.menu-title)) {
+.menu :where(li:not(.menu-title) > *:not(ul, details, .menu-title, .btn)), .menu :where(li:not(.menu-title) > details > summary:not(.menu-title)) {
   display: grid;
   grid-auto-flow: column;
   align-content: flex-start;
@@ -2511,16 +2506,16 @@ body::-webkit-scrollbar {
   gap: 0.5rem;
   grid-auto-columns: minmax(auto, max-content) auto max-content;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .menu li.disabled {
   cursor: not-allowed;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  color: var(--fallback-bc, oklch(var(--bc)/0.3));
+     -moz-user-select: none;
+          user-select: none;
+  color: var(--fallback-bc,oklch(var(--bc)/0.3));
 }
 
 .menu :where(li > .menu-dropdown:not(.menu-dropdown-show)) {
@@ -2557,9 +2552,9 @@ body::-webkit-scrollbar {
   display: inline-grid;
   border-radius: var(--rounded-box, 1rem);
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1, oklch(var(--b1)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
 }
 
 :where(.stats) {
@@ -2572,8 +2567,8 @@ body::-webkit-scrollbar {
   width: 100%;
   grid-template-columns: repeat(1, 1fr);
   -moz-column-gap: 1rem;
-  column-gap: 1rem;
-  border-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-border-opacity)));
+       column-gap: 1rem;
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
   --tw-border-opacity: 0.1;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -2592,7 +2587,7 @@ body::-webkit-scrollbar {
 .stat-title {
   grid-column-start: 1;
   white-space: nowrap;
-  color: var(--fallback-bc, oklch(var(--bc)/0.6));
+  color: var(--fallback-bc,oklch(var(--bc)/0.6));
 }
 
 .stat-value {
@@ -2608,20 +2603,20 @@ body::-webkit-scrollbar {
   white-space: nowrap;
   font-size: 0.75rem;
   line-height: 1rem;
-  color: var(--fallback-bc, oklch(var(--bc)/0.6));
+  color: var(--fallback-bc,oklch(var(--bc)/0.6));
 }
 
 .swap {
   position: relative;
   display: inline-grid;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   place-content: center;
   cursor: pointer;
 }
 
-.swap>* {
+.swap > * {
   grid-column-start: 1;
   grid-row-start: 1;
   transition-duration: 300ms;
@@ -2631,31 +2626,31 @@ body::-webkit-scrollbar {
 
 .swap input {
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .swap .swap-on,
 .swap .swap-indeterminate,
-.swap input:indeterminate~.swap-on {
+.swap input:indeterminate ~ .swap-on {
   opacity: 0;
 }
 
-.swap input:checked~.swap-off,
+.swap input:checked ~ .swap-off,
 .swap-active .swap-off,
-.swap input:indeterminate~.swap-off {
+.swap input:indeterminate ~ .swap-off {
   opacity: 0;
 }
 
-.swap input:checked~.swap-on,
+.swap input:checked ~ .swap-on,
 .swap-active .swap-on,
-.swap input:indeterminate~.swap-indeterminate {
+.swap input:indeterminate ~ .swap-indeterminate {
   opacity: 1;
 }
 
 .toggle {
   flex-shrink: 0;
-  --tglbg: var(--fallback-b1, oklch(var(--b1)/1));
+  --tglbg: var(--fallback-b1,oklch(var(--b1)/1));
   --handleoffset: 1.5rem;
   --handleoffsetcalculator: calc(var(--handleoffset) * -1);
   --togglehandleborder: 0 0;
@@ -2663,13 +2658,13 @@ body::-webkit-scrollbar {
   width: 3rem;
   cursor: pointer;
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   border-radius: var(--rounded-badge, 1.9rem);
   border-width: 1px;
   border-color: currentColor;
   background-color: currentColor;
-  color: var(--fallback-bc, oklch(var(--bc)/0.5));
+  color: var(--fallback-bc,oklch(var(--bc)/0.5));
   transition: background,
     box-shadow var(--animation-input, 0.2s) ease-out;
   box-shadow: var(--handleoffsetcalculator) 0 0 2px var(--tglbg) inset,
@@ -2678,27 +2673,27 @@ body::-webkit-scrollbar {
 }
 
 .alert-info {
-  border-color: var(--fallback-in, oklch(var(--in)/0.2));
+  border-color: var(--fallback-in,oklch(var(--in)/0.2));
   --tw-text-opacity: 1;
-  color: var(--fallback-inc, oklch(var(--inc)/var(--tw-text-opacity)));
-  --alert-bg: var(--fallback-in, oklch(var(--in)/1));
-  --alert-bg-mix: var(--fallback-b1, oklch(var(--b1)/1));
+  color: var(--fallback-inc,oklch(var(--inc)/var(--tw-text-opacity)));
+  --alert-bg: var(--fallback-in,oklch(var(--in)/1));
+  --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
 }
 
 .alert-success {
-  border-color: var(--fallback-su, oklch(var(--su)/0.2));
+  border-color: var(--fallback-su,oklch(var(--su)/0.2));
   --tw-text-opacity: 1;
-  color: var(--fallback-suc, oklch(var(--suc)/var(--tw-text-opacity)));
-  --alert-bg: var(--fallback-su, oklch(var(--su)/1));
-  --alert-bg-mix: var(--fallback-b1, oklch(var(--b1)/1));
+  color: var(--fallback-suc,oklch(var(--suc)/var(--tw-text-opacity)));
+  --alert-bg: var(--fallback-su,oklch(var(--su)/1));
+  --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
 }
 
 .alert-error {
-  border-color: var(--fallback-er, oklch(var(--er)/0.2));
+  border-color: var(--fallback-er,oklch(var(--er)/0.2));
   --tw-text-opacity: 1;
-  color: var(--fallback-erc, oklch(var(--erc)/var(--tw-text-opacity)));
-  --alert-bg: var(--fallback-er, oklch(var(--er)/1));
-  --alert-bg-mix: var(--fallback-b1, oklch(var(--b1)/1));
+  color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity)));
+  --alert-bg: var(--fallback-er,oklch(var(--er)/1));
+  --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
 }
 
 .avatar-group :where(.avatar) {
@@ -2706,26 +2701,26 @@ body::-webkit-scrollbar {
   border-radius: 9999px;
   border-width: 4px;
   --tw-border-opacity: 1;
-  border-color: var(--fallback-b1, oklch(var(--b1)/var(--tw-border-opacity)));
+  border-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-border-opacity)));
 }
 
-.btm-nav>*:where(.active) {
+.btm-nav > *:where(.active) {
   border-top-width: 2px;
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1, oklch(var(--b1)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
 }
 
-.btm-nav>*.disabled,
-.btm-nav>*[disabled] {
+.btm-nav > *.disabled,
+    .btm-nav > *[disabled] {
   pointer-events: none;
   --tw-border-opacity: 0;
-  background-color: var(--fallback-n, oklch(var(--n)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
   --tw-bg-opacity: 0.1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   --tw-text-opacity: 0.2;
 }
 
-.btm-nav>* .label {
+.btm-nav > * .label {
   font-size: 1rem;
   line-height: 1.5rem;
 }
@@ -2737,7 +2732,7 @@ body::-webkit-scrollbar {
 }
 
 .btn:active:hover,
-.btn:active:focus {
+  .btn:active:focus {
   animation: button-pop 0s ease-out;
   transform: scale(var(--btn-focus-scale, 0.97));
 }
@@ -2763,38 +2758,38 @@ body::-webkit-scrollbar {
 
 @supports (color: color-mix(in oklab, black, black)) {
   .btn-outline.btn-primary.btn-active {
-    background-color: color-mix(in oklab, var(--fallback-p, oklch(var(--p)/1)) 90%, black);
-    border-color: color-mix(in oklab, var(--fallback-p, oklch(var(--p)/1)) 90%, black);
+    background-color: color-mix(in oklab, var(--fallback-p,oklch(var(--p)/1)) 90%, black);
+    border-color: color-mix(in oklab, var(--fallback-p,oklch(var(--p)/1)) 90%, black);
   }
 
   .btn-outline.btn-secondary.btn-active {
-    background-color: color-mix(in oklab, var(--fallback-s, oklch(var(--s)/1)) 90%, black);
-    border-color: color-mix(in oklab, var(--fallback-s, oklch(var(--s)/1)) 90%, black);
+    background-color: color-mix(in oklab, var(--fallback-s,oklch(var(--s)/1)) 90%, black);
+    border-color: color-mix(in oklab, var(--fallback-s,oklch(var(--s)/1)) 90%, black);
   }
 
   .btn-outline.btn-accent.btn-active {
-    background-color: color-mix(in oklab, var(--fallback-a, oklch(var(--a)/1)) 90%, black);
-    border-color: color-mix(in oklab, var(--fallback-a, oklch(var(--a)/1)) 90%, black);
+    background-color: color-mix(in oklab, var(--fallback-a,oklch(var(--a)/1)) 90%, black);
+    border-color: color-mix(in oklab, var(--fallback-a,oklch(var(--a)/1)) 90%, black);
   }
 
   .btn-outline.btn-success.btn-active {
-    background-color: color-mix(in oklab, var(--fallback-su, oklch(var(--su)/1)) 90%, black);
-    border-color: color-mix(in oklab, var(--fallback-su, oklch(var(--su)/1)) 90%, black);
+    background-color: color-mix(in oklab, var(--fallback-su,oklch(var(--su)/1)) 90%, black);
+    border-color: color-mix(in oklab, var(--fallback-su,oklch(var(--su)/1)) 90%, black);
   }
 
   .btn-outline.btn-info.btn-active {
-    background-color: color-mix(in oklab, var(--fallback-in, oklch(var(--in)/1)) 90%, black);
-    border-color: color-mix(in oklab, var(--fallback-in, oklch(var(--in)/1)) 90%, black);
+    background-color: color-mix(in oklab, var(--fallback-in,oklch(var(--in)/1)) 90%, black);
+    border-color: color-mix(in oklab, var(--fallback-in,oklch(var(--in)/1)) 90%, black);
   }
 
   .btn-outline.btn-warning.btn-active {
-    background-color: color-mix(in oklab, var(--fallback-wa, oklch(var(--wa)/1)) 90%, black);
-    border-color: color-mix(in oklab, var(--fallback-wa, oklch(var(--wa)/1)) 90%, black);
+    background-color: color-mix(in oklab, var(--fallback-wa,oklch(var(--wa)/1)) 90%, black);
+    border-color: color-mix(in oklab, var(--fallback-wa,oklch(var(--wa)/1)) 90%, black);
   }
 
   .btn-outline.btn-error.btn-active {
-    background-color: color-mix(in oklab, var(--fallback-er, oklch(var(--er)/1)) 90%, black);
-    border-color: color-mix(in oklab, var(--fallback-er, oklch(var(--er)/1)) 90%, black);
+    background-color: color-mix(in oklab, var(--fallback-er,oklch(var(--er)/1)) 90%, black);
+    border-color: color-mix(in oklab, var(--fallback-er,oklch(var(--er)/1)) 90%, black);
   }
 }
 
@@ -2806,8 +2801,8 @@ body::-webkit-scrollbar {
 
 .btn-primary {
   --tw-text-opacity: 1;
-  color: var(--fallback-pc, oklch(var(--pc)/var(--tw-text-opacity)));
-  outline-color: var(--fallback-p, oklch(var(--p)/1));
+  color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));
+  outline-color: var(--fallback-p,oklch(var(--p)/1));
 }
 
 @supports (color: oklch(0% 0 0)) {
@@ -2826,14 +2821,14 @@ body::-webkit-scrollbar {
 
 .btn-secondary {
   --tw-text-opacity: 1;
-  color: var(--fallback-sc, oklch(var(--sc)/var(--tw-text-opacity)));
-  outline-color: var(--fallback-s, oklch(var(--s)/1));
+  color: var(--fallback-sc,oklch(var(--sc)/var(--tw-text-opacity)));
+  outline-color: var(--fallback-s,oklch(var(--s)/1));
 }
 
 .btn-error {
   --tw-text-opacity: 1;
-  color: var(--fallback-erc, oklch(var(--erc)/var(--tw-text-opacity)));
-  outline-color: var(--fallback-er, oklch(var(--er)/1));
+  color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity)));
+  outline-color: var(--fallback-er,oklch(var(--er)/1));
 }
 
 .btn.glass {
@@ -2861,14 +2856,14 @@ body::-webkit-scrollbar {
 
 .btn-ghost.btn-active {
   border-color: transparent;
-  background-color: var(--fallback-bc, oklch(var(--bc)/0.2));
+  background-color: var(--fallback-bc,oklch(var(--bc)/0.2));
 }
 
 .btn-outline {
   border-color: currentColor;
   background-color: transparent;
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -2876,106 +2871,105 @@ body::-webkit-scrollbar {
 
 .btn-outline.btn-active {
   --tw-border-opacity: 1;
-  border-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-border-opacity)));
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
   --tw-text-opacity: 1;
-  color: var(--fallback-b1, oklch(var(--b1)/var(--tw-text-opacity)));
+  color: var(--fallback-b1,oklch(var(--b1)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-primary {
   --tw-text-opacity: 1;
-  color: var(--fallback-p, oklch(var(--p)/var(--tw-text-opacity)));
+  color: var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-primary.btn-active {
   --tw-text-opacity: 1;
-  color: var(--fallback-pc, oklch(var(--pc)/var(--tw-text-opacity)));
+  color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-secondary {
   --tw-text-opacity: 1;
-  color: var(--fallback-s, oklch(var(--s)/var(--tw-text-opacity)));
+  color: var(--fallback-s,oklch(var(--s)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-secondary.btn-active {
   --tw-text-opacity: 1;
-  color: var(--fallback-sc, oklch(var(--sc)/var(--tw-text-opacity)));
+  color: var(--fallback-sc,oklch(var(--sc)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-accent {
   --tw-text-opacity: 1;
-  color: var(--fallback-a, oklch(var(--a)/var(--tw-text-opacity)));
+  color: var(--fallback-a,oklch(var(--a)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-accent.btn-active {
   --tw-text-opacity: 1;
-  color: var(--fallback-ac, oklch(var(--ac)/var(--tw-text-opacity)));
+  color: var(--fallback-ac,oklch(var(--ac)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-success {
   --tw-text-opacity: 1;
-  color: var(--fallback-su, oklch(var(--su)/var(--tw-text-opacity)));
+  color: var(--fallback-su,oklch(var(--su)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-success.btn-active {
   --tw-text-opacity: 1;
-  color: var(--fallback-suc, oklch(var(--suc)/var(--tw-text-opacity)));
+  color: var(--fallback-suc,oklch(var(--suc)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-info {
   --tw-text-opacity: 1;
-  color: var(--fallback-in, oklch(var(--in)/var(--tw-text-opacity)));
+  color: var(--fallback-in,oklch(var(--in)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-info.btn-active {
   --tw-text-opacity: 1;
-  color: var(--fallback-inc, oklch(var(--inc)/var(--tw-text-opacity)));
+  color: var(--fallback-inc,oklch(var(--inc)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-warning {
   --tw-text-opacity: 1;
-  color: var(--fallback-wa, oklch(var(--wa)/var(--tw-text-opacity)));
+  color: var(--fallback-wa,oklch(var(--wa)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-warning.btn-active {
   --tw-text-opacity: 1;
-  color: var(--fallback-wac, oklch(var(--wac)/var(--tw-text-opacity)));
+  color: var(--fallback-wac,oklch(var(--wac)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-error {
   --tw-text-opacity: 1;
-  color: var(--fallback-er, oklch(var(--er)/var(--tw-text-opacity)));
+  color: var(--fallback-er,oklch(var(--er)/var(--tw-text-opacity)));
 }
 
 .btn-outline.btn-error.btn-active {
   --tw-text-opacity: 1;
-  color: var(--fallback-erc, oklch(var(--erc)/var(--tw-text-opacity)));
+  color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity)));
 }
 
 .btn.btn-disabled,
-.btn[disabled],
-.btn:disabled {
+  .btn[disabled],
+  .btn:disabled {
   --tw-border-opacity: 0;
-  background-color: var(--fallback-n, oklch(var(--n)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
   --tw-bg-opacity: 0.2;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   --tw-text-opacity: 0.2;
 }
 
 .btn:is(input[type="checkbox"]:checked),
 .btn:is(input[type="radio"]:checked) {
   --tw-border-opacity: 1;
-  border-color: var(--fallback-p, oklch(var(--p)/var(--tw-border-opacity)));
+  border-color: var(--fallback-p,oklch(var(--p)/var(--tw-border-opacity)));
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-p, oklch(var(--p)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));
   --tw-text-opacity: 1;
-  color: var(--fallback-pc, oklch(var(--pc)/var(--tw-text-opacity)));
+  color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));
 }
 
-.btn:is(input[type="checkbox"]:checked):focus-visible,
-.btn:is(input[type="radio"]:checked):focus-visible {
-  outline-color: var(--fallback-p, oklch(var(--p)/1));
+.btn:is(input[type="checkbox"]:checked):focus-visible, .btn:is(input[type="radio"]:checked):focus-visible {
+  outline-color: var(--fallback-p,oklch(var(--p)/1));
 }
 
 @keyframes button-pop {
@@ -3016,7 +3010,7 @@ body::-webkit-scrollbar {
 .card.bordered {
   border-width: 1px;
   --tw-border-opacity: 1;
-  border-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-border-opacity)));
+  border-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
 }
 
 .card.compact .card-body {
@@ -3047,7 +3041,7 @@ body::-webkit-scrollbar {
   outline-style: solid;
   outline-width: 2px;
   outline-offset: 2px;
-  outline-color: var(--fallback-bc, oklch(var(--bc)/1));
+  outline-color: var(--fallback-bc,oklch(var(--bc)/1));
 }
 
 .checkbox:disabled {
@@ -3055,34 +3049,36 @@ body::-webkit-scrollbar {
   cursor: not-allowed;
   border-color: transparent;
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
   opacity: 0.2;
 }
 
 .checkbox:checked,
-.checkbox[aria-checked="true"] {
+  .checkbox[aria-checked="true"] {
   background-repeat: no-repeat;
   animation: checkmark var(--animation-input, 0.2s) ease-out;
   background-color: var(--chkbg);
   background-image: linear-gradient(-45deg, transparent 65%, var(--chkbg) 65.99%),
-    linear-gradient(45deg, transparent 75%, var(--chkbg) 75.99%),
-    linear-gradient(-45deg, var(--chkbg) 40%, transparent 40.99%),
-    linear-gradient(45deg,
-      var(--chkbg) 30%,
-      var(--chkfg) 30.99%,
-      var(--chkfg) 40%,
-      transparent 40.99%),
-    linear-gradient(-45deg, var(--chkfg) 50%, var(--chkbg) 50.99%);
+      linear-gradient(45deg, transparent 75%, var(--chkbg) 75.99%),
+      linear-gradient(-45deg, var(--chkbg) 40%, transparent 40.99%),
+      linear-gradient(
+        45deg,
+        var(--chkbg) 30%,
+        var(--chkfg) 30.99%,
+        var(--chkfg) 40%,
+        transparent 40.99%
+      ),
+      linear-gradient(-45deg, var(--chkfg) 50%, var(--chkbg) 50.99%);
 }
 
 .checkbox:indeterminate {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
   background-repeat: no-repeat;
   animation: checkmark var(--animation-input, 0.2s) ease-out;
   background-image: linear-gradient(90deg, transparent 80%, var(--chkbg) 80%),
-    linear-gradient(-90deg, transparent 80%, var(--chkbg) 80%),
-    linear-gradient(0deg, var(--chkbg) 43%, var(--chkfg) 43%, var(--chkfg) 57%, var(--chkbg) 57%);
+      linear-gradient(-90deg, transparent 80%, var(--chkbg) 80%),
+      linear-gradient(0deg, var(--chkbg) 43%, var(--chkfg) 43%, var(--chkfg) 57%, var(--chkbg) 57%);
 }
 
 @keyframes checkmark {
@@ -3109,7 +3105,7 @@ body::-webkit-scrollbar {
 
 .input input {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-p, oklch(var(--p)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));
   background-color: transparent;
 }
 
@@ -3123,48 +3119,45 @@ body::-webkit-scrollbar {
 }
 
 .input-bordered {
-  border-color: var(--fallback-bc, oklch(var(--bc)/0.2));
+  border-color: var(--fallback-bc,oklch(var(--bc)/0.2));
 }
 
 .input:focus,
-.input:focus-within {
+  .input:focus-within {
   box-shadow: none;
-  border-color: var(--fallback-bc, oklch(var(--bc)/0.2));
+  border-color: var(--fallback-bc,oklch(var(--bc)/0.2));
   outline-style: solid;
   outline-width: 2px;
   outline-offset: 2px;
-  outline-color: var(--fallback-bc, oklch(var(--bc)/0.2));
+  outline-color: var(--fallback-bc,oklch(var(--bc)/0.2));
 }
 
 .input:has(> input[disabled]),
-.input-disabled,
-.input:disabled,
-.input[disabled] {
+  .input-disabled,
+  .input:disabled,
+  .input[disabled] {
   cursor: not-allowed;
   --tw-border-opacity: 1;
-  border-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-border-opacity)));
+  border-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-bg-opacity)));
-  color: var(--fallback-bc, oklch(var(--bc)/0.4));
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/0.4));
 }
 
-.input:has(> input[disabled])::-moz-placeholder,
-.input-disabled::-moz-placeholder,
-.input:disabled::-moz-placeholder,
-.input[disabled]::-moz-placeholder {
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-placeholder-opacity)));
+.input:has(> input[disabled])::-moz-placeholder, .input-disabled::-moz-placeholder, .input:disabled::-moz-placeholder, .input[disabled]::-moz-placeholder {
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));
   --tw-placeholder-opacity: 0.2;
 }
 
 .input:has(> input[disabled])::placeholder,
-.input-disabled::placeholder,
-.input:disabled::placeholder,
-.input[disabled]::placeholder {
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-placeholder-opacity)));
+  .input-disabled::placeholder,
+  .input:disabled::placeholder,
+  .input[disabled]::placeholder {
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-placeholder-opacity)));
   --tw-placeholder-opacity: 0.2;
 }
 
-.input:has(> input[disabled])>input[disabled] {
+.input:has(> input[disabled]) > input[disabled] {
   cursor: not-allowed;
 }
 
@@ -3172,13 +3165,13 @@ body::-webkit-scrollbar {
   text-align: inherit;
 }
 
-.join> :where(*:not(:first-child)) {
+.join > :where(*:not(:first-child)) {
   margin-top: 0px;
   margin-bottom: 0px;
   margin-inline-start: -1px;
 }
 
-.join> :where(*:not(:first-child)):is(.btn) {
+.join > :where(*:not(:first-child)):is(.btn) {
   margin-inline-start: calc(var(--border-btn) * -1);
 }
 
@@ -3203,18 +3196,18 @@ body::-webkit-scrollbar {
   width: 1.5rem;
   background-color: currentColor;
   -webkit-mask-size: 100%;
-  mask-size: 100%;
+          mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  mask-position: center;
+          mask-position: center;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='black' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform-origin='center'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3' stroke-linecap='round'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 12 12' to='360 12 12' dur='2s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dasharray' values='0,150;42,150;42,150' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dashoffset' values='0;-16;-59' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/g%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='black' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform-origin='center'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3' stroke-linecap='round'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 12 12' to='360 12 12' dur='2s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dasharray' values='0,150;42,150;42,150' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dashoffset' values='0;-16;-59' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/g%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='black' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform-origin='center'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3' stroke-linecap='round'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 12 12' to='360 12 12' dur='2s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dasharray' values='0,150;42,150;42,150' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dashoffset' values='0;-16;-59' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/g%3E%3C/svg%3E");
 }
 
 :where(.menu li:empty) {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
   opacity: 0.1;
   margin: 0.5rem 1rem;
   height: 1px;
@@ -3227,7 +3220,7 @@ body::-webkit-scrollbar {
   top: 0.75rem;
   width: 1px;
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
   opacity: 0.1;
   content: "";
 }
@@ -3249,27 +3242,22 @@ body::-webkit-scrollbar {
   text-wrap: balance;
 }
 
-:where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(summary, .active, .btn).focus,
-:where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(summary, .active, .btn):focus,
-:where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):is(summary):not(.active, .btn):focus-visible,
-:where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(summary, .active, .btn).focus,
-:where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(summary, .active, .btn):focus,
-:where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):is(summary):not(.active, .btn):focus-visible {
+:where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(summary, .active, .btn).focus, :where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):not(summary, .active, .btn):focus, :where(.menu li:not(.menu-title, .disabled) > *:not(ul, details, .menu-title)):is(summary):not(.active, .btn):focus-visible, :where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(summary, .active, .btn).focus, :where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):not(summary, .active, .btn):focus, :where(.menu li:not(.menu-title, .disabled) > details > summary:not(.menu-title)):is(summary):not(.active, .btn):focus-visible {
   cursor: pointer;
-  background-color: var(--fallback-bc, oklch(var(--bc)/0.1));
+  background-color: var(--fallback-bc,oklch(var(--bc)/0.1));
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-.menu li>*:not(ul, .menu-title, details, .btn):active,
-.menu li>*:not(ul, .menu-title, details, .btn).active,
-.menu li>details>summary:active {
+.menu li > *:not(ul, .menu-title, details, .btn):active,
+.menu li > *:not(ul, .menu-title, details, .btn).active,
+.menu li > details > summary:active {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-n, oklch(var(--n)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
   --tw-text-opacity: 1;
-  color: var(--fallback-nc, oklch(var(--nc)/var(--tw-text-opacity)));
+  color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity)));
 }
 
 .menu :where(li > details > summary)::-webkit-details-marker {
@@ -3307,7 +3295,7 @@ body::-webkit-scrollbar {
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 700;
-  color: var(--fallback-bc, oklch(var(--bc)/0.4));
+  color: var(--fallback-bc,oklch(var(--bc)/0.4));
 }
 
 .mockup-phone .display {
@@ -3327,7 +3315,7 @@ body::-webkit-scrollbar {
   text-overflow: ellipsis;
   white-space: nowrap;
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
   padding-left: 2rem;
   direction: ltr;
 }
@@ -3376,18 +3364,18 @@ body::-webkit-scrollbar {
 
 @keyframes radiomark {
   0% {
-    box-shadow: 0 0 0 12px var(--fallback-b1, oklch(var(--b1)/1)) inset,
-      0 0 0 12px var(--fallback-b1, oklch(var(--b1)/1)) inset;
+    box-shadow: 0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset,
+      0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset;
   }
 
   50% {
-    box-shadow: 0 0 0 3px var(--fallback-b1, oklch(var(--b1)/1)) inset,
-      0 0 0 3px var(--fallback-b1, oklch(var(--b1)/1)) inset;
+    box-shadow: 0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset,
+      0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset;
   }
 
   100% {
-    box-shadow: 0 0 0 4px var(--fallback-b1, oklch(var(--b1)/1)) inset,
-      0 0 0 4px var(--fallback-b1, oklch(var(--b1)/1)) inset;
+    box-shadow: 0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset,
+      0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset;
   }
 }
 
@@ -3415,7 +3403,7 @@ body::-webkit-scrollbar {
   }
 }
 
-:where(.stats)> :not([hidden])~ :not([hidden]) {
+:where(.stats) > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-x-reverse: 0;
   border-right-width: calc(1px * var(--tw-divide-x-reverse));
   border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
@@ -3424,97 +3412,65 @@ body::-webkit-scrollbar {
   border-bottom-width: calc(0px * var(--tw-divide-y-reverse));
 }
 
-[dir="rtl"] .stats>*:not([hidden])~*:not([hidden]) {
+[dir="rtl"] .stats > *:not([hidden]) ~ *:not([hidden]) {
   --tw-divide-x-reverse: 1;
 }
 
 .swap-rotate .swap-on,
 .swap-rotate .swap-indeterminate,
-.swap-rotate input:indeterminate~.swap-on {
+.swap-rotate input:indeterminate ~ .swap-on {
   --tw-rotate: 45deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.swap-rotate input:checked~.swap-off,
+.swap-rotate input:checked ~ .swap-off,
 .swap-active:where(.swap-rotate) .swap-off,
-.swap-rotate input:indeterminate~.swap-off {
+.swap-rotate input:indeterminate ~ .swap-off {
   --tw-rotate: -45deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.swap-rotate input:checked~.swap-on,
+.swap-rotate input:checked ~ .swap-on,
 .swap-active:where(.swap-rotate) .swap-on,
-.swap-rotate input:indeterminate~.swap-indeterminate {
+.swap-rotate input:indeterminate ~ .swap-indeterminate {
   --tw-rotate: 0deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .swap-flip .swap-on,
 .swap-flip .swap-indeterminate,
-.swap-flip input:indeterminate~.swap-on {
+.swap-flip input:indeterminate ~ .swap-on {
   transform: rotateY(180deg);
   backface-visibility: hidden;
   opacity: 1;
 }
 
-.swap-flip input:checked~.swap-off,
+.swap-flip input:checked ~ .swap-off,
 .swap-active:where(.swap-flip) .swap-off,
-.swap-flip input:indeterminate~.swap-off {
+.swap-flip input:indeterminate ~ .swap-off {
   transform: rotateY(-180deg);
   backface-visibility: hidden;
   opacity: 1;
 }
 
-.swap-flip input:checked~.swap-on,
+.swap-flip input:checked ~ .swap-on,
 .swap-active:where(.swap-flip) .swap-on,
-.swap-flip input:indeterminate~.swap-indeterminate {
+.swap-flip input:indeterminate ~ .swap-indeterminate {
   transform: rotateY(0deg);
 }
 
-.table:where([dir="rtl"], [dir="rtl"] *) {
-  text-align: right;
-}
-
-.table :where(th, td) {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  vertical-align: middle;
-}
-
 .table tr.active,
-.table tr.active:nth-child(even),
-.table-zebra tbody tr:nth-child(even) {
+  .table tr.active:nth-child(even),
+  .table-zebra tbody tr:nth-child(even) {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
 }
 
 .table-zebra tr.active,
-.table-zebra tr.active:nth-child(even),
-.table-zebra-zebra tbody tr:nth-child(even) {
+    .table-zebra tr.active:nth-child(even),
+    .table-zebra-zebra tbody tr:nth-child(even) {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b3, oklch(var(--b3)/var(--tw-bg-opacity)));
-}
-
-.table :where(thead tr, tbody tr:not(:last-child), tbody tr:first-child:last-child) {
-  border-bottom-width: 1px;
-  --tw-border-opacity: 1;
-  border-bottom-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-border-opacity)));
-}
-
-.table :where(thead, tfoot) {
-  white-space: nowrap;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 700;
-  color: var(--fallback-bc, oklch(var(--bc)/0.6));
-}
-
-.table :where(tfoot) {
-  border-top-width: 1px;
-  --tw-border-opacity: 1;
-  border-top-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-border-opacity)));
+  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
 }
 
 @keyframes toast-pop {
@@ -3537,7 +3493,7 @@ body::-webkit-scrollbar {
   outline-style: solid;
   outline-width: 2px;
   outline-offset: 2px;
-  outline-color: var(--fallback-bc, oklch(var(--bc)/0.2));
+  outline-color: var(--fallback-bc,oklch(var(--bc)/0.2));
 }
 
 .toggle:hover {
@@ -3545,55 +3501,54 @@ body::-webkit-scrollbar {
 }
 
 .toggle:checked,
-.toggle[aria-checked="true"] {
+  .toggle[aria-checked="true"] {
   background-image: none;
   --handleoffsetcalculator: var(--handleoffset);
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
 }
 
-[dir="rtl"] .toggle:checked,
-[dir="rtl"] .toggle[aria-checked="true"] {
+[dir="rtl"] .toggle:checked, [dir="rtl"] .toggle[aria-checked="true"] {
   --handleoffsetcalculator: calc(var(--handleoffset) * -1);
 }
 
 .toggle:indeterminate {
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   box-shadow: calc(var(--handleoffset) / 2) 0 0 2px var(--tglbg) inset,
-    calc(var(--handleoffset) / -2) 0 0 2px var(--tglbg) inset,
-    0 0 0 2px var(--tglbg) inset;
+      calc(var(--handleoffset) / -2) 0 0 2px var(--tglbg) inset,
+      0 0 0 2px var(--tglbg) inset;
 }
 
 [dir="rtl"] .toggle:indeterminate {
   box-shadow: calc(var(--handleoffset) / 2) 0 0 2px var(--tglbg) inset,
-    calc(var(--handleoffset) / -2) 0 0 2px var(--tglbg) inset,
-    0 0 0 2px var(--tglbg) inset;
+        calc(var(--handleoffset) / -2) 0 0 2px var(--tglbg) inset,
+        0 0 0 2px var(--tglbg) inset;
 }
 
 .toggle:disabled {
   cursor: not-allowed;
   --tw-border-opacity: 1;
-  border-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-border-opacity)));
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
   background-color: transparent;
   opacity: 0.3;
-  --togglehandleborder: 0 0 0 3px var(--fallback-bc, oklch(var(--bc)/1)) inset,
-    var(--handleoffsetcalculator) 0 0 3px var(--fallback-bc, oklch(var(--bc)/1)) inset;
+  --togglehandleborder: 0 0 0 3px var(--fallback-bc,oklch(var(--bc)/1)) inset,
+      var(--handleoffsetcalculator) 0 0 3px var(--fallback-bc,oklch(var(--bc)/1)) inset;
 }
 
-.btm-nav-xs>*:where(.active) {
+.btm-nav-xs > *:where(.active) {
   border-top-width: 1px;
 }
 
-.btm-nav-sm>*:where(.active) {
+.btm-nav-sm > *:where(.active) {
   border-top-width: 2px;
 }
 
-.btm-nav-md>*:where(.active) {
+.btm-nav-md > *:where(.active) {
   border-top-width: 2px;
 }
 
-.btm-nav-lg>*:where(.active) {
+.btm-nav-lg > *:where(.active) {
   border-top-width: 4px;
 }
 
@@ -3687,7 +3642,7 @@ body::-webkit-scrollbar {
 }
 
 .join.join-vertical .join-item:first-child:not(:last-child),
-.join.join-vertical *:first-child:not(:last-child) .join-item {
+  .join.join-vertical *:first-child:not(:last-child) .join-item {
   border-end-start-radius: 0;
   border-end-end-radius: 0;
   border-start-start-radius: inherit;
@@ -3695,7 +3650,7 @@ body::-webkit-scrollbar {
 }
 
 .join.join-vertical .join-item:last-child:not(:first-child),
-.join.join-vertical *:last-child:not(:first-child) .join-item {
+  .join.join-vertical *:last-child:not(:first-child) .join-item {
   border-start-start-radius: 0;
   border-start-end-radius: 0;
   border-end-start-radius: inherit;
@@ -3707,7 +3662,7 @@ body::-webkit-scrollbar {
 }
 
 .join.join-horizontal .join-item:first-child:not(:last-child),
-.join.join-horizontal *:first-child:not(:last-child) .join-item {
+  .join.join-horizontal *:first-child:not(:last-child) .join-item {
   border-end-end-radius: 0;
   border-start-end-radius: 0;
   border-end-start-radius: inherit;
@@ -3715,7 +3670,7 @@ body::-webkit-scrollbar {
 }
 
 .join.join-horizontal .join-item:last-child:not(:first-child),
-.join.join-horizontal *:last-child:not(:first-child) .join-item {
+  .join.join-horizontal *:last-child:not(:first-child) .join-item {
   border-end-start-radius: 0;
   border-start-start-radius: 0;
   border-end-end-radius: inherit;
@@ -3740,8 +3695,7 @@ body::-webkit-scrollbar {
   --tw-content: attr(data-tip);
 }
 
-.tooltip:before,
-.tooltip-top:before {
+.tooltip:before, .tooltip-top:before {
   transform: translateX(-50%);
   top: auto;
   left: 50%;
@@ -3764,10 +3718,10 @@ body::-webkit-scrollbar {
   display: block;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-su, oklch(var(--su)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-su,oklch(var(--su)/var(--tw-bg-opacity)));
   outline-style: solid;
   outline-width: 2px;
-  outline-color: var(--fallback-b1, oklch(var(--b1)/1));
+  outline-color: var(--fallback-b1,oklch(var(--b1)/1));
   width: 15%;
   height: 15%;
   top: 7%;
@@ -3781,10 +3735,10 @@ body::-webkit-scrollbar {
   display: block;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b3, oklch(var(--b3)/var(--tw-bg-opacity)));
+  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
   outline-style: solid;
   outline-width: 2px;
-  outline-color: var(--fallback-b1, oklch(var(--b1)/1));
+  outline-color: var(--fallback-b1,oklch(var(--b1)/1));
   width: 15%;
   height: 15%;
   top: 7%;
@@ -3811,23 +3765,23 @@ body::-webkit-scrollbar {
   margin-bottom: 0.75rem;
 }
 
-.join.join-vertical> :where(*:not(:first-child)) {
+.join.join-vertical > :where(*:not(:first-child)) {
   margin-left: 0px;
   margin-right: 0px;
   margin-top: -1px;
 }
 
-.join.join-vertical> :where(*:not(:first-child)):is(.btn) {
+.join.join-vertical > :where(*:not(:first-child)):is(.btn) {
   margin-top: calc(var(--border-btn) * -1);
 }
 
-.join.join-horizontal> :where(*:not(:first-child)) {
+.join.join-horizontal > :where(*:not(:first-child)) {
   margin-top: 0px;
   margin-bottom: 0px;
   margin-inline-start: -1px;
 }
 
-.join.join-horizontal> :where(*:not(:first-child)):is(.btn) {
+.join.join-horizontal > :where(*:not(:first-child)):is(.btn) {
   margin-inline-start: calc(var(--border-btn) * -1);
   margin-top: 0px;
 }
@@ -3839,8 +3793,7 @@ body::-webkit-scrollbar {
   padding-bottom: 0.25rem;
 }
 
-.menu-sm :where(li:not(.menu-title) > *:not(ul, details, .menu-title)),
-.menu-sm :where(li:not(.menu-title) > details > summary:not(.menu-title)) {
+.menu-sm :where(li:not(.menu-title) > *:not(ul, details, .menu-title)), .menu-sm :where(li:not(.menu-title) > details > summary:not(.menu-title)) {
   border-radius: var(--rounded-btn, 0.5rem);
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -3871,7 +3824,7 @@ body::-webkit-scrollbar {
   padding-bottom: 0.75rem;
 }
 
-.stats-vertical> :not([hidden])~ :not([hidden]) {
+.stats-vertical > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-x-reverse: 0;
   border-right-width: calc(0px * var(--tw-divide-x-reverse));
   border-left-width: calc(0px * calc(1 - var(--tw-divide-x-reverse)));
@@ -3889,8 +3842,8 @@ body::-webkit-scrollbar {
   display: inline-block;
   text-align: center;
   --tooltip-tail: 0.1875rem;
-  --tooltip-color: var(--fallback-n, oklch(var(--n)/1));
-  --tooltip-text-color: var(--fallback-nc, oklch(var(--nc)/1));
+  --tooltip-color: var(--fallback-n,oklch(var(--n)/1));
+  --tooltip-text-color: var(--fallback-nc,oklch(var(--nc)/1));
   --tooltip-tail-offset: calc(100% + 0.0625rem - var(--tooltip-tail));
 }
 
@@ -3963,8 +3916,7 @@ body::-webkit-scrollbar {
   opacity: 0;
 }
 
-.tooltip:after,
-.tooltip-top:after {
+.tooltip:after, .tooltip-top:after {
   transform: translateX(-50%);
   border-color: var(--tooltip-color) transparent transparent transparent;
   top: auto;
@@ -4326,16 +4278,14 @@ body::-webkit-scrollbar {
 }
 
 @keyframes bounce {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
   }
 
   50% {
     transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
   }
 }
 
@@ -4359,8 +4309,8 @@ body::-webkit-scrollbar {
 
 .select-none {
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .grid-cols-1 {
@@ -4407,13 +4357,13 @@ body::-webkit-scrollbar {
   gap: 2rem;
 }
 
-.space-y-4> :not([hidden])~ :not([hidden]) {
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
-.space-y-8> :not([hidden])~ :not([hidden]) {
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
@@ -4459,92 +4409,87 @@ body::-webkit-scrollbar {
 
 .border-base-300 {
   --tw-border-opacity: 1;
-  border-color: var(--fallback-b3, oklch(var(--b3)/var(--tw-border-opacity, 1)));
+  border-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-border-opacity, 1)));
 }
 
 .border-base-content\/10 {
-  border-color: var(--fallback-bc, oklch(var(--bc)/0.1));
+  border-color: var(--fallback-bc,oklch(var(--bc)/0.1));
 }
 
 .border-base-content\/5 {
-  border-color: var(--fallback-bc, oklch(var(--bc)/0.05));
+  border-color: var(--fallback-bc,oklch(var(--bc)/0.05));
 }
 
 .bg-accent\/10 {
-  background-color: var(--fallback-a, oklch(var(--a)/0.1));
+  background-color: var(--fallback-a,oklch(var(--a)/0.1));
 }
 
 .bg-base-100 {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1, oklch(var(--b1)/var(--tw-bg-opacity, 1)));
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity, 1)));
 }
 
 .bg-base-100\/40 {
-  background-color: var(--fallback-b1, oklch(var(--b1)/0.4));
+  background-color: var(--fallback-b1,oklch(var(--b1)/0.4));
 }
 
 .bg-base-100\/50 {
-  background-color: var(--fallback-b1, oklch(var(--b1)/0.5));
+  background-color: var(--fallback-b1,oklch(var(--b1)/0.5));
 }
 
 .bg-base-100\/60 {
-  background-color: var(--fallback-b1, oklch(var(--b1)/0.6));
+  background-color: var(--fallback-b1,oklch(var(--b1)/0.6));
 }
 
 .bg-base-100\/80 {
-  background-color: var(--fallback-b1, oklch(var(--b1)/0.8));
+  background-color: var(--fallback-b1,oklch(var(--b1)/0.8));
 }
 
 .bg-base-100\/95 {
-  background-color: var(--fallback-b1, oklch(var(--b1)/0.95));
+  background-color: var(--fallback-b1,oklch(var(--b1)/0.95));
 }
 
 .bg-base-200 {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-bg-opacity, 1)));
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity, 1)));
 }
 
 .bg-base-200\/50 {
-  background-color: var(--fallback-b2, oklch(var(--b2)/0.5));
+  background-color: var(--fallback-b2,oklch(var(--b2)/0.5));
 }
 
 .bg-base-300 {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b3, oklch(var(--b3)/var(--tw-bg-opacity, 1)));
+  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity, 1)));
 }
 
 .bg-base-content\/10 {
-  background-color: var(--fallback-bc, oklch(var(--bc)/0.1));
+  background-color: var(--fallback-bc,oklch(var(--bc)/0.1));
 }
 
 .bg-primary {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-p, oklch(var(--p)/var(--tw-bg-opacity, 1)));
+  background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity, 1)));
 }
 
 .bg-primary\/10 {
-  background-color: var(--fallback-p, oklch(var(--p)/0.1));
+  background-color: var(--fallback-p,oklch(var(--p)/0.1));
 }
 
 .bg-primary\/20 {
-  background-color: var(--fallback-p, oklch(var(--p)/0.2));
+  background-color: var(--fallback-p,oklch(var(--p)/0.2));
 }
 
 .bg-secondary\/10 {
-  background-color: var(--fallback-s, oklch(var(--s)/0.1));
+  background-color: var(--fallback-s,oklch(var(--s)/0.1));
 }
 
 .bg-transparent {
   background-color: transparent;
 }
 
-.bg-gray-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
-}
-
 .bg-\[linear-gradient\(to_right\2c \#80808012_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#80808012_1px\2c transparent_1px\)\] {
-  background-image: linear-gradient(to right, #80808012 1px, transparent 1px), linear-gradient(to bottom, #80808012 1px, transparent 1px);
+  background-image: linear-gradient(to right,#80808012 1px,transparent 1px),linear-gradient(to bottom,#80808012 1px,transparent 1px);
 }
 
 .bg-gradient-to-br {
@@ -4560,8 +4505,8 @@ body::-webkit-scrollbar {
 }
 
 .from-base-100 {
-  --tw-gradient-from: var(--fallback-b1, oklch(var(--b1)/1)) var(--tw-gradient-from-position);
-  --tw-gradient-to: var(--fallback-b1, oklch(var(--b1)/0)) var(--tw-gradient-to-position);
+  --tw-gradient-from: var(--fallback-b1,oklch(var(--b1)/1)) var(--tw-gradient-from-position);
+  --tw-gradient-to: var(--fallback-b1,oklch(var(--b1)/0)) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
@@ -4572,19 +4517,19 @@ body::-webkit-scrollbar {
 }
 
 .from-primary {
-  --tw-gradient-from: var(--fallback-p, oklch(var(--p)/1)) var(--tw-gradient-from-position);
-  --tw-gradient-to: var(--fallback-p, oklch(var(--p)/0)) var(--tw-gradient-to-position);
+  --tw-gradient-from: var(--fallback-p,oklch(var(--p)/1)) var(--tw-gradient-from-position);
+  --tw-gradient-to: var(--fallback-p,oklch(var(--p)/0)) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .from-primary\/10 {
-  --tw-gradient-from: var(--fallback-p, oklch(var(--p)/0.1)) var(--tw-gradient-from-position);
+  --tw-gradient-from: var(--fallback-p,oklch(var(--p)/0.1)) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .from-primary\/20 {
-  --tw-gradient-from: var(--fallback-p, oklch(var(--p)/0.2)) var(--tw-gradient-from-position);
+  --tw-gradient-from: var(--fallback-p,oklch(var(--p)/0.2)) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
@@ -4596,30 +4541,30 @@ body::-webkit-scrollbar {
 }
 
 .via-base-100 {
-  --tw-gradient-to: var(--fallback-b1, oklch(var(--b1)/0)) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b1, oklch(var(--b1)/1)) var(--tw-gradient-via-position), var(--tw-gradient-to);
+  --tw-gradient-to: var(--fallback-b1,oklch(var(--b1)/0))  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b1,oklch(var(--b1)/1)) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
 .via-base-100\/50 {
-  --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b1, oklch(var(--b1)/0.5)) var(--tw-gradient-via-position), var(--tw-gradient-to);
+  --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b1,oklch(var(--b1)/0.5)) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
 .via-black\/50 {
-  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(0 0 0 / 0.5) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
 .to-secondary {
-  --tw-gradient-to: var(--fallback-s, oklch(var(--s)/1)) var(--tw-gradient-to-position);
+  --tw-gradient-to: var(--fallback-s,oklch(var(--s)/1)) var(--tw-gradient-to-position);
 }
 
 .to-secondary\/10 {
-  --tw-gradient-to: var(--fallback-s, oklch(var(--s)/0.1)) var(--tw-gradient-to-position);
+  --tw-gradient-to: var(--fallback-s,oklch(var(--s)/0.1)) var(--tw-gradient-to-position);
 }
 
 .to-secondary\/20 {
-  --tw-gradient-to: var(--fallback-s, oklch(var(--s)/0.2)) var(--tw-gradient-to-position);
+  --tw-gradient-to: var(--fallback-s,oklch(var(--s)/0.2)) var(--tw-gradient-to-position);
 }
 
 .to-transparent {
@@ -4636,7 +4581,7 @@ body::-webkit-scrollbar {
 
 .bg-clip-text {
   -webkit-background-clip: text;
-  background-clip: text;
+          background-clip: text;
 }
 
 .fill-current {
@@ -4649,7 +4594,7 @@ body::-webkit-scrollbar {
 
 .object-cover {
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 
 .p-2 {
@@ -4848,56 +4793,56 @@ body::-webkit-scrollbar {
 
 .text-accent {
   --tw-text-opacity: 1;
-  color: var(--fallback-a, oklch(var(--a)/var(--tw-text-opacity, 1)));
+  color: var(--fallback-a,oklch(var(--a)/var(--tw-text-opacity, 1)));
 }
 
 .text-base-content {
   --tw-text-opacity: 1;
-  color: var(--fallback-bc, oklch(var(--bc)/var(--tw-text-opacity, 1)));
+  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity, 1)));
 }
 
 .text-base-content\/30 {
-  color: var(--fallback-bc, oklch(var(--bc)/0.3));
+  color: var(--fallback-bc,oklch(var(--bc)/0.3));
 }
 
 .text-base-content\/40 {
-  color: var(--fallback-bc, oklch(var(--bc)/0.4));
+  color: var(--fallback-bc,oklch(var(--bc)/0.4));
 }
 
 .text-base-content\/50 {
-  color: var(--fallback-bc, oklch(var(--bc)/0.5));
+  color: var(--fallback-bc,oklch(var(--bc)/0.5));
 }
 
 .text-base-content\/60 {
-  color: var(--fallback-bc, oklch(var(--bc)/0.6));
+  color: var(--fallback-bc,oklch(var(--bc)/0.6));
 }
 
 .text-base-content\/70 {
-  color: var(--fallback-bc, oklch(var(--bc)/0.7));
+  color: var(--fallback-bc,oklch(var(--bc)/0.7));
 }
 
 .text-base-content\/80 {
-  color: var(--fallback-bc, oklch(var(--bc)/0.8));
+  color: var(--fallback-bc,oklch(var(--bc)/0.8));
 }
 
 .text-error {
   --tw-text-opacity: 1;
-  color: var(--fallback-er, oklch(var(--er)/var(--tw-text-opacity, 1)));
+  color: var(--fallback-er,oklch(var(--er)/var(--tw-text-opacity, 1)));
 }
 
 .text-primary {
   --tw-text-opacity: 1;
-  color: var(--fallback-p, oklch(var(--p)/var(--tw-text-opacity, 1)));
+  color: var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity, 1)));
 }
 
 .text-primary-content {
   --tw-text-opacity: 1;
-  color: var(--fallback-pc, oklch(var(--pc)/var(--tw-text-opacity, 1)));
+  color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity, 1)));
 }
 
 .text-secondary {
   --tw-text-opacity: 1;
-  color: var(--fallback-s, oklch(var(--s)/var(--tw-text-opacity, 1)));
+  color: var(--fallback-s,oklch(var(--s)/var(--tw-text-opacity, 1)));
 }
 
 .text-transparent {
@@ -4971,7 +4916,7 @@ body::-webkit-scrollbar {
 }
 
 .shadow-primary\/20 {
-  --tw-shadow-color: var(--fallback-p, oklch(var(--p)/0.2));
+  --tw-shadow-color: var(--fallback-p,oklch(var(--p)/0.2));
   --tw-shadow: var(--tw-shadow-colored);
 }
 
@@ -4983,7 +4928,7 @@ body::-webkit-scrollbar {
 
 .ring-primary {
   --tw-ring-opacity: 1;
-  --tw-ring-color: var(--fallback-p, oklch(var(--p)/var(--tw-ring-opacity, 1)));
+  --tw-ring-color: var(--fallback-p,oklch(var(--p)/var(--tw-ring-opacity, 1)));
 }
 
 .ring-offset-2 {
@@ -4991,12 +4936,7 @@ body::-webkit-scrollbar {
 }
 
 .ring-offset-base-100 {
-  --tw-ring-offset-color: var(--fallback-b1, oklch(var(--b1)/1));
-}
-
-.blur {
-  --tw-blur: blur(8px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+  --tw-ring-offset-color: var(--fallback-b1,oklch(var(--b1)/1));
 }
 
 .blur {
@@ -5109,7 +5049,7 @@ body::-webkit-scrollbar {
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   width: 100%;
   height: 100%;
   border-radius: 1rem;
@@ -5136,8 +5076,8 @@ body::-webkit-scrollbar {
   contain: layout;
   will-change: transform;
   transition:
-    filter 0.3s ease,
-    opacity 0.3s ease;
+        filter 0.3s ease,
+        opacity 0.3s ease;
 }
 
 .blog-title-transition {
@@ -5162,7 +5102,7 @@ body::-webkit-scrollbar {
     grid-auto-flow: column;
   }
 
-  .lg\:stats-horizontal> :not([hidden])~ :not([hidden]) {
+  .lg\:stats-horizontal > :not([hidden]) ~ :not([hidden]) {
     --tw-divide-x-reverse: 0;
     border-right-width: calc(1px * var(--tw-divide-x-reverse));
     border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
@@ -5206,20 +5146,20 @@ body::-webkit-scrollbar {
 }
 
 .hover\:border-primary\/20:hover {
-  border-color: var(--fallback-p, oklch(var(--p)/0.2));
+  border-color: var(--fallback-p,oklch(var(--p)/0.2));
 }
 
 .hover\:bg-base-200:hover {
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2, oklch(var(--b2)/var(--tw-bg-opacity, 1)));
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity, 1)));
 }
 
 .hover\:bg-error\/10:hover {
-  background-color: var(--fallback-er, oklch(var(--er)/0.1));
+  background-color: var(--fallback-er,oklch(var(--er)/0.1));
 }
 
 .hover\:bg-primary\/10:hover {
-  background-color: var(--fallback-p, oklch(var(--p)/0.1));
+  background-color: var(--fallback-p,oklch(var(--p)/0.1));
 }
 
 .hover\:bg-red-600:hover {
@@ -5229,7 +5169,7 @@ body::-webkit-scrollbar {
 
 .hover\:text-primary:hover {
   --tw-text-opacity: 1;
-  color: var(--fallback-p, oklch(var(--p)/var(--tw-text-opacity, 1)));
+  color: var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity, 1)));
 }
 
 .hover\:opacity-80:hover {
@@ -5243,28 +5183,28 @@ body::-webkit-scrollbar {
 }
 
 .hover\:shadow-primary\/10:hover {
-  --tw-shadow-color: var(--fallback-p, oklch(var(--p)/0.1));
+  --tw-shadow-color: var(--fallback-p,oklch(var(--p)/0.1));
   --tw-shadow: var(--tw-shadow-colored);
 }
 
 .hover\:shadow-primary\/25:hover {
-  --tw-shadow-color: var(--fallback-p, oklch(var(--p)/0.25));
+  --tw-shadow-color: var(--fallback-p,oklch(var(--p)/0.25));
   --tw-shadow: var(--tw-shadow-colored);
 }
 
 .hover\:shadow-primary\/40:hover {
-  --tw-shadow-color: var(--fallback-p, oklch(var(--p)/0.4));
+  --tw-shadow-color: var(--fallback-p,oklch(var(--p)/0.4));
   --tw-shadow: var(--tw-shadow-colored);
 }
 
 .hover\:shadow-secondary\/25:hover {
-  --tw-shadow-color: var(--fallback-s, oklch(var(--s)/0.25));
+  --tw-shadow-color: var(--fallback-s,oklch(var(--s)/0.25));
   --tw-shadow: var(--tw-shadow-colored);
 }
 
 .focus\:border-primary:focus {
   --tw-border-opacity: 1;
-  border-color: var(--fallback-p, oklch(var(--p)/var(--tw-border-opacity, 1)));
+  border-color: var(--fallback-p,oklch(var(--p)/var(--tw-border-opacity, 1)));
 }
 
 .focus\:outline-none:focus {
@@ -5279,7 +5219,7 @@ body::-webkit-scrollbar {
 }
 
 .focus\:ring-primary\/20:focus {
-  --tw-ring-color: var(--fallback-p, oklch(var(--p)/0.2));
+  --tw-ring-color: var(--fallback-p,oklch(var(--p)/0.2));
 }
 
 .group:hover .group-hover\:w-full {
