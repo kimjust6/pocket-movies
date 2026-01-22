@@ -1,61 +1,85 @@
-<div class="container mx-auto p-6">
+<div class="container mx-auto p-6" x-data="{ query: '' }">
     <div class="mb-6 flex items-center justify-between">
-        <h1 class="text-3xl font-bold">My Watchlist</h1>
-        <a href="/movies/search" class="btn btn-primary">Add Movie</a>
+        <div>
+            <h1 class="text-3xl font-bold bg-gradient-to-br from-white to-white/60 bg-clip-text text-transparent drop-shadow-sm">My Watchlist</h1>
+            <p class="text-base-content/60 mt-1">Manage movies you want to watch</p>
+        </div>
+        <a href="/movies/search" class="btn btn-primary gap-2 shadow-lg shadow-primary/20 hover:scale-105 hover:shadow-primary/40 transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add Movie
+        </a>
     </div>
 
-    <% if (data.movies.length===0) { %>
-        <div class="alert">
-            <span>Your watchlist is empty. Search for movies to add them!</span>
+    <% if (data.movies.length === 0) { %>
+        <div class=" py-20 text-center opacity-70">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-4 h-24 w-24 text-base-content/30 translate-y-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <h3 class="mb-2 text-2xl font-bold">Your watchlist is empty</h3>
+            <p class="max-w-md mx-auto">Start building your collection by searching for movies you want to watch later.</p>
+            <a href="/movies/search" class="btn btn-ghost mt-4 font-normal text-primary hover:bg-primary/10">Browse Movies &rarr;</a>
         </div>
-        <% } else { %>
-            <div
-                class="overflow-x-auto rounded-xl border border-base-content/5 bg-base-100/40 shadow-xl backdrop-blur-sm">
-                <table class="table">
-                    <thead class="bg-base-200/50 text-base-content">
-                        <tr>
-                            <th>Poster</th>
-                            <th>Title</th>
-                            <th>Release Date</th>
-                            <th>Overview</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% data.movies.forEach(movie=> { %>
-                            <tr>
-                                <td>
-                                    <% if (movie.poster_path) { %>
-                                        <img src="https://image.tmdb.org/t/p/w92<%= movie.poster_path %>"
-                                            alt="<%= movie.title %>" class="w-16 rounded shadow" />
-                                        <% } else { %>
-                                            <div class="flex h-24 w-16 items-center justify-center bg-gray-200 text-xs">
-                                                No Img
-                                            </div>
-                                            <% } %>
-                                </td>
-                                <td class="font-bold">
-                                    <%= movie.title %>
-                                </td>
-                                <td>
-                                    <%= movie.release_date %>
-                                </td>
-                                <td class="max-w-md truncate">
-                                    <%= movie.overview %>
-                                </td>
-                                <td>
-                                    <form method="POST">
-                                        <input type="hidden" name="action" value="delete" />
-                                        <input type="hidden" name="watchlist_id" value="<%= movie.watchlist_id %>" />
-                                        <button type="submit" class="btn btn-ghost btn-xs text-error">
-                                            Remove
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
-            </div>
-            <% } %>
+    <% } else { %>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <% data.movies.forEach(movie => { %>
+                <div class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
+                    <figure class="relative aspect-[2/3] overflow-hidden bg-base-300">
+                        <% if (movie.poster_path) { %>
+                            <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                                alt="<%= movie.title %>" loading="lazy"
+                                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <% } else { %>
+                            <div class="flex h-full w-full items-center justify-center bg-base-300 text-base-content/50">
+                                <span class="text-4xl font-bold opacity-20 capitalize">
+                                    <%= movie.title.charAt(0) %>
+                                </span>
+                            </div>
+                        <% } %>
+
+                        <!-- Overlay with Year -->
+                        <div class="absolute bottom-0 left-0 w-full translate-y-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
+                            <span class="font-medium text-white tracking-wide">
+                                <%= movie.release_date ? new Date(movie.release_date).getFullYear() : 'Unknown' %>
+                            </span>
+                        </div>
+                        
+                        <!-- Top Right Remove Action (visible on hover or always on touch) -->
+                         <form method="POST" class="absolute top-2 right-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100">
+                            <input type="hidden" name="action" value="delete" />
+                            <input type="hidden" name="watchlist_id" value="<%= movie.watchlist_id %>" />
+                            <button type="submit" class="btn btn-circle btn-sm btn-error text-white shadow-md border-none hover:bg-red-600 tooltip tooltip-left" data-tip="Remove from watchlist">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </form>
+                    </figure>
+
+                    <div class="card-body p-5">
+                        <h2 class="card-title mb-1 h-12 overflow-hidden text-lg font-bold leading-tight" title="<%= movie.title %>">
+                            <%= movie.title %>
+                        </h2>
+                        <p class="mb-4 h-12 line-clamp-2 text-sm text-base-content/60 font-light">
+                            <%= movie.overview || "No description available." %>
+                        </p>
+                        
+                        <div class="card-actions justify-end mt-auto pt-2 border-t border-base-content/5">
+                             <form method="POST" class="w-full">
+                                <input type="hidden" name="action" value="delete" />
+                                <input type="hidden" name="watchlist_id" value="<%= movie.watchlist_id %>" />
+                                <button type="submit" class="btn btn-ghost btn-xs w-full text-error hover:bg-error/10 gap-2">
+                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
 </div>

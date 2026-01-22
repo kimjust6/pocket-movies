@@ -2,7 +2,7 @@
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (api) {
-    const user = api.request.auth.id
+    const user = api.request.auth?.id
     if (!user) {
         return {
             movies: [],

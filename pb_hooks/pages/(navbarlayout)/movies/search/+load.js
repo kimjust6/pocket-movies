@@ -5,7 +5,7 @@ module.exports = function (context) {
     const { request, user } = context
 
     // TMDB API helper functions (inlined to avoid module resolution issues)
-    const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY).trim()
+    const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY || '').trim()
 
     const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 
