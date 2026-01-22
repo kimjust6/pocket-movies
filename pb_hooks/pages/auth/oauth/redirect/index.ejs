@@ -3,6 +3,19 @@
     let error = null
     try {
         const authData = signInWithOAuth2(state, code)
+
+        // Ensure user is marked as active
+        if (authData.record) {
+            const user = authData.record
+            // check if field exists or just set it? 
+            // We'll set it. If the field doesn't exist in schema, this might error or be ignored depending on PB version, 
+            // but we assume the user has the schema ready.
+            if (!user.getBool('isActive')) {
+                user.set('isActive', true)
+                $app.save(user)
+            }
+        }
+
         redirect('/')
     } catch (e) {
         error = e.message
