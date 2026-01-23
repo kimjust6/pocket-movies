@@ -1,13 +1,19 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1769124977942,
+    "generatedTime": 1769144426618,
     "data": [
         {
             "type": "file",
             "name": "package.json",
-            "size": 1699,
-            "hash": "03347ddb2d4bec525d8bcb4c741f643cca5adf5308455f1c9fccf9b2043970e5"
+            "size": 1741,
+            "hash": "e8e4629d65c7703c081a92622982593770183240762ab066cf1adbd683e87935"
+        },
+        {
+            "type": "file",
+            "name": "bun.lock",
+            "size": 31709,
+            "hash": "a9658c8fa93e5974d4e0fc5198e37e450cf38634fba44ed5bb81d12a234be122"
         },
         {
             "type": "folder",
@@ -98,8 +104,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/+config.js",
-            "size": 225,
-            "hash": "400b7b3dd1e79da46c32b20dac5c74c5448589bd030c908210798c930ec9680f"
+            "size": 8063,
+            "hash": "9c4469dd7575be109158b9a495cb37df43ebf8f3adaf4ad0428af809a142e4cb"
         },
         {
             "type": "folder",

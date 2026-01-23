@@ -150,7 +150,12 @@ const authPlugin = (config) => {
                 const provider = providers.find((p) => p.name === providerName);
                 if (!provider) throw new Error(`Provider ${providerName} not found`);
 
-                const redirectUrl = `${$app.settings().meta.appURL}${options?.redirectPath ?? "/auth/oauth/confirm"}`;
+                // Ensure appURL has protocol
+                let appURL = $app.settings().meta.appURL;
+                if (appURL && !appURL.startsWith('http://') && !appURL.startsWith('https://')) {
+                    appURL = 'https://' + appURL;
+                }
+                const redirectUrl = `${appURL}${options?.redirectPath ?? "/auth/oauth/confirm"}`;
                 const authUrl = provider.authURL + redirectUrl;
 
                 // Store OAuth state in cookie
