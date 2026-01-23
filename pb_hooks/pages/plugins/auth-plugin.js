@@ -1,5 +1,6 @@
 /**
- * PocketPages Configuration with Custom Auth Plugin
+ * Custom Auth Plugin for Pocket Movies
+ * Replaces pocketpages-plugin-auth with a local implementation
  */
 
 const safeParseJson = (value) => {
@@ -18,8 +19,7 @@ const toPlainObject = (value) => {
     return value;
 };
 
-// Custom Auth Plugin Factory (inline)
-const authPlugin = (config) => {
+module.exports = (config) => {
     const { globalApi } = config;
     const { dbg, info } = globalApi;
 
@@ -153,7 +153,7 @@ const authPlugin = (config) => {
                 const redirectUrl = `${$app.settings().meta.appURL}${options?.redirectPath ?? "/auth/oauth/confirm"}`;
                 const authUrl = provider.authURL + redirectUrl;
 
-                // Store OAuth state in cookie
+                // Store OAuth state in cookie (fixed - no api.pick needed)
                 api.response.cookie(options?.cookieName ?? "pp_oauth_state", {
                     name: provider.name,
                     state: provider.state,
@@ -200,14 +200,3 @@ const authPlugin = (config) => {
         }
     };
 };
-
-module.exports = function (api) {
-    return {
-        plugins: [
-            'pocketpages-plugin-js-sdk',
-            'pocketpages-plugin-ejs',
-            authPlugin,
-        ],
-        debug: false,
-    }
-}
