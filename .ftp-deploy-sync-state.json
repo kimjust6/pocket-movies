@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1769144426618,
+    "generatedTime": 1769145152041,
     "data": [
         {
             "type": "file",
@@ -30,8 +30,8 @@
         {
             "type": "file",
             "name": "pb_public/og-image.webp",
-            "size": 122964,
-            "hash": "94beeca2b0e95aab80a7478d6d73fa724ef7bb52f61471f10b6504989fcb7b8b"
+            "size": 103796,
+            "hash": "edc239f0cb4750bb07dc6ff7e00acad4f6395e82068dc4606bc10c416c9c5dd5"
         },
         {
             "type": "file",
@@ -192,8 +192,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/head.ejs",
-            "size": 1162,
-            "hash": "1f1176597870fce97410d45033cd0bc43df3ffe328822e4b9611219a22d05a54"
+            "size": 1459,
+            "hash": "18f1694304d7e5bc7cd78e1bd32e6aa6b38bf5f0a6eed0b4bace15dfdef7936b"
         },
         {
             "type": "file",
@@ -230,8 +230,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+middleware.js",
-            "size": 1882,
-            "hash": "055a317289a1f6d2d3dc681345d34b56940863c00e8057aad8ecf1cbcb144251"
+            "size": 1928,
+            "hash": "f6ae213d842af25341b79133e0762cc287c0a6edb43a24a422243f8508430a78"
         },
         {
             "type": "file",

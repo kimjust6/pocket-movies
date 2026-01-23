@@ -11,14 +11,18 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <% if (data.metadata) { %>
-    <% data.metadata.forEach(function(ogTag) { %>
-        <meta name="<%= ogTag.name %>" content="<%= ogTag.content %>" />
-        <% }); %>
-            <% } %>
+    <% data.metadata.forEach(function(tag) { %>
+        <% if (tag.name.startsWith('og:') || tag.name.startsWith('twitter:')) { %>
+            <meta property="<%= tag.name %>" content="<%= tag.content %>" />
+            <% } else { %>
+                <meta name="<%= tag.name %>" content="<%= tag.content %>" />
+                <% } %>
+                    <% }); %>
+                        <% } %>
 
-                <title>
-                    <%= data.metadata?.find(x=> x.name === 'title')?.content || 'Dank Movies' %>
-                </title>
+                            <title>
+                                <%= data.metadata?.find(x=> x.name === 'title')?.content || 'Dank Movies' %>
+                            </title>
 
-                <link href="<%=asset('/app.css')%>" rel="stylesheet" />
-                <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+                            <link href="<%=asset('/app.css')%>" rel="stylesheet" />
+                            <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />

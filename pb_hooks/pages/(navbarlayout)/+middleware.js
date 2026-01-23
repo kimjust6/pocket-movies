@@ -1,3 +1,6 @@
+// Configure your site URL here (no trailing slash)
+const BASE_URL = 'https://dank.pockethost.io';
+
 module.exports = function (context) {
     // Auth logic removed.
     // Returning metadata required by head.ejs
@@ -13,7 +16,7 @@ module.exports = function (context) {
                 name: 'description',
                 content: 'Personal movie watchlist application.',
             },
-            { name: 'url', content: 'https://www.jkim.win/' },
+            { name: 'url', content: BASE_URL },
 
             // Open Graph metadata
             {
@@ -21,10 +24,10 @@ module.exports = function (context) {
                 content: 'Dank Movies',
             },
             { name: 'og:type', content: 'website' },
-            { name: 'og:url', content: 'https://movies.jkim.win/' },
+            { name: 'og:url', content: BASE_URL },
             {
                 name: 'og:image',
-                content: 'https://movies.jkim.win/og-image.webp',
+                content: `${BASE_URL}/og-image.webp`,
             },
             { name: 'og:image:alt', content: 'Dank Movies' },
             { name: 'og:image:width', content: '637' },
@@ -49,7 +52,7 @@ module.exports = function (context) {
             },
             {
                 name: 'twitter:image',
-                content: 'https://www.jkim.win/og-image.webp',
+                content: `${BASE_URL}/og-image.webp`,
             },
         ],
     }
