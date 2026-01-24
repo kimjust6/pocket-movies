@@ -16,7 +16,6 @@ export enum Collections {
 	Lists = "lists",
 	Movies = "movies",
 	MoviesGenres = "movies_genres",
-	Pw = "pw",
 	Users = "users",
 	WatchedHistory = "watched_history",
 }
@@ -151,17 +150,10 @@ export type MoviesGenresRecord = {
 	updated: IsoAutoDateString
 }
 
-export type PwRecord = {
-	created: IsoAutoDateString
-	id: string
-	password?: string
-	updated: IsoAutoDateString
-}
-
 export type UsersRecord = {
-	active?: boolean
 	avatar?: FileNameString
 	created: IsoAutoDateString
+	deleted?: boolean
 	email: string
 	emailVisibility?: boolean
 	id: string
@@ -194,7 +186,6 @@ export type ListUserResponse<Texpand = unknown> = Required<ListUserRecord> & Bas
 export type ListsResponse<Texpand = unknown> = Required<ListsRecord> & BaseSystemFields<Texpand>
 export type MoviesResponse<Texpand = unknown> = Required<MoviesRecord> & BaseSystemFields<Texpand>
 export type MoviesGenresResponse<Texpand = unknown> = Required<MoviesGenresRecord> & BaseSystemFields<Texpand>
-export type PwResponse<Texpand = unknown> = Required<PwRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 export type WatchedHistoryResponse<Texpand = unknown> = Required<WatchedHistoryRecord> & BaseSystemFields<Texpand>
 
@@ -211,7 +202,6 @@ export type CollectionRecords = {
 	lists: ListsRecord
 	movies: MoviesRecord
 	movies_genres: MoviesGenresRecord
-	pw: PwRecord
 	users: UsersRecord
 	watched_history: WatchedHistoryRecord
 }
@@ -227,7 +217,6 @@ export type CollectionResponses = {
 	lists: ListsResponse
 	movies: MoviesResponse
 	movies_genres: MoviesGenresResponse
-	pw: PwResponse
 	users: UsersResponse
 	watched_history: WatchedHistoryResponse
 }
