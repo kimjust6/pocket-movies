@@ -101,46 +101,51 @@
                         <% data.movies.forEach(movie=> { %>
                             <div
                                 class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
-                                <figure class="relative aspect-[2/3] overflow-hidden bg-base-300">
-                                    <% if (movie.poster_path) { %>
-                                        <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
-                                            alt="<%= movie.title %>" loading="lazy"
-                                            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                                        <% } else { %>
-                                            <div
-                                                class="flex h-full w-full items-center justify-center bg-base-300 text-base-content/50">
-                                                <span class="text-4xl font-bold opacity-20 capitalize">
-                                                    <%= movie.title.charAt(0) %>
-                                                </span>
-                                            </div>
-                                            <% } %>
-
-                                                <!-- Overlay with Year -->
+                                <a href="/movies/<%= movie.tmdb_id %>" class="block cursor-pointer">
+                                    <figure class="relative aspect-[2/3] overflow-hidden bg-base-300">
+                                        <% if (movie.poster_path) { %>
+                                            <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                                                alt="<%= movie.title %>" loading="lazy"
+                                                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                            <% } else { %>
                                                 <div
-                                                    class="absolute bottom-0 left-0 w-full translate-y-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
-                                                    <span class="font-medium text-white tracking-wide">
-                                                        <%= movie.release_date ? new
-                                                            Date(movie.release_date).getFullYear() : 'Unknown' %>
+                                                    class="flex h-full w-full items-center justify-center bg-base-300 text-base-content/50">
+                                                    <span class="text-4xl font-bold opacity-20 capitalize">
+                                                        <%= movie.title.charAt(0) %>
                                                     </span>
                                                 </div>
+                                                <% } %>
 
-                                                <!-- Top Right Remove Action (visible on hover or always on touch) -->
-                                                <form method="POST"
-                                                    class="absolute top-2 right-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100">
-                                                    <input type="hidden" name="action" value="delete" />
-                                                    <input type="hidden" name="watchlist_id"
-                                                        value="<%= movie.watchlist_id %>" />
-                                                    <button type="submit"
-                                                        class="btn btn-circle btn-sm btn-error text-white shadow-md border-none hover:bg-red-600 tooltip tooltip-left"
-                                                        data-tip="Remove from watchlist">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                        </svg>
-                                                    </button>
-                                                </form>
-                                </figure>
+                                                    <!-- Overlay with Year -->
+                                                    <div
+                                                        class="absolute bottom-0 left-0 w-full translate-y-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
+                                                        <span class="font-medium text-white tracking-wide">
+                                                            <%= movie.release_date ? new
+                                                                Date(movie.release_date).getFullYear() : 'Unknown' %>
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- Top Right Remove Action (visible on hover or always on touch) -->
+                                                    <div class="absolute top-2 right-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100 z-10"
+                                                        @click.stop.prevent>
+                                                        <form method="POST">
+                                                            <input type="hidden" name="action" value="delete" />
+                                                            <input type="hidden" name="watchlist_id"
+                                                                value="<%= movie.watchlist_id %>" />
+                                                            <button type="submit"
+                                                                class="btn btn-circle btn-sm btn-error text-white shadow-md border-none hover:bg-red-600 tooltip tooltip-left"
+                                                                data-tip="Remove from watchlist">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                                    fill="none" viewBox="0 0 24 24"
+                                                                    stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                    </figure>
+                                </a>
 
                                 <div class="card-body p-5">
                                     <h2 class="card-title mb-1 h-12 overflow-hidden text-lg font-bold leading-tight"

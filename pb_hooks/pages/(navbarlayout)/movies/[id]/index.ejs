@@ -1,0 +1,199 @@
+<div class="min-h-screen bg-base-200">
+    <% if (data.error || !data.movie) { %>
+        <div class="flex min-h-[50vh] flex-col items-center justify-center p-4">
+            <h1 class="mb-4 text-4xl font-bold text-error">Error</h1>
+            <p class="mb-8 text-xl opacity-70">
+                <%= data.error || "Movie not found" %>
+            </p>
+            <a href="/movies/search" class="btn btn-primary">Back to Search</a>
+        </div>
+        <% } else { %>
+            <!-- Hero Section with Backdrop -->
+            <div class="relative min-h-[70vh] w-full overflow-hidden">
+                <!-- Backdrop Image -->
+                <div class="absolute inset-0">
+                    <% if (data.movie.backdrop_path) { %>
+                        <img src="https://image.tmdb.org/t/p/original<%= data.movie.backdrop_path %>" alt="Backdrop"
+                            class="h-full w-full object-cover opacity-30 blur-sm" />
+                        <% } else { %>
+                            <div class="h-full w-full bg-base-300 opacity-30"></div>
+                            <% } %>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-base-200 via-base-200/80 to-transparent">
+                                </div>
+                </div>
+
+                <!-- Content -->
+                <div class="relative z-10 mx-auto max-w-7xl p-6 pt-20 md:p-10">
+                    <a href="/movies/search" class="btn btn-ghost btn-sm mb-8 gap-2 hover:bg-base-content/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Search
+                    </a>
+
+                    <div class="flex flex-col gap-10 md:flex-row">
+                        <!-- Poster Card -->
+                        <div class="shrink-0">
+                            <div
+                                class="card w-72 overflow-hidden shadow-2xl shadow-black/50 transition-transform hover:scale-105 duration-500">
+                                <figure class="aspect-[2/3] w-full bg-base-300">
+                                    <% if (data.movie.poster_path) { %>
+                                        <img src="https://image.tmdb.org/t/p/w500<%= data.movie.poster_path %>"
+                                            alt="<%= data.movie.title %>" class="h-full w-full object-cover" />
+                                        <% } else { %>
+                                            <div
+                                                class="flex h-full w-full items-center justify-center text-base-content/30">
+                                                No Image
+                                            </div>
+                                            <% } %>
+                                </figure>
+                            </div>
+                        </div>
+
+                        <!-- Details -->
+                        <div class="flex flex-col justify-end pb-4">
+                            <h1
+                                class="mb-2 text-4xl font-black tracking-tight md:text-6xl text-base-content drop-shadow-md">
+                                <%= data.movie.title %>
+                                    <span class="text-3xl font-light text-base-content/50 ml-2">
+                                        (<%= data.movie.release_date ? data.movie.release_date.substring(0, 4) : 'N/A'
+                                            %>)
+                                    </span>
+                            </h1>
+
+                            <% if (data.movie.tagline) { %>
+                                <p class="mb-6 text-xl font-light italic text-base-content/70">
+                                    "<%= data.movie.tagline %>"
+                                </p>
+                                <% } %>
+
+                                    <div class="mb-8 flex flex-wrap gap-4">
+                                        <% if (data.movie.genres) { %>
+                                            <% data.movie.genres.forEach(genre=> { %>
+                                                <div class="badge badge-outline badge-lg p-3 text-sm font-medium">
+                                                    <%= genre.name %>
+                                                </div>
+                                                <% }) %>
+                                                    <% } %>
+
+                                                        <% if (data.movie.runtime) { %>
+                                                            <div class="badge badge-ghost badge-lg gap-2 p-3">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                                    fill="none" viewBox="0 0 24 24"
+                                                                    stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                </svg>
+                                                                <%= Math.floor(data.movie.runtime / 60) %>h <%=
+                                                                        data.movie.runtime % 60 %>m
+                                                            </div>
+                                                            <% } %>
+
+                                                                <div
+                                                                    class="badge badge-warning badge-lg gap-2 p-3 text-warning-content">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        class="h-4 w-4" viewBox="0 0 20 20"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                                    </svg>
+                                                                    <%= data.movie.vote_average ?
+                                                                        data.movie.vote_average.toFixed(1) : 'NR' %>
+                                                                </div>
+                                    </div>
+
+                                    <div class="max-w-3xl">
+                                        <h3 class="mb-2 text-xl font-bold">Overview</h3>
+                                        <p class="text-lg leading-relaxed text-base-content/80">
+                                            <%= data.movie.overview %>
+                                        </p>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cast & Details Section -->
+            <div class="mx-auto max-w-7xl p-6 md:p-10">
+                <h2 class="mb-6 text-2xl font-bold">Top Cast</h2>
+                <% if (data.credits && data.credits.cast && data.credits.cast.length> 0) { %>
+                    <div
+                        class="flex overflow-x-auto gap-4 pb-8 snap-x scrollbar-thin scrollbar-track-base-200 scrollbar-thumb-primary/20 hover:scrollbar-thumb-primary/50">
+                        <% data.credits.cast.slice(0, 15).forEach(person=> { %>
+                            <div
+                                class="card w-36 shrink-0 bg-base-100 shadow-sm snap-start transition-colors hover:bg-base-100/80">
+                                <figure class="aspect-[2/3] w-full overflow-hidden bg-base-300 rounded-t-xl">
+                                    <% if (person.profile_path) { %>
+                                        <img src="https://image.tmdb.org/t/p/w185<%= person.profile_path %>"
+                                            alt="<%= person.name %>" class="h-full w-full object-cover"
+                                            loading="lazy" />
+                                        <% } else { %>
+                                            <div
+                                                class="flex h-full w-full items-center justify-center text-4xl font-bold opacity-10">
+                                                <%= person.name.charAt(0) %>
+                                            </div>
+                                            <% } %>
+                                </figure>
+                                <div class="p-3">
+                                    <p class="line-clamp-1 font-bold text-sm" title="<%= person.name %>">
+                                        <%= person.name %>
+                                    </p>
+                                    <p class="line-clamp-2 text-xs text-base-content/60"
+                                        title="<%= person.character %>">
+                                        <%= person.character %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <% } else { %>
+                        <p class="text-base-content/50 italic">No cast information available.</p>
+                        <% } %>
+
+                            <!-- Technical Details Grid -->
+                            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div class="card bg-base-100 p-6 shadow-sm">
+                                    <h3 class="font-bold text-lg mb-4 text-primary">Information</h3>
+                                    <div class="space-y-3 text-sm">
+                                        <div class="flex justify-between border-b border-base-content/5 pb-2">
+                                            <span class="opacity-70">Status</span>
+                                            <span class="font-medium">
+                                                <%= data.movie.status %>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between border-b border-base-content/5 pb-2">
+                                            <span class="opacity-70">Release Date</span>
+                                            <span class="font-medium">
+                                                <%= data.movie.release_date %>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between border-b border-base-content/5 pb-2">
+                                            <span class="opacity-70">Original Language</span>
+                                            <span class="uppercase font-medium">
+                                                <%= data.movie.original_language %>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between pb-2">
+                                            <span class="opacity-70">Budget</span>
+                                            <span class="font-medium">
+                                                <%= data.movie.budget> 0 ? '$' + data.movie.budget.toLocaleString() :
+                                                    'Unknown' %>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="opacity-70">Revenue</span>
+                                            <span class="font-medium">
+                                                <%= data.movie.revenue> 0 ? '$' + data.movie.revenue.toLocaleString() :
+                                                    'Unknown' %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            <% } %>
+</div>
