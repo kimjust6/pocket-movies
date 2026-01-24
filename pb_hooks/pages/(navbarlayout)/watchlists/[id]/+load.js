@@ -3,13 +3,9 @@
  */
 module.exports = function (api) {
     const user = api.request.auth?.id
-    if (!user) {
-        return {
-            list: null,
-            movies: [],
-            error: "You must be logged in to view this list."
-        }
-    }
+
+    // NOTE: Removed early return check for user. Authentication is checked per list below.
+
 
 
 
@@ -29,14 +25,43 @@ module.exports = function (api) {
     try {
         list = $app.findRecordById('lists', listId)
 
-        // Check ownership (optional, depending on requirements, assuming private lists for now)
-        if (list.getString('owner') !== user) {
+        const isPrivate = list.getBool('is_private')
+        const owner = list.getString('owner')
+
+        let hasAccess = false
+
+        // 1. Public list -> Access granted
+        if (!isPrivate) {
+            hasAccess = true
+        }
+        // 2. Owner -> Access granted
+        else if (user && owner === user) {
+            hasAccess = true
+        }
+        // 3. Shared User -> Access granted
+        else if (user) {
+            try {
+                // Check if there is a record in 'list_user' for this list and user
+                const invite = $app.findFirstRecordByFilter(
+                    'list_user',
+                    `list = '${list.id}' && invited_user = '${user}'`
+                )
+                if (invite) {
+                    hasAccess = true
+                }
+            } catch (ignore) {
+                // No invite found
+            }
+        }
+
+        if (!hasAccess) {
             return {
                 list: null,
                 movies: [],
                 error: "You do not have permission to view this list."
             }
         }
+
     } catch (e) {
         return {
             list: null,

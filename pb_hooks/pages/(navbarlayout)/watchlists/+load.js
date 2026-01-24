@@ -3,14 +3,9 @@
  */
 module.exports = function (api) {
     const user = api.request.auth?.id
-    if (!user) {
-        return {
-            movies: [],
-            lists: [],
-        }
-    }
 
-    if (api.request.method === 'POST') {
+    // Only allow modifications if logged in
+    if (user && api.request.method === 'POST') {
         const data = api.formData
         const action = data.action
 
@@ -73,53 +68,108 @@ module.exports = function (api) {
         lists: [],
     }
 
-    // 1. Try to fetch movies from 'watchlist' collection
-    try {
-        const watchlistRecords = $app.findRecordsByFilter(
-            'watchlist',
-            `user = '${user}'`,
-            '-created',
-            50,
-            0,
-            { expand: 'movie' }
-        )
+    // 1. Try to fetch movies from 'watchlist' collection (only if logged in)
+    if (user) {
+        try {
+            const watchlistRecords = $app.findRecordsByFilter(
+                'watchlist',
+                `user = '${user}'`,
+                '-created',
+                50,
+                0,
+                { expand: 'movie' }
+            )
 
-        result.movies = watchlistRecords
-            .map((item) => {
-                const m = item.expandedOne('movie')
-                if (m) {
-                    return {
-                        id: m.id,
-                        tmdb_id: m.getString('tmdb_id'),
-                        title: m.getString('title'),
-                        release_date: m.getString('release_date'),
-                        poster_path: m.getString('poster_path'),
-                        overview: m.getString('overview'),
-                        watchlist_id: item.id,
+            result.movies = watchlistRecords
+                .map((item) => {
+                    const m = item.expandedOne('movie')
+                    if (m) {
+                        return {
+                            id: m.id,
+                            tmdb_id: m.getString('tmdb_id'),
+                            title: m.getString('title'),
+                            release_date: m.getString('release_date'),
+                            poster_path: m.getString('poster_path'),
+                            overview: m.getString('overview'),
+                            watchlist_id: item.id,
+                        }
                     }
-                }
-                return null
-            })
-            .filter(Boolean)
-    } catch (e) {
-        console.error('Failed to load watchlist movies (collection "watchlist"):', e)
-        // Keep result.movies as []
+                    return null
+                })
+                .filter(Boolean)
+        } catch (e) {
+            console.error('Failed to load watchlist movies (collection "watchlist"):', e)
+            // Keep result.movies as []
+        }
     }
 
     // 2. Try to fetch custom lists from 'lists' collection
     try {
-        const listRecords = $app.findRecordsByFilter(
-            'lists',
-            `owner = '${user}'`,
-            '-created',
-            50,
-            0
-        )
+        let listRecords = []
+
+        if (user) {
+            // A. Fetch OWNED lists
+            const ownedLists = $app.findRecordsByFilter(
+                'lists',
+                `owner = '${user}'`,
+                '-created',
+                50,
+                0
+            )
+
+            // B. Fetch SHARED lists (where I am invited)
+            // 1. Get list_user records
+            const sharedReferences = $app.findRecordsByFilter(
+                'list_user',
+                `invited_user = '${user}'`,
+                '-created',
+                50,
+                0
+            )
+
+            // 2. Extract unique List IDs
+            const sharedListIds = sharedReferences.map(ref => ref.getString('list')).filter(Boolean)
+
+            // 3. Fetch the actual List records if we have any IDs
+            let sharedLists = []
+            if (sharedListIds.length > 0) {
+                // Build a filter string like: id='id1' || id='id2' ...
+                // Note: Ideally use a cleaner "id in (...)" if supported or simple ORs
+                const idFilter = sharedListIds.map(id => `id='${id}'`).join(' || ')
+                sharedLists = $app.findRecordsByFilter(
+                    'lists',
+                    idFilter,
+                    '-created',
+                    50,
+                    0
+                )
+            }
+
+            // Combine and deduplicate (by ID) just in case
+            const allLists = [...ownedLists, ...sharedLists]
+            const seenIds = new Set()
+            listRecords = allLists.filter(list => {
+                if (seenIds.has(list.id)) return false
+                seenIds.add(list.id)
+                return true
+            })
+
+        } else {
+            // NOT logged in: Fetch PUBLIC lists
+            listRecords = $app.findRecordsByFilter(
+                'lists',
+                'is_private = false',
+                '-created',
+                50,
+                0
+            )
+        }
 
         result.lists = listRecords.map((list) => ({
             id: list.id,
             list_title: list.getString('list_title'),
             created: list.getString('created'),
+            is_owner: list.getString('owner') === user // Helper for UI if needed
         }))
     } catch (e) {
         console.error('Failed to load custom lists (collection "lists"):', e)
