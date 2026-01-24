@@ -2,7 +2,8 @@
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (context) {
-    const { request, user } = context
+    const { request } = context
+    const user = context.request.auth
 
     // TMDB API helper functions (inlined to avoid module resolution issues)
     const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY || '').trim()
@@ -48,17 +49,60 @@ module.exports = function (context) {
         return fetchTMDB(`/movie/${id}`)
     }
 
-    // Get query from URL query string (e.g., /movies/search?q=batman)
+    const watchlistId = context?.params?.watchlistId || ''
     const q = context?.params?.q || ''
 
     let results = []
+    let lists = []
     let message = null
     let error = null
+
+    // Fetch user's watchlists if logged in
+    if (user) {
+        try {
+            // 1. Owned lists
+            const ownedLists = $app.findRecordsByFilter(
+                'lists',
+                `owner = '${user.id}'`,
+                '-created'
+            )
+
+            // 2. Shared lists (via list_user)
+            const sharedInvites = $app.findRecordsByFilter(
+                'list_user',
+                `invited_user = '${user.id}'`,
+                '-created',
+                100,
+                0,
+                { expand: 'list' }
+            )
+
+            const sharedLists = sharedInvites.map(invite => invite.expandedOne('list')).filter(Boolean)
+
+            // Combine and deduplicate
+            const allLists = [...ownedLists, ...sharedLists]
+            const seenIds = new Set()
+
+            lists = allLists.filter(list => {
+                if (seenIds.has(list.id)) return false
+                seenIds.add(list.id)
+                return true
+            }).map(list => ({
+                id: list.id,
+                title: list.getString('list_title'),
+                is_private: list.getBool('is_private')
+            }))
+
+        } catch (e) {
+            console.error('Failed to load user lists:', e)
+        }
+    }
 
     // Handle POST request - add movie to watchlist
     if (request.method === 'POST') {
         const body = context.formData || {}
         const tmdbId = body.tmdb_id
+        const targetListId = body.watchlist_id || ''
 
         if (user && tmdbId) {
             try {
@@ -86,18 +130,53 @@ module.exports = function (context) {
                     $app.save(movie)
                 }
 
-                // Add to user's watched_history or watchlist collection
+                // Verify List Access if targetListId is provided
+                if (targetListId) {
+                    // Check if user owns or is invited to this list
+                    let hasAccess = false
+                    try {
+                        const targetList = $app.findRecordById('lists', targetListId)
+                        if (targetList.getString('owner') === user.id) {
+                            hasAccess = true
+                        } else {
+                            // Check invite
+                            const invite = $app.findFirstRecordByFilter(
+                                'list_user',
+                                `list = '${targetListId}' && invited_user = '${user.id}'`
+                            )
+                            if (invite) hasAccess = true
+                        }
+                    } catch (e) {
+                        throw new Error("Watchlist not found.")
+                    }
+
+                    if (!hasAccess) {
+                        throw new Error("You do not have permission to add to this watchlist.")
+                    }
+                }
+
+                // Add to user's watched_history
+                // Check if already in THIS specific list
                 try {
+                    const filter = targetListId
+                        ? `user = '${user.id}' && movie = '${movie.id}' && list = '${targetListId}'`
+                        : `user = '${user.id}' && movie = '${movie.id}' && list = ''` // Default list
+
+                    $app.findFirstRecordByFilter('watched_history', filter)
+
+                    message = `"${movieData.title}" is already in that watchlist!`
+                } catch (e) {
+                    // Not found, so add it
                     const watchedCollection =
                         $app.findCollectionByNameOrId('watched_history')
                     const watchEntry = new Record(watchedCollection)
                     watchEntry.set('user', user.id)
                     watchEntry.set('movie', movie.id)
+                    if (targetListId) {
+                        watchEntry.set('list', targetListId)
+                    }
                     $app.save(watchEntry)
-                    message = `"${movieData.title}" added to your watchlist!`
-                } catch (e) {
-                    // May already be in watchlist
-                    message = `"${movieData.title}" is already in your watchlist!`
+                    message = `"${movieData.title}" added to watchlist!`
                 }
             } catch (e) {
                 error = 'Failed to add movie: ' + e.message
@@ -123,5 +202,6 @@ module.exports = function (context) {
         message,
         error,
         user,
+        lists,
     }
 }
