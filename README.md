@@ -1,68 +1,77 @@
-# Dank Movies (PocketPages + DaisyUI)
+# Dank Movies
 
-Personal movie watchlist application built on **PocketBase** using **PocketPages** for server-rendered pages (EJS), styled with **Tailwind CSS** + **DaisyUI**.
+**Dank Movies** is a modern, self-hosted movie watchlist application that lets you discover films, curate personal collections, and share them with friends. Built for movie lovers who want control over their data with a premium user experience.
 
-## Tech
+![Dank Movies Hero](https://via.placeholder.com/800x400?text=Dank+Movies+UI)
 
-- **PocketBase** (local server + embedded DB)
-- **PocketPages** (pages, layouts, middleware under `pb_hooks/pages/`)
-- **EJS** templates (`.ejs`)
-- **Tailwind CSS** + **DaisyUI** (themes: `nord`, `dark`)
+## Features
 
-## Project structure
+-   **Movie Discovery**: Instantly search for millions of movies powered by the **TMDB API**.
+-   **Smart Watchlists**: Create unlimited public or private watchlists to organize your movie backlog.
+-   **Collaboration**: Share private watchlists with specific users for collaborative planning.
+-   **Secure & Private**: Built-in User Authentication (Email/Password & Google OAuth) keeps your lists secure.
+-   **Modern Design**: Stunning UI features glassmorphism, smooth animations, and a responsive layout powered by Tailwind CSS & DaisyUI.
+-   **Dark Mode**: Easy on the eyes with a sleek dark theme.
 
-- `pb_hooks/pocketpages.pb.js` enables PocketPages
-- `pb_hooks/pages/` contains routes/pages, layouts, partials, and page CSS
-- `pb_data/` is the PocketBase data directory (local DB, migrations, storage)
-- `pb_public/` static public assets
+## Tech Stack
 
-## Prerequisites
+This project is built on a robust and simple stack designed for performance and ease of deployment.
 
-- Node.js (LTS recommended)
-- PocketBase binary available as `pocketbase` on your PATH
-    - Download PocketBase for your OS and add it to PATH, or place the binary somewhere your shell can find it.
+-   **Backend**: [PocketBase](https://pocketbase.io/) (Golang + SQLite embedded DB) - Handles Auth, Database, and API.
+-   **Frontend**: [PocketPages](https://github.com/pocketpages/pocketpages) - Server-side rendering using **EJS**.
+-   **Interactivity**: [Alpine.js](https://alpinejs.dev/) - For lightweight, reactive UI components (Modals, Search).
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/).
 
-## Getting started
+## Getting Started
 
-Install dependencies:
+Follow these steps to get your own instance running locally.
 
-```bash
-npm install
-```
+### Prerequisites
 
-Run Tailwind (watch) + PocketBase (dev) together:
+-   **Node.js** (LTS version recommended)
+-   **PocketBase**: Download the binary for your OS from [pocketbase.io/docs](https://pocketbase.io/docs/) and ensure it's in your PATH (or placed in the project root).
+-   **TMDB API Key**: Get a free API key from [The Movie Database](https://www.themoviedb.org/documentation/api).
 
-```bash
-npm run dev
-```
+### Installation
 
-If you only want to run the PocketBase server:
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/yourusername/pocket-movies.git
+    cd pocket-movies
+    ```
 
-```bash
-npm run start
-```
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-## Common commands
+3.  **Set Environment Variables**:
+    Create a `.env` file or export the variable in your shell:
+    ```bash
+    export TMDB_API_KEY="your_tmdb_api_key_here"
+    ```
 
-- `npm run dev` – Tailwind watch + `pocketbase serve --dev`
-- `npm run start` – run PocketBase only
-- `npm run login` – login for deployment (uses `phio`)
-- `npm run push` – deploy to the configured instance
-- `npm run update` – update the PocketBase binary (if supported by your setup)
+4.  **Run the App**:
+    This command starts the Tailwind watcher and the PocketBase server in dev mode.
+    ```bash
+    npm run dev
+    ```
 
-## Styling
+5.  **Visit the App**:
+    Open [http://localhost:8090](http://localhost:8090) in your browser.
 
-- Tailwind entry: `pb_hooks/pages/app.tailwind.css`
-- Output CSS: `pb_hooks/pages/app.css`
-- Tailwind scans templates in `pb_hooks/pages/**/*.{ejs,md}` (see `tailwind.config.js`)
+## Project Structure
 
-## Deployment
+-   `pb_hooks/` - Server-side logic and templates.
+    -   `pages/` - EJS templates and route handlers (PocketPages).
+    -   `*.pb.js` - PocketBase hooks and extensions.
+-   `pb_public/` - Static assets (compiled CSS, images).
+-   `pb_data/` - Local database and storage (created after first run).
 
-This repo is configured to deploy via `phio`:
+## Contributing
 
-```bash
-npm run login
-npm run push
-```
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-The target instance name is set in `package.json` under `pockethost.instanceName`.
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
