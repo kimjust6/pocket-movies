@@ -117,6 +117,7 @@ export type ListUserRecord = {
 export type ListsRecord = {
 	created: IsoAutoDateString
 	id: string
+	is_private?: boolean
 	list_title?: string
 	owner?: RecordIdString
 	updated: IsoAutoDateString
@@ -167,6 +168,7 @@ export type UsersRecord = {
 export type WatchedHistoryRecord = {
 	created: IsoAutoDateString
 	id: string
+	list?: RecordIdString
 	movie?: RecordIdString
 	rating?: number
 	succeeded?: boolean
