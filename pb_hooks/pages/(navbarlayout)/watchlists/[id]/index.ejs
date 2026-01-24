@@ -30,7 +30,7 @@
 
         <% if (data.list) { %>
             <div class="flex gap-3">
-                <a href="/movies/search"
+                <a href="/movies/search?watchlistId=<%= data.list.id %>"
                     class="btn btn-primary gap-2 shadow-lg shadow-primary/20 hover:scale-105 hover:shadow-primary/40 transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
