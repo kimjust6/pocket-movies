@@ -170,12 +170,21 @@ module.exports = function (context) {
                     const moviesCollection =
                         $app.findCollectionByNameOrId('movies')
                     movie = new Record(moviesCollection)
-                    movie.set('tmdb_id', tmdbId) // kept as string as per schema
-                    movie.set('title', movieData.title)
-                    movie.set('overview', movieData.overview || '')
-                    movie.set('poster_path', movieData.poster_path || '')
+                    movie.set('tmdb_id', tmdbId)
+                    movie.set('imdb_id', movieData.imdb_id || '')
+                    movie.set('title', movieData.title || 'Unknown Title')
+                    movie.set('original_title', movieData.original_title || '')
+                    movie.set('original_language', movieData.original_language || 'en')
                     movie.set('release_date', movieData.release_date || '')
-                    // movie.set('vote_average', movieData.vote_average || 0) // Field not in movies schema
+                    movie.set('runtime', movieData.runtime || 0)
+                    movie.set('status', movieData.status || 'Released')
+                    movie.set('overview', movieData.overview || '')
+                    movie.set('tagline', movieData.tagline || '')
+                    movie.set('poster_path', movieData.poster_path || '')
+                    movie.set('backdrop_path', movieData.backdrop_path || '')
+                    movie.set('homepage', movieData.homepage || '')
+                    movie.set('adult', movieData.adult || false)
+
                     $app.save(movie)
                 }
 
