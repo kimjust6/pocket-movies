@@ -197,6 +197,7 @@ module.exports = function (api) {
         result.lists = listRecords.map((list) => ({
             id: list.id,
             list_title: list.getString('list_title'),
+            description: list.getString('description'),
             created: list.getString('created'),
             is_owner: list.getString('owner') === user // Helper for UI if needed
         }))

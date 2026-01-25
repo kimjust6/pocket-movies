@@ -271,6 +271,7 @@ module.exports = function (context) {
                         const watchPayload = {
                             movie: movie.id,
                             list: actualListId,
+                            watched: new Date().toISOString()
                         }
                         if (movieData.vote_average) {
                             watchPayload.tmdb_score = movieData.vote_average

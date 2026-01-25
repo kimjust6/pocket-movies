@@ -63,7 +63,12 @@
                                 class="card-title text-lg font-bold text-base-content group-hover:text-secondary transition-colors line-clamp-1">
                                 <%= list.list_title %>
                             </h3>
-                            <p class="text-sm text-base-content/60 mt-1">View collection &rarr;</p>
+                            <% if (list.description) { %>
+                                <p class="text-xs text-base-content/50 line-clamp-2 mt-1">
+                                    <%= list.description %>
+                                </p>
+                                <% } %>
+                                    <p class="text-sm text-base-content/60 mt-1">View collection &rarr;</p>
                         </div>
                     </a>
                     <% }) %>
