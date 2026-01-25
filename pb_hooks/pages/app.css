@@ -4386,6 +4386,10 @@ html::-webkit-scrollbar,
   min-height: 50vh;
 }
 
+.min-h-\[6rem\] {
+  min-height: 6rem;
+}
+
 .min-h-\[70vh\] {
   min-height: 70vh;
 }
@@ -4680,6 +4684,10 @@ html::-webkit-scrollbar,
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
 }
 
 .rounded-2xl {

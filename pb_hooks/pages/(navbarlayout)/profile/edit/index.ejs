@@ -1,0 +1,94 @@
+<script server>
+    const user = request.auth
+    if (!user) {
+        redirect('/login')
+    }
+
+    // Fetch fresh user data
+    let profile = user
+    try {
+        profile = $app.findRecordById("users", user.id)
+    } catch (e) {
+        console.error("Failed to fetch fresh profile:", e)
+    }
+
+    if (request.method === 'POST') {
+        try {
+            const data = body()
+            const record = $app.findRecordById("users", user.id)
+
+            if (data.name) record.set("name", data.name)
+            if (data.bio) record.set("bio", data.bio)
+            if (data.shortHand) record.set("shortHand", data.shortHand)
+
+            $app.save(record)
+
+            // Redirect to profile view after save
+            redirect('/profile')
+        } catch (err) {
+            console.error('Profile update error:', err)
+        }
+    }
+</script>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="card bg-base-100 shadow-xl max-w-2xl mx-auto">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-6">Edit Profile</h2>
+
+            <div class="divider"></div>
+
+            <form method="POST" class="space-y-4">
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="text" value="<%= profile.email() %>" class="input input-bordered w-full" disabled />
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">Email cannot be changed here</span>
+                    </label>
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Display Name</span>
+                    </label>
+                    <input type="text" name="name" value="<%= profile.getString('name') || '' %>"
+                        placeholder="Enter your display name" class="input input-bordered w-full" />
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Shorthand (@handle)</span>
+                    </label>
+                    <input type="text" name="shortHand" value="<%= profile.getString('shortHand') || '' %>"
+                        placeholder="e.g. moviebuff" class="input input-bordered w-full" />
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Bio</span>
+                    </label>
+                    <textarea name="bio" class="textarea textarea-bordered h-24"
+                        placeholder="Tell us about yourself..."><%= profile.getString('bio') || '' %></textarea>
+                </div>
+
+                <div class="form-control w-full mt-4">
+                    <label class="label">
+                        <span class="label-text">Created</span>
+                    </label>
+                    <input type="text" value="<%= (() => {
+                            const d = new Date(profile.getString('created'));
+                            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                            return `${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
+                        })() %>" class="input input-bordered w-full" disabled />
+                </div>
+
+                <div class="card-actions justify-end mt-6 gap-2">
+                    <a href="/profile" class="btn btn-ghost">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

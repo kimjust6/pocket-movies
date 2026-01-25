@@ -4,22 +4,12 @@
         redirect('/login')
     }
 
-    if (request.method === 'POST') {
-        try {
-            const data = body()
-            const record = $app.dao().findRecordById("users", user.id)
-
-            if (data.name) record.set("name", data.name)
-            if (data.bio) record.set("bio", data.bio)
-            if (data.shortHand) record.set("shortHand", data.shortHand)
-
-            $app.dao().saveRecord(record)
-
-            // Redirect to refresh the data
-            redirect('/profile')
-        } catch (err) {
-            console.error('Profile update error:', err)
-        }
+    // Fetch fresh user data
+    let profile = user
+    try {
+        profile = $app.findRecordById("users", user.id)
+    } catch (e) {
+        console.error("Failed to fetch fresh profile:", e)
     }
 </script>
 
@@ -31,81 +21,85 @@
             <div class="flex items-center gap-6 mb-8">
                 <div class="avatar placeholder">
                     <div class="bg-neutral text-neutral-content rounded-full w-24">
-                        <% if (auth.avatar) { %>
-                            <img src="<%= '/api/files/' + auth.collectionId + '/' + auth.id + '/' + auth.avatar %>"
+                        <% if (profile.avatar) { %>
+                            <img src="<%= '/api/files/' + profile.collectionId + '/' + profile.id + '/' + profile.avatar %>"
                                 alt="Avatar" />
                             <% } else { %>
                                 <span class="text-3xl">
-                                    <%= auth.email().slice(0, 1).toUpperCase() %>
+                                    <%= profile.email().slice(0, 1).toUpperCase() %>
                                 </span>
                                 <% } %>
                     </div>
                 </div>
                 <div>
                     <h3 class="text-xl font-bold">
-                        <%= auth.name || auth.email() %>
+                        <%= profile.getString('name') || profile.email() %>
                     </h3>
-                    <% if (auth.shortHand) { %>
-                        <p class="text-sm badge badge-ghost">@<%= auth.shortHand %>
+                    <% if (profile.getString('shortHand')) { %>
+                        <p class="text-sm badge badge-ghost">@<%= profile.getString('shortHand') %>
                         </p>
                         <% } %>
-                            <p class="text-base-content/70 text-xs mt-1">User ID: <%= auth.id %>
-                            </p>
+
                 </div>
             </div>
 
             <div class="divider"></div>
 
-            <form method="POST" class="space-y-4">
+            <div class="space-y-4">
                 <div class="form-control w-full">
                     <label class="label">
-                        <span class="label-text">Email</span>
+                        <span class="label-text font-bold">Email</span>
                     </label>
-                    <input type="text" value="<%= auth.email() %>" class="input input-bordered w-full" disabled />
-                    <label class="label">
-                        <span class="label-text-alt text-base-content/60">Email cannot be changed here</span>
-                    </label>
+                    <div class="p-3 bg-base-200 rounded-lg">
+                        <%= profile.email() %>
+                    </div>
                 </div>
 
                 <div class="form-control w-full">
                     <label class="label">
-                        <span class="label-text">Display Name</span>
+                        <span class="label-text font-bold">Display Name</span>
                     </label>
-                    <input type="text" name="name" value="<%= auth.name || '' %>" placeholder="Enter your display name"
-                        class="input input-bordered w-full" />
+                    <div class="p-3 bg-base-200 rounded-lg">
+                        <%= profile.getString('name') || 'Not set' %>
+                    </div>
                 </div>
 
                 <div class="form-control w-full">
                     <label class="label">
-                        <span class="label-text">Shorthand (@handle)</span>
+                        <span class="label-text font-bold">Shorthand (@handle)</span>
                     </label>
-                    <input type="text" name="shortHand" value="<%= auth.shortHand || '' %>" placeholder="e.g. moviebuff"
-                        class="input input-bordered w-full" />
+                    <div class="p-3 bg-base-200 rounded-lg">
+                        <%= profile.getString('shortHand') || 'Not set' %>
+                    </div>
                 </div>
 
                 <div class="form-control w-full">
                     <label class="label">
-                        <span class="label-text">Bio</span>
+                        <span class="label-text font-bold">Bio</span>
                     </label>
-                    <textarea name="bio" class="textarea textarea-bordered h-24"
-                        placeholder="Tell us about yourself..."><%= auth.bio || '' %></textarea>
+                    <div class="p-3 bg-base-200 rounded-lg min-h-[6rem] whitespace-pre-wrap">
+                        <%= profile.getString('bio') || 'No bio provided.' %>
+                    </div>
                 </div>
 
                 <div class="form-control w-full mt-4">
                     <label class="label">
-                        <span class="label-text">Created</span>
+                        <span class="label-text font-bold">Created</span>
                     </label>
-                    <input type="text" value="<%= (() => {
-                            const d = new Date(auth.getString('created'));
-                            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    <div class="p-3 bg-base-200 rounded-lg">
+                        <%= (()=> {
+                            const d = new Date(profile.getString('created'));
+                            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                            'Dec'];
                             return `${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
-                        })() %>" class="input input-bordered w-full" disabled />
+                            })() %>
+                    </div>
                 </div>
 
                 <div class="card-actions justify-end mt-6">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
