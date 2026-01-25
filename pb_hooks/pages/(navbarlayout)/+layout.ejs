@@ -7,12 +7,12 @@
 </head>
 
 <body class="bg-transparent text-zinc-900 dark:text-zinc-100">
-    <div class="relative min-h-screen">
+    <div class="relative min-h-screen flex flex-col">
         <div x-on:click.outside="navOpen = false">
             <%- include('header') %> <%- include('mobile-menu') %>
         </div>
 
-        <main class="relative pt-24"><%- slot %></main>
+        <main class="relative pt-24 flex-grow"><%- slot %></main>
 
         <%- include('footer') %>
     </div>
