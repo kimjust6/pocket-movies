@@ -168,13 +168,13 @@ export type UsersRecord = {
 export type WatchedHistoryRecord = {
 	created: IsoAutoDateString
 	id: string
+	imdb_score?: number
 	list?: RecordIdString
 	movie?: RecordIdString
-	rating?: number
-	succeeded?: boolean
+	rt_score?: number
+	tmdb_score?: number
 	updated: IsoAutoDateString
-	user?: RecordIdString
-	watched_at?: IsoDateString
+	watched?: IsoDateString
 }
 
 // Response types include system fields and match responses from the PocketBase API
