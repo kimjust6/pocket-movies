@@ -5,9 +5,24 @@ module.exports = function (api) {
     const user = api.request.auth?.id
 
     // Only allow modifications if logged in
+    // Only allow modifications if logged in
+
     if (user && api.request.method === 'POST') {
-        const data = api.formData
-        const action = data.action
+        let data = {}
+        try {
+            if (typeof api.formData === 'function') {
+                data = api.formData()
+            } else if (typeof api.body === 'function') {
+                data = api.body()
+            } else {
+                data = api.formData || api.body || {}
+            }
+        } catch (e) {
+            console.error('Error parsing form data:', e)
+        }
+
+        console.log('Processed Data:', JSON.stringify(data))
+        const action = data?.action
 
         if (action === 'delete') {
             const watchlistId = data.watchlist_id
@@ -28,9 +43,15 @@ module.exports = function (api) {
             if (watchlistName) {
                 try {
                     const listsCollection = $app.findCollectionByNameOrId("lists")
+                    if (!listsCollection) {
+                        throw new Error("Lists collection not found")
+                    }
+
                     const record = new Record(listsCollection)
                     record.set("list_title", watchlistName)
                     record.set("owner", user)
+
+                    // Validate before saving if possible, or just save
                     $app.save(record)
 
                     // Fetch lists after creating
@@ -53,10 +74,11 @@ module.exports = function (api) {
                         showMessage: true
                     }
                 } catch (e) {
+                    console.error("Error creating watchlist:", e)
                     return {
                         movies: [],
                         lists: [],
-                        error: e.message
+                        error: e.message || "Failed to create watchlist"
                     }
                 }
             }
@@ -176,6 +198,9 @@ module.exports = function (api) {
         // Keep result.lists as []
     }
 
-    return result
+    return {
+        ...result,
+        user
+    }
 }
 

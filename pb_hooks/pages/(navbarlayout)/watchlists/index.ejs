@@ -7,23 +7,26 @@
             <p class="text-base-content/60 mt-1">Manage movies you want to watch</p>
         </div>
         <div class="flex gap-3">
-            <button @click="showNewWatchlistModal = true"
-                class="btn btn-secondary gap-2 shadow-lg shadow-secondary/20 hover:scale-105 hover:shadow-secondary/40 transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M10 9v4m2-2H8" fill="none" />
-                </svg>
-                New Watchlist
-            </button>
-            <a href="/movies/search"
-                class="btn btn-primary gap-2 shadow-lg shadow-primary/20 hover:scale-105 hover:shadow-primary/40 transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                        clip-rule="evenodd" />
-                </svg>
-                Add Movie
-            </a>
+            <% if (data.user) { %>
+                <button @click="showNewWatchlistModal = true"
+                    class="btn btn-secondary gap-2 shadow-lg shadow-secondary/20 hover:scale-105 hover:shadow-secondary/40 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M10 9v4m2-2H8"
+                            fill="none" />
+                    </svg>
+                    New Watchlist
+                </button>
+                <a href="/movies/search"
+                    class="btn btn-primary gap-2 shadow-lg shadow-primary/20 hover:scale-105 hover:shadow-primary/40 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Add Movie
+                </a>
+                <% } %>
         </div>
     </div>
 
@@ -35,7 +38,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
-                Your Custom Lists
+                Your Lists
             </h2>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 <% data.lists.forEach(list=> { %>
@@ -207,7 +210,7 @@
                                 <!-- Modal Header -->
                                 <div class="mb-6">
                                     <h3
-                                        class="text-2xl font-bold bg-gradient-to-br from-white to-white/60 bg-clip-text text-transparent">
+                                        class="text-2xl font-bold bg-gradient-to-br from-white to-white/60 bg-clip-text ">
                                         Create New Watchlist</h3>
                                     <p class="text-base-content/60 mt-1">Organize your movies into custom lists</p>
                                 </div>

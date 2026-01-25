@@ -121,7 +121,7 @@ module.exports = function (context) {
                     const moviesCollection =
                         $app.findCollectionByNameOrId('movies')
                     movie = new Record(moviesCollection)
-                    movie.set('tmdb_id', parseInt(tmdbId))
+                    movie.set('tmdb_id', tmdbId) // kept as string as per schema
                     movie.set('title', movieData.title)
                     movie.set('overview', movieData.overview || '')
                     movie.set('poster_path', movieData.poster_path || '')
@@ -130,19 +130,39 @@ module.exports = function (context) {
                     $app.save(movie)
                 }
 
-                // Verify List Access if targetListId is provided
-                if (targetListId) {
+                // Verify List Access or Get Default
+                let actualListId = targetListId;
+
+                if (!actualListId) {
+                    // Default List logic: Find or Create "Watchlist"
+                    try {
+                        const defaultList = $app.findFirstRecordByFilter(
+                            'lists',
+                            `owner = '${user.id}' && list_title = 'Watchlist'`
+                        );
+                        actualListId = defaultList.id;
+                    } catch (e) {
+                        // Not found, create it
+                        const listsCollection = $app.findCollectionByNameOrId('lists');
+                        const defaultList = new Record(listsCollection);
+                        defaultList.set('owner', user.id);
+                        defaultList.set('list_title', 'Watchlist');
+                        defaultList.set('is_private', false); // Default to private
+                        $app.save(defaultList);
+                        actualListId = defaultList.id;
+                    }
+                } else {
                     // Check if user owns or is invited to this list
                     let hasAccess = false
                     try {
-                        const targetList = $app.findRecordById('lists', targetListId)
+                        const targetList = $app.findRecordById('lists', actualListId)
                         if (targetList.getString('owner') === user.id) {
                             hasAccess = true
                         } else {
                             // Check invite
                             const invite = $app.findFirstRecordByFilter(
                                 'list_user',
-                                `list = '${targetListId}' && invited_user = '${user.id}'`
+                                `list = '${actualListId}' && invited_user = '${user.id}'`
                             )
                             if (invite) hasAccess = true
                         }
@@ -158,9 +178,9 @@ module.exports = function (context) {
                 // Add to user's watched_history
                 // Check if already in THIS specific list
                 try {
-                    const filter = targetListId
-                        ? `user = '${user.id}' && movie = '${movie.id}' && list = '${targetListId}'`
-                        : `user = '${user.id}' && movie = '${movie.id}' && list = ''` // Default list
+                    // watched_history table has no `user` field, it relies on the list owner
+                    // But we want to ensure uniqueness of movie per list
+                    const filter = `movie = '${movie.id}' && list = '${actualListId}'`
 
                     $app.findFirstRecordByFilter('watched_history', filter)
 
@@ -170,11 +190,9 @@ module.exports = function (context) {
                     const watchedCollection =
                         $app.findCollectionByNameOrId('watched_history')
                     const watchEntry = new Record(watchedCollection)
-                    watchEntry.set('user', user.id)
+                    // watchEntry.set('user', user.id) // Field does not exist
                     watchEntry.set('movie', movie.id)
-                    if (targetListId) {
-                        watchEntry.set('list', targetListId)
-                    }
+                    watchEntry.set('list', actualListId)
                     $app.save(watchEntry)
                     message = `"${movieData.title}" added to watchlist!`
                 }
