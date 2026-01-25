@@ -14,12 +14,28 @@
 
     if (request.method === 'POST') {
         try {
-            const data = body()
+            const formData = request.formData()
+
+            const name = formData.name
+            const bio = formData.bio
+            const shortHand = formData.shortHand
+
             const record = $app.findRecordById("users", user.id)
 
-            if (data.name) record.set("name", data.name)
-            if (data.bio) record.set("bio", data.bio)
-            if (data.shortHand) record.set("shortHand", data.shortHand)
+            if (name) record.set("name", name)
+            if (bio) record.set("bio", bio)
+            if (shortHand) record.set("shortHand", shortHand)
+
+            // Handle avatar upload
+            try {
+                const avatar = formData.avatar
+                // Only update avatar if a valid file with content is uploaded
+                if (avatar && typeof avatar === 'object' && avatar.size > 0) {
+                    record.set("avatar", avatar)
+                }
+            } catch (e) {
+                // Ignore avatar errors
+            }
 
             $app.save(record)
 
@@ -38,20 +54,73 @@
 
             <div class="divider"></div>
 
-            <form method="POST" class="space-y-4">
+            <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                <div class="form-control w-full">
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="avatar placeholder cursor-pointer group relative"
+                            onclick="document.getElementById('avatar-input').click()">
+                            <div
+                                class="bg-neutral text-neutral-content rounded-full w-24 group-hover:opacity-80 transition-opacity overflow-hidden ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <% if (profile.avatar) { %>
+                                    <img id="avatar-preview"
+                                        src="<%= '/api/files/' + profile.collectionId + '/' + profile.id + '/' + profile.avatar %>"
+                                        alt="Avatar" />
+                                    <% } else { %>
+                                        <div id="avatar-placeholder"
+                                            class="text-3xl w-full h-full flex items-center justify-center">
+                                            <%= profile.email().slice(0, 1).toUpperCase() %>
+                                        </div>
+                                        <img id="avatar-preview" class="hidden w-full h-full object-cover" />
+                                        <% } %>
+
+                                            <!-- Hover Overlay -->
+                                            <div
+                                                class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                                                </svg>
+                                            </div>
+                            </div>
+                        </div>
+                        <span class="text-sm text-base-content/60">Click avatar to change</span>
+                    </div>
+
+                    <input id="avatar-input" type="file" name="avatar" class="hidden" accept="image/*"
+                        onchange="previewAvatar(this)" />
+                </div>
+
+                <script>
+                    function previewAvatar(input) {
+                        if (input.files && input.files[0]) {
+                            const reader = new FileReader();
+                            const preview = document.getElementById('avatar-preview');
+                            const placeholder = document.getElementById('avatar-placeholder');
+
+                            reader.onload = function (e) {
+                                preview.src = e.target.result;
+                                preview.classList.remove('hidden');
+                                if (placeholder) placeholder.classList.add('hidden');
+                            }
+
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                </script>
+
                 <div class="form-control w-full">
                     <label class="label">
                         <span class="label-text">Email</span>
                     </label>
                     <input type="text" value="<%= profile.email() %>" class="input input-bordered w-full" disabled />
-                    <label class="label">
-                        <span class="label-text-alt text-base-content/60">Email cannot be changed here</span>
-                    </label>
                 </div>
 
                 <div class="form-control w-full">
                     <label class="label">
-                        <span class="label-text">Display Name</span>
+                        <span class="label-text">Name</span>
                     </label>
                     <input type="text" name="name" value="<%= profile.getString('name') || '' %>"
                         placeholder="Enter your display name" class="input input-bordered w-full" />
@@ -59,7 +128,7 @@
 
                 <div class="form-control w-full">
                     <label class="label">
-                        <span class="label-text">Shorthand (@handle)</span>
+                        <span class="label-text">Shorthand</span>
                     </label>
                     <input type="text" name="shortHand" value="<%= profile.getString('shortHand') || '' %>"
                         placeholder="e.g. moviebuff" class="input input-bordered w-full" />

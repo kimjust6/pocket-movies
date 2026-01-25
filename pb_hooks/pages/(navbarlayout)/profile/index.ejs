@@ -13,91 +13,71 @@
     }
 </script>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="card bg-base-100 shadow-xl max-w-2xl mx-auto">
-        <div class="card-body">
-            <h2 class="card-title text-2xl mb-6">Profile</h2>
-
-            <div class="flex items-center gap-6 mb-8">
-                <div class="avatar placeholder">
-                    <div class="bg-neutral text-neutral-content rounded-full w-24">
-                        <% if (profile.avatar) { %>
-                            <img src="<%= '/api/files/' + profile.collectionId + '/' + profile.id + '/' + profile.avatar %>"
-                                alt="Avatar" />
-                            <% } else { %>
-                                <span class="text-3xl">
-                                    <%= profile.email().slice(0, 1).toUpperCase() %>
-                                </span>
-                                <% } %>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold">
-                        <%= profile.getString('name') || profile.email() %>
-                    </h3>
-                    <% if (profile.getString('shortHand')) { %>
-                        <p class="text-sm badge badge-ghost">@<%= profile.getString('shortHand') %>
-                        </p>
-                        <% } %>
-
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start justify-center">
+        <!-- Left Column: Avatar -->
+        <div class="flex-shrink-0 mx-auto md:mx-0">
+            <div class="avatar placeholder">
+                <div
+                    class="w-32 md:w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+                    <% if (profile.avatar) { %>
+                        <img src="<%= '/api/files/' + profile.collectionId + '/' + profile.id + '/' + profile.avatar %>"
+                            alt="Avatar" />
+                        <% } else { %>
+                            <div
+                                class="bg-neutral text-neutral-content w-full h-full flex items-center justify-center text-5xl">
+                                <%= profile.email().slice(0, 1).toUpperCase() %>
+                            </div>
+                            <% } %>
                 </div>
             </div>
+        </div>
 
-            <div class="divider"></div>
-
-            <div class="space-y-4">
-                <div class="form-control w-full">
-                    <label class="label">
-                        <span class="label-text font-bold">Email</span>
-                    </label>
-                    <div class="p-3 bg-base-200 rounded-lg">
+        <!-- Right Column: Info -->
+        <div class="flex-grow space-y-6 w-full text-center md:text-left">
+            <!-- Header: Handle + Edit Button -->
+            <div class="space-y-1">
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    <h2 class="text-2xl font-normal">
                         <%= profile.email() %>
-                    </div>
-                </div>
+                    </h2>
+                    <!-- Minimal Footer/Meta info -->
 
-                <div class="form-control w-full">
-                    <label class="label">
-                        <span class="label-text font-bold">Display Name</span>
-                    </label>
-                    <div class="p-3 bg-base-200 rounded-lg">
-                        <%= profile.getString('name') || 'Not set' %>
+                    <div class="flex gap-2">
+                        <a href="/profile/edit" class="btn btn-sm btn-secondary font-semibold">Edit profile</a>
+                        <!-- Placeholder for future functionality -->
+                        <!-- <button class="btn btn-sm btn-ghost">View archive</button> -->
                     </div>
+                    <!-- <button class="btn btn-ghost btn-circle btn-sm">
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.332.183-.582.495-.644.869l-.212 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.581-.495.644-.869l.214-1.281z" />
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                   </svg>
+                </button> -->
                 </div>
-
-                <div class="form-control w-full">
-                    <label class="label">
-                        <span class="label-text font-bold">Shorthand (@handle)</span>
-                    </label>
-                    <div class="p-3 bg-base-200 rounded-lg">
-                        <%= profile.getString('shortHand') || 'Not set' %>
-                    </div>
+                <div class="text-xs text-base-content/50">
+                    Member since <%= (()=> {
+                        const d = new Date(profile.getString('created'));
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                        'Dec'];
+                        return `${months[d.getMonth()]} ${d.getFullYear()}`;
+                        })() %>
                 </div>
+            </div>
+            <!-- Stats (Placeholder to match layout) -->
+            <!-- <div class="flex gap-8 justify-center md:justify-start text-base">
+                <div><span class="font-bold">0</span> posts</div>
+                <div><span class="font-bold">0</span> followers</div>
+                <div><span class="font-bold">0</span> following</div>
+            </div> -->
 
-                <div class="form-control w-full">
-                    <label class="label">
-                        <span class="label-text font-bold">Bio</span>
-                    </label>
-                    <div class="p-3 bg-base-200 rounded-lg min-h-[6rem] whitespace-pre-wrap">
-                        <%= profile.getString('bio') || 'No bio provided.' %>
-                    </div>
+            <!-- Bio Section -->
+            <div class="space-y-1">
+                <div class="font-bold">
+                    <%= profile.getString('name') || '' %>
                 </div>
-
-                <div class="form-control w-full mt-4">
-                    <label class="label">
-                        <span class="label-text font-bold">Created</span>
-                    </label>
-                    <div class="p-3 bg-base-200 rounded-lg">
-                        <%= (()=> {
-                            const d = new Date(profile.getString('created'));
-                            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                            'Dec'];
-                            return `${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
-                            })() %>
-                    </div>
-                </div>
-
-                <div class="card-actions justify-end mt-6">
-                    <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
+                <div class="text-sm text-base-content/90">
+                    <%= profile.getString('bio') || '' %>
                 </div>
             </div>
         </div>
