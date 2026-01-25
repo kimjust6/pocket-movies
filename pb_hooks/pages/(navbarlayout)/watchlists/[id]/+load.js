@@ -4,11 +4,6 @@
 module.exports = function (api) {
     const user = api.request.auth?.id
 
-    // NOTE: Removed early return check for user. Authentication is checked per list below.
-
-
-
-
     // Attempt to get ID from params (likely merged path and query params)
     const listId = api.params?.id || api.pathParams?.id
 
@@ -20,48 +15,12 @@ module.exports = function (api) {
         }
     }
 
-    // 1. Fetch the list details
     let list
+    let message = null
+    let error = null
+
     try {
         list = $app.findRecordById('lists', listId)
-
-        const isPrivate = list.getBool('is_private')
-        const owner = list.getString('owner')
-
-        let hasAccess = false
-
-        // 1. Public list -> Access granted
-        if (!isPrivate) {
-            hasAccess = true
-        }
-        // 2. Owner -> Access granted
-        else if (user && owner === user) {
-            hasAccess = true
-        }
-        // 3. Shared User -> Access granted
-        else if (user) {
-            try {
-                // Check if there is a record in 'list_user' for this list and user
-                const invite = $app.findFirstRecordByFilter(
-                    'list_user',
-                    `list = '${list.id}' && invited_user = '${user}'`
-                )
-                if (invite) {
-                    hasAccess = true
-                }
-            } catch (ignore) {
-                // No invite found
-            }
-        }
-
-        if (!hasAccess) {
-            return {
-                list: null,
-                movies: [],
-                error: "You do not have permission to view this list."
-            }
-        }
-
     } catch (e) {
         return {
             list: null,
@@ -70,13 +29,103 @@ module.exports = function (api) {
         }
     }
 
-    // 2. Fetch movies in this list from watched_history
+    const isPrivate = list.getBool('is_private')
+    const owner = list.getString('owner')
+    const isOwner = (user && owner === user)
+
+    let hasAccess = false
+
+    // 1. check access
+    if (!isPrivate) {
+        hasAccess = true
+    } else if (isOwner) {
+        hasAccess = true
+    } else if (user) {
+        try {
+            const invite = $app.findFirstRecordByFilter(
+                'list_user',
+                `list = '${list.id}' && invited_user = '${user}'`
+            )
+            if (invite) hasAccess = true
+        } catch (ignore) { }
+    }
+
+    if (!hasAccess) {
+        return {
+            list: null,
+            movies: [],
+            error: "You do not have permission to view this list."
+        }
+    }
+
+    // Handle POST actions (Invite)
+    if (user && api.request.method === 'POST') {
+        let data = {}
+        try {
+            if (typeof api.formData === 'function') {
+                data = api.formData()
+            } else if (typeof api.body === 'function') {
+                data = api.body()
+            } else {
+                data = api.formData || api.body || {}
+            }
+        } catch (e) {
+            console.error('Error parsing form data:', e)
+        }
+
+        const action = data.action
+
+        if (action === 'invite_user') {
+            const email = data.email
+            const targetUserId = data.user_id
+
+            if (email || targetUserId) {
+                try {
+                    if (!isOwner) {
+                        throw new Error("Only the owner can invite users.")
+                    }
+
+                    let invitedUser
+                    if (targetUserId) {
+                        invitedUser = $app.findRecordById('users', targetUserId)
+                    } else {
+                        invitedUser = $app.findFirstRecordByFilter('users', `email = '${email}'`)
+                    }
+
+                    if (!invitedUser) throw new Error("User not found.")
+                    if (invitedUser.id === user) throw new Error("You cannot invite yourself.")
+
+                    // Check if already invited
+                    try {
+                        const existing = $app.findFirstRecordByFilter(
+                            'list_user',
+                            `list = '${list.id}' && invited_user = '${invitedUser.id}'`
+                        )
+                        if (existing) throw new Error("User is already invited.")
+                    } catch (e) { /* not found */ }
+
+                    const listUserCollection = $app.findCollectionByNameOrId('list_user')
+                    const invite = new Record(listUserCollection)
+                    invite.set('list', list.id)
+                    invite.set('invited_user', invitedUser.id)
+                    invite.set('user_permission', 'view')
+                    $app.save(invite)
+
+                    message = `User ${email} invited successfully!`
+                } catch (e) {
+                    error = e.message
+                }
+            }
+        }
+    }
+
+    // 2. Fetch movies
     try {
         const historyRecords = $app.findRecordsByFilter(
             'watched_history',
             `list = '${listId}'`,
             '-created',
-            100, // Reasonable limit
+            100,
             0,
             { expand: 'movie' }
         )
@@ -97,13 +146,40 @@ module.exports = function (api) {
             return null
         }).filter(Boolean)
 
+
+        // 3. Fetch potential users to invite (if owner)
+        let potentialUsers = []
+        if (isOwner) {
+            try {
+                potentialUsers = $app.findRecordsByFilter(
+                    'users',
+                    `id != '${user}'`,
+                    'email',
+                    50,
+                    0
+                ).map(u => ({
+                    id: u.id,
+                    email: u.getString('email'),
+                    // Add checks if already invited? 
+                    // We'll handle that in the UI or let the backend error if clicked again.
+                    // For better UI, we should mark them as invited.
+                }))
+            } catch (e) {
+                console.error("Failed to fetch users", e)
+            }
+        }
+
         return {
             list: {
                 id: list.id,
                 title: list.getString('list_title'),
                 created: list.getString('created'),
+                is_owner: isOwner
             },
             movies,
+            users: potentialUsers,
+            error,
+            message
         }
 
     } catch (e) {
@@ -113,9 +189,12 @@ module.exports = function (api) {
                 id: list.id,
                 title: list.getString('list_title'),
                 created: list.getString('created'),
+                is_owner: isOwner
             },
             movies: [],
-            error: "Failed to load movies for this list."
+            error: "Failed to load movies for this list.",
+            message,
+            users: [] // Ensure users is always present, even on error
         }
     }
 }
