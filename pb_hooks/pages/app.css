@@ -4483,10 +4483,6 @@ html::-webkit-scrollbar,
   max-width: 80rem;
 }
 
-.max-w-\[200px\] {
-  max-width: 200px;
-}
-
 .max-w-md {
   max-width: 28rem;
 }
@@ -4685,12 +4681,6 @@ html::-webkit-scrollbar,
 
 .overflow-y-auto {
   overflow-y: auto;
-}
-
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .rounded-2xl {
@@ -4974,11 +4964,6 @@ html::-webkit-scrollbar,
 
 .p-8 {
   padding: 2rem;
-}
-
-.px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 
 .px-4 {
@@ -5266,10 +5251,6 @@ html::-webkit-scrollbar,
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-
-.text-white\/90 {
-  color: rgb(255 255 255 / 0.9);
 }
 
 .text-zinc-900 {

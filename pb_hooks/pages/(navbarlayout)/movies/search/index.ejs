@@ -122,7 +122,7 @@
                                                     <div class="card-actions mt-auto justify-end">
                                                         <% if (data.user) { %>
                                                             <button type="button"
-                                                                @click="showAddModal = true; selectedTmdbId = '<%= movie.id %>'"
+                                                                @click="showAddModal = true; $nextTick(() => { $refs.tmdbIdField.value = '<%= movie.id %>'; selectedTmdbId = '<%= movie.id %>'; })"
                                                                 class="btn btn-primary btn-sm w-full gap-2">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
                                                                     viewBox="0 0 20 20" fill="currentColor">
@@ -216,7 +216,7 @@
                                     <div class="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-2">
                                         <!-- Data form -->
                                         <form method="POST" id="addToWatchlistForm">
-                                            <input type="hidden" name="tmdb_id" :value="selectedTmdbId" />
+                                            <input type="hidden" name="tmdb_id" x-ref="tmdbIdField" />
                                             <input type="hidden" name="q" value="<%= data.q %>" />
                                             <!-- watchlist_id will be set by the buttons -->
 
