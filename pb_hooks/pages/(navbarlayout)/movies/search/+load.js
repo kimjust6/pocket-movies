@@ -13,11 +13,17 @@
  */
 module.exports = function (context) {
     const { request } = context
-    const user = context.request.auth
 
-    // TMDB API helper functions (inlined to avoid module resolution issues)
+    // Initialize JS SDK Client with current request context (propagates auth)
+    // Access pb from context as it's not in global scope
+    const client = context.pb({ request })
+
+    // Get authenticated user model from the client's auth store
+    // This is more reliable for SDK operations than context.request.auth
+    const user = client.authStore.model
+
+    // TMDB API helper functions
     const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY || '').trim()
-
     const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 
     /**
@@ -76,53 +82,62 @@ module.exports = function (context) {
         return fetchTMDB(`/movie/${id}`)
     }
 
-    const watchlistId = context?.params?.watchlistId || ''
     const q = context?.params?.q || ''
 
     let results = []
     let lists = []
-    let message = null
+    let message = context.query?.message || null
     let error = null
 
     // Fetch user's watchlists if logged in
     if (user) {
+        let ownedLists = []
+        let sharedLists = []
+
         try {
             // 1. Owned lists
-            const ownedLists = $app.findRecordsByFilter(
-                'lists',
-                `owner = '${user.id}'`,
-                '-created'
-            )
+            try {
+                ownedLists = client.collection('lists').getFullList({
+                    filter: `owner = '${user.id}'`,
+                    sort: '-created',
+                })
+            } catch (e) {
+                // $app.logger().error('Failed to load owned lists:', e)
+            }
 
             // 2. Shared lists (via list_user)
-            const sharedInvites = $app.findRecordsByFilter(
-                'list_user',
-                `invited_user = '${user.id}'`,
-                '-created',
-                100,
-                0,
-                { expand: 'list' }
-            )
+            try {
+                const sharedInvites = client.collection('list_user').getFullList({
+                    filter: `invited_user = '${user.id}'`,
+                    sort: '-created',
+                    expand: 'list',
+                })
 
-            const sharedLists = sharedInvites.map(invite => invite.expandedOne('list')).filter(Boolean)
+                sharedLists = sharedInvites
+                    .map((invite) => invite.expand?.list)
+                    .filter(Boolean)
+            } catch (e) {
+                // warning only, likely permission issue or no shared lists
+                // $app.logger().warn('Failed to load shared lists (check API rules):', e)
+            }
 
             // Combine and deduplicate
-            // Use Array.from() to safely convert Go slices to JS arrays avoid Goja panics on spread
-            const allLists = Array.from(ownedLists).concat(sharedLists)
+            const allLists = [...ownedLists, ...sharedLists]
             const seenIds = new Set()
 
-            lists = allLists.filter(list => {
-                if (seenIds.has(list.id)) return false
-                seenIds.add(list.id)
-                return true
-            }).map(list => ({
-                id: list.id,
-                title: list.getString('list_title'),
-                is_private: list.getBool('is_private')
-            }))
-
+            lists = allLists
+                .filter((list) => {
+                    if (seenIds.has(list.id)) return false
+                    seenIds.add(list.id)
+                    return true
+                })
+                .map((list) => ({
+                    id: list.id,
+                    title: list.list_title, // Direct property access with JS SDK
+                    is_private: list.is_private,
+                }))
         } catch (e) {
-            console.error('Failed to load user lists:', e)
+            $app.logger().error('Failed to process user lists:', e)
         }
     }
 
@@ -131,21 +146,43 @@ module.exports = function (context) {
         let tmdbId = ''
         let targetListId = ''
 
+        // form extraction
         try {
-            // Use request.formValue() which is the standard way to get form values in PB JSVM (wrapping Echo)
-            tmdbId = request.formValue('tmdb_id')
-            targetListId = request.formValue('watchlist_id')
+            try {
+                // Try standard formValue first
+                // This might throw if the request body is already read or incompatible
+                if (typeof request.formValue === 'function') {
+                    tmdbId = request.formValue('tmdb_id')
+                    targetListId = request.formValue('watchlist_id')
+                }
+            } catch (fvErr) { }
 
-            // Fallback for JSON body if needed (though form submission matches formValue)
-            if (!tmdbId && context.formData) {
-                tmdbId = context.formData.tmdb_id
-                targetListId = context.formData.watchlist_id
+            // Fallback to context.formData which is a function
+            if (!tmdbId && typeof context.formData === 'function') {
+                try {
+                    const fd = context.formData()
+
+                    if (fd) {
+                        // Check if it's a Map/FormData object with .get()
+                        if (typeof fd.get === 'function') {
+                            tmdbId = fd.get('tmdb_id')
+                            targetListId = fd.get('watchlist_id')
+                        } else {
+                            // Assume plain object
+                            tmdbId = fd.tmdb_id
+                            targetListId = fd.watchlist_id
+                        }
+                    }
+                } catch (fdCallErr) {
+                    $app.logger().error('Error calling context.formData():', fdCallErr)
+                }
             }
+
         } catch (err) {
-            $app.logger().error('Error parsing form data:', err)
+            $app.logger().error('Error processing form data:', err)
         }
 
-        $app.logger().info(`[ADD_MOVIE] Extracted values: tmdb_id=${tmdbId}, watchlist_id=${targetListId}`)
+        // $app.logger().info(`[ADD_MOVIE] Extracted values: tmdb_id=${tmdbId}, watchlist_id=${targetListId}`)
 
         targetListId = targetListId || ''
 
@@ -153,117 +190,116 @@ module.exports = function (context) {
             try {
                 // Get movie details from TMDB
                 const movieData = getMovie(tmdbId)
-                $app.logger().info(`[ADD_MOVIE] TMDB Data: ${JSON.stringify(movieData).slice(0, 100)}`)
 
-                // Check if movie already exists in our database
-                let movie
+                // 1. Find or Create Movie
+                let movie = null
                 try {
-                    $app.logger().info(`[ADD_MOVIE] Searching for existing movie with tmdb_id: ${tmdbId}`)
-                    movie = $app.findFirstRecordByFilter(
-                        'movies',
-                        `tmdb_id = "${tmdbId}"`
-                    )
-                    $app.logger().info(`[ADD_MOVIE] Found existing movie: ${movie.id}`)
+                    movie = client.collection('movies').getFirstListItem(`tmdb_id = "${tmdbId}"`)
                 } catch (e) {
-                    $app.logger().info('[ADD_MOVIE] Movie not found, creating new record...')
-                    // Movie doesn't exist, create it
-                    const moviesCollection =
-                        $app.findCollectionByNameOrId('movies')
-                    movie = new Record(moviesCollection)
-                    movie.set('tmdb_id', tmdbId)
-                    movie.set('imdb_id', movieData.imdb_id || '')
-                    movie.set('title', movieData.title || 'Unknown Title')
-                    movie.set('original_title', movieData.original_title || '')
-                    movie.set('original_language', movieData.original_language || 'en')
-                    movie.set('release_date', movieData.release_date || '')
-                    movie.set('runtime', movieData.runtime || 0)
-                    movie.set('status', movieData.status || 'Released')
-                    movie.set('overview', movieData.overview || '')
-                    movie.set('tagline', movieData.tagline || '')
-                    movie.set('poster_path', movieData.poster_path || '')
-                    movie.set('backdrop_path', movieData.backdrop_path || '')
-                    movie.set('homepage', movieData.homepage || '')
-                    movie.set('adult', movieData.adult || false)
-
-                    $app.save(movie)
+                    // Not found, continue to create
                 }
 
-                // Verify List Access or Get Default
-                let actualListId = targetListId;
+                if (!movie) {
+                    try {
+                        const moviePayload = {
+                            tmdb_id: tmdbId,
+                            title: movieData.title || 'Unknown',
+                            imdb_id: String(movieData.imdb_id || ''),
+                            original_title: String(movieData.original_title || ''),
+                            original_language: String(movieData.original_language || 'en'),
+                            status: String(movieData.status || 'Released'),
+                            overview: String(movieData.overview || ''),
+                            tagline: String(movieData.tagline || ''),
+                            poster_path: String(movieData.poster_path || ''),
+                            backdrop_path: String(movieData.backdrop_path || ''),
+                            homepage: String(movieData.homepage || ''),
+                            runtime: parseInt(movieData.runtime) || 0,
+                            adult: !!movieData.adult,
+                            release_date: movieData.release_date || undefined
+                        }
 
+                        // Create movie using SDK
+                        movie = client.collection('movies').create(moviePayload)
+                    } catch (createError) {
+                        $app.logger().error('[ADD_MOVIE] Creation failed:', createError)
+                        throw new Error(`Failed to save movie: ${createError.message}`)
+                    }
+                }
+
+                // 2. Verify List Access
+                let actualListId = targetListId
                 if (!actualListId) {
                     // Default List logic: Find or Create "Watchlist"
                     try {
-                        const defaultList = $app.findFirstRecordByFilter(
-                            'lists',
-                            `owner = '${user.id}' && list_title = 'Watchlist'`
-                        );
-                        actualListId = defaultList.id;
+                        const defaultList = client.collection('lists').getFirstListItem(`owner = '${user.id}' && list_title = 'Watchlist'`)
+                        actualListId = defaultList.id
                     } catch (e) {
                         // Not found, create it
-                        const listsCollection = $app.findCollectionByNameOrId('lists');
-                        const defaultList = new Record(listsCollection);
-                        defaultList.set('owner', user.id);
-                        defaultList.set('list_title', 'Watchlist');
-                        defaultList.set('is_private', false); // Default to private
-                        $app.save(defaultList);
-                        actualListId = defaultList.id;
+                        try {
+                            const params = {
+                                owner: user.id,
+                                list_title: 'Watchlist',
+                                is_private: false // Default to private
+                            }
+                            const defaultList = client.collection('lists').create(params)
+                            actualListId = defaultList.id
+                        } catch (createListError) {
+                            throw new Error("Failed to create default watchlist")
+                        }
                     }
                 } else {
-                    // Check if user owns or is invited to this list
-                    let hasAccess = false
+                    // Check access by trying to fetch the list with the user context
+                    // The API Rule for 'view' will enforce we only get it if we have access (owned or shared)
                     try {
-                        const targetList = $app.findRecordById('lists', actualListId)
-                        if (targetList.getString('owner') === user.id) {
-                            hasAccess = true
-                        } else {
-                            // Check invite
-                            const invite = $app.findFirstRecordByFilter(
-                                'list_user',
-                                `list = '${actualListId}' && invited_user = '${user.id}'`
-                            )
-                            if (invite) hasAccess = true
-                        }
+                        const targetList = client.collection('lists').getOne(actualListId)
+                        // If we are here, we have access.
                     } catch (e) {
-                        throw new Error("Watchlist not found.")
-                    }
-
-                    if (!hasAccess) {
-                        throw new Error("You do not have permission to add to this watchlist.")
+                        throw new Error("List not found or access denied")
                     }
                 }
 
-                // Add to user's watched_history
-                // Check if already in THIS specific list
+                // 3. Add to Watched History
                 try {
                     const filter = `movie = '${movie.id}' && list = '${actualListId}'`
-                    // $app.logger().info('Checking watched_history with filter:', filter)
+                    try {
+                        // Check if already exists
+                        client.collection('watched_history').getFirstListItem(filter)
 
-                    $app.findFirstRecordByFilter('watched_history', filter)
+                        message = `"${movieData.title}" is already in that watchlist!`
+                    } catch (e) {
+                        // Not found, so add it
+                        const watchPayload = {
+                            movie: movie.id,
+                            list: actualListId,
+                        }
+                        if (movieData.vote_average) {
+                            watchPayload.tmdb_score = movieData.vote_average
+                        }
 
-                    message = `"${movieData.title}" is already in that watchlist!`
-                    $app.logger().info('[ADD_MOVIE] Movie already in watchlist')
-                } catch (e) {
-                    // Not found, so add it
-                    const watchedCollection = $app.findCollectionByNameOrId('watched_history')
-                    const watchEntry = new Record(watchedCollection)
-                    watchEntry.set('movie', movie.id)
-                    watchEntry.set('list', actualListId)
-                    if (movieData.vote_average) {
-                        watchEntry.set('tmdb_score', movieData.vote_average)
+                        const watchEntry = client.collection('watched_history').create(watchPayload)
+                        message = `"${movieData.title}" added to watchlist!`
                     }
-                    $app.save(watchEntry)
-                    $app.logger().info(`[ADD_MOVIE] Successfully saved to watched_history: ${watchEntry.id}`)
-                    message = `"${movieData.title}" added to watchlist!`
+
+                    // PRG: Redirect to prevent double submission
+                    const redirectUrl = `/movies/search?q=${encodeURIComponent(q)}&message=${encodeURIComponent(message)}`
+                    return context.redirect(redirectUrl)
+
+                } catch (err) {
+                    $app.logger().error('[ADD_MOVIE] Failed to add to watched_history:', err)
+                    if (err.data) {
+                        $app.logger().error('[ADD_MOVIE] Watched history validation errors:', JSON.stringify(err.data))
+                    }
+                    throw new Error("Failed to add to watchlist.")
                 }
             } catch (e) {
-                $app.logger().error('[ADD_MOVIE] Error adding movie:', e)
-                error = 'Failed to add movie: ' + e.message
+                // Global error for this flow
+                $app.logger().error('[ADD_MOVIE] Process failed:', e)
+                error = e.message
             }
         } else if (!user) {
             error = 'You must be logged in to add movies to your watchlist.'
         } else {
-            $app.logger().warn(`[ADD_MOVIE] Skipped: user=${!!user} tmdbId=${tmdbId}`)
+            // $app.logger().warn(`[ADD_MOVIE] Skipped: user=${!!user} tmdbId=${tmdbId}`)
         }
     }
 
