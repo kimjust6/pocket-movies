@@ -4487,6 +4487,10 @@ html::-webkit-scrollbar,
   max-width: 28rem;
 }
 
+.max-w-sm {
+  max-width: 24rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -4735,6 +4739,10 @@ html::-webkit-scrollbar,
 
 .border-base-content\/5 {
   border-color: var(--fallback-bc,oklch(var(--bc)/0.05));
+}
+
+.border-error\/20 {
+  border-color: var(--fallback-er,oklch(var(--er)/0.2));
 }
 
 .bg-accent\/10 {

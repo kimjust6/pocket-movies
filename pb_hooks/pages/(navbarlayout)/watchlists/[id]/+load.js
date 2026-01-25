@@ -1,6 +1,9 @@
 /**
  * Loader for the watchlist detail page.
- * Handles fetching list items, permissions, and list management actions.
+ * Handles:
+ * - Fetching list details and movie items.
+ * - Checking user permissions (view/edit/owner).
+ * - Handling list management actions (Update Title, Delete List, Invite User).
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (api) {
