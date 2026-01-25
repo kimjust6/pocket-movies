@@ -20,16 +20,12 @@ module.exports = function (api) {
     let error = null
 
     try {
-        list = $app.findRecordById('lists', listId)
-        if (list.getBool('is_deleted')) {
-            throw new Error("List deleted")
-        }
+        list = $app.findFirstRecordByFilter('lists', `id = '${listId}' && is_deleted != true`)
+        if (!list) throw new Error("List not found")
+
     } catch (e) {
-        return {
-            list: null,
-            movies: [],
-            error: "List not found."
-        }
+        api.response.redirect('/watchlists')
+        return
     }
 
     const isPrivate = list.getBool('is_private')
@@ -101,9 +97,8 @@ module.exports = function (api) {
                 $app.save(list)
 
                 // Redirect to watchlists page since this one is now "gone"
-                return {
-                    redirect: '/watchlists'
-                }
+                api.response.redirect('/watchlists')
+                return
             } catch (e) {
                 error = e.message
             }

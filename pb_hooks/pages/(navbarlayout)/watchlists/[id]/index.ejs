@@ -72,20 +72,21 @@
         </div>
         <% } %>
 
-            <% if (data.error && !data.list) { /* Error shown above if list is null, else show here */ } %>
-                <% if (data.error && data.list) { %>
-                    <div class="alert alert-error shadow-lg mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span>
-                            <%= data.error %>
-                        </span>
-                    </div>
-                    <% } %>
+            <% if (data.error && data.list) { %>
+                <div class="alert alert-error shadow-lg mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>
+                        <%= data.error %>
+                    </span>
+                </div>
+                <% } %>
 
+
+                    <% if (data.list) { %>
                         <!-- Share Modal -->
                         <div x-show="showShareModal" x-cloak x-transition:enter="transition ease-out duration-200"
                             x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
@@ -196,15 +197,8 @@
                                             class="input input-bordered w-full" required />
                                     </div>
 
-                                    <div class="modal-action flex justify-between">
-                                        <!-- Delete Form (nested inside modal, but separate from update) 
-                         Wait, nested forms are invalid HTML. We need to handle this carefully.
-                         Or just use one form and button name/value submission?
-                         PocketBase EJS doesn't always support button name/value easily if using standard FormData.
-                         Better to use two separate forms if possible or use JS.
-                         Since we are using plain HTML forms (SSR), we should probably put the delete button outside the main form or use a different form.
-                    -->
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <div class="modal-action">
+                                        <button type="submit" class="btn btn-primary w-full">Save Changes</button>
                                     </div>
                                 </form>
 
@@ -218,9 +212,10 @@
                                 </form>
                             </div>
                         </div>
+                        <% } %>
 </div>
 
-<% if (data.movies.length===0 && !data.error) { %>
+<% if ((!data.movies || data.movies.length===0) && !data.error) { %>
     <div class="py-20 text-center opacity-70">
         <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-4 h-24 w-24 text-base-content/30 translate-y-2"
             fill="none" viewBox="0 0 24 24" stroke="currentColor">
