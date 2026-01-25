@@ -20,8 +20,8 @@
             <div class="avatar placeholder">
                 <div
                     class="w-32 md:w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
-                    <% if (profile.avatar) { %>
-                        <img src="<%= '/api/files/' + profile.collectionId + '/' + profile.id + '/' + profile.avatar %>"
+                    <% if (profile.getString('avatar')) { %>
+                        <img src="<%= '/api/files/' + profile.collection().id + '/' + profile.id + '/' + profile.getString('avatar') %>"
                             alt="Avatar" />
                         <% } else { %>
                             <div

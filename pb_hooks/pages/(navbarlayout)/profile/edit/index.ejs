@@ -28,13 +28,94 @@
 
             // Handle avatar upload
             try {
-                const avatar = formData.avatar
+                let avatar = null // Initialize avatar here
+
+                // Values is undefined because headers is not directly serializable, but request.event exists
+
+                // Trying to access the file via the native request object on the event
+                if (request.event && request.event.request) {
+                    try {
+                        // Check for global findUploadedFiles or $app methods
+                        try {
+                            console.log("typeof findUploadedFiles:", typeof findUploadedFiles)
+                            console.log("typeof $app.findUploadedFiles:", typeof $app.findUploadedFiles)
+                            // console.log("typeof filesystem:", typeof filesystem) // might throw if undefined
+
+                            if (typeof findUploadedFiles === 'function') {
+                                // request.event.request is the native http.Request
+                                const files = findUploadedFiles(request.event.request, "avatar")
+                                if (files && files.length > 0) {
+                                    avatar = files[0]
+                                    console.log("Found avatar via findUploadedFiles")
+                                }
+                            }
+                        } catch (e) {
+                            console.log("Error checking helpers:", e)
+                        }
+
+                        // If findUploadedFiles didn't work/exist, fall back to inspecting the previous result
+                        if (!avatar && request.event && request.event.request) {
+                            try {
+                                const userFile = request.event.request.formFile("avatar")
+                                if (userFile && Array.isArray(userFile)) {
+                                    const header = userFile[1]
+
+                                    // Try to create the File object using $filesystem helper (common in PB JS)
+                                    try {
+                                        console.log("typeof $filesystem:", typeof $filesystem)
+                                        if (typeof $filesystem !== 'undefined') {
+                                            // Try standard PB JS helper
+                                            if ($filesystem.fileFromMultipart) {
+                                                avatar = $filesystem.fileFromMultipart(header)
+                                                console.log("Created avatar via $filesystem.fileFromMultipart")
+                                            } else {
+                                                console.log("$filesystem.fileFromMultipart not found")
+                                            }
+                                        } else {
+                                            // Fallback: maybe it is just 'filesystem' but we missed it? No, logs said undefined.
+                                            // What about a global 'FileFromMultipart'?
+                                            if (typeof FileFromMultipart !== 'undefined') {
+                                                avatar = FileFromMultipart(header)
+                                                console.log("Created avatar via FileFromMultipart")
+                                            }
+                                        }
+                                    } catch (fsErr) {
+                                        console.log("Error using $filesystem:", fsErr)
+                                    }
+
+                                    // If still no avatar, we are stuck.
+                                    // But wait, if record.set doesn't take header, maybe we can use data structure?
+                                    if (!avatar && userFile[1]) {
+                                        // Last ditch attempt: some versions might handle the header if wrapped?
+                                        // But we saw it fail.
+                                    }
+                                }
+                            } catch (e) {
+                                console.log("Error accessing request.event.request.formFile:", e)
+                            }
+                        }
+                    } catch (e) {
+                        console.log("Error accessing request.event.request.formFile:", e)
+                    }
+                }
+
+                // If that failed, let's try reading all form files from the event
+                if (!avatar && $app) {
+                    // Sometimes we can find it via the reader
+                }
+
+                console.log("Avatar final:", avatar)
+
                 // Only update avatar if a valid file with content is uploaded
-                if (avatar && typeof avatar === 'object' && avatar.size > 0) {
+                // Check if it's a Go MultipartFile (has Size field usually, or just size)
+                // In PB JS, formFile returns a filesystem.File
+                if (avatar && avatar.size > 0) {
                     record.set("avatar", avatar)
                 }
+                console.log("--- DEBUG END ---")
             } catch (e) {
                 // Ignore avatar errors
+                console.log("Avatar processing error:", e)
             }
 
             $app.save(record)
@@ -61,9 +142,9 @@
                             onclick="document.getElementById('avatar-input').click()">
                             <div
                                 class="bg-neutral text-neutral-content rounded-full w-24 group-hover:opacity-80 transition-opacity overflow-hidden ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <% if (profile.avatar) { %>
+                                <% if (profile.getString('avatar')) { %>
                                     <img id="avatar-preview"
-                                        src="<%= '/api/files/' + profile.collectionId + '/' + profile.id + '/' + profile.avatar %>"
+                                        src="<%= '/api/files/' + profile.collection().id + '/' + profile.id + '/' + profile.getString('avatar') %>"
                                         alt="Avatar" />
                                     <% } else { %>
                                         <div id="avatar-placeholder"
