@@ -87,6 +87,7 @@ module.exports = function (api) {
         const action = data.action
 
         if (action === 'update_list') {
+            const newTitle = data.list_title
             if (newTitle) {
                 try {
                     if (!isOwner) throw new Error("Only the owner can update the list.")

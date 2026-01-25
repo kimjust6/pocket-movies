@@ -35,12 +35,13 @@ module.exports = function (api) {
             const watchlistId = data.watchlist_id
             if (watchlistId) {
                 try {
-                    const record = $app.findRecordById('watchlist', watchlistId)
-                    if (record.getString('user') === user) {
+                    const record = $app.findRecordById('lists', watchlistId) // Correct collection name 'lists' not 'watchlist'
+                    if (record.getString('owner') === user) {
                         $app.delete(record)
+                        return api.redirect('/watchlists?message=Watchlist+deleted+successfully')
                     }
                 } catch (e) {
-                    // Ignore if not found or other error for now
+                    // Ignore if not found
                 }
             }
         }
@@ -58,30 +59,24 @@ module.exports = function (api) {
                     record.set("list_title", watchlistName)
                     record.set("owner", user)
 
+                    if (data.description) {
+                        record.set("description", data.description)
+                    }
+
                     // Validate before saving if possible, or just save
                     $app.save(record)
 
-                    // Fetch lists after creating
-                    const lists = $app.findRecordsByFilter(
-                        'lists',
-                        `owner = '${user}'`,
-                        '-created',
-                        50,
-                        0
-                    ).map((list) => ({
-                        id: list.id,
-                        list_title: list.getString('list_title'),
-                        created: list.getString('created'),
-                    }))
+                    return api.redirect('/watchlists?message=Watchlist+created+successfully')
 
-                    return {
-                        movies: [],
-                        lists,
-                        message: "Watchlist created successfully!",
-                        showMessage: true
-                    }
                 } catch (e) {
                     console.error("Error creating watchlist:", e)
+                    // If error, we might want to return it to show in UI,
+                    // but for consistency let's redirect with error param or fallback
+                    // ideally we pass error in query but it's ugly.
+                    // Let's just fall through to GET and maybe show error?
+                    // But falling through allows re-submit.
+                    // For now, let's fall through so the user can see the error in the modal (if we supported it).
+                    // Actually, the previous code returned an object with 'error'.
                     return {
                         movies: [],
                         lists: [],
@@ -95,6 +90,7 @@ module.exports = function (api) {
     const result = {
         movies: [],
         lists: [],
+        message: api.query?.message || null
     }
 
     // 1. Try to fetch movies from 'watchlist' collection (only if logged in)
