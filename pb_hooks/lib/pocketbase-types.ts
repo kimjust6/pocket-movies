@@ -154,6 +154,7 @@ export type MoviesGenresRecord = {
 
 export type UsersRecord = {
 	avatar?: FileNameString
+	bio?: string
 	created: IsoAutoDateString
 	deleted?: boolean
 	email: string
@@ -161,6 +162,7 @@ export type UsersRecord = {
 	id: string
 	name?: string
 	password: string
+	shortHand?: string
 	tokenKey: string
 	updated: IsoAutoDateString
 	verified?: boolean
