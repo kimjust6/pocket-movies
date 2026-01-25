@@ -5,6 +5,13 @@
  * - Checking user permissions (view/edit/owner).
  * - Handling list management actions (Update Title, Delete List, Invite User).
  * @type {import('pocketpages').PageDataLoaderFunc}
+ * @returns {{
+ *   list: import('../../../../lib/pocketbase-types').ListsResponse,
+ *   movies: import('../../../../lib/pocketbase-types').MoviesResponse[],
+ *   users: import('../../../../lib/pocketbase-types').UsersResponse[],
+ *   error: string|null,
+ *   message: string|null
+ * }}
  */
 module.exports = function (api) {
     const user = api.request.auth?.id

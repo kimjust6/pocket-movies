@@ -2,6 +2,14 @@
  * Loader for the movie search page.
  * Handles search queries, watchlist management, and adding movies to watchlists.
  * @type {import('pocketpages').PageDataLoaderFunc}
+ * @returns {{
+ *   results: Object[],
+ *   q: string,
+ *   message: string|null,
+ *   error: string|null,
+ *   user: import('../../../../lib/pocketbase-types').UsersResponse|null,
+ *   lists: Array<{id: string, title: string, is_private: boolean}>
+ * }}
  */
 module.exports = function (context) {
     const { request } = context

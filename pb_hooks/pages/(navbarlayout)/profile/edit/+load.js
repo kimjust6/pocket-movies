@@ -2,6 +2,7 @@
  * Loader for the profile edit page.
  * Checks authentication, loads profile, and handles profile update submissions (including avatar upload).
  * @type {import('pocketpages').PageDataLoaderFunc}
+ * @returns {{ profile: import('../../../../lib/pocketbase-types').UsersResponse }}
  */
 module.exports = function (context) {
     const user = context.request.auth

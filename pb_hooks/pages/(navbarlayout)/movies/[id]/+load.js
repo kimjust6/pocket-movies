@@ -2,6 +2,12 @@
  * Loader for the movie detail page.
  * Fetches movie details and credits from TMDB.
  * @type {import('pocketpages').PageDataLoaderFunc}
+ * @returns {{
+ *   movie: Object|null,
+ *   credits: Object|null,
+ *   user: import('../../../../lib/pocketbase-types').UsersResponse|null,
+ *   error?: string
+ * }}
  */
 module.exports = function (context) {
     // TMDB API helper functions

@@ -2,6 +2,11 @@
  * Loader for the watchlists index page.
  * Handles display of user's watchlists and public lists.
  * @type {import('pocketpages').PageDataLoaderFunc}
+ * @returns {{
+ *   movies: import('../../../lib/pocketbase-types').MoviesResponse[],
+ *   lists: import('../../../lib/pocketbase-types').ListsResponse[],
+ *   user: string
+ * }}
  */
 module.exports = function (api) {
     const user = api.request.auth?.id
