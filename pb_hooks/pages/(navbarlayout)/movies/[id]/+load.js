@@ -1,4 +1,6 @@
 /**
+ * Loader for the movie detail page.
+ * Fetches movie details and credits from TMDB.
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (context) {
@@ -7,6 +9,12 @@ module.exports = function (context) {
     const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY || '').trim()
     const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 
+    /**
+     * Helper to fetch data from TMDB.
+     * @param {string} endpoint - The TMDB endpoint.
+     * @param {Object} [queryParams={}] - Query parameters.
+     * @returns {Object} JSON response.
+     */
     function fetchTMDB(endpoint, queryParams = {}) {
         if (!TMDB_API_KEY) {
             throw new Error('TMDB_API_KEY is not set')

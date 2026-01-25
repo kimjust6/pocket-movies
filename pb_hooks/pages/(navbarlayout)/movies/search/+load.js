@@ -1,4 +1,6 @@
 /**
+ * Loader for the movie search page.
+ * Handles search queries, watchlist management, and adding movies to watchlists.
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (context) {
@@ -10,6 +12,12 @@ module.exports = function (context) {
 
     const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 
+    /**
+     * Helper to fetch data from TMDB.
+     * @param {string} endpoint - The TMDB endpoint.
+     * @param {Object} [queryParams={}] - Query parameters.
+     * @returns {Object} JSON response.
+     */
     function fetchTMDB(endpoint, queryParams = {}) {
         if (!TMDB_API_KEY) {
             throw new Error('TMDB_API_KEY is not set')
@@ -41,10 +49,21 @@ module.exports = function (context) {
         return res.json
     }
 
+    /**
+     * Searches for movies.
+     * @param {string} query - Search string.
+     * @param {number} page - Page number.
+     * @returns {Object} Search results.
+     */
     function searchMovies(query, page = 1) {
         return fetchTMDB('/search/movie', { query, page })
     }
 
+    /**
+     * Gets movie details.
+     * @param {string} id - Movie ID.
+     * @returns {Object} Movie details.
+     */
     function getMovie(id) {
         return fetchTMDB(`/movie/${id}`)
     }

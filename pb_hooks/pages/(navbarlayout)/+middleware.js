@@ -1,6 +1,11 @@
 // Configure your site URL here (no trailing slash)
 const BASE_URL = 'https://dank.pockethost.io';
 
+/**
+ * Middleware function to provide site metadata.
+ * @param {import('pocketpages').MiddlewareContext} context - The middleware context.
+ * @returns {Object} The metadata object used by head.ejs.
+ */
 module.exports = function (context) {
     // Auth logic removed.
     // Returning metadata required by head.ejs

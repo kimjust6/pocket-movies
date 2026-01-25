@@ -1,4 +1,6 @@
 /**
+ * Loader for the watchlists index page.
+ * Handles display of user's watchlists and public lists.
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (api) {

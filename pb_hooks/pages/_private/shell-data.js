@@ -1,5 +1,6 @@
 /**
- * Shell Alpine.js component for navigation and theme management
+ * Shell Alpine.js component for navigation and theme management.
+ * @returns {Object} The Alpine.js component data.
  */
 module.exports = function shellData() {
     return {

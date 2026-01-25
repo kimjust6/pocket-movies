@@ -2,6 +2,11 @@
  * PocketPages Configuration with Custom Auth Plugin
  */
 
+/**
+ * Safely parses a JSON string.
+ * @param {string} value - The JSON string to parse.
+ * @returns {any} The parsed value or the original value if parsing fails.
+ */
 const safeParseJson = (value) => {
     if (!value) return value;
     try {
@@ -11,6 +16,11 @@ const safeParseJson = (value) => {
     }
 };
 
+/**
+ * Converts a GoJA object to a plain JS object.
+ * @param {any} value - The value to convert.
+ * @returns {any} The plain object.
+ */
 const toPlainObject = (value) => {
     if (typeof value === "object" && value !== null) {
         return JSON.parse(JSON.stringify(value));
@@ -19,6 +29,11 @@ const toPlainObject = (value) => {
 };
 
 // Custom Auth Plugin Factory (inline)
+/**
+ * Factory for the custom authentication plugin.
+ * @param {import('pocketpages').PluginConfig} config - The plugin configuration.
+ * @returns {import('pocketpages').Plugin} The auth plugin instance.
+ */
 const authPlugin = (config) => {
     const { globalApi } = config;
     const { dbg, info } = globalApi;
@@ -206,6 +221,11 @@ const authPlugin = (config) => {
     };
 };
 
+/**
+ * PocketPages configuration function.
+ * @param {import('pocketpages').ConfigContext} api - The configuration context.
+ * @returns {import('pocketpages').Config} The configuration object.
+ */
 module.exports = function (api) {
     return {
         plugins: [

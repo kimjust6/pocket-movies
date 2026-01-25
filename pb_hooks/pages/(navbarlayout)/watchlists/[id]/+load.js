@@ -1,4 +1,6 @@
 /**
+ * Loader for the watchlist detail page.
+ * Handles fetching list items, permissions, and list management actions.
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 module.exports = function (api) {
