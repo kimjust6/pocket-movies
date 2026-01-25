@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1769326428971,
+    "generatedTime": 1769338662748,
     "data": [
         {
             "type": "file",
@@ -38,6 +38,24 @@
             "name": "pb_public/favicon.ico",
             "size": 181598,
             "hash": "42852b72e4963165d078b06d7a62a8d64d14b07ea19ad0c0aa30466079481fe8"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769333722_updated_users.js",
+            "size": 1156,
+            "hash": "3bebe204f7645660c04193256fa1f1361fa4ee0e363c262473312514644a6b6a"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769329216_updated_users.js",
+            "size": 675,
+            "hash": "6e49065d292781a3ce440a3c114c96c50c6279e7d97a836ffcecd313695880fb"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769328751_updated_users.js",
+            "size": 680,
+            "hash": "7b12539bf234f920c4054d1c4e9f5fc0253871809c277a6780e4c5d9a18127ad"
         },
         {
             "type": "file",
@@ -358,8 +376,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 138363,
-            "hash": "a087a814da41ead9489432eb86df5d38cc580f51cf97c94e0816053e1c407af2"
+            "size": 141370,
+            "hash": "bfeafa9c2d428ae70eac2f993ba9a03a1832d7b19757a7c0b18ebf565c642fa0"
         },
         {
             "type": "folder",
@@ -456,8 +474,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/header.ejs",
-            "size": 3922,
-            "hash": "f050a7d1a1fe6865f4f194098209425abe6113d5755c0bebc4aff714c8a3002a"
+            "size": 4180,
+            "hash": "c22d916139125da93f6255d89376bd49da305d316fc148efd3c0bbdb567d59e4"
         },
         {
             "type": "file",
@@ -489,6 +507,10 @@
         },
         {
             "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/profile"
+        },
+        {
+            "type": "folder",
             "name": "pb_hooks/pages/(navbarlayout)/movies"
         },
         {
@@ -512,8 +534,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+layout.ejs",
-            "size": 660,
-            "hash": "b2271de7d01d24b52ba186d5f47aa71ea99f83f13be70269fba5fdb0fbbf1c16"
+            "size": 684,
+            "hash": "732dc5b190cb7522ba4531785afa2e3f286956046432a71e5160fdaec8374e68"
         },
         {
             "type": "file",
@@ -542,6 +564,22 @@
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/+load.js",
             "size": 7179,
             "hash": "bcc13fdd7796ce82b35b0b22d2354d42995b34a1b97d23bd5e2bc6fb9337ce5e"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/(navbarlayout)/profile/index.ejs",
+            "size": 4894,
+            "hash": "a461911e4a8030d7e65ce1162e21a4296c96bb64999b7c352252c4ecc068ad92"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/profile/edit"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/(navbarlayout)/profile/edit/index.ejs",
+            "size": 9232,
+            "hash": "7bc44281c8b48cb561fdfded1de45cc87bba74691c975b55255730294c021e6e"
         },
         {
             "type": "folder",
@@ -584,8 +622,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/pocketbase-types.ts",
-            "size": 7688,
-            "hash": "ede771793bcdae4b881f4377b328e02e67ffe1baf167c3edc251a5ee71f9de16"
+            "size": 7722,
+            "hash": "8023e26df1cd3c47e43ff4035f70919ecf979ee967e2443520cc84a794f5d0d7"
         }
     ]
 }

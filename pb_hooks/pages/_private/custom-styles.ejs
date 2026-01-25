@@ -2,9 +2,10 @@
     [x-cloak] {
         display: none !important;
     }
+
     body {
         font-family:
-            'Lato',
+            'Inter',
             'Libre Baskerville',
             system-ui,
             -apple-system,
@@ -15,43 +16,40 @@
         background-attachment: fixed;
         transition: background 0.3s ease;
     }
+
     .dark body {
         background: linear-gradient(to bottom, #18181b, #27272a);
     }
+
     .script-font {
         font-family: 'Dancing Script', cursive;
         font-weight: 700;
         letter-spacing: 0.02em;
     }
+
     .serif-font {
         font-family: 'Libre Baskerville', serif;
     }
+
     .glass-surface {
         background:
-            radial-gradient(
-                circle at 20% 20%,
+            radial-gradient(circle at 20% 20%,
                 rgba(139, 92, 246, 0.14),
-                transparent 32%
-            ),
-            radial-gradient(
-                circle at 80% 0%,
+                transparent 32%),
+            radial-gradient(circle at 80% 0%,
                 rgba(167, 139, 250, 0.12),
-                transparent 34%
-            ),
+                transparent 34%),
             rgba(255, 255, 255, 0.85);
     }
+
     .dark .glass-surface {
         background:
-            radial-gradient(
-                circle at 20% 20%,
+            radial-gradient(circle at 20% 20%,
                 rgba(139, 92, 246, 0.18),
-                transparent 32%
-            ),
-            radial-gradient(
-                circle at 80% 0%,
+                transparent 32%),
+            radial-gradient(circle at 80% 0%,
                 rgba(129, 140, 248, 0.14),
-                transparent 34%
-            ),
+                transparent 34%),
             rgba(15, 23, 42, 0.82);
     }
 </style>

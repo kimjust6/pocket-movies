@@ -2,32 +2,49 @@
 <div class="fixed inset-x-0 top-[5.5rem] w-full border-b border-base-300 bg-base-100 shadow-lg md:hidden"
     x-show="navOpen" x-transition x-cloak style="z-index: 60; display: none">
     <div class="mx-auto max-w-7xl">
-        <template x-for="item in navigation" :key="item.title">
-            <a class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
-                :href="item.href" @click="navOpen = false">
-                <span x-text="item.title"></span>
-            </a>
-        </template>
-
-        <div class="border-t border-base-300 p-4 bg-base-200/50">
-            <% if (locals.auth) { %>
-                <div class="flex flex-col gap-3">
-                    <div class="flex items-center gap-3 px-2">
-                        <div class="avatar">
-                            <div class="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img
-                                    src="<%= auth.avatarUrl || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(auth.email) + '&background=random' %>" />
-                            </div>
-                        </div>
-                        <span class="font-semibold text-sm truncate max-w-[200px]">
-                            <%= auth.email %>
-                        </span>
+        <% if (locals.auth) { %>
+            <a href="/profile"
+                class="flex w-full items-center gap-3 border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                @click="navOpen = false">
+                <div class="avatar">
+                    <div class="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+                        <% if (auth.getString('avatar')) { %>
+                            <img src="<%= '/api/files/' + auth.collection().id + '/' + auth.id + '/' + auth.getString('avatar') %>"
+                                alt="User Avatar" class="w-full h-full object-cover" />
+                            <% } else { %>
+                                <span
+                                    class="text-xl font-bold flex h-full w-full items-center justify-center bg-neutral text-neutral-content">
+                                    <%= auth.email().slice(0, 1).toUpperCase() %>
+                                </span>
+                                <% } %>
                     </div>
-                    <a href="/auth/logout" class="btn btn-outline btn-sm w-full">Logout</a>
                 </div>
-                <% } else { %>
-                    <a href="/login" class="btn btn-primary w-full">Login</a>
-                    <% } %>
-        </div>
+                <span>
+                    <%= auth.email() %>
+                </span>
+            </a>
+            <% } %>
+                <template x-for="item in navigation" :key="item.title">
+                    <a class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                        :href="item.href" @click="navOpen = false">
+                        <span x-text="item.title"></span>
+                    </a>
+                </template>
+
+                <% if (locals.auth) { %>
+
+
+                    <a href="/auth/logout"
+                        class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                        @click="navOpen = false">
+                        <span>Logout</span>
+                    </a>
+                    <% } else { %>
+                        <a href="/login"
+                            class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                            @click="navOpen = false">
+                            <span>Login</span>
+                        </a>
+                        <% } %>
     </div>
 </div>
