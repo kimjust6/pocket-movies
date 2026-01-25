@@ -133,7 +133,7 @@ module.exports = function (api) {
             // A. Fetch OWNED lists
             const ownedLists = $app.findRecordsByFilter(
                 'lists',
-                `owner = '${user}'`,
+                `owner = '${user}' && is_deleted != true`,
                 '-created',
                 50,
                 0
@@ -156,11 +156,11 @@ module.exports = function (api) {
             let sharedLists = []
             if (sharedListIds.length > 0) {
                 // Build a filter string like: id='id1' || id='id2' ...
-                // Note: Ideally use a cleaner "id in (...)" if supported or simple ORs
-                const idFilter = sharedListIds.map(id => `id='${id}'`).join(' || ')
+                // Add check that they are not deleted
+                const idFilter = '(' + sharedListIds.map(id => `id='${id}'`).join(' || ') + ')'
                 sharedLists = $app.findRecordsByFilter(
                     'lists',
-                    idFilter,
+                    `${idFilter} && is_deleted != true`,
                     '-created',
                     50,
                     0
@@ -180,7 +180,7 @@ module.exports = function (api) {
             // NOT logged in: Fetch PUBLIC lists
             listRecords = $app.findRecordsByFilter(
                 'lists',
-                'is_private = false',
+                'is_private = false && is_deleted != true',
                 '-created',
                 50,
                 0

@@ -21,6 +21,9 @@ module.exports = function (api) {
 
     try {
         list = $app.findRecordById('lists', listId)
+        if (list.getBool('is_deleted')) {
+            throw new Error("List deleted")
+        }
     } catch (e) {
         return {
             list: null,
@@ -58,7 +61,7 @@ module.exports = function (api) {
         }
     }
 
-    // Handle POST actions (Invite)
+    // Handle POST actions (Invite, Update, Delete)
     if (user && api.request.method === 'POST') {
         let data = {}
         try {
@@ -75,7 +78,37 @@ module.exports = function (api) {
 
         const action = data.action
 
-        if (action === 'invite_user') {
+        if (action === 'update_list') {
+            const newTitle = data.list_title
+            if (newTitle) {
+                try {
+                    if (!isOwner) throw new Error("Only the owner can update the list.")
+
+                    list.set('list_title', newTitle)
+                    $app.save(list)
+
+                    message = "List updated successfully!"
+                } catch (e) {
+                    error = e.message
+                }
+            }
+        }
+        else if (action === 'delete_list') {
+            try {
+                if (!isOwner) throw new Error("Only the owner can delete the list.")
+
+                list.set('is_deleted', true)
+                $app.save(list)
+
+                // Redirect to watchlists page since this one is now "gone"
+                return {
+                    redirect: '/watchlists'
+                }
+            } catch (e) {
+                error = e.message
+            }
+        }
+        else if (action === 'invite_user') {
             const email = data.email
             const targetUserId = data.user_id
 
@@ -111,7 +144,7 @@ module.exports = function (api) {
                     invite.set('user_permission', 'view')
                     $app.save(invite)
 
-                    message = `User ${email} invited successfully!`
+                    message = `User ${invitedUser.getString('email')} invited successfully!`
                 } catch (e) {
                     error = e.message
                 }

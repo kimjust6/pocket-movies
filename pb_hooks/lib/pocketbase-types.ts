@@ -117,6 +117,7 @@ export type ListUserRecord = {
 export type ListsRecord = {
 	created: IsoAutoDateString
 	id: string
+	is_deleted?: boolean
 	is_private?: boolean
 	list_title?: string
 	owner?: RecordIdString
