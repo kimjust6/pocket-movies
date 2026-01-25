@@ -1,18 +1,3 @@
-<script server>
-    const user = request.auth
-    if (!user) {
-        redirect('/login')
-    }
-
-    // Fetch fresh user data
-    let profile = user
-    try {
-        profile = $app.findRecordById("users", user.id)
-    } catch (e) {
-        console.error("Failed to fetch fresh profile:", e)
-    }
-</script>
-
 <div class="container mx-auto px-4 py-8 max-w-4xl">
     <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start justify-center">
         <!-- Left Column: Avatar -->
@@ -20,13 +5,13 @@
             <div class="avatar placeholder">
                 <div
                     class="w-32 md:w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
-                    <% if (profile.getString('avatar')) { %>
-                        <img src="<%= '/api/files/' + profile.collection().id + '/' + profile.id + '/' + profile.getString('avatar') %>"
+                    <% if (data.profile.getString('avatar')) { %>
+                        <img src="<%= '/api/files/' + data.profile.collection().id + '/' + data.profile.id + '/' + data.profile.getString('avatar') %>"
                             alt="Avatar" />
                         <% } else { %>
                             <div
                                 class="bg-neutral text-neutral-content w-full h-full flex items-center justify-center text-5xl">
-                                <%= profile.email().slice(0, 1).toUpperCase() %>
+                                <%= data.profile.email().slice(0, 1).toUpperCase() %>
                             </div>
                             <% } %>
                 </div>
@@ -39,7 +24,7 @@
             <div class="space-y-1">
                 <div class="flex flex-col md:flex-row items-center gap-4">
                     <h2 class="text-2xl font-normal">
-                        <%= profile.email() %>
+                        <%= data.profile.email() %>
                     </h2>
                     <!-- Minimal Footer/Meta info -->
 
@@ -57,7 +42,7 @@
                 </div>
                 <div class="text-xs text-base-content/50">
                     Member since <%= (()=> {
-                        const d = new Date(profile.getString('created'));
+                        const d = new Date(data.profile.getString('created'));
                         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
                         'Dec'];
                         return `${months[d.getMonth()]} ${d.getFullYear()}`;
@@ -74,10 +59,10 @@
             <!-- Bio Section -->
             <div class="space-y-1">
                 <div class="font-bold">
-                    <%= profile.getString('name') || '' %>
+                    <%= data.profile.getString('name') || '' %>
                 </div>
                 <div class="text-sm text-base-content/90">
-                    <%= profile.getString('bio') || '' %>
+                    <%= data.profile.getString('bio') || '' %>
                 </div>
             </div>
         </div>
