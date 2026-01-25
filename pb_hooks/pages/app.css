@@ -1841,20 +1841,9 @@ html::-webkit-scrollbar,
   }
 }
 
-.\!avatar {
-  position: relative !important;
-  display: inline-flex !important;
-}
-
 .avatar {
   position: relative;
   display: inline-flex;
-}
-
-.\!avatar > div {
-  display: block !important;
-  aspect-ratio: 1 / 1 !important;
-  overflow: hidden !important;
 }
 
 .avatar > div {
@@ -1863,24 +1852,11 @@ html::-webkit-scrollbar,
   overflow: hidden;
 }
 
-.\!avatar img {
-  height: 100% !important;
-  width: 100% !important;
-  -o-object-fit: cover !important;
-     object-fit: cover !important;
-}
-
 .avatar img {
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-}
-
-.\!avatar.placeholder > div {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
 }
 
 .avatar.placeholder > div {
@@ -2794,14 +2770,6 @@ html::-webkit-scrollbar,
   color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity)));
   --alert-bg: var(--fallback-er,oklch(var(--er)/1));
   --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
-}
-
-.avatar-group :where(.\!avatar) {
-  overflow: hidden !important;
-  border-radius: 9999px !important;
-  border-width: 4px !important;
-  --tw-border-opacity: 1 !important;
-  border-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-border-opacity))) !important;
 }
 
 .avatar-group :where(.avatar) {
@@ -3920,23 +3888,6 @@ html::-webkit-scrollbar,
   bottom: auto;
 }
 
-.\!avatar.online:before {
-  content: "" !important;
-  position: absolute !important;
-  z-index: 10 !important;
-  display: block !important;
-  border-radius: 9999px !important;
-  --tw-bg-opacity: 1 !important;
-  background-color: var(--fallback-su,oklch(var(--su)/var(--tw-bg-opacity))) !important;
-  outline-style: solid !important;
-  outline-width: 2px !important;
-  outline-color: var(--fallback-b1,oklch(var(--b1)/1)) !important;
-  width: 15% !important;
-  height: 15% !important;
-  top: 7% !important;
-  right: 7% !important;
-}
-
 .avatar.online:before {
   content: "";
   position: absolute;
@@ -3952,23 +3903,6 @@ html::-webkit-scrollbar,
   height: 15%;
   top: 7%;
   right: 7%;
-}
-
-.\!avatar.offline:before {
-  content: "" !important;
-  position: absolute !important;
-  z-index: 10 !important;
-  display: block !important;
-  border-radius: 9999px !important;
-  --tw-bg-opacity: 1 !important;
-  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity))) !important;
-  outline-style: solid !important;
-  outline-width: 2px !important;
-  outline-color: var(--fallback-b1,oklch(var(--b1)/1)) !important;
-  width: 15% !important;
-  height: 15% !important;
-  top: 7% !important;
-  right: 7% !important;
 }
 
 .avatar.offline:before {
@@ -5798,6 +5732,11 @@ html::-webkit-scrollbar,
 .hover\:shadow-secondary\/40:hover {
   --tw-shadow-color: var(--fallback-s,oklch(var(--s)/0.4));
   --tw-shadow: var(--tw-shadow-colored);
+}
+
+.hover\:ring-accent:hover {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: var(--fallback-a,oklch(var(--a)/var(--tw-ring-opacity, 1)));
 }
 
 .focus\:border-primary:focus {

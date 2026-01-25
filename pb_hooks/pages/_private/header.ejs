@@ -28,14 +28,15 @@
                         @click.outside="open = false">
                         <div role="button" class="btn btn-ghost btn-circle avatar"
                             @click="open = !open; if(!open) $el.blur()">
-                            <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                            <div
+                                class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 hover:ring-accent transition-all duration-200 overflow-hidden">
                                 <%# Check if avatarUrl exists, otherwise use UI Avatars %>
-                                    <% if (auth.avatar) { %>
-                                        <img src="<%= '/api/files/' + auth.collectionId + '/' + auth.id + '/' + auth.avatar %>"
-                                            alt="User Avatar" />
+                                    <% if (auth.getString('avatar')) { %>
+                                        <img src="<%= '/api/files/' + auth.collection().id + '/' + auth.id + '/' + auth.getString('avatar') %>"
+                                            alt="User Avatar" class="w-full h-full object-cover" />
                                         <% } else { %>
                                             <span
-                                                class="text-xl font-bold flex h-full w-full items-center justify-center">
+                                                class="text-xl font-bold flex h-full w-full items-center justify-center bg-neutral text-neutral-content">
                                                 <%= auth.email().slice(0, 1).toUpperCase() %>
                                             </span>
                                             <% } %>
