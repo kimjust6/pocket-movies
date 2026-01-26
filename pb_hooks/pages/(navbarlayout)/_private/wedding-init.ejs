@@ -1,8 +1,0 @@
-<%
-const weddingDataFunc = resolve('wedding-data').toString()
-%>
-<script defer>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('weddingPage', <%- weddingDataFunc %>)
-    })
-</script>

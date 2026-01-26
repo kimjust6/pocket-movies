@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
     rel="stylesheet" />
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -12,13 +12,19 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<% data.metadata.forEach(function(ogTag) { %>
-    <meta name="<%= ogTag.name %>" content="<%= ogTag.content %>" />
-    <% }); %>
+<% if (data.metadata) { %>
+    <% data.metadata.forEach(function(tag) { %>
+        <% if (tag.name.startsWith('og:') || tag.name.startsWith('twitter:')) { %>
+            <meta property="<%= tag.name %>" content="<%= tag.content %>" />
+            <% } else { %>
+                <meta name="<%= tag.name %>" content="<%= tag.content %>" />
+                <% } %>
+                    <% }); %>
+                        <% } %>
 
-        <title>
-            <%= data.metadata.find(x=> x.name === 'title')?.content %>
-        </title>
+                            <title>
+                                <%= data.metadata?.find(x=> x.name === 'title')?.content || 'Dank Movies' %>
+                            </title>
 
-        <link href="<%=asset('/app.css')%>" rel="stylesheet" />
-        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+                            <link href="<%=asset('/app.css')%>" rel="stylesheet" />
+                            <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />

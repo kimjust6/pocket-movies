@@ -1,0 +1,99 @@
+<div class="container mx-auto px-4 py-8">
+    <div class="card bg-base-100 shadow-xl max-w-2xl mx-auto">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-6">Edit Profile</h2>
+
+            <div class="divider"></div>
+
+            <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                <div class="form-control w-full">
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="avatar placeholder cursor-pointer group relative"
+                            onclick="document.getElementById('avatar-input').click()">
+                            <div
+                                class="bg-neutral text-neutral-content rounded-full w-24 group-hover:opacity-80 transition-opacity overflow-hidden ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <% if (data.profile.getString('avatar')) { %>
+                                    <img id="avatar-preview"
+                                        src="<%= '/api/files/' + data.profile.collection().id + '/' + data.profile.id + '/' + data.profile.getString('avatar') %>"
+                                        alt="Avatar" />
+                                    <% } else { %>
+                                        <div id="avatar-placeholder"
+                                            class="text-3xl w-full h-full flex items-center justify-center">
+                                            <%= data.profile.email().slice(0, 1).toUpperCase() %>
+                                        </div>
+                                        <img id="avatar-preview" class="hidden w-full h-full object-cover" />
+                                        <% } %>
+
+                                            <!-- Hover Overlay -->
+                                            <div
+                                                class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                                                </svg>
+                                            </div>
+                            </div>
+                        </div>
+                        <span class="text-sm text-base-content/60">Click avatar to change</span>
+                    </div>
+
+                    <input id="avatar-input" type="file" name="avatar" class="hidden" accept="image/*"
+                        onchange="previewAvatar(this)" />
+                </div>
+
+                <script src="/js/profile-edit.js"></script>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="text" value="<%= data.profile.email() %>" class="input input-bordered w-full"
+                        disabled />
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Name</span>
+                    </label>
+                    <input type="text" name="name" value="<%= data.profile.getString('name') || '' %>"
+                        placeholder="Enter your display name" class="input input-bordered w-full" />
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Shorthand</span>
+                    </label>
+                    <input type="text" name="shortHand" value="<%= data.profile.getString('shortHand') || '' %>"
+                        placeholder="e.g. moviebuff" class="input input-bordered w-full" />
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Bio</span>
+                    </label>
+                    <textarea name="bio" class="textarea textarea-bordered h-24"
+                        placeholder="Tell us about yourself..."><%= data.profile.getString('bio') || '' %></textarea>
+                </div>
+
+                <div class="form-control w-full mt-4">
+                    <label class="label">
+                        <span class="label-text">Created</span>
+                    </label>
+                    <input type="text" value="<%= (() => {
+                            const d = new Date(data.profile.getString('created'));
+                            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                            return `${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
+                        })() %>" class="input input-bordered w-full" disabled />
+                </div>
+
+                <div class="card-actions justify-end mt-6 gap-2">
+                    <a href="/profile" class="btn btn-ghost">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,32 +1,32 @@
 {
-    "name": "weddings-rsvp",
+    "name": "dank-movies",
     "private": true,
-    "version": "0.0.2",
+    "version": "0.1.0",
     "scripts": {
         "dev": "concurrently \"tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch\" \"pocketbase serve --dir=pb_data --dev\"",
+        "wsl": "wsl bash -c \"set -a && source .env && set +a && npm run dev\"",
         "start": "pocketbase serve --dir=pb_data --dev",
-        "css": "tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch\"",
-        "push": "npx phio deploy weddings",
+        "css": "tailwindcss -i ./pb_hooks/pages/app.tailwind.css -o ./pb_hooks/pages/app.css --watch",
+        "push": "npx phio deploy dank-movies",
         "login": "npx phio login",
         "update": "pocketbase update",
         "typegen": "node scripts/typegen.mjs"
     },
-    "description": "Wedding website built with PocketPages (PocketBase), Tailwind CSS, and DaisyUI.",
+    "description": "Dank movies watchlist web app.",
     "author": {
         "name": "Justin Kim",
         "github": "kimjust6"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/kimjust6/pocketpages-photo"
+        "url": "https://github.com/kimjust6/pocket-movies"
     },
     "keywords": [
         "pocketpages",
         "pocketbase",
-        "wedding",
-        "wedding-website",
-        "rsvp",
-        "schedule",
+        "movies",
+        "watchlist",
+        "tmdb",
         "daisyui",
         "tailwindcss"
     ],
@@ -41,6 +41,8 @@
         "tailwindcss": "^3.4.17"
     },
     "dependencies": {
+        "baseline-browser-mapping": "^2.9.17",
+        "caniuse-lite": "^1.0.30001765",
         "pocketbase": "^0.26.5",
         "pocketpages": "^0.22.3",
         "pocketpages-plugin-js-sdk": "^0.2.0"
@@ -50,6 +52,6 @@
         "*.md"
     ],
     "pockethost": {
-        "instanceName": "weddings"
+        "instanceName": "dank-movies"
     }
 }

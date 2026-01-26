@@ -1,19 +1,50 @@
 <!-- Mobile Menu Dropdown -->
-<div
-    class="fixed top-[5.5rem] inset-x-0 w-full bg-base-100 shadow-lg md:hidden border-b border-base-300"
-    x-show="navOpen"
-    x-transition
-    x-cloak
-    style="z-index: 60; display: none"
->
-    <div class="max-w-7xl mx-auto">
-        <template x-for="item in navigation" :key="item.target">
-            <button
-                class="flex w-full items-start px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 hover:bg-base-200 border-b border-base-300 last:border-b-0"
-                @click="scrollTo(item.target)"
-            >
-                <span x-text="item.title"></span>
-            </button>
-        </template>
+<div class="fixed inset-x-0 top-[5.5rem] w-full border-b border-base-300 bg-base-100 shadow-lg md:hidden"
+    x-show="navOpen" x-transition x-cloak style="z-index: 60; display: none">
+    <div class="mx-auto max-w-7xl">
+        <% if (locals.auth) { %>
+            <a href="/profile"
+                class="flex w-full items-center gap-3 border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                @click="navOpen = false">
+                <div class="avatar">
+                    <div class="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+                        <% if (auth.getString('avatar')) { %>
+                            <img src="<%= '/api/files/' + auth.collection().id + '/' + auth.id + '/' + auth.getString('avatar') %>"
+                                alt="User Avatar" class="w-full h-full object-cover" />
+                            <% } else { %>
+                                <span
+                                    class="text-xl font-bold flex h-full w-full items-center justify-center bg-neutral text-neutral-content">
+                                    <%= auth.email().slice(0, 1).toUpperCase() %>
+                                </span>
+                                <% } %>
+                    </div>
+                </div>
+                <span>
+                    <%= auth.email() %>
+                </span>
+            </a>
+            <% } %>
+                <template x-for="item in navigation" :key="item.title">
+                    <a class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                        :href="item.href" @click="navOpen = false">
+                        <span x-text="item.title"></span>
+                    </a>
+                </template>
+
+                <% if (locals.auth) { %>
+
+
+                    <a href="/auth/logout"
+                        class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                        @click="navOpen = false">
+                        <span>Logout</span>
+                    </a>
+                    <% } else { %>
+                        <a href="/login"
+                            class="flex w-full items-start border-b border-base-300 px-6 py-4 text-left text-base font-semibold text-base-content transition duration-200 last:border-b-0 hover:bg-base-200"
+                            @click="navOpen = false">
+                            <span>Login</span>
+                        </a>
+                        <% } %>
     </div>
 </div>

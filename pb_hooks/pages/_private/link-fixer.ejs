@@ -1,0 +1,46 @@
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentParams = new URLSearchParams(window.location.search);
+
+        // If there are no params, nothing to do
+        if (Array.from(currentParams).length === 0) return;
+
+        console.debug('LinkFixer: Preserving params', currentParams.toString());
+
+        document.querySelectorAll('a[href]').forEach(link => {
+            try {
+                // Skip if href is missing, empty, or a fragment/script
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+                    return;
+                }
+
+                const url = new URL(link.href, window.location.origin);
+
+                // Only modify internal links
+                if (url.origin !== window.location.origin) return;
+
+                // Merge existing params with current page params
+                const linkParams = url.searchParams;
+                currentParams.forEach((value, key) => {
+                    // Only add if not already present (optional choice: could override or append)
+                    // Strategy: Preserve param if NOT present on target link.
+                    // This allows specific links to override defaults if they want.
+                    if (!linkParams.has(key)) {
+                        linkParams.set(key, value);
+                    }
+                });
+
+                // Update href
+                // We use setAttribute to respect relative paths if possible, 
+                // but constructing the full URL is safer for params.
+                // However, we might want to keep it relative if it was relative.
+                // Let's stick to updating the search part if it was relative, 
+                // but rewriting the whole href is easiest for correctness.
+                link.href = url.toString();
+            } catch (e) {
+                // Ignore invalid URLs
+            }
+        });
+    });
+</script>

@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+}
+
+@layer base {
+
     /* Custom font families defined in layout.ejs */
     .script-font {
         font-family: 'Dancing Script', cursive;
@@ -27,7 +34,8 @@
 }
 
 @layer components {
-    /* Reusable component classes for wedding site */
+
+    /* Reusable component classes */
     .section-title {
         @apply script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center text-base-content;
     }
@@ -77,6 +85,10 @@
 
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
+    }
+
+    [x-cloak] {
+        display: none !important;
     }
 }
 

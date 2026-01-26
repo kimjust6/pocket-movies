@@ -1,13 +1,19 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1768887905617,
+    "generatedTime": 1769398847289,
     "data": [
         {
             "type": "file",
             "name": "package.json",
-            "size": 1665,
-            "hash": "b285e516fa2901cde47f59784f0106f642834d146d33816593070d102f78f69e"
+            "size": 1755,
+            "hash": "88f4500ea557453c9d13623567ba32d43cb6a4dc5fe6ec2dbeb892031d373be5"
+        },
+        {
+            "type": "file",
+            "name": "bun.lock",
+            "size": 31709,
+            "hash": "a9658c8fa93e5974d4e0fc5198e37e450cf38634fba44ed5bb81d12a234be122"
         },
         {
             "type": "folder",
@@ -24,8 +30,8 @@
         {
             "type": "file",
             "name": "pb_public/og-image.webp",
-            "size": 122964,
-            "hash": "94beeca2b0e95aab80a7478d6d73fa724ef7bb52f61471f10b6504989fcb7b8b"
+            "size": 103796,
+            "hash": "edc239f0cb4750bb07dc6ff7e00acad4f6395e82068dc4606bc10c416c9c5dd5"
         },
         {
             "type": "folder",
@@ -34,8 +40,302 @@
         {
             "type": "file",
             "name": "pb_public/favicon.ico",
-            "size": 15406,
-            "hash": "146f530d205c28118522025837de5a9dacbea4b17bd6c236244debc92e1bb00c"
+            "size": 181598,
+            "hash": "42852b72e4963165d078b06d7a62a8d64d14b07ea19ad0c0aa30466079481fe8"
+        },
+        {
+            "type": "file",
+            "name": "pb_public/js/watchlists.js",
+            "size": 1218,
+            "hash": "53adb8c46283a56ff2ac284451e796179be21762aecd9872b80ccc0b133c5feb"
+        },
+        {
+            "type": "file",
+            "name": "pb_public/js/watchlist-detail.js",
+            "size": 2216,
+            "hash": "1dbeb87f080f6eefc680a285e156d777863a23554099c10f862abab8591beec0"
+        },
+        {
+            "type": "file",
+            "name": "pb_public/js/profile-edit.js",
+            "size": 643,
+            "hash": "1de51440388d2bdc9ef92dca1ab090a3c80c52064b324cc602a6958837443a50"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769393488_updated_watched_history.js",
+            "size": 474,
+            "hash": "359e2aa207db12173417f93a53c5d1fafe9c587b922899bb32826a8ceba1fb85"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769381534_updated_movies.js",
+            "size": 511,
+            "hash": "4645f5a21625a49722debbb44bb40fbfb7a1af152be528599d091729df41569e"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769381309_updated_movies.js",
+            "size": 491,
+            "hash": "48fc39c6e7bce3a20ce3f282b7c0ad9af45f63412d25b1f3601b5a5d3c5e93bc"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769381301_updated_watched_history.js",
+            "size": 537,
+            "hash": "0af413bca647fda8c754c0a32f320b63c3a46b267c462b5884d543ef2973c954"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769376524_updated_lists.js",
+            "size": 483,
+            "hash": "aab273068271a4592e1ad93dae501742ce2050665d848980a1348c634d6f9372"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769375044_updated_movies.js",
+            "size": 467,
+            "hash": "625e16a4cae09bd9fe9d30c790b0a1666ec60253b7a3b05d32a39f2ffd93017c"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769374887_updated_lists.js",
+            "size": 445,
+            "hash": "6f81159335391a528484077b048065d87a082c6e1a87a0e9f930f0c1bc0d7a71"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769374867_updated_movies.js",
+            "size": 469,
+            "hash": "d02e161c7830ca34e9c3e266a2b0adcbeb907e1e61ab180e0b7c65a6a8319056"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769374822_updated_list_user.js",
+            "size": 483,
+            "hash": "8ed0994c60caaaab413033e0045b6baa816d748e2e8cd824227725627eb34d7c"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769374782_updated_lists.js",
+            "size": 483,
+            "hash": "df70b31e007b0ef1234f5e891dac38d90980c6e0146c2f910edc597b9db4ac59"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769366818_updated_lists.js",
+            "size": 680,
+            "hash": "6297bb6520437fbf02dd3beb070ae6f315a68db625b7511dac6942663d375a64"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769333722_updated_users.js",
+            "size": 1156,
+            "hash": "3bebe204f7645660c04193256fa1f1361fa4ee0e363c262473312514644a6b6a"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769329216_updated_users.js",
+            "size": 675,
+            "hash": "6e49065d292781a3ce440a3c114c96c50c6279e7d97a836ffcecd313695880fb"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769328751_updated_users.js",
+            "size": 680,
+            "hash": "7b12539bf234f920c4054d1c4e9f5fc0253871809c277a6780e4c5d9a18127ad"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769323388_updated_lists.js",
+            "size": 576,
+            "hash": "a73586b49afa6ecb7a78dcfeffcd014266a43dbc236d9b4f7dfb2f9a4d21c49f"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769318678_updated_watched_history.js",
+            "size": 603,
+            "hash": "64f1f291491ed3c2f39e3f4a847c06dd19a1f433bdaa83640ec70aa8fcc83aaa"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769318302_updated_movies.js",
+            "size": 1354,
+            "hash": "751be4f1aaad4849a9f96d66d8c06fbd2dcaa467b9d505c20990acf8ec001f09"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769318042_updated_movies.js",
+            "size": 1354,
+            "hash": "c54fe31601ff67a2469eed2493fbdaa39fb5d3193afbaf0660a914748e7d44d6"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769306019_updated_watched_history.js",
+            "size": 2269,
+            "hash": "51311c007cf849ca4621e6136f959c4230d71b2c1ff4e02ac74981f104a1e478"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769305677_updated_watched_history.js",
+            "size": 606,
+            "hash": "cbfb7739dbb7c8ed0fed5de4166888a103e0a717e74fe46b2bed21867da30dc0"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769236469_updated_lists.js",
+            "size": 740,
+            "hash": "356667cf6630de465c0058de20b08f8e66dc2732f8f682537364b757c9ca749a"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769236272_updated_lists.js",
+            "size": 575,
+            "hash": "75ecdce7620934550a3a400cb6356daf24c90c4fa480cc63bd65a24a18ea0f28"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769235667_updated_watched_history.js",
+            "size": 688,
+            "hash": "cb65a6d20504ab7d9a49c9873a02036c347a541b5fd336bf7ced3b4fce97ef44"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769052536_deleted_pw.js",
+            "size": 1660,
+            "hash": "1fe03a19bb3964438001301a8a8cacd06e42d5112a175377b9afe80a1d3c89c8"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1769052334_updated_users.js",
+            "size": 736,
+            "hash": "0a42a7e383d0865c93a212c05f8533dc1e2b3974a4d754df9c6133d423de1f94"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768974421_updated_users.js",
+            "size": 492,
+            "hash": "27080379319fa18df0e1a350a6d39e667adb28c1a6f8ec411911a5fadded7170"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768895660_updated_watched_history.js",
+            "size": 483,
+            "hash": "c4cc551fcb972b2647a2b38f7fe4763ec61706d532569122552a8601bbd76ced"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768895654_updated_movies_genres.js",
+            "size": 481,
+            "hash": "5ee514c77e247287409bbf45f7131812c3a2e5a9313c9315c3d7ae2997a46ece"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768895649_updated_movies.js",
+            "size": 483,
+            "hash": "46c405b9d51a602ef23a908bc032c367ed97c249f85c1de3ac11ed60f0444f70"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768895643_updated_lists.js",
+            "size": 483,
+            "hash": "aab273068271a4592e1ad93dae501742ce2050665d848980a1348c634d6f9372"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768895637_updated_list_user.js",
+            "size": 483,
+            "hash": "1e347e330756a20d456617cb2195235906fc2c6cb7b896c97411e2789245e5f7"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768895627_updated_genre.js",
+            "size": 483,
+            "hash": "8883d3ab87d056ef6e0a4322b74056dd5b461b5e19ae075264520a58e6641140"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768893856_created_list_user.js",
+            "size": 2016,
+            "hash": "47e9c6e335e21e04f7ae5397e0514502e590d307f3caccf1745d7aebc19ff241"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768893782_created_lists.js",
+            "size": 2000,
+            "hash": "2a8928062fe214c7c99447f8bd6c73b078ae1226c701019b991e358865e3bd7a"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768893491_updated_watched_history.js",
+            "size": 634,
+            "hash": "2ec307d2e7c25db31980b201d9b2f228a6dc69212eeb73f84a6d284d03a0ec16"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768890557_updated_watched_history.js",
+            "size": 1714,
+            "hash": "a3ea5728d4f2ca532a69ac0505e5c7a98fa1cd1480cab680665cde59f0882b70"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768890367_updated_users.js",
+            "size": 574,
+            "hash": "d09f5e3b3f24bfdea1ced78841ccb7c969ac8cc70d6a4ec596abb1ceedd14ce0"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768890264_created_watched_history.js",
+            "size": 1343,
+            "hash": "7b81469e73abcc0cd6f41d59154f8eb554483979f5001106f614b69d83f4166a"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768890096_created_movies_genres.js",
+            "size": 2006,
+            "hash": "fc0cc62f5e7d65b9c2eb689dd22f0e61882035d522282750fcc48d0b368dcd26"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768890018_created_genre.js",
+            "size": 1989,
+            "hash": "ea15d3e0fe2e7bc49fb9528dd1d13cf2ae0f92ad78482d97f08f11c98aeedee6"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768889947_updated_movies.js",
+            "size": 2559,
+            "hash": "b97528ed684ac6a4859c12a45b5e494d92ca4d95860fb9d3d92170faa6f63e3a"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768889846_created_movies.js",
+            "size": 3848,
+            "hash": "99fa0c8d52825a0eb010a47df80c1c46bba739e23a0c0ada0864b7fd47059180"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768889228_deleted_test_.js",
+            "size": 1332,
+            "hash": "89e02678746d42b4f7fa35706f765059e8ce61e83ddba1fa35d683f49ca6257e"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768889220_deleted_invitations.js",
+            "size": 4190,
+            "hash": "1c94da79b6ac476caefe1b488474641184acd9823c1916ef06fe13e3c4d86818"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768889210_deleted_images.js",
+            "size": 2243,
+            "hash": "1150c27edb62e0a98e24b8100dad9f02b26f62113944b1773383dbc9bdeea763"
+        },
+        {
+            "type": "file",
+            "name": "pb_migrations/1768889130_created_test_.js",
+            "size": 1332,
+            "hash": "f318eebb4b048c57f88a59fcb7299fd5500bd38f259a690ed008319b4c64faa5"
         },
         {
             "type": "file",
@@ -138,42 +438,38 @@
             "name": "pb_hooks/pages"
         },
         {
-            "type": "file",
-            "name": "pb_hooks/main.pb.js",
-            "size": 48,
-            "hash": "789985a532dd21d25ee53efe019c48b03a09a33e3f343f3c1aed855e2da7f938"
-        },
-        {
             "type": "folder",
             "name": "pb_hooks/lib"
         },
         {
+            "type": "folder",
+            "name": "pb_hooks/pages/register"
+        },
+        {
             "type": "file",
             "name": "pb_hooks/pages/pagenotfound.ejs",
-            "size": 616,
-            "hash": "8d87b2e302fec0106ac002c1392e37cd569db71afcead8772c1546971533ac42"
+            "size": 599,
+            "hash": "6d258bae72ff99e805dfd60bed90492b353bdd30d98d1e84c3b5406ea6abc08b"
         },
         {
             "type": "folder",
             "name": "pb_hooks/pages/login"
         },
         {
-            "type": "file",
-            "name": "pb_hooks/pages/index.ejs",
-            "size": 5,
-            "hash": "c9d04c9565fc665c80681fb1d829938026871f66e14f501e08531df66938a789"
+            "type": "folder",
+            "name": "pb_hooks/pages/auth"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/app.tailwind.css",
-            "size": 3603,
-            "hash": "a12d2f108a2d0e53bc1b66691775553eb428ed838551a6de54441af47b72b4b2"
+            "size": 3720,
+            "hash": "41a8526817558e9840a62cecf9968e24f962d1baa40c1e4e326d3807e7bea995"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 83110,
-            "hash": "58c391d05015376309c4b51b0610d5e4b238f04ace6a9dbd2d213e7c7cb94e93"
+            "size": 148119,
+            "hash": "a5097ac6b607f27fbe4c12813c28e78a6da4fa422d63023a94e40ba8f30b00b6"
         },
         {
             "type": "folder",
@@ -182,8 +478,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/+config.js",
-            "size": 382,
-            "hash": "4b54cdb9a85fd2370e8b87ebe539717d0760ad0d6622bbacf844e749ccd1fc96"
+            "size": 8774,
+            "hash": "c2be4d2db309a12eefda0d9a263b22803c9a1117e400d980fafa51b84d811b84"
         },
         {
             "type": "folder",
@@ -191,163 +487,265 @@
         },
         {
             "type": "file",
+            "name": "pb_hooks/pages/register/index.ejs",
+            "size": 6009,
+            "hash": "e75f6b7a7201b382fa395663542ff97676f7a158c27b79ac5307a50167ecd005"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/register/+load.js",
+            "size": 389,
+            "hash": "1aa110eb5c9bcc6e908551b329837d3a286cc0cc573ec0ae50b37348e09611c2"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/register/+layout.ejs",
+            "size": 477,
+            "hash": "3f0c5e54a3b6988a05d9fd92e274036f9316c7dfc4709db118e0d4bd190594a3"
+        },
+        {
+            "type": "file",
             "name": "pb_hooks/pages/login/index.ejs",
-            "size": 2103,
-            "hash": "e30381014125e7dfe209a0a4f6b6ccc7abd8de725fda1251651dcf2a81f7daf8"
+            "size": 5858,
+            "hash": "a0bba081d822a2265170823a8fb09d918130ad498d090385b4f5f4cd6400fca0"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/login/+load.js",
-            "size": 1996,
-            "hash": "1632b6b9dfda754e0816af985004d9ba39f7fe328aa1c2b068104ba0d2e2a591"
+            "size": 386,
+            "hash": "3487104e6231ebc5ce1206b51ec88fac9c56a0acf1b371ad2694649fd99b39a4"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/login/+layout.ejs",
+            "size": 477,
+            "hash": "3f0c5e54a3b6988a05d9fd92e274036f9316c7dfc4709db118e0d4bd190594a3"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/auth/oauth"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/auth/logout"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/auth/oauth/redirect"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/auth/oauth/redirect/index.ejs",
+            "size": 728,
+            "hash": "9084182779cfb8b99bc9b40e9b917d362712ebac609272b4edef2244a7948800"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/auth/logout/index.ejs",
+            "size": 57,
+            "hash": "67a9364ab79bc59ee071cef8033814eacb11ba949570d6e2e4f0b5d3ef757e65"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/theme-toggle.ejs",
-            "size": 1404,
-            "hash": "9da85b04f4a516a40732d0461c4dae5d730b23b9225edb2838ab84dc4d1c9e94"
+            "size": 1382,
+            "hash": "ada4be2be1076b11c6aa099966ef313e2e9150f38d7fd9a04f58ff3a612d9890"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/theme-init.ejs",
-            "size": 323,
-            "hash": "8684d440e367d4578730f66e77f43efee43909b71db5d1181bf8f862c3995f3d"
+            "size": 324,
+            "hash": "8715a632b449bd1218a19548eb83b737d765cb68e17d6b30f1afa7a8212d67d2"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/shell-init.ejs",
-            "size": 205,
-            "hash": "fa3127f0061a27cb0ba5df244752c53ee4fca036b4019e6a874a044e6b27b5db"
+            "size": 197,
+            "hash": "2c7b6cf296eecb52165c3e97a98263db9197d15e8771b9957b775396aa6198d2"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/shell-data.js",
-            "size": 1616,
-            "hash": "30fa6516d368af313b51016f7f0359b86400f774d188d61feb81e42087a73e54"
+            "size": 1375,
+            "hash": "b5cf0c866bbff322225a037ad4092ecf86e95b95a9f1f057270f1c0156c4ff98"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/mobile-menu.ejs",
-            "size": 735,
-            "hash": "b473f406a74b8d3695c20b46d598616f6e3353d7aa30b197d40b70f32a22f394"
+            "size": 2872,
+            "hash": "b5503604a50b7e3d19dc894a4f7b2c769b16b95e11fbc0268cc065fa458b6de9"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/_private/link-fixer.ejs",
+            "size": 2073,
+            "hash": "019ee7a56c6b401c7ec44fa4e973ec6f2562a2570e68af252c438025593b30ac"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/header.ejs",
-            "size": 2238,
-            "hash": "0b66291b0174c00715cfc2d173261cd89e5751d93243ada38620c1150ba03f29"
+            "size": 4191,
+            "hash": "bb79c68763ca435081900daceeb3e5ac37f1b3ce2f3ded09382efac61fc65e9d"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/head.ejs",
-            "size": 1140,
-            "hash": "d394dfdd228351badb774f1b7e6d5158c4c70428c543cd025657a654f7d198d6"
+            "size": 1551,
+            "hash": "1d9e8ccc5234d2693d4ed242961d84caefbed7e8c6ba1336110ec32aa5481d21"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/footer.ejs",
-            "size": 419,
-            "hash": "ad41122b9db1d82199a04571cc3da98455a6f077226fba0510444e3d1b88c7fa"
+            "size": 403,
+            "hash": "24fe6f3c79d971a194f59253e9f472ca660d7c4c47449316af36836dcf6a99c9"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/custom-styles.ejs",
-            "size": 1577,
-            "hash": "149414274d30369603f6d8a5e1d93879ba29243c9953b965bea7b81eb364561e"
+            "size": 1406,
+            "hash": "131b23d281edcecbf3e0c9a058e2d67465d7ea6988034ed41e50e873e38d27e4"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/alpine-setup.ejs",
-            "size": 217,
-            "hash": "d2bb3b493041cb22280aec993bb13f4e404324db8cc78f4c5156c862309d67bc"
+            "size": 209,
+            "hash": "010b04526b39612b9cf019db2688f3b740381583b572bbce256ab2b38005757a"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/profile"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/movies"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/index.ejs",
-            "size": 816,
-            "hash": "fd6d0c78b92393d3045b300411bce1565bc49a30de29758ae4d36930adc09597"
-        },
-        {
-            "type": "folder",
-            "name": "pb_hooks/pages/(navbarlayout)/_private"
+            "size": 11746,
+            "hash": "67ae8f88f8b6aea6592bfe8733e1244dbba9c077f4102291fe8ac454e55afe82"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+middleware.js",
-            "size": 4340,
-            "hash": "9124d9a8721c352106b2b31f5bc7983ed8619d22487c7dfb8048a2c4a217c262"
+            "size": 2130,
+            "hash": "6093633db416ee8c0375d1902bdfb261ce99ab2f2847ffe0f71c5d99ae011957"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+load.js",
-            "size": 662,
-            "hash": "3741671b43ed5efcf7926c940be9c1c1cca2675d753d581faea50bf0d5464d99"
+            "size": 175,
+            "hash": "4444ea869658f08988d0d0b550f746045674b1075c24204b30747a1c63f573c8"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+layout.ejs",
-            "size": 686,
-            "hash": "4eba69fb4789f00ab48005f784d93460ae64d385958faa49687f896adb42d649"
+            "size": 684,
+            "hash": "732dc5b190cb7522ba4531785afa2e3f286956046432a71e5160fdaec8374e68"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/welcome.ejs",
-            "size": 1364,
-            "hash": "45aa4cf59a611087bfc84321533e7e823254d193f3c5407d6d561e9d4e4bee8b"
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/index.ejs",
+            "size": 18754,
+            "hash": "a6cd3e73d95beefc88d0edb5d311b53da21653c2c12e0155ce75ef8ca36d6436"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/wedding-init.ejs",
-            "size": 217,
-            "hash": "6485aa8783f54365c647b7bc7e085dc676b2d189a78de5dc5389f3ed5737a822"
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/+load.js",
+            "size": 7439,
+            "hash": "4e2d7e8a5cc9ff5f09a5239d704e72a1fc5bc4190862ca5e4c40fbd827808d90"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/wedding-data.js",
-            "size": 4898,
-            "hash": "90ca686f4e621957115f01494af4eafc741bee5a21c9a8b9e57b7429972b3856"
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/index.ejs",
+            "size": 36508,
+            "hash": "4217488da12c9aaf4ca490c1a0fb30fa89289c33c8ec0edc5fb02cd142d2cce6"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/schedule-section.ejs",
-            "size": 3100,
-            "hash": "1687c32e05c896c1e970d4cdd41826d4829f219dbf63f30b22b23843e8c124de"
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/+load.js",
+            "size": 13883,
+            "hash": "85f5e80177c94874966f25db300b08e9f9e8ada1b3513ea729caf2413232fb45"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/rsvp-section.ejs",
-            "size": 3573,
-            "hash": "78772f635f3842ee07dc704a94a68a224bd71ace7809e5ab2a0951e6e5fad049"
+            "name": "pb_hooks/pages/(navbarlayout)/profile/index.ejs",
+            "size": 4630,
+            "hash": "b17c1832c329f6abc091cb879ebc070e86dc020e2af0ac611e4221ce193af38f"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/profile/edit"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/hero-section.ejs",
-            "size": 2183,
-            "hash": "9f619ee668013bd7c122c1af51d214a1612cdc77fae29181bc5f5c9a4c6a0db2"
+            "name": "pb_hooks/pages/(navbarlayout)/profile/+load.js",
+            "size": 624,
+            "hash": "9ef6cf1ee9a226ffd603449689cb843891289ef3b992b5d16b0fabfed1a55917"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/gallery-section.ejs",
-            "size": 1226,
-            "hash": "9e24f67bbc77c6df8e8e6a1b3f01698cd7a23a91cfd24516f7a97f26902e273a"
+            "name": "pb_hooks/pages/(navbarlayout)/profile/edit/index.ejs",
+            "size": 6131,
+            "hash": "1e2275bc7e4564060766599c7736f261e88199e5491c872c747f42a0487f2af4"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/gallery-modal.ejs",
-            "size": 3617,
-            "hash": "c28fa6d3360e6ae615be340b193ecfef0615d4a7848359bd3635418b53d4c5ce"
+            "name": "pb_hooks/pages/(navbarlayout)/profile/edit/+load.js",
+            "size": 2899,
+            "hash": "b45d433be84a6b44da1bad1cedc191ece617780f69ed8615abd9deb8a60916d5"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/movies/search"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/movies/[id]"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/_private/directions-section.ejs",
-            "size": 2606,
-            "hash": "d85d268b9f942003c0e6a3da279cf304b799112c10fb732716dd80c238c0892f"
+            "name": "pb_hooks/pages/(navbarlayout)/movies/search/index.ejs",
+            "size": 21339,
+            "hash": "cd275dfa5fcb6b1587d23abe72991801976e45832cda5c45368c8671bcea17a6"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/(navbarlayout)/movies/search/+load.js",
+            "size": 12505,
+            "hash": "b9b934716ae0611bb3dbf33bf2f28e84b44acfb34b1397f237d809e029952ef0"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/index.ejs",
+            "size": 13327,
+            "hash": "c970e01bbf41cad2354a068558608d5aae87c3b8b88d1ef548f163bf41473563"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/+load.js",
+            "size": 2378,
+            "hash": "d29b61c709e633e55d6e7ccb6e548db41664582eaf5da6f99448473f3a1192c6"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/lib/tmdb.js",
+            "size": 2159,
+            "hash": "2418db2a7e834c24cce8ff0937fd8d7781f6da9fb115d65eef20fccf9c3fd4b1"
         },
         {
             "type": "file",
             "name": "pb_hooks/lib/pocketbase-types.ts",
-            "size": 6401,
-            "hash": "006e300c9a88b7d49ac061f12c2235fc221053a2de4042da4f57f452f79d9d35"
+            "size": 7744,
+            "hash": "be7eee8d3a4f4b0a64ac8f8fabefb24abcccde96f24803dfa38a5661daf891a8"
         }
     ]
 }

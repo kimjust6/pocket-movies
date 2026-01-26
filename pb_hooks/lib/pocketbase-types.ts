@@ -12,10 +12,12 @@ export enum Collections {
 	Otps = "_otps",
 	Superusers = "_superusers",
 	Genre = "genre",
+	ListUser = "list_user",
+	Lists = "lists",
 	Movies = "movies",
 	MoviesGenres = "movies_genres",
-	Pw = "pw",
 	Users = "users",
+	WatchedHistory = "watched_history",
 }
 
 // Alias types for improved usability
@@ -104,6 +106,25 @@ export type GenreRecord = {
 	updated: IsoAutoDateString
 }
 
+export type ListUserRecord = {
+	created: IsoAutoDateString
+	id: string
+	invited_user?: RecordIdString
+	updated: IsoAutoDateString
+	user_permission?: string
+}
+
+export type ListsRecord = {
+	created: IsoAutoDateString
+	description?: string
+	id: string
+	is_deleted?: boolean
+	is_private?: boolean
+	list_title?: string
+	owner?: RecordIdString
+	updated: IsoAutoDateString
+}
+
 export type MoviesRecord = {
 	adult?: boolean
 	backdrop_path?: string
@@ -132,24 +153,32 @@ export type MoviesGenresRecord = {
 	updated: IsoAutoDateString
 }
 
-export type PwRecord = {
-	created: IsoAutoDateString
-	id: string
-	password?: string
-	updated: IsoAutoDateString
-}
-
 export type UsersRecord = {
 	avatar?: FileNameString
+	bio?: string
 	created: IsoAutoDateString
+	deleted?: boolean
 	email: string
 	emailVisibility?: boolean
 	id: string
 	name?: string
 	password: string
+	shortHand?: string
 	tokenKey: string
 	updated: IsoAutoDateString
 	verified?: boolean
+}
+
+export type WatchedHistoryRecord = {
+	created: IsoAutoDateString
+	id: string
+	imdb_score?: number
+	list?: RecordIdString
+	movie?: RecordIdString
+	rt_score?: number
+	tmdb_score?: number
+	updated: IsoAutoDateString
+	watched?: IsoDateString
 }
 
 // Response types include system fields and match responses from the PocketBase API
@@ -159,10 +188,12 @@ export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemF
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
 export type GenreResponse<Texpand = unknown> = Required<GenreRecord> & BaseSystemFields<Texpand>
+export type ListUserResponse<Texpand = unknown> = Required<ListUserRecord> & BaseSystemFields<Texpand>
+export type ListsResponse<Texpand = unknown> = Required<ListsRecord> & BaseSystemFields<Texpand>
 export type MoviesResponse<Texpand = unknown> = Required<MoviesRecord> & BaseSystemFields<Texpand>
 export type MoviesGenresResponse<Texpand = unknown> = Required<MoviesGenresRecord> & BaseSystemFields<Texpand>
-export type PwResponse<Texpand = unknown> = Required<PwRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
+export type WatchedHistoryResponse<Texpand = unknown> = Required<WatchedHistoryRecord> & BaseSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
@@ -173,10 +204,12 @@ export type CollectionRecords = {
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
 	genre: GenreRecord
+	list_user: ListUserRecord
+	lists: ListsRecord
 	movies: MoviesRecord
 	movies_genres: MoviesGenresRecord
-	pw: PwRecord
 	users: UsersRecord
+	watched_history: WatchedHistoryRecord
 }
 
 export type CollectionResponses = {
@@ -186,10 +219,12 @@ export type CollectionResponses = {
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
 	genre: GenreResponse
+	list_user: ListUserResponse
+	lists: ListsResponse
 	movies: MoviesResponse
 	movies_genres: MoviesGenresResponse
-	pw: PwResponse
 	users: UsersResponse
+	watched_history: WatchedHistoryResponse
 }
 
 // Utility types for create/update operations
