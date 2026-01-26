@@ -2,8 +2,6 @@
 
 **Dank Movies** is a modern, self-hosted movie watchlist application that lets you discover films, curate personal collections, and share them with friends. Built for movie lovers who want control over their data with a premium user experience.
 
-![Dank Movies Hero](https://via.placeholder.com/800x400?text=Dank+Movies+UI)
-
 ## Features
 
 -   **Movie Discovery**: Instantly search for millions of movies powered by the **TMDB API**.
