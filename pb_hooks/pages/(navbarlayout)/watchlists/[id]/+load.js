@@ -199,7 +199,71 @@ module.exports = function (api) {
                 }
             }
         }
+        else if (action === 'update_history_item') {
+            const historyId = data.history_id
+            const newDate = data.watched_date
+
+            if (historyId) {
+                try {
+                    if (!isOwner) throw new Error("Only the owner can update records.")
+
+                    const historyItem = $app.findRecordById('watched_history', historyId)
+
+                    // Security check: ensure this item belongs to the current list
+                    if (historyItem.getString('list') !== list.id) {
+                        throw new Error("Item does not belong to this list.")
+                    }
+
+                    if (newDate) {
+                        historyItem.set('watched', newDate)
+                    }
+
+                    // Update scores if provided
+                    if (data.tmdb_score !== undefined && data.tmdb_score !== "") {
+                        const score = parseFloat(data.tmdb_score)
+                        if (score < 0 || score > 10) throw new Error("TMDB score must be between 0 and 10.")
+                        historyItem.set('tmdb_score', score)
+                    }
+                    if (data.imdb_score !== undefined && data.imdb_score !== "") {
+                        const score = parseFloat(data.imdb_score)
+                        if (score < 0 || score > 10) throw new Error("IMDB score must be between 0 and 10.")
+                        historyItem.set('imdb_score', score)
+                    }
+                    if (data.rt_score !== undefined && data.rt_score !== "") {
+                        const score = parseInt(data.rt_score)
+                        if (score < 0 || score > 100) throw new Error("Rotten Tomatoes score must be between 0 and 100.")
+                        historyItem.set('rt_score', score)
+                    }
+
+                    $app.save(historyItem)
+
+                    message = "Entry updated successfully!"
+                } catch (e) {
+                    error = e.message
+                }
+            }
+        }
+        else if (action === 'delete_history_item') {
+            const historyId = data.history_id
+            if (historyId) {
+                try {
+                    if (!isOwner) throw new Error("Only the owner can delete items.")
+
+                    const historyItem = $app.findRecordById('watched_history', historyId)
+
+                    if (historyItem.getString('list') !== list.id) {
+                        throw new Error("Item does not belong to this list.")
+                    }
+
+                    $app.delete(historyItem)
+                    message = "Movie removed from list."
+                } catch (e) {
+                    error = e.message
+                }
+            }
+        }
     }
+
 
     // 2. Fetch movies
     try {
@@ -232,6 +296,7 @@ module.exports = function (api) {
          * @property {string} watched_at - The timestamp when the movie was watched.
          * @property {number} tmdb_score - The TMDB score of the movie.
          * @property {number} imdb_score - The IMDB score of the movie.
+         * @property {number} rt_score - The Rotten Tomatoes score of the movie.
          */
 
         /** @type {MovieItem[]} */
@@ -255,6 +320,7 @@ module.exports = function (api) {
                     watched_at: item.getString('watched'),
                     tmdb_score: item.getFloat('tmdb_score'),
                     imdb_score: item.getFloat('imdb_score'),
+                    rt_score: item.getInt('rt_score'),
                 }
             }
             return null

@@ -23,6 +23,48 @@ document.addEventListener('alpine:init', () => {
         showDeleteModal: false,
 
         /**
+         * Controls the visibility of the Update Date modal.
+         * @type {boolean}
+         */
+        showDateModal: false,
+
+        /**
+         * The ID of the history item being edited.
+         * @type {string}
+         */
+        editHistoryId: '',
+
+        /**
+         * The current watched date value for the edit form.
+         * @type {string}
+         */
+        editDateValue: '',
+
+        /**
+         * The current IMDB score for the edit form.
+         * @type {string}
+         */
+        editImdbScore: '',
+
+        /**
+         * The current TMDB score for the edit form.
+         * @type {string}
+         */
+        editTmdbScore: '',
+
+        /**
+         * The current RT score for the edit form.
+         * @type {string}
+         */
+        editRtScore: '',
+
+        /**
+         * Controls the visibility of the Item Delete Confirmation modal.
+         * @type {boolean}
+         */
+        showItemDeleteModal: false,
+
+        /**
          * Initializes the component.
          */
         init() {
@@ -35,6 +77,14 @@ document.addEventListener('alpine:init', () => {
         openDeleteModal() {
             this.showEditModal = false
             this.showDeleteModal = true
+        },
+
+        /**
+         * Opens the Delete Item Confirmation modal and closes the Date modal.
+         */
+        openItemDeleteModal() {
+            this.showDateModal = false
+            this.showItemDeleteModal = true
         }
     }))
 })
