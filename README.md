@@ -34,7 +34,7 @@ Follow these steps to get your own instance running locally.
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/pocket-movies.git
+    git clone https://github.com/kimjust6/pocket-movies.git
     cd pocket-movies
     ```
 
