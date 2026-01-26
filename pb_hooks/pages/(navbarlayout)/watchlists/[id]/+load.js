@@ -14,6 +14,7 @@
  * }}
  */
 module.exports = function (api) {
+
     const user = api.request.auth?.id
 
     // Attempt to get ID from params (likely merged path and query params)
@@ -26,6 +27,7 @@ module.exports = function (api) {
             error: "List ID is missing."
         }
     }
+
 
     let list
     let message = null
@@ -172,9 +174,11 @@ module.exports = function (api) {
             `list = '${listId}'`,
             '-created',
             100,
-            0,
-            { expand: 'movie' }
+            0
         )
+
+        $app.expandRecords(historyRecords, ['movie'])
+
 
         const movies = historyRecords.map((item) => {
             const m = item.expandedOne('movie')
@@ -184,9 +188,18 @@ module.exports = function (api) {
                     tmdb_id: m.getString('tmdb_id'),
                     title: m.getString('title'),
                     release_date: m.getString('release_date'),
+                    runtime: m.getInt('runtime'),
                     poster_path: m.getString('poster_path'),
+                    backdrop_path: m.getString('backdrop_path'),
                     overview: m.getString('overview'),
+                    tagline: m.getString('tagline'),
+                    imdb_id: m.getString('imdb_id'),
+                    status: m.getString('status'),
                     history_id: item.id,
+                    history_created: item.getString('created'),
+                    watched_at: item.getString('watched'),
+                    tmdb_score: item.getFloat('tmdb_score'),
+                    imdb_score: item.getFloat('imdb_score'),
                 }
             }
             return null
