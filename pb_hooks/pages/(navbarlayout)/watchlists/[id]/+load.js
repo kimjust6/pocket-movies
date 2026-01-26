@@ -15,9 +15,17 @@
  */
 module.exports = function (api) {
 
+    /**
+     * @type {string|undefined}
+     * Logged-in user ID.
+     */
     const user = api.request.auth?.id
 
     // Attempt to get ID from params (likely merged path and query params)
+    /**
+     * @type {string}
+     * The unique ID of the watchlist.
+     */
     const listId = api.params?.id || api.pathParams?.id
 
     if (!listId) {
@@ -42,10 +50,28 @@ module.exports = function (api) {
         return
     }
 
+    /**
+     * @type {boolean}
+     * Whether the list is private.
+     */
     const isPrivate = list.getBool('is_private')
+
+    /**
+     * @type {string}
+     * The ID of the list owner.
+     */
     const owner = list.getString('owner')
+
+    /**
+     * @type {boolean}
+     * Whether the current user is the owner of the list.
+     */
     const isOwner = (user && owner === user)
 
+    /**
+     * @type {boolean}
+     * Flag indicating if the current user has access to view the list.
+     */
     let hasAccess = false
 
     // 1. check access
@@ -73,6 +99,10 @@ module.exports = function (api) {
 
     // Handle POST actions (Invite, Update, Delete)
     if (user && api.request.method === 'POST') {
+        /**
+         * @type {object}
+         * Parsed form data from the request.
+         */
         let data = {}
         try {
             if (typeof api.formData === 'function') {
@@ -86,6 +116,10 @@ module.exports = function (api) {
             console.error('Error parsing form data:', e)
         }
 
+        /**
+         * @type {string}
+         * The action to perform (update_list, delete_list, invite_user).
+         */
         const action = data.action
 
         if (action === 'update_list') {
@@ -180,6 +214,27 @@ module.exports = function (api) {
         $app.expandRecords(historyRecords, ['movie'])
 
 
+        /**
+         * @typedef {object} MovieItem
+         * @property {string} id - The unique ID of the movie.
+         * @property {string} tmdb_id - The TMDB ID of the movie.
+         * @property {string} title - The title of the movie.
+         * @property {string} release_date - The release date of the movie.
+         * @property {number} runtime - The runtime of the movie.
+         * @property {string} poster_path - The path to the movie poster.
+         * @property {string} backdrop_path - The path to the movie backdrop.
+         * @property {string} overview - The overview of the movie.
+         * @property {string} tagline - The tagline of the movie.
+         * @property {string} imdb_id - The IMDB ID of the movie.
+         * @property {string} status - The release status of the movie.
+         * @property {string} history_id - The ID of the watched history record.
+         * @property {string} history_created - The creation timestamp of the history record.
+         * @property {string} watched_at - The timestamp when the movie was watched.
+         * @property {number} tmdb_score - The TMDB score of the movie.
+         * @property {number} imdb_score - The IMDB score of the movie.
+         */
+
+        /** @type {MovieItem[]} */
         const movies = historyRecords.map((item) => {
             const m = item.expandedOne('movie')
             if (m) {
