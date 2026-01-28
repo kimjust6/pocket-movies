@@ -7,8 +7,8 @@ module.exports = function shellData() {
         navOpen: false,
         darkMode: localStorage.getItem('theme') === 'dark',
         navigation: [
+            // { title: 'Search', href: '/movies/search' },
             { title: 'Watchlists', href: '/watchlists' },
-            { title: 'Search', href: '/movies/search' },
         ],
 
         init() { },
