@@ -8,8 +8,8 @@ module.exports = function shellData() {
         searchOpen: false,
         darkMode: localStorage.getItem('theme') === 'dark',
         navigation: [
-            // { title: 'Search', href: '/movies/search' },
-            { title: 'Watchlists', href: '/watchlists' },
+            { title: 'Search', href: '/movies/search', desktop: false, mobile: true },
+            { title: 'Watchlists', href: '/watchlists', desktop: true, mobile: true },
         ],
 
         init() { },

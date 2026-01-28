@@ -403,12 +403,11 @@
                                             <thead>
                                                 <tr class="bg-base-200/50">
                                                     <th>Poster</th>
+                                                    <th>Watched On</th>
                                                     <th>Title</th>
                                                     <th>Release Date</th>
                                                     <th>Runtime</th>
                                                     <th>Score</th>
-                                                    <th>Status</th>
-                                                    <th>Watched At</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -429,6 +428,16 @@
                                                             </div>
                                                         </td>
                                                         <td>
+                                                            <div class="flex items-center gap-2">
+                                                                <span>
+                                                                    <%= movie.watched_at ? new
+                                                                        Date(movie.watched_at).toLocaleDateString()
+                                                                        : '-' %>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+
                                                             <div class="font-bold text-lg"><a
                                                                     href="/movies/<%= movie.tmdb_id %>"
                                                                     class="hover:text-primary hover:underline transition-colors">
@@ -445,6 +454,7 @@
                                                             <%= movie.release_date ? new
                                                                 Date(movie.release_date).toLocaleDateString()
                                                                 : 'Unknown' %>
+
                                                         </td>
                                                         <td>
                                                             <%= movie.runtime ? movie.runtime + ' min' : 'N/A' %>
@@ -466,49 +476,29 @@
                                                                     title="RT Score">RT:
                                                                     <%= movie.rt_score ? movie.rt_score + '%' : '-' %>
                                                                 </span>
+
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <% let statusClass='badge-outline' ; if
-                                                                (movie.status==='Released' )
-                                                                statusClass='badge-success badge-outline' ; else if
-                                                                (movie.status==='Post Production' )
-                                                                statusClass='badge-warning badge-outline' ; else if
-                                                                (movie.status==='In Production' )
-                                                                statusClass='badge-info badge-outline' ; else if
-                                                                (movie.status==='Canceled' )
-                                                                statusClass='badge-error badge-outline' ; %>
-                                                                <div class="badge <%= statusClass %> whitespace-nowrap">
-                                                                    <%= movie.status || 'Unknown' %>
-                                                                </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="flex items-center gap-2">
-                                                                <span>
-                                                                    <%= movie.watched_at ? new
-                                                                        Date(movie.watched_at).toLocaleDateString()
-                                                                        : '-' %>
-                                                                </span>
-                                                                <% if (data.list && data.list.is_owner) { %>
-                                                                    <button @click="
-                                                editHistoryId = '<%= movie.history_id %>';
-                                                editDateValue = '<%= movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '' %>';
-                                                editTmdbScore = '<%= movie.tmdb_score || '' %>';
-                                                editImdbScore = '<%= movie.imdb_score || '' %>';
-                                                editRtScore = '<%= movie.rt_score || '' %>';
-                                                showDateModal = true
-                                            " class="btn btn-xs btn-ghost btn-circle opacity-50 hover:opacity-100"
-                                                                        title="Edit Entry">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            class="h-4 w-4" fill="none"
-                                                                            viewBox="0 0 24 24" stroke="currentColor">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round" stroke-width="2"
-                                                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                                        </svg>
-                                                                    </button>
-                                                                    <% } %>
-                                                            </div>
+                                                            <% if (data.list && data.list.is_owner) { %>
+                                                                <button @click="
+                                                    editHistoryId = '<%= movie.history_id %>';
+                                                    editDateValue = '<%= movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '' %>';
+                                                    editTmdbScore = '<%= movie.tmdb_score || '' %>';
+                                                    editImdbScore = '<%= movie.imdb_score || '' %>';
+                                                    editRtScore = '<%= movie.rt_score || '' %>';
+                                                    showDateModal = true
+                                                " class="btn btn-xs btn-ghost btn-circle opacity-50 hover:opacity-100"
+                                                                    title="Edit Entry">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                                                        stroke="currentColor">
+                                                                        <path stroke-linecap="round"
+                                                                            stroke-linejoin="round" stroke-width="2"
+                                                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                                    </svg>
+                                                                </button>
+                                                                <% } %>
                                                         </td>
                                                     </tr>
                                                     <% }) %>
