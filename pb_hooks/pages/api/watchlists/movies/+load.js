@@ -1,19 +1,26 @@
 /**
  * API endpoint for fetching paginated movies for a watchlist.
- * GET /api/watchlists/movies?listId=xxx&page=1&limit=20
+ * GET /api/watchlists/movies?listId=xxx&page=1&limit=20&sort=-created
  */
 const common = require('../../../../lib/common.js')
+
+// Helper to get param from various context locations
+function getParam(ctx, key) {
+    if (ctx.params && ctx.params[key]) return ctx.params[key]
+    if (ctx.query && ctx.query[key]) return ctx.query[key]
+    if (typeof ctx.queryParam === 'function') return ctx.queryParam(key)
+    return null
+}
 
 module.exports = function (context) {
     const { user } = common.init(context)
 
-    // Get query params - in PocketPages, params contains merged path and query params
-    const params = context.params || {}
-    const listId = params.listId || context.query?.listId
-    const page = parseInt(params.page || context.query?.page || '1', 10)
-    const limit = parseInt(params.limit || context.query?.limit || '20', 10)
+    const listId = getParam(context, 'listId')
+    const page = parseInt(getParam(context, 'page') || '1', 10)
+    const limit = parseInt(getParam(context, 'limit') || '20', 10)
+    const sort = getParam(context, 'sort') || '-created'
 
-    console.log('[API movies] params:', JSON.stringify(params), 'page:', page, 'limit:', limit, 'listId:', listId)
+    console.log('[API movies] listId:', listId, 'page:', page, 'limit:', limit, 'sort:', sort)
 
     if (!listId) {
         return {
@@ -43,7 +50,7 @@ module.exports = function (context) {
         const historyRecords = $app.findRecordsByFilter(
             'watched_history',
             `list = '${listId}'`,
-            '-created',
+            sort,
             limit + 1, // Fetch one extra to check if there are more
             offset
         )
@@ -85,7 +92,8 @@ module.exports = function (context) {
             movies,
             page,
             hasMore,
-            totalLoaded: offset + movies.length
+            totalLoaded: offset + movies.length,
+            sort
         }
     } catch (e) {
         console.error('[API] Failed to load movies:', e)

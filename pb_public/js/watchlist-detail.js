@@ -160,12 +160,13 @@ document.addEventListener('alpine:init', () => {
             this.currentPage++;
 
             try {
-                const url = `/api/watchlists/movies?listId=${this.listId}&page=${this.currentPage}&limit=${this.pageSize}`;
+                const sortParam = this.getDbSortParam();
+                const url = `/api/watchlists/movies?listId=${this.listId}&page=${this.currentPage}&limit=${this.pageSize}&sort=${encodeURIComponent(sortParam)}`;
                 console.log('[Infinite Scroll] Fetching:', url);
 
                 const response = await fetch(url);
                 const text = await response.text();
-                console.log('[Infinite Scroll] Raw response:', text.substring(0, 200));
+                // console.log('[Infinite Scroll] Raw response:', text.substring(0, 200));
 
                 let data;
                 try {
@@ -176,13 +177,13 @@ document.addEventListener('alpine:init', () => {
                     return;
                 }
 
-                console.log('[Infinite Scroll] Parsed data:', data);
+                // console.log('[Infinite Scroll] Parsed data:', data);
 
                 if (data.success && data.movies && data.movies.length > 0) {
                     // Add new movies to the array
                     this.movies = [...this.movies, ...data.movies];
                     this.hasMore = data.hasMore;
-                    // Re-apply sort after adding new items
+                    // Re-apply sort after adding new items (just in case)
                     this.applySort();
                     console.log('[Infinite Scroll] Added', data.movies.length, 'movies. hasMore:', data.hasMore);
                 } else {
@@ -198,6 +199,25 @@ document.addEventListener('alpine:init', () => {
         },
 
         /**
+         * Get the database sort parameter based on current column and direction.
+         * @returns {string} - The sort string (e.g. "+movie.title").
+         */
+        getDbSortParam() {
+            const colMap = {
+                'watched_at': 'watched',
+                'title': 'movie.title',
+                'release_date': 'movie.release_date',
+                'runtime': 'movie.runtime',
+                'tmdb_score': 'tmdb_score',
+                'imdb_score': 'imdb_score',
+                'rt_score': 'rt_score'
+            };
+            const col = colMap[this.sortColumn] || 'created';
+            const dir = this.sortDirection === 'asc' ? '+' : '-';
+            return dir + col;
+        },
+
+        /**
          * Sort by a specific column. Toggles direction if same column.
          * @param {string} column - The column name to sort by.
          */
@@ -208,7 +228,20 @@ document.addEventListener('alpine:init', () => {
                 this.sortColumn = column;
                 this.sortDirection = 'asc';
             }
-            this.applySort();
+
+            // Hybrid Sort Logic:
+            // If we have more items to load, we must query the database to get the correct sorted order.
+            // If we have fully loaded the list, we can just sort client-side.
+            if (this.hasMore) {
+                console.log('[Sort] Reloading from server due to incomplete list');
+                this.movies = [];
+                this.currentPage = 0; // Will be incremented to 1 in loadMore
+                this.hasMore = true;
+                this.loadMore();
+            } else {
+                console.log('[Sort] Sorting client-side');
+                this.applySort();
+            }
         },
 
         /**
