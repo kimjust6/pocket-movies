@@ -210,6 +210,28 @@
                                                                         </svg>
                                                                         Add to Watchlist
                                                                     </button>
+
+                                                                    <form method="POST" class="w-full mt-2">
+                                                                        <input type="hidden" name="tmdb_id"
+                                                                            value="<%= movie.id %>">
+                                                                        <input type="hidden" name="watchlist_id"
+                                                                            value="">
+                                                                        <input type="hidden" name="q"
+                                                                            value="<%= data.q || '' %>">
+                                                                        <button type="submit"
+                                                                            class="btn btn-outline btn-sm w-full gap-2 text-base-content hover:bg-neutral hover:text-neutral-content transition-all border-base-content/20">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                class="h-4 w-4" fill="none"
+                                                                                viewBox="0 0 24 24"
+                                                                                stroke="currentColor">
+                                                                                <path stroke-linecap="round"
+                                                                                    stroke-linejoin="round"
+                                                                                    stroke-width="2"
+                                                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                            </svg>
+                                                                            Add to Default Watchlist
+                                                                        </button>
+                                                                    </form>
                                                                     <% } else { %>
                                                                         <form method="POST" class="w-full">
                                                                             <!-- Just for layout consistency if needed, though form is unused for login link -->
