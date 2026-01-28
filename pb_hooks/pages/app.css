@@ -5214,6 +5214,10 @@ html::-webkit-scrollbar,
      object-fit: cover;
 }
 
+.p-0 {
+  padding: 0px;
+}
+
 .p-1 {
   padding: 0.25rem;
 }

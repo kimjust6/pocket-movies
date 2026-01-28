@@ -115,5 +115,126 @@ module.exports = {
             console.error('[common.js] Failed to load watchlists:', e)
         }
         return lists
+    },
+
+    /**
+     * Fetch a watchlist by ID and check access permissions.
+     * @param {string} listId - The watchlist ID
+     * @param {any} user - The user object (or null)
+     * @returns {{list: any, hasAccess: boolean, isOwner: boolean, error: string|null}}
+     */
+    getWatchlistWithAccess: function (listId, user) {
+        let list = null
+        let hasAccess = false
+        let isOwner = false
+        let error = null
+
+        try {
+            list = $app.findFirstRecordByFilter('lists', `id = '${listId}' && is_deleted != true`)
+            if (!list) {
+                return { list: null, hasAccess: false, isOwner: false, error: "List not found" }
+            }
+        } catch (e) {
+            return { list: null, hasAccess: false, isOwner: false, error: "List not found" }
+        }
+
+        const isPrivate = list.getBool('is_private')
+        const owner = list.getString('owner')
+        isOwner = (user && owner === user.id)
+
+        // Check access
+        if (!isPrivate) {
+            hasAccess = true
+        } else if (isOwner) {
+            hasAccess = true
+        } else if (user) {
+            try {
+                const invite = $app.findFirstRecordByFilter(
+                    'list_user',
+                    `list = '${list.id}' && invited_user = '${user.id}'`
+                )
+                if (invite) hasAccess = true
+            } catch (ignore) { }
+        }
+
+        if (!hasAccess) {
+            error = "You do not have permission to view this list."
+        }
+
+        return { list, hasAccess, isOwner, error }
+    },
+
+    /**
+     * Fetch movies for a watchlist.
+     * @param {string} listId - The watchlist ID
+     * @returns {Array} Array of movie objects with history data
+     */
+    fetchWatchlistMovies: function (listId) {
+        try {
+            const historyRecords = $app.findRecordsByFilter(
+                'watched_history',
+                `list = '${listId}'`,
+                '-created',
+                100,
+                0
+            )
+
+            $app.expandRecords(historyRecords, ['movie'])
+
+            return historyRecords.map((item) => {
+                const m = item.expandedOne('movie')
+                if (m) {
+                    return {
+                        id: m.id,
+                        tmdb_id: m.getString('tmdb_id'),
+                        title: m.getString('title'),
+                        release_date: m.getString('release_date'),
+                        runtime: m.getInt('runtime'),
+                        poster_path: m.getString('poster_path'),
+                        backdrop_path: m.getString('backdrop_path'),
+                        overview: m.getString('overview'),
+                        tagline: m.getString('tagline'),
+                        imdb_id: m.getString('imdb_id'),
+                        status: m.getString('status'),
+                        history_id: item.id,
+                        history_created: item.getString('created'),
+                        watched_at: item.getString('watched'),
+                        tmdb_score: item.getFloat('tmdb_score'),
+                        imdb_score: item.getFloat('imdb_score'),
+                        rt_score: item.getInt('rt_score'),
+                    }
+                }
+                return null
+            }).filter(Boolean)
+        } catch (e) {
+            console.error('[common.js] Failed to load list items:', e)
+            return []
+        }
+    },
+
+    /**
+     * Fetch potential users to invite to a watchlist.
+     * @param {string} excludeUserId - User ID to exclude (current user)
+     * @param {boolean} isOwner - Whether current user is owner
+     * @returns {Array} Array of user objects
+     */
+    fetchPotentialInviteUsers: function (excludeUserId, isOwner) {
+        if (!isOwner || !excludeUserId) return []
+
+        try {
+            return $app.findRecordsByFilter(
+                'users',
+                `id != '${excludeUserId}'`,
+                'email',
+                50,
+                0
+            ).map(u => ({
+                id: u.id,
+                email: u.getString('email'),
+            }))
+        } catch (e) {
+            console.error("[common.js] Failed to fetch users", e)
+            return []
+        }
     }
 }

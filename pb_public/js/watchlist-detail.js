@@ -1,9 +1,33 @@
 /**
  * Alpine.js component for the watchlist detail page.
- * Manages the state of Share and Edit modals.
+ * Manages the state of Share and Edit modals, and table sorting.
  */
 document.addEventListener('alpine:init', () => {
-    Alpine.data('watchlistDetail', () => ({
+    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false) => ({
+        /**
+         * Movies array for the watchlist.
+         * @type {Array}
+         */
+        movies: initialMovies,
+
+        /**
+         * Whether the current user is the owner.
+         * @type {boolean}
+         */
+        isOwner: isOwner,
+
+        /**
+         * Current sort column.
+         * @type {string}
+         */
+        sortColumn: 'watched_at',
+
+        /**
+         * Current sort direction: 'asc' or 'desc'.
+         * @type {string}
+         */
+        sortDirection: 'desc',
+
         /**
          * Controls the visibility of the Share Watchlist modal.
          * @type {boolean}
@@ -65,26 +89,101 @@ document.addEventListener('alpine:init', () => {
         showItemDeleteModal: false,
 
         /**
-         * Initializes the component.
+         * Initializes the component and applies initial sort.
          */
         init() {
-            // value initialization if needed
+            this.applySort();
+        },
+
+        /**
+         * Sort by a specific column. Toggles direction if same column.
+         * @param {string} column - The column name to sort by.
+         */
+        sortBy(column) {
+            if (this.sortColumn === column) {
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortColumn = column;
+                this.sortDirection = 'asc';
+            }
+            this.applySort();
+        },
+
+        /**
+         * Applies the current sort to the movies array.
+         */
+        applySort() {
+            const col = this.sortColumn;
+            const dir = this.sortDirection;
+
+            this.movies.sort((a, b) => {
+                let valA = a[col];
+                let valB = b[col];
+
+                // Handle null/undefined
+                if (valA == null) valA = '';
+                if (valB == null) valB = '';
+
+                // String comparison (case-insensitive)
+                if (typeof valA === 'string' && typeof valB === 'string') {
+                    valA = valA.toLowerCase();
+                    valB = valB.toLowerCase();
+                }
+
+                if (valA < valB) return dir === 'asc' ? -1 : 1;
+                if (valA > valB) return dir === 'asc' ? 1 : -1;
+                return 0;
+            });
+        },
+
+        /**
+         * Get sort icon for a column.
+         * @param {string} column - The column name.
+         * @returns {string} - The sort icon (↑, ↓, or empty).
+         */
+        getSortIcon(column) {
+            if (this.sortColumn !== column) return '';
+            return this.sortDirection === 'asc' ? '↑' : '↓';
+        },
+
+        /**
+         * Format a date string to a readable format.
+         * @param {string} dateStr - The date string.
+         * @returns {string} - Formatted date.
+         */
+        formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
         },
 
         /**
          * Opens the Delete Confirmation modal and optionally closes the Edit modal.
          */
         openDeleteModal() {
-            this.showEditModal = false
-            this.showDeleteModal = true
+            this.showEditModal = false;
+            this.showDeleteModal = true;
         },
 
         /**
          * Opens the Delete Item Confirmation modal and closes the Date modal.
          */
         openItemDeleteModal() {
-            this.showDateModal = false
-            this.showItemDeleteModal = true
+            this.showDateModal = false;
+            this.showItemDeleteModal = true;
+        },
+
+        /**
+         * Opens the edit modal for a specific movie.
+         * @param {object} movie - The movie object.
+         */
+        openEditMovieModal(movie) {
+            this.editHistoryId = movie.history_id;
+            this.editDateValue = movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '';
+            this.editTmdbScore = movie.tmdb_score || '';
+            this.editImdbScore = movie.imdb_score || '';
+            this.editRtScore = movie.rt_score || '';
+            this.showDateModal = true;
         }
-    }))
-})
+    }));
+});
