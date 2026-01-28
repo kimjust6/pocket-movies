@@ -8,23 +8,16 @@
  *   message: string|null,
  *   error: string|null,
  *   user: import('../../../../lib/pocketbase-types').UsersResponse|null,
- *   lists: Array<{id: string, title: string, is_private: boolean}>
+ *   lists: Array<{id: string, list_title: string, is_private: boolean}>
  * }}
  */
 module.exports = function (context) {
     const { request } = context
-
-    // Initialize JS SDK Client with current request context (propagates auth)
-    // Access pb from context as it's not in global scope
-    const client = context.pb({ request })
-
-    // Get authenticated user model from the client's auth store
-    // This is more reliable for SDK operations than context.request.auth
-    const user = client.authStore.model
-
-    // TMDB API helper functions
     const tmdb = require('../../../../lib/tmdb.js')
     const common = require('../../../../lib/common.js')
+
+    // Initialize using common (gets client and user)
+    const { client, user } = common.init(context)
 
     const q = context?.params?.q || ''
 
@@ -46,54 +39,7 @@ module.exports = function (context) {
 
     // Fetch user's watchlists if logged in
     if (user) {
-        let ownedLists = []
-        let sharedLists = []
-
-        try {
-            // 1. Owned lists
-            try {
-                ownedLists = client.collection('lists').getFullList({
-                    filter: `owner = '${user.id}' && (is_deleted = false || is_deleted = null)`,
-                    sort: '-created',
-                })
-            } catch (e) {
-                // $app.logger().error('Failed to load owned lists:', e)
-            }
-
-            // 2. Shared lists (via list_user)
-            try {
-                const sharedInvites = client.collection('list_user').getFullList({
-                    filter: `invited_user = '${user.id}'`,
-                    sort: '-created',
-                    expand: 'list',
-                })
-
-                sharedLists = sharedInvites
-                    .map((invite) => invite.expand?.list)
-                    .filter(list => list && !list.is_deleted)
-            } catch (e) {
-                // warning only, likely permission issue or no shared lists
-                // $app.logger().warn('Failed to load shared lists (check API rules):', e)
-            }
-
-            // Combine and deduplicate
-            const allLists = [...ownedLists, ...sharedLists]
-            const seenIds = new Set()
-
-            lists = allLists
-                .filter((list) => {
-                    if (seenIds.has(list.id)) return false
-                    seenIds.add(list.id)
-                    return true
-                })
-                .map((list) => ({
-                    id: list.id,
-                    title: list.list_title, // Direct property access with JS SDK
-                    is_private: list.is_private,
-                }))
-        } catch (e) {
-            $app.logger().error('Failed to process user lists:', e)
-        }
+        lists = common.getWatchlists(client, user)
     }
 
     // Handle POST request - add movie to watchlist

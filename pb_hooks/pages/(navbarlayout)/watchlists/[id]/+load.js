@@ -15,20 +15,22 @@
  */
 const common = require('../../../../lib/common.js')
 
-module.exports = function (api) {
+module.exports = function (context) {
+    const { client, user } = common.init(context)
+    const userId = user?.id
 
     /**
      * @type {string|undefined}
      * Logged-in user ID.
      */
-    const user = api.request.auth?.id
+    // const user = api.request.auth?.id // Replaced by common.init
 
     // Attempt to get ID from params (likely merged path and query params)
     /**
      * @type {string}
      * The unique ID of the watchlist.
      */
-    const listId = api.params?.id || api.pathParams?.id
+    const listId = context.params?.id || context.pathParams?.id
 
     if (!listId) {
         return {
@@ -48,7 +50,7 @@ module.exports = function (api) {
         if (!list) throw new Error("List not found")
 
     } catch (e) {
-        api.response.redirect('/watchlists')
+        context.response.redirect('/watchlists')
         return
     }
 
@@ -68,7 +70,7 @@ module.exports = function (api) {
      * @type {boolean}
      * Whether the current user is the owner of the list.
      */
-    const isOwner = (user && owner === user)
+    const isOwner = (user && owner === user.id)
 
     /**
      * @type {boolean}
@@ -85,7 +87,7 @@ module.exports = function (api) {
         try {
             const invite = $app.findFirstRecordByFilter(
                 'list_user',
-                `list = '${list.id}' && invited_user = '${user}'`
+                `list = '${list.id}' && invited_user = '${user.id}'`
             )
             if (invite) hasAccess = true
         } catch (ignore) { }
@@ -100,12 +102,12 @@ module.exports = function (api) {
     }
 
     // Handle POST actions (Invite, Update, Delete)
-    if (user && api.request.method === 'POST') {
-        const result = handlePostAction(api, list, isOwner, user);
+    if (user && context.request.method === 'POST') {
+        const result = handlePostAction(context, list, isOwner, user.id);
         if (result.message) message = result.message;
         if (result.error) error = result.error;
         if (result.redirect) {
-            api.response.redirect(result.redirect);
+            context.response.redirect(result.redirect);
             return;
         }
     }
@@ -115,7 +117,7 @@ module.exports = function (api) {
     const movies = fetchMovies(listId);
 
     // 3. Fetch potential users to invite (if owner)
-    const potentialUsers = fetchPotentialUsers(user, isOwner);
+    const potentialUsers = fetchPotentialUsers(user.id, isOwner);
 
 
 
@@ -137,12 +139,12 @@ module.exports = function (api) {
 
 /**
  * Handles POST requests for various actions.
- * @param {import('pocketpages').PocketPagesApi} api 
+ * @param {import('pocketpages').PocketPagesApi} context 
  * @param {import('pocketbase').Record} list 
  * @param {boolean} isOwner 
  * @param {string} user 
  */
-function handlePostAction(api, list, isOwner, user) {
+function handlePostAction(context, list, isOwner, user) {
     let message = null;
     let error = null;
     let redirect = null;
@@ -175,7 +177,7 @@ function handlePostAction(api, list, isOwner, user) {
      * @type {UpdateListData & InviteUserData & HistoryItemData}
      * Parsed form data from the request.
      */
-    let data = common.parseFormData(api)
+    let data = common.parseFormData(context)
     // Compatibility: handle map-like access
     if (typeof data.get === 'function') {
         const fd = data

@@ -4997,16 +4997,16 @@ html::-webkit-scrollbar,
   border-color: var(--fallback-bc,oklch(var(--bc)/0.1));
 }
 
+.border-base-content\/20 {
+  border-color: var(--fallback-bc,oklch(var(--bc)/0.2));
+}
+
 .border-base-content\/5 {
   border-color: var(--fallback-bc,oklch(var(--bc)/0.05));
 }
 
 .border-error\/20 {
   border-color: var(--fallback-er,oklch(var(--er)/0.2));
-}
-
-.border-base-content\/20 {
-  border-color: var(--fallback-bc,oklch(var(--bc)/0.2));
 }
 
 .bg-accent\/10 {
@@ -5949,6 +5949,11 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-er,oklch(var(--er)/0.1));
 }
 
+.hover\:bg-neutral:hover {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity, 1)));
+}
+
 .hover\:bg-primary:hover {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity, 1)));
@@ -5968,14 +5973,14 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-s,oklch(var(--s)/var(--tw-bg-opacity, 1)));
 }
 
-.hover\:bg-neutral:hover {
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity, 1)));
-}
-
 .hover\:text-base-content:hover {
   --tw-text-opacity: 1;
   color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity, 1)));
+}
+
+.hover\:text-neutral-content:hover {
+  --tw-text-opacity: 1;
+  color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity, 1)));
 }
 
 .hover\:text-primary:hover {
@@ -5991,11 +5996,6 @@ html::-webkit-scrollbar,
 .hover\:text-secondary-content:hover {
   --tw-text-opacity: 1;
   color: var(--fallback-sc,oklch(var(--sc)/var(--tw-text-opacity, 1)));
-}
-
-.hover\:text-neutral-content:hover {
-  --tw-text-opacity: 1;
-  color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity, 1)));
 }
 
 .hover\:underline:hover {

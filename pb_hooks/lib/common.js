@@ -22,11 +22,6 @@ module.exports = {
             // Try built-in Context.formData() first (multipart/form-data)
             if (typeof context.formData === 'function') {
                 const fd = context.formData()
-                // Convert primitives to object
-                // If it's a Go map/struct, this might suffice, but if it allows .get(), we use that.
-                // context.formData() usually returns a map[string]any in JSVM.
-                // Let's assume standard JSVM behavior where it returns a plain object-like structure or map.
-                // If it's the standard PB Go hook, `formData()` returns `map[string]any`.
                 return fd
             }
 
@@ -38,11 +33,6 @@ module.exports = {
 
             // Fallback to body() for JSON payloads
             if (typeof context.body === 'function') {
-                // body() returns the raw body or parsed JSON? 
-                // In PB JSVM, requestInfo().body is raw. 
-                // Usually `context.readBody` or similar is used for JSON.
-                // But let's look at the existing code usage: `api.formData()` or `api.body()`.
-                // Existing code checks: `api.formData()` then `api.body()`.
                 const body = context.body()
                 if (body) return body
             }
@@ -50,5 +40,80 @@ module.exports = {
             console.error('[common.js] Error parsing form data:', e)
         }
         return data
+    },
+    /**
+     * Initialize PocketBase client and get authenticated user.
+     * @param {object} context - The pb_hooks context object
+     * @returns {{client: any, user: any}} Object containing the initialized client and user model (or null)
+     */
+    init: function (context) {
+        const { request } = context
+        const client = context.pb({ request })
+        const user = client.authStore.model
+        return { client, user }
+    },
+
+    /**
+     * Fetch all watchlists (owned and shared) for a user.
+     * @param {any} client - The initialized PocketBase client
+     * @param {any} user - The user object
+     * @returns {Array<{id: string, title: string, is_private: boolean}>} Array of watchlist objects
+     */
+    getWatchlists: function (client, user) {
+        if (!user) return []
+
+        let lists = []
+        try {
+            // 1. Owned lists
+            let ownedLists = []
+            try {
+                ownedLists = client.collection('lists').getFullList({
+                    filter: `owner = '${user.id}' && (is_deleted = false || is_deleted = null)`,
+                    sort: '-created',
+                })
+            } catch (e) {
+                // Ignore error
+            }
+
+            // 2. Shared lists
+            let sharedLists = []
+            try {
+                const sharedInvites = client.collection('list_user').getFullList({
+                    filter: `invited_user = '${user.id}'`,
+                    sort: '-created',
+                    expand: 'list',
+                })
+
+                sharedLists = sharedInvites
+                    .map((invite) => invite.expand?.list)
+                    .filter(list => list && !list.is_deleted)
+            } catch (e) {
+                // Ignore error
+            }
+
+            // Combine and deduplicate
+            const allLists = [...ownedLists, ...sharedLists]
+            const seenIds = new Set()
+
+            lists = allLists
+                .filter((list) => {
+                    if (seenIds.has(list.id)) return false
+                    seenIds.add(list.id)
+                    return true
+                })
+                .map((list) => ({
+                    id: list.id,
+                    list_title: list.list_title,
+                    description: list.description,
+                    is_private: list.is_private,
+                    owner: list.owner,
+                    created: list.created,
+                    updated: list.updated,
+                    is_deleted: list.is_deleted
+                }))
+        } catch (e) {
+            console.error('[common.js] Failed to load watchlists:', e)
+        }
+        return lists
     }
 }
