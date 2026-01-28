@@ -363,7 +363,8 @@
                                     class="relative w-full max-w-sm rounded-2xl border border-error/20 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
 
                                     <h3 class="text-xl font-bold text-error mb-2">Remove Movie?</h3>
-                                    <p class="text-base-content/70 mb-6">Are you sure you want to remove this movie from
+                                    <p class="text-base-content/70 mb-6">Are you sure you want to remove this movie
+                                        from
                                         your
                                         watchlist?</p>
 
@@ -389,7 +390,8 @@
                                             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                     <h3 class="mb-2 text-2xl font-bold">This list is empty</h3>
-                                    <p class="max-w-md mx-auto">Start building your collection by searching for movies.
+                                    <p class="max-w-md mx-auto">Start building your collection by searching for
+                                        movies.
                                     </p>
                                     <a href="/movies/search"
                                         class="btn btn-ghost mt-4 font-normal text-primary hover:bg-primary/10">Browse
@@ -430,9 +432,7 @@
                                                         <td>
                                                             <div class="flex items-center gap-2">
                                                                 <span>
-                                                                    <%= movie.watched_at ? new
-                                                                        Date(movie.watched_at).toLocaleDateString()
-                                                                        : '-' %>
+                                                                    <%= data.formatDateTime(movie.watched_at) %>
                                                                 </span>
                                                             </div>
                                                         </td>
@@ -451,9 +451,7 @@
                                                                 <% } %>
                                                         </td>
                                                         <td>
-                                                            <%= movie.release_date ? new
-                                                                Date(movie.release_date).toLocaleDateString()
-                                                                : 'Unknown' %>
+                                                            <%= data.formatDateTime(movie.release_date) %>
 
                                                         </td>
                                                         <td>

@@ -115,6 +115,8 @@ module.exports = function (api) {
     // 3. Fetch potential users to invite (if owner)
     const potentialUsers = fetchPotentialUsers(user, isOwner);
 
+    const common = require('../../../../lib/common.js')
+
     return {
         list: {
             id: list.id,
@@ -126,7 +128,8 @@ module.exports = function (api) {
         movies,
         users: potentialUsers,
         error,
-        message
+        message,
+        formatDateTime: common.formatDateTime
     }
 }
 
