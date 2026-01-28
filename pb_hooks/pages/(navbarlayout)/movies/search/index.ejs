@@ -8,11 +8,24 @@
             </h1>
 
             <form method="GET" class="join relative w-full max-w-2xl">
-                <input type="text" name="q" placeholder="Search for movies..."
-                    class="input input-lg join-item input-bordered w-full bg-base-100/50 backdrop-blur-sm transition-all duration-300 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
-                    x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
-                    x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
+                <label
+                    class="input input-lg join-item input-bordered flex items-center gap-2 w-full bg-base-100/50 backdrop-blur-sm transition-all duration-300 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20">
+                    <input type="text" name="q" placeholder="Search for movies..."
+                        class="grow bg-transparent border-none focus:outline-none placeholder:text-base-content/50"
+                        x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
+                        x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
+                        x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
+
+                    <button type="button" class="btn btn-ghost btn-xs btn-circle opacity-50 hover:opacity-100"
+                        @click="query = ''; $nextTick(() => $refs.searchInput.focus())"
+                        x-show="query && query.length > 0" x-transition.opacity>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </label>
                 <button type="submit" class="btn btn-primary join-item btn-lg px-8">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">

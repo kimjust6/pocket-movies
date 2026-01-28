@@ -43,7 +43,7 @@
             <template x-for="item in navigation" :key="item.title">
                 <a :href="item.href"
                     class="group relative text-sm font-medium tracking-wide text-base-content/80 transition-colors duration-200 hover:text-primary"
-                    x-text="item.title">
+                    x-text="item.title" x-show="item.desktop">
                     <span
                         class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </a>
