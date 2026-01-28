@@ -53,7 +53,7 @@ module.exports = function (context) {
             // 1. Owned lists
             try {
                 ownedLists = client.collection('lists').getFullList({
-                    filter: `owner = '${user.id}'`,
+                    filter: `owner = '${user.id}' && (is_deleted = false || is_deleted = null)`,
                     sort: '-created',
                 })
             } catch (e) {
@@ -70,7 +70,7 @@ module.exports = function (context) {
 
                 sharedLists = sharedInvites
                     .map((invite) => invite.expand?.list)
-                    .filter(Boolean)
+                    .filter(list => list && !list.is_deleted)
             } catch (e) {
                 // warning only, likely permission issue or no shared lists
                 // $app.logger().warn('Failed to load shared lists (check API rules):', e)
