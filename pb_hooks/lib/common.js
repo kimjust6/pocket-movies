@@ -167,15 +167,16 @@ module.exports = {
     /**
      * Fetch movies for a watchlist.
      * @param {string} listId - The watchlist ID
+     * @param {number} [limit=20] - Maximum number of items to fetch
      * @returns {Array} Array of movie objects with history data
      */
-    fetchWatchlistMovies: function (listId) {
+    fetchWatchlistMovies: function (listId, limit = 20) {
         try {
             const historyRecords = $app.findRecordsByFilter(
                 'watched_history',
                 `list = '${listId}'`,
                 '-created',
-                100,
+                limit,
                 0
             )
 

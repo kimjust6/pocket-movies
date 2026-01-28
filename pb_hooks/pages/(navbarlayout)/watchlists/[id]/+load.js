@@ -60,8 +60,11 @@ module.exports = function (context) {
         }
     }
 
-    // 3. Fetch movies
-    const movies = common.fetchWatchlistMovies(listId)
+    // 3. Fetch movies (fetch one extra to determine if there are more)
+    const pageSize = 20
+    const allMovies = common.fetchWatchlistMovies(listId, pageSize + 1)
+    const hasMore = allMovies.length > pageSize
+    const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies
 
     // 4. Fetch potential users to invite (if owner)
     const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner)
@@ -75,6 +78,7 @@ module.exports = function (context) {
             is_owner: isOwner
         },
         movies,
+        hasMore,
         users: potentialUsers,
         error,
         message,

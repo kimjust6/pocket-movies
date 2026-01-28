@@ -1,9 +1,9 @@
 /**
  * Alpine.js component for the watchlist detail page.
- * Manages the state of Share and Edit modals, and table sorting.
+ * Manages the state of Share and Edit modals, table sorting, and infinite scroll.
  */
 document.addEventListener('alpine:init', () => {
-    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false) => ({
+    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false, listId = '', initialHasMore = true) => ({
         /**
          * Movies array for the watchlist.
          * @type {Array}
@@ -15,6 +15,36 @@ document.addEventListener('alpine:init', () => {
          * @type {boolean}
          */
         isOwner: isOwner,
+
+        /**
+         * The watchlist ID for API calls.
+         * @type {string}
+         */
+        listId: listId,
+
+        /**
+         * Current page for pagination.
+         * @type {number}
+         */
+        currentPage: 1,
+
+        /**
+         * Whether there are more items to load.
+         * @type {boolean}
+         */
+        hasMore: initialHasMore,
+
+        /**
+         * Whether we are currently loading more items.
+         * @type {boolean}
+         */
+        isLoading: false,
+
+        /**
+         * Items per page for API requests.
+         * @type {number}
+         */
+        pageSize: 20,
 
         /**
          * Current sort column.
@@ -89,10 +119,82 @@ document.addEventListener('alpine:init', () => {
         showItemDeleteModal: false,
 
         /**
-         * Initializes the component and applies initial sort.
+         * Initializes the component and sets up infinite scroll.
          */
         init() {
             this.applySort();
+
+            // Set up intersection observer for infinite scroll
+            this.$nextTick(() => {
+                this.setupInfiniteScroll();
+            });
+        },
+
+        /**
+         * Sets up the intersection observer for infinite scroll.
+         */
+        setupInfiniteScroll() {
+            const sentinel = document.getElementById('scroll-sentinel');
+            if (!sentinel) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && this.hasMore && !this.isLoading) {
+                        this.loadMore();
+                    }
+                });
+            }, {
+                rootMargin: '100px'
+            });
+
+            observer.observe(sentinel);
+        },
+
+        /**
+         * Loads more movies from the API.
+         */
+        async loadMore() {
+            if (this.isLoading || !this.hasMore) return;
+
+            this.isLoading = true;
+            this.currentPage++;
+
+            try {
+                const url = `/api/watchlists/movies?listId=${this.listId}&page=${this.currentPage}&limit=${this.pageSize}`;
+                console.log('[Infinite Scroll] Fetching:', url);
+
+                const response = await fetch(url);
+                const text = await response.text();
+                console.log('[Infinite Scroll] Raw response:', text.substring(0, 200));
+
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (parseError) {
+                    console.error('[Infinite Scroll] JSON parse error:', parseError);
+                    this.hasMore = false;
+                    return;
+                }
+
+                console.log('[Infinite Scroll] Parsed data:', data);
+
+                if (data.success && data.movies && data.movies.length > 0) {
+                    // Add new movies to the array
+                    this.movies = [...this.movies, ...data.movies];
+                    this.hasMore = data.hasMore;
+                    // Re-apply sort after adding new items
+                    this.applySort();
+                    console.log('[Infinite Scroll] Added', data.movies.length, 'movies. hasMore:', data.hasMore);
+                } else {
+                    console.log('[Infinite Scroll] No more movies or error:', data);
+                    this.hasMore = false;
+                }
+            } catch (error) {
+                console.error('[Infinite Scroll] Failed to load more movies:', error);
+                this.hasMore = false;
+            } finally {
+                this.isLoading = false;
+            }
         },
 
         /**

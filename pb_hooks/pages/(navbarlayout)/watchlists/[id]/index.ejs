@@ -1,7 +1,7 @@
 <!-- Force Refresh -->
 <script src="/js/watchlist-detail.js?v=<%= new Date().getTime() %>"></script>
 <div class="w-full p-4"
-    x-data="watchlistDetail(<%= JSON.stringify(data.movies || []) %>, <%= data.list ? data.list.is_owner : false %>)">
+    x-data="watchlistDetail(<%= JSON.stringify(data.movies || []) %>, <%= data.list ? data.list.is_owner : false %>, '<%= data.list ? data.list.id : '' %>', <%= data.hasMore !== undefined ? data.hasMore : true %>)">
     <!-- Header -->
     <div class="container mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -522,6 +522,21 @@
                                                 </template>
                                             </tbody>
                                         </table>
+
+                                        <!-- Scroll Sentinel for Infinite Scroll -->
+                                        <div id="scroll-sentinel" class="w-full py-4">
+                                            <template x-if="isLoading">
+                                                <div class="flex justify-center items-center py-8">
+                                                    <span
+                                                        class="loading loading-spinner loading-lg text-primary"></span>
+                                                </div>
+                                            </template>
+                                            <template x-if="!hasMore && movies.length > 0 && !isLoading">
+                                                <div class="text-center py-4 text-base-content/50">
+                                                    <p>You've reached the end of the list</p>
+                                                </div>
+                                            </template>
+                                        </div>
                                     </div>
                                     <% } %>
 </div>
