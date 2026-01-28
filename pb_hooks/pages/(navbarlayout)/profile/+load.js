@@ -20,6 +20,17 @@ module.exports = function (context) {
         console.error("Failed to fetch fresh profile:", e)
     }
 
+    // Verify profile is a Record, otherwise shim it
+    if (profile && typeof profile.getString !== 'function') {
+        const p = profile
+        profile = {
+            ...p,
+            getString: (key) => p[key] || '',
+            collection: () => ({ id: p.collectionId || p.collectionName }), // Fallback
+            email: () => p.email || '',
+        }
+    }
+
     return {
         profile,
         formatDateTime: common.formatDateTime
