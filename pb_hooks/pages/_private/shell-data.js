@@ -5,6 +5,7 @@
 module.exports = function shellData() {
     return {
         navOpen: false,
+        searchOpen: false,
         darkMode: localStorage.getItem('theme') === 'dark',
         navigation: [
             // { title: 'Search', href: '/movies/search' },

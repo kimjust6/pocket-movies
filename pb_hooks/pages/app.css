@@ -2461,6 +2461,12 @@ html::-webkit-scrollbar,
   margin-inline-end: -1rem;
 }
 
+.input-sm[type="number"]::-webkit-inner-spin-button {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-inline-end: -0px;
+}
+
 .input-lg[type="number"]::-webkit-inner-spin-button {
   margin-top: -1.5rem;
   margin-bottom: -1.5rem;
@@ -3977,6 +3983,14 @@ html::-webkit-scrollbar,
   line-height: 2;
 }
 
+.input-sm {
+  height: 2rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 2rem;
+}
+
 .join.join-vertical {
   flex-direction: column;
 }
@@ -4380,6 +4394,10 @@ html::-webkit-scrollbar,
 
 .left-1\/2 {
   left: 50%;
+}
+
+.right-0 {
+  right: 0px;
 }
 
 .right-2 {
@@ -5237,6 +5255,11 @@ html::-webkit-scrollbar,
   padding-right: 0.5rem;
 }
 
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -5311,6 +5334,10 @@ html::-webkit-scrollbar,
 
 .pl-0 {
   padding-left: 0px;
+}
+
+.pr-10 {
+  padding-right: 2.5rem;
 }
 
 .pr-2 {
@@ -6009,6 +6036,11 @@ html::-webkit-scrollbar,
   border-color: var(--fallback-s,oklch(var(--s)/var(--tw-border-opacity, 1)));
 }
 
+.focus\:bg-base-100:focus {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity, 1)));
+}
+
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -6102,6 +6134,10 @@ html::-webkit-scrollbar,
 
   .md\:w-40 {
     width: 10rem;
+  }
+
+  .md\:w-64 {
+    width: 16rem;
   }
 
   .md\:grid-cols-2 {
