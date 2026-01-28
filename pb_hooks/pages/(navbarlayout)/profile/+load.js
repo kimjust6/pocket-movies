@@ -5,21 +5,23 @@
  * @returns {{ profile: import('../../../lib/pocketbase-types').UsersResponse }}
  */
 module.exports = function (context) {
-    const user = context.request.auth
+    const common = require('../../../lib/common.js')
+    const { client, user } = common.init(context)
+
     if (!user) {
-        context.response.redirect('/login')
-        return
+        return context.redirect('/login')
     }
 
     // Fetch fresh user data
     let profile = user
     try {
-        profile = $app.findRecordById("users", user.id)
+        profile = client.collection('users').getOne(user.id)
     } catch (e) {
         console.error("Failed to fetch fresh profile:", e)
     }
 
     return {
-        profile
+        profile,
+        formatDateTime: common.formatDateTime
     }
 }

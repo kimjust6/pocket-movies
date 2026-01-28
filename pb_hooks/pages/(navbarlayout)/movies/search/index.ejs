@@ -8,11 +8,24 @@
             </h1>
 
             <form method="GET" class="join relative w-full max-w-2xl">
-                <input type="text" name="q" placeholder="Search for movies..."
-                    class="input input-lg join-item input-bordered w-full bg-base-100/50 backdrop-blur-sm transition-all duration-300 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
-                    x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
-                    x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
+                <label
+                    class="input input-lg join-item input-bordered flex items-center gap-2 w-full bg-base-100/50 backdrop-blur-sm transition-all duration-300 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20">
+                    <input type="text" name="q" placeholder="Search for movies..."
+                        class="grow bg-transparent border-none focus:outline-none placeholder:text-base-content/50"
+                        x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
+                        x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
+                        x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
+
+                    <button type="button" class="btn btn-ghost btn-xs btn-circle opacity-50 hover:opacity-100"
+                        @click="query = ''; $nextTick(() => $refs.searchInput.focus())"
+                        x-show="query && query.length > 0" x-transition.opacity>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </label>
                 <button type="submit" class="btn btn-primary join-item btn-lg px-8">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -28,15 +41,25 @@
     <!-- Messages -->
     <% if (data.message) { %>
         <div class="mx-auto mt-6 max-w-4xl px-4">
-            <div class="alert alert-success shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>
-                    <%= data.message %>
-                </span>
+            <div x-data="{ show: true }" x-show="show" x-transition.duration.300ms
+                class="alert alert-success shadow-lg flex justify-between">
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>
+                        <%= data.message %>
+                    </span>
+                </div>
+                <button @click="show = false" class="btn btn-ghost btn-sm btn-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
             </div>
         </div>
         <% } %>
@@ -67,121 +90,256 @@
                             <!-- Results Section -->
                             <div class="mx-auto max-w-7xl p-6 md:p-10">
                                 <% if (data.results && data.results.length> 0) { %>
-                                    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                                        <% data.results.forEach(movie=> { %>
-                                            <div
-                                                class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
-                                                <a href="/movies/<%= movie.id %>" class="block cursor-pointer">
-                                                    <figure class="relative aspect-[2/3] overflow-hidden bg-base-300">
-                                                        <% if (movie.poster_path) { %>
-                                                            <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
-                                                                alt="<%= movie.title %>" loading="lazy"
-                                                                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                                                            <% } else { %>
-                                                                <div
-                                                                    class="flex h-full w-full items-center justify-center bg-base-300 text-base-content/50">
-                                                                    <span
-                                                                        class="text-4xl font-bold opacity-20 capitalize">
-                                                                        No Image
-                                                                    </span>
-                                                                </div>
-                                                                <% } %>
 
-                                                                    <!-- Overlay with Year -->
-                                                                    <div
-                                                                        class="absolute bottom-0 left-0 w-full translate-y-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
-                                                                        <span
-                                                                            class="font-medium text-white tracking-wide">
-                                                                            <%= movie.release_date ? new
-                                                                                Date(movie.release_date).getFullYear()
-                                                                                : 'Unknown' %>
-                                                                        </span>
-                                                                    </div>
-                                                    </figure>
+                                    <!-- Top Pagination Controls -->
+                                    <% if (data.totalPages> 1) { %>
+                                        <div class="join grid grid-cols-4 max-w-lg mx-auto mb-10">
+                                            <!-- First Page -->
+                                            <% if (data.currentPage> 2) { %>
+                                                <a href="/movies/search?q=<%= data.q %>&page=1"
+                                                    class="join-item btn btn-outline btn-sm">
+                                                    First
                                                 </a>
+                                                <% } else { %>
+                                                    <button
+                                                        class="join-item btn btn-outline btn-sm btn-disabled">First</button>
+                                                    <% } %>
 
-                                                <div class="card-body p-5">
-                                                    <h2 class="card-title mb-1 min-h-[3rem] text-lg font-bold leading-tight"
-                                                        title="<%= movie.title %>">
-                                                        <span class="line-clamp-2">
-                                                            <%= movie.title %>
-                                                                <% if (movie.release_date) { %>
-                                                                    <span class="text-sm font-normal opacity-70">
-                                                                        [<%= new Date(movie.release_date).getFullYear()
-                                                                            %>]
-                                                                    </span>
-                                                                    <% } %>
-                                                        </span>
-                                                    </h2>
-
-
-                                                    <p
-                                                        class="mb-4 h-12 line-clamp-2 text-sm text-base-content/60 font-light">
-                                                        <%= movie.overview || "No description available." %>
-                                                    </p>
-                                                    <div class="card-actions mt-auto justify-end">
-                                                        <% if (data.user) { %>
-                                                            <button type="button"
-                                                                @click="showAddModal = true; $nextTick(() => { $refs.tmdbIdField.value = '<%= movie.id %>'; selectedTmdbId = '<%= movie.id %>'; })"
-                                                                class="btn btn-primary btn-sm w-full gap-2">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                                    viewBox="0 0 20 20" fill="currentColor">
-                                                                    <path
-                                                                        d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-                                                                </svg>
-                                                                Add to Watchlist
-                                                            </button>
+                                                        <!-- Previous Page -->
+                                                        <% if (data.currentPage> 1) { %>
+                                                            <a href="/movies/search?q=<%= data.q %>&page=<%= data.currentPage - 1 %>"
+                                                                class="join-item btn btn-outline btn-sm">
+                                                                Previous
+                                                            </a>
                                                             <% } else { %>
-                                                                <form method="POST" class="w-full">
-                                                                    <!-- Just for layout consistency if needed, though form is unused for login link -->
-                                                                    <div class="tooltip w-full"
-                                                                        data-tip="Login to track movies">
-                                                                        <a href="/login"
-                                                                            class="btn btn-outline btn-sm w-full gap-2">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                class="h-4 w-4" viewBox="0 0 20 20"
-                                                                                fill="currentColor">
-                                                                                <path fill-rule="evenodd"
-                                                                                    d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 6.898a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-                                                                                    clip-rule="evenodd" />
-                                                                            </svg>
-                                                                            Login to Add
-                                                                        </a>
-                                                                    </div>
-                                                                </form>
+                                                                <button
+                                                                    class="join-item btn btn-outline btn-sm btn-disabled">Previous</button>
                                                                 <% } %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% }) %>
-                                    </div>
-                                    <% } else if (data.q) { %>
-                                        <div class="py-20 text-center opacity-70">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="mx-auto mb-4 h-24 w-24 text-base-content/30" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                            </svg>
-                                            <h3 class="mb-2 text-2xl font-bold">No results found</h3>
-                                            <p>
-                                                We couldn't find any movies matching "<%= data.q %>". Try
-                                                    another search!
-                                            </p>
+
+                                                                    <!-- Next Page -->
+                                                                    <% if (data.currentPage < data.totalPages) { %>
+                                                                        <a href="/movies/search?q=<%= data.q %>&page=<%= data.currentPage + 1 %>"
+                                                                            class="join-item btn btn-outline btn-sm">
+                                                                            Next
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            <button
+                                                                                class="join-item btn btn-outline btn-sm btn-disabled">Next</button>
+                                                                            <% } %>
+
+                                                                                <!-- Last Page -->
+                                                                                <% if (data.currentPage <
+                                                                                    data.totalPages - 1) { %>
+                                                                                    <a href="/movies/search?q=<%= data.q %>&page=<%= data.totalPages %>"
+                                                                                        class="join-item btn btn-outline btn-sm">
+                                                                                        Last
+                                                                                    </a>
+                                                                                    <% } else { %>
+                                                                                        <button
+                                                                                            class="join-item btn btn-outline btn-sm btn-disabled">Last</button>
+                                                                                        <% } %>
                                         </div>
-                                        <% } else { %>
-                                            <div class="py-20 text-center opacity-70">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="mx-auto mb-4 h-24 w-24 text-base-content/30" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                                                </svg>
-                                                <h3 class="mb-2 text-2xl font-bold">Start your collection</h3>
-                                                <p>Search for movies above to add them to your watchlist.</p>
+                                        <% } %>
+
+                                            <div
+                                                class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                                                <% data.results.forEach(movie=> { %>
+                                                    <div
+                                                        class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
+                                                        <a href="/movies/<%= movie.id %>" class="block cursor-pointer">
+                                                            <figure
+                                                                class="relative aspect-[2/3] overflow-hidden bg-base-300">
+                                                                <% if (movie.poster_path) { %>
+                                                                    <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                                                                        alt="<%= movie.title %>" loading="lazy"
+                                                                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                                                    <% } else { %>
+                                                                        <div
+                                                                            class="flex h-full w-full items-center justify-center bg-base-300 text-base-content/50">
+                                                                            <span
+                                                                                class="text-4xl font-bold opacity-20 capitalize">
+                                                                                No Image
+                                                                            </span>
+                                                                        </div>
+                                                                        <% } %>
+
+                                                                            <!-- Overlay with Year -->
+                                                                            <div
+                                                                                class="absolute bottom-0 left-0 w-full translate-y-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
+                                                                                <span
+                                                                                    class="font-medium text-white tracking-wide">
+                                                                                    <%= movie.release_date ? new
+                                                                                        Date(movie.release_date).getFullYear()
+                                                                                        : 'Unknown' %>
+                                                                                </span>
+                                                                            </div>
+                                                            </figure>
+                                                        </a>
+
+                                                        <div class="card-body p-5">
+                                                            <h2 class="card-title mb-1 min-h-[3rem] text-lg font-bold leading-tight"
+                                                                title="<%= movie.title %>">
+                                                                <span class="line-clamp-2">
+                                                                    <%= movie.title %>
+                                                                        <% if (movie.release_date) { %>
+                                                                            <span
+                                                                                class="text-sm font-normal opacity-70">
+                                                                                [<%= new
+                                                                                    Date(movie.release_date).getFullYear()
+                                                                                    %>]
+                                                                            </span>
+                                                                            <% } %>
+                                                                </span>
+                                                            </h2>
+
+
+                                                            <p
+                                                                class="mb-4 h-12 line-clamp-2 text-sm text-base-content/60 font-light">
+                                                                <%= movie.overview || "No description available." %>
+                                                            </p>
+                                                            <div class="card-actions mt-auto justify-end">
+                                                                <% if (data.user) { %>
+                                                                    <button type="button"
+                                                                        @click="showAddModal = true; $nextTick(() => { $refs.tmdbIdField.value = '<%= movie.id %>'; selectedTmdbId = '<%= movie.id %>'; })"
+                                                                        class="btn btn-primary btn-sm w-full gap-2">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            class="h-4 w-4" viewBox="0 0 20 20"
+                                                                            fill="currentColor">
+                                                                            <path
+                                                                                d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                                                        </svg>
+                                                                        Add to Watchlist
+                                                                    </button>
+
+                                                                    <form method="POST" class="w-full mt-2">
+                                                                        <input type="hidden" name="tmdb_id"
+                                                                            value="<%= movie.id %>">
+                                                                        <input type="hidden" name="watchlist_id"
+                                                                            value="">
+                                                                        <input type="hidden" name="q"
+                                                                            value="<%= data.q || '' %>">
+                                                                        <button type="submit"
+                                                                            class="btn btn-outline btn-sm w-full gap-2 text-base-content hover:bg-neutral hover:text-neutral-content transition-all border-base-content/20">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                class="h-4 w-4" fill="none"
+                                                                                viewBox="0 0 24 24"
+                                                                                stroke="currentColor">
+                                                                                <path stroke-linecap="round"
+                                                                                    stroke-linejoin="round"
+                                                                                    stroke-width="2"
+                                                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                            </svg>
+                                                                            Add to Default Watchlist
+                                                                        </button>
+                                                                    </form>
+                                                                    <% } else { %>
+                                                                        <form method="POST" class="w-full">
+                                                                            <!-- Just for layout consistency if needed, though form is unused for login link -->
+                                                                            <div class="tooltip w-full"
+                                                                                data-tip="Login to track movies">
+                                                                                <a href="/login"
+                                                                                    class="btn btn-outline btn-sm w-full gap-2">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        class="h-4 w-4"
+                                                                                        viewBox="0 0 20 20"
+                                                                                        fill="currentColor">
+                                                                                        <path fill-rule="evenodd"
+                                                                                            d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 6.898a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
+                                                                                            clip-rule="evenodd" />
+                                                                                    </svg>
+                                                                                    Login to Add
+                                                                                </a>
+                                                                            </div>
+                                                                        </form>
+                                                                        <% } %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
                                             </div>
-                                            <% } %>
+
+                                            <!-- Pagination Controls -->
+                                            <% if (data.totalPages> 1) { %>
+                                                <div class="join grid grid-cols-4 max-w-lg mx-auto mt-12">
+                                                    <!-- First Page -->
+                                                    <% if (data.currentPage> 2) { %>
+                                                        <a href="/movies/search?q=<%= data.q %>&page=1"
+                                                            class="join-item btn btn-outline btn-sm">
+                                                            First
+                                                        </a>
+                                                        <% } else { %>
+                                                            <button
+                                                                class="join-item btn btn-outline btn-sm btn-disabled">First</button>
+                                                            <% } %>
+
+                                                                <!-- Previous Page -->
+                                                                <% if (data.currentPage> 1) { %>
+                                                                    <a href="/movies/search?q=<%= data.q %>&page=<%= data.currentPage - 1 %>"
+                                                                        class="join-item btn btn-outline btn-sm">
+                                                                        Previous
+                                                                    </a>
+                                                                    <% } else { %>
+                                                                        <button
+                                                                            class="join-item btn btn-outline btn-sm btn-disabled">Previous</button>
+                                                                        <% } %>
+
+                                                                            <!-- Next Page -->
+                                                                            <% if (data.currentPage < data.totalPages) {
+                                                                                %>
+                                                                                <a href="/movies/search?q=<%= data.q %>&page=<%= data.currentPage + 1 %>"
+                                                                                    class="join-item btn btn-outline btn-sm">
+                                                                                    Next
+                                                                                </a>
+                                                                                <% } else { %>
+                                                                                    <button
+                                                                                        class="join-item btn btn-outline btn-sm btn-disabled">Next</button>
+                                                                                    <% } %>
+
+                                                                                        <!-- Last Page -->
+                                                                                        <% if (data.currentPage <
+                                                                                            data.totalPages - 1) { %>
+                                                                                            <a href="/movies/search?q=<%= data.q %>&page=<%= data.totalPages %>"
+                                                                                                class="join-item btn btn-outline btn-sm">
+                                                                                                Last
+                                                                                            </a>
+                                                                                            <% } else { %>
+                                                                                                <button
+                                                                                                    class="join-item btn btn-outline btn-sm btn-disabled">Last</button>
+                                                                                                <% } %>
+                                                </div>
+                                                <% } %>
+                                                    <% } else if (data.q) { %>
+                                                        <div class="py-20 text-center opacity-70">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="mx-auto mb-4 h-24 w-24 text-base-content/30"
+                                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                                            </svg>
+                                                            <h3 class="mb-2 text-2xl font-bold">No results found</h3>
+                                                            <p>
+                                                                We couldn't find any movies matching "<%= data.q %>".
+                                                                    Try
+                                                                    another search!
+                                                            </p>
+                                                        </div>
+                                                        <% } else { %>
+                                                            <div class="py-20 text-center opacity-70">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="mx-auto mb-4 h-24 w-24 text-base-content/30"
+                                                                    fill="none" viewBox="0 0 24 24"
+                                                                    stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                                                </svg>
+                                                                <h3 class="mb-2 text-2xl font-bold">Start your
+                                                                    collection</h3>
+                                                                <p>Search for movies above to add them to your
+                                                                    watchlist.</p>
+                                                            </div>
+                                                            <% } %>
                             </div>
 
                             <!-- Add to Watchlist Modal -->
@@ -225,7 +383,7 @@
                                                 class="btn btn-outline w-full justify-between hover:bg-primary hover:text-primary-content group transition-all">
                                                 <span class="flex items-center gap-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="h-5 w-5 text-primary group-hover:text-white"
+                                                        class="h-5 w-5 text-primary group-hover:text-primary-content"
                                                         viewBox="0 0 20 20" fill="currentColor">
                                                         <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
                                                     </svg>
@@ -247,13 +405,13 @@
                                                         class="btn btn-outline w-full justify-between hover:bg-secondary hover:text-secondary-content group transition-all mb-2">
                                                         <span class="flex items-center gap-2">
                                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                                class="h-5 w-5 text-secondary group-hover:text-white"
+                                                                class="h-5 w-5 text-secondary group-hover:text-secondary-content"
                                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2"
                                                                     d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                                             </svg>
-                                                            <%= list.title %>
+                                                            <%= list.list_title %>
                                                         </span>
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             class="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"

@@ -41,12 +41,7 @@
                 </button> -->
                 </div>
                 <div class="text-xs text-base-content/50">
-                    Member since <%= (()=> {
-                        const d = new Date(data.profile.getString('created'));
-                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                        'Dec'];
-                        return `${months[d.getMonth()]} ${d.getFullYear()}`;
-                        })() %>
+                    Member since <%= data.formatDateTime(data.profile.getString('created')) %>
                 </div>
             </div>
             <!-- Stats (Placeholder to match layout) -->

@@ -1,6 +1,7 @@
 <!-- Force Refresh -->
 <script src="/js/watchlist-detail.js?v=<%= new Date().getTime() %>"></script>
-<div class="w-full p-4" x-data="watchlistDetail()">
+<div class="w-full p-4"
+    x-data="watchlistDetail(<%= JSON.stringify(data.movies || []) %>, <%= data.list ? data.list.is_owner : false %>, '<%= data.list ? data.list.id : '' %>', <%= data.hasMore !== undefined ? data.hasMore : true %>)">
     <!-- Header -->
     <div class="container mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -67,15 +68,25 @@
     </div>
 
     <% if (data.message) { %>
-        <div class="alert alert-success shadow-lg mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>
-                <%= data.message %>
-            </span>
+        <div x-data="{ show: true }" x-show="show" x-transition.duration.300ms
+            class="alert alert-success shadow-lg mb-6 flex justify-between">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>
+                    <%= data.message %>
+                </span>
+            </div>
+            <button @click="show = false" class="btn btn-ghost btn-sm btn-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
         </div>
         <% } %>
 
@@ -144,14 +155,13 @@
                                                 <form method="POST">
                                                     <input type="hidden" name="action" value="invite_user">
                                                     <input type="hidden" name="user_id" value="<%= u.id %>">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-secondary">Invite</button>
+                                                    <button type="submit" class="btn btn-sm btn-secondary">Add</button>
                                                 </form>
                                             </div>
                                             <% }) %>
                                                 <% } else { %>
                                                     <div class="text-center py-8 opacity-50">
-                                                        <p>No other users found to invite.</p>
+                                                        <p>No other users found to add.</p>
                                                     </div>
                                                     <% } %>
                                 </div>
@@ -293,7 +303,7 @@
                                             <label class="label p-1">
                                                 <span class="label-text text-xs">TMDB</span>
                                             </label>
-                                            <input type="number" step="0.1" min="0" max="10" name="tmdb_score"
+                                            <input type="number" step="any" min="0" max="10" name="tmdb_score"
                                                 x-model="editTmdbScore"
                                                 class="input input-bordered w-full px-2 text-center" placeholder="-" />
                                         </div>
@@ -301,7 +311,7 @@
                                             <label class="label p-1">
                                                 <span class="label-text text-xs">IMDB</span>
                                             </label>
-                                            <input type="number" step="0.1" min="0" max="10" name="imdb_score"
+                                            <input type="number" step="any" min="0" max="10" name="imdb_score"
                                                 x-model="editImdbScore"
                                                 class="input input-bordered w-full px-2 text-center" placeholder="-" />
                                         </div>
@@ -354,7 +364,8 @@
                                     class="relative w-full max-w-sm rounded-2xl border border-error/20 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
 
                                     <h3 class="text-xl font-bold text-error mb-2">Remove Movie?</h3>
-                                    <p class="text-base-content/70 mb-6">Are you sure you want to remove this movie from
+                                    <p class="text-base-content/70 mb-6">Are you sure you want to remove this movie
+                                        from
                                         your
                                         watchlist?</p>
 
@@ -380,7 +391,8 @@
                                             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                     <h3 class="mb-2 text-2xl font-bold">This list is empty</h3>
-                                    <p class="max-w-md mx-auto">Start building your collection by searching for movies.
+                                    <p class="max-w-md mx-auto">Start building your collection by searching for
+                                        movies.
                                     </p>
                                     <a href="/movies/search"
                                         class="btn btn-ghost mt-4 font-normal text-primary hover:bg-primary/10">Browse
@@ -394,119 +406,137 @@
                                             <thead>
                                                 <tr class="bg-base-200/50">
                                                     <th>Poster</th>
-                                                    <th>Title</th>
-                                                    <th>Release Date</th>
-                                                    <th>Runtime</th>
-                                                    <th>Score</th>
-                                                    <th>Status</th>
-                                                    <th>Watched At</th>
+                                                    <th>
+                                                        <button @click="sortBy('watched_at')"
+                                                            class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                                                            Watched On <span class="opacity-50 text-xs"
+                                                                x-text="getSortIcon('watched_at')"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th>
+                                                        <button @click="sortBy('title')"
+                                                            class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                                                            Title <span class="opacity-50 text-xs"
+                                                                x-text="getSortIcon('title')"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th>
+                                                        <button @click="sortBy('release_date')"
+                                                            class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                                                            Release Date <span class="opacity-50 text-xs"
+                                                                x-text="getSortIcon('release_date')"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th>
+                                                        <button @click="sortBy('runtime')"
+                                                            class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                                                            Runtime <span class="opacity-50 text-xs"
+                                                                x-text="getSortIcon('runtime')"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th>
+                                                        <button @click="sortBy('tmdb_score')"
+                                                            class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                                                            Score <span class="opacity-50 text-xs"
+                                                                x-text="getSortIcon('tmdb_score')"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <% data.movies.forEach(movie=> { %>
+                                                <template x-for="movie in movies" :key="movie.history_id">
                                                     <tr class="hover transition-colors duration-200">
                                                         <td>
                                                             <div class="avatar">
                                                                 <div class="mask mask-squircle w-12 h-18 bg-base-300">
-                                                                    <% if (movie.poster_path) { %>
-                                                                        <img src="https://image.tmdb.org/t/p/w200<%= movie.poster_path %>"
-                                                                            alt="<%= movie.title %>" loading="lazy" />
-                                                                        <% } else { %>
-                                                                            <div
-                                                                                class="w-full h-full flex items-center justify-center text-xs opacity-50">
-                                                                                No Img</div>
-                                                                            <% } %>
+                                                                    <template x-if="movie.poster_path">
+                                                                        <img :src="'https://image.tmdb.org/t/p/w200' + movie.poster_path"
+                                                                            :alt="movie.title" loading="lazy">
+                                                                    </template>
+                                                                    <template x-if="!movie.poster_path">
+                                                                        <div
+                                                                            class="w-full h-full flex items-center justify-center text-xs opacity-50">
+                                                                            No Img</div>
+                                                                    </template>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="font-bold text-lg"><a
-                                                                    href="/movies/<%= movie.tmdb_id %>"
-                                                                    class="hover:text-primary hover:underline transition-colors">
-                                                                    <%= movie.title %>
-                                                                </a></div>
-                                                            <% if (movie.tagline) { %>
+                                                            <div class="flex items-center gap-2">
+                                                                <span x-text="formatDate(movie.watched_at)"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="font-bold text-lg">
+                                                                <a :href="'/movies/' + movie.tmdb_id"
+                                                                    class="hover:text-primary hover:underline transition-colors"
+                                                                    x-text="movie.title"></a>
+                                                            </div>
+                                                            <template x-if="movie.tagline">
                                                                 <div class="text-sm opacity-50 italic max-w-xs truncate"
-                                                                    title="<%= movie.tagline %>">
-                                                                    <%= movie.tagline %>
-                                                                </div>
-                                                                <% } %>
+                                                                    :title="movie.tagline" x-text="movie.tagline"></div>
+                                                            </template>
                                                         </td>
-                                                        <td>
-                                                            <%= movie.release_date ? new
-                                                                Date(movie.release_date).toLocaleDateString()
-                                                                : 'Unknown' %>
-                                                        </td>
-                                                        <td>
-                                                            <%= movie.runtime ? movie.runtime + ' min' : 'N/A' %>
+                                                        <td x-text="formatDate(movie.release_date)"></td>
+                                                        <td x-text="movie.runtime ? movie.runtime + ' min' : 'N/A'">
                                                         </td>
                                                         <td>
                                                             <div class="flex flex-col gap-1">
                                                                 <span
                                                                     class="badge badge-sm badge-ghost whitespace-nowrap"
                                                                     title="TMDB Score">TMDB:
-                                                                    <%= movie.tmdb_score ? movie.tmdb_score.toFixed(1)
-                                                                        : '-' %>
+                                                                    <span
+                                                                        x-text="movie.tmdb_score ? movie.tmdb_score : '-'"></span>
                                                                 </span>
                                                                 <span
                                                                     class="badge badge-sm badge-ghost whitespace-nowrap"
                                                                     title="IMDB Score">IMDB:
-                                                                    <%= movie.imdb_score ? movie.imdb_score.toFixed(1)
-                                                                        : '-' %>
+                                                                    <span
+                                                                        x-text="movie.imdb_score ? movie.imdb_score : '-'"></span>
                                                                 </span>
                                                                 <span
                                                                     class="badge badge-sm badge-ghost whitespace-nowrap"
                                                                     title="RT Score">RT:
-                                                                    <%= movie.rt_score ? movie.rt_score + '%' : '-' %>
+                                                                    <span
+                                                                        x-text="movie.rt_score ? movie.rt_score + '%' : '-'"></span>
                                                                 </span>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <% let statusClass='badge-outline' ; if
-                                                                (movie.status==='Released' )
-                                                                statusClass='badge-success badge-outline' ; else if
-                                                                (movie.status==='Post Production' )
-                                                                statusClass='badge-warning badge-outline' ; else if
-                                                                (movie.status==='In Production' )
-                                                                statusClass='badge-info badge-outline' ; else if
-                                                                (movie.status==='Canceled' )
-                                                                statusClass='badge-error badge-outline' ; %>
-                                                                <div class="badge <%= statusClass %> whitespace-nowrap">
-                                                                    <%= movie.status || 'Unknown' %>
-                                                                </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="flex items-center gap-2">
-                                                                <span>
-                                                                    <%= movie.watched_at ? new
-                                                                        Date(movie.watched_at).toLocaleDateString()
-                                                                        : '-' %>
-                                                                </span>
-                                                                <% if (data.list && data.list.is_owner) { %>
-                                                                    <button @click="
-                                                editHistoryId = '<%= movie.history_id %>';
-                                                editDateValue = '<%= movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '' %>';
-                                                editTmdbScore = '<%= movie.tmdb_score || '' %>';
-                                                editImdbScore = '<%= movie.imdb_score || '' %>';
-                                                editRtScore = '<%= movie.rt_score || '' %>';
-                                                showDateModal = true
-                                            " class="btn btn-xs btn-ghost btn-circle opacity-50 hover:opacity-100"
-                                                                        title="Edit Entry">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            class="h-4 w-4" fill="none"
-                                                                            viewBox="0 0 24 24" stroke="currentColor">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round" stroke-width="2"
-                                                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                                        </svg>
-                                                                    </button>
-                                                                    <% } %>
-                                                            </div>
+                                                            <template x-if="isOwner">
+                                                                <button @click="openEditMovieModal(movie)"
+                                                                    class="btn btn-xs btn-ghost btn-circle opacity-50 hover:opacity-100"
+                                                                    title="Edit Entry">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                                                        stroke="currentColor">
+                                                                        <path stroke-linecap="round"
+                                                                            stroke-linejoin="round" stroke-width="2"
+                                                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                                    </svg>
+                                                                </button>
+                                                            </template>
                                                         </td>
                                                     </tr>
-                                                    <% }) %>
+                                                </template>
                                             </tbody>
                                         </table>
+
+                                        <!-- Scroll Sentinel for Infinite Scroll -->
+                                        <div id="scroll-sentinel" class="w-full py-4">
+                                            <template x-if="isLoading">
+                                                <div class="flex justify-center items-center py-8">
+                                                    <span
+                                                        class="loading loading-spinner loading-lg text-primary"></span>
+                                                </div>
+                                            </template>
+                                            <template x-if="!hasMore && movies.length > 0 && !isLoading">
+                                                <div class="text-center py-4 text-base-content/50">
+                                                    <p>You've reached the end of the list</p>
+                                                </div>
+                                            </template>
+                                        </div>
                                     </div>
                                     <% } %>
 </div>

@@ -8,137 +8,38 @@
  *   message: string|null,
  *   error: string|null,
  *   user: import('../../../../lib/pocketbase-types').UsersResponse|null,
- *   lists: Array<{id: string, title: string, is_private: boolean}>
+ *   lists: Array<{id: string, list_title: string, is_private: boolean}>
  * }}
  */
 module.exports = function (context) {
     const { request } = context
+    const tmdb = require('../../../../lib/tmdb.js')
+    const common = require('../../../../lib/common.js')
 
-    // Initialize JS SDK Client with current request context (propagates auth)
-    // Access pb from context as it's not in global scope
-    const client = context.pb({ request })
-
-    // Get authenticated user model from the client's auth store
-    // This is more reliable for SDK operations than context.request.auth
-    const user = client.authStore.model
-
-    // TMDB API helper functions
-    const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY || '').trim()
-    const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
-
-    /**
-     * Helper to fetch data from TMDB.
-     * @param {string} endpoint - The TMDB endpoint.
-     * @param {Object} [queryParams={}] - Query parameters.
-     * @returns {Object} JSON response.
-     */
-    function fetchTMDB(endpoint, queryParams = {}) {
-        if (!TMDB_API_KEY) {
-            throw new Error('TMDB_API_KEY is not set')
-        }
-
-        // Build query string manually (URLSearchParams not available in JSVM)
-        const params = Object.assign({}, queryParams, { api_key: TMDB_API_KEY })
-        const queryString = Object.keys(params)
-            .map(
-                (key) =>
-                    encodeURIComponent(key) +
-                    '=' +
-                    encodeURIComponent(params[key])
-            )
-            .join('&')
-
-        const url = `${TMDB_BASE_URL}${endpoint}?${queryString}`
-
-        const res = $http.send({
-            url: url,
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-        })
-
-        if (res.statusCode >= 400) {
-            throw new Error(`TMDB API Error: ${res.statusCode}`)
-        }
-
-        return res.json
-    }
-
-    /**
-     * Searches for movies.
-     * @param {string} query - Search string.
-     * @param {number} page - Page number.
-     * @returns {Object} Search results.
-     */
-    function searchMovies(query, page = 1) {
-        return fetchTMDB('/search/movie', { query, page })
-    }
-
-    /**
-     * Gets movie details.
-     * @param {string} id - Movie ID.
-     * @returns {Object} Movie details.
-     */
-    function getMovie(id) {
-        return fetchTMDB(`/movie/${id}`)
-    }
+    // Initialize using common (gets client and user)
+    const { client, user } = common.init(context)
 
     const q = context?.params?.q || ''
 
+    // Debug logging
+    console.log('[Search Debug] Params:', JSON.stringify(context?.params))
+    console.log('[Search Debug] Query:', JSON.stringify(context?.query))
+
+    // Check where 'page' is located
+    const pageParam = context?.params?.page || context?.query?.page
+    const page = parseInt(pageParam) || 1
+
+    console.log('[Search Debug] Extracted Page:', page)
+
     let results = []
+    let totalPages = 1
     let lists = []
     let message = context.query?.message || null
     let error = null
 
     // Fetch user's watchlists if logged in
     if (user) {
-        let ownedLists = []
-        let sharedLists = []
-
-        try {
-            // 1. Owned lists
-            try {
-                ownedLists = client.collection('lists').getFullList({
-                    filter: `owner = '${user.id}'`,
-                    sort: '-created',
-                })
-            } catch (e) {
-                // $app.logger().error('Failed to load owned lists:', e)
-            }
-
-            // 2. Shared lists (via list_user)
-            try {
-                const sharedInvites = client.collection('list_user').getFullList({
-                    filter: `invited_user = '${user.id}'`,
-                    sort: '-created',
-                    expand: 'list',
-                })
-
-                sharedLists = sharedInvites
-                    .map((invite) => invite.expand?.list)
-                    .filter(Boolean)
-            } catch (e) {
-                // warning only, likely permission issue or no shared lists
-                // $app.logger().warn('Failed to load shared lists (check API rules):', e)
-            }
-
-            // Combine and deduplicate
-            const allLists = [...ownedLists, ...sharedLists]
-            const seenIds = new Set()
-
-            lists = allLists
-                .filter((list) => {
-                    if (seenIds.has(list.id)) return false
-                    seenIds.add(list.id)
-                    return true
-                })
-                .map((list) => ({
-                    id: list.id,
-                    title: list.list_title, // Direct property access with JS SDK
-                    is_private: list.is_private,
-                }))
-        } catch (e) {
-            $app.logger().error('Failed to process user lists:', e)
-        }
+        lists = common.getWatchlists(client, user)
     }
 
     // Handle POST request - add movie to watchlist
@@ -148,36 +49,15 @@ module.exports = function (context) {
 
         // form extraction
         try {
-            try {
-                // Try standard formValue first
-                // This might throw if the request body is already read or incompatible
-                if (typeof request.formValue === 'function') {
-                    tmdbId = request.formValue('tmdb_id')
-                    targetListId = request.formValue('watchlist_id')
-                }
-            } catch (fvErr) { }
-
-            // Fallback to context.formData which is a function
-            if (!tmdbId && typeof context.formData === 'function') {
-                try {
-                    const fd = context.formData()
-
-                    if (fd) {
-                        // Check if it's a Map/FormData object with .get()
-                        if (typeof fd.get === 'function') {
-                            tmdbId = fd.get('tmdb_id')
-                            targetListId = fd.get('watchlist_id')
-                        } else {
-                            // Assume plain object
-                            tmdbId = fd.tmdb_id
-                            targetListId = fd.watchlist_id
-                        }
-                    }
-                } catch (fdCallErr) {
-                    $app.logger().error('Error calling context.formData():', fdCallErr)
-                }
+            const fd = common.parseFormData(context)
+            // Handle both map-like (get) and object-like access
+            if (typeof fd.get === 'function') {
+                tmdbId = fd.get('tmdb_id')
+                targetListId = fd.get('watchlist_id')
+            } else {
+                tmdbId = fd.tmdb_id
+                targetListId = fd.watchlist_id
             }
-
         } catch (err) {
             $app.logger().error('Error processing form data:', err)
         }
@@ -189,7 +69,7 @@ module.exports = function (context) {
         if (user && tmdbId) {
             try {
                 // Get movie details from TMDB
-                const movieData = getMovie(tmdbId)
+                const movieData = tmdb.getMovie(tmdbId)
 
                 // 1. Find or Create Movie
                 let movie = null
@@ -307,8 +187,9 @@ module.exports = function (context) {
     // Perform search if query is provided
     if (q && q.trim().length > 0) {
         try {
-            const searchData = searchMovies(q.trim())
+            const searchData = tmdb.searchMovies(q.trim(), page)
             results = searchData.results || []
+            totalPages = searchData.total_pages || 1
         } catch (e) {
             error = 'Search failed: ' + e.message
         }
@@ -317,6 +198,8 @@ module.exports = function (context) {
     return {
         results,
         q,
+        currentPage: page,
+        totalPages,
         message,
         error,
         user,

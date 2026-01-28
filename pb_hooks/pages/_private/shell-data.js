@@ -5,10 +5,11 @@
 module.exports = function shellData() {
     return {
         navOpen: false,
+        searchOpen: false,
         darkMode: localStorage.getItem('theme') === 'dark',
         navigation: [
-            { title: 'Watchlists', href: '/watchlists' },
-            { title: 'Search', href: '/movies/search' },
+            { title: 'Search', href: '/movies/search', desktop: false, mobile: true },
+            { title: 'Watchlists', href: '/watchlists', desktop: true, mobile: true },
         ],
 
         init() { },
