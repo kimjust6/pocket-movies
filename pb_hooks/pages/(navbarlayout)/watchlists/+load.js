@@ -10,22 +10,18 @@
  */
 module.exports = function (api) {
     const user = api.request.auth?.id
+    const common = require('../../../lib/common.js')
 
     // Only allow modifications if logged in
     // Only allow modifications if logged in
 
     if (user && api.request.method === 'POST') {
-        let data = {}
-        try {
-            if (typeof api.formData === 'function') {
-                data = api.formData()
-            } else if (typeof api.body === 'function') {
-                data = api.body()
-            } else {
-                data = api.formData || api.body || {}
-            }
-        } catch (e) {
-            console.error('Error parsing form data:', e)
+        let data = common.parseFormData(api)
+        // Compatibility: handle map-like access
+        if (typeof data.get === 'function') {
+            const fd = data
+            data = {}
+            fd.forEach((v, k) => { data[k] = v })
         }
 
         console.log('Processed Data:', JSON.stringify(data))
@@ -204,7 +200,8 @@ module.exports = function (api) {
 
     return {
         ...result,
-        user
+        user,
+        formatDateTime: common.formatDateTime
     }
 }
 

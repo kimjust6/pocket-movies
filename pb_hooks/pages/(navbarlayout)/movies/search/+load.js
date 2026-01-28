@@ -23,64 +23,8 @@ module.exports = function (context) {
     const user = client.authStore.model
 
     // TMDB API helper functions
-    const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY || '').trim()
-    const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
-
-    /**
-     * Helper to fetch data from TMDB.
-     * @param {string} endpoint - The TMDB endpoint.
-     * @param {Object} [queryParams={}] - Query parameters.
-     * @returns {Object} JSON response.
-     */
-    function fetchTMDB(endpoint, queryParams = {}) {
-        if (!TMDB_API_KEY) {
-            throw new Error('TMDB_API_KEY is not set')
-        }
-
-        // Build query string manually (URLSearchParams not available in JSVM)
-        const params = Object.assign({}, queryParams, { api_key: TMDB_API_KEY })
-        const queryString = Object.keys(params)
-            .map(
-                (key) =>
-                    encodeURIComponent(key) +
-                    '=' +
-                    encodeURIComponent(params[key])
-            )
-            .join('&')
-
-        const url = `${TMDB_BASE_URL}${endpoint}?${queryString}`
-
-        const res = $http.send({
-            url: url,
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-        })
-
-        if (res.statusCode >= 400) {
-            throw new Error(`TMDB API Error: ${res.statusCode}`)
-        }
-
-        return res.json
-    }
-
-    /**
-     * Searches for movies.
-     * @param {string} query - Search string.
-     * @param {number} page - Page number.
-     * @returns {Object} Search results.
-     */
-    function searchMovies(query, page = 1) {
-        return fetchTMDB('/search/movie', { query, page })
-    }
-
-    /**
-     * Gets movie details.
-     * @param {string} id - Movie ID.
-     * @returns {Object} Movie details.
-     */
-    function getMovie(id) {
-        return fetchTMDB(`/movie/${id}`)
-    }
+    const tmdb = require('../../../../lib/tmdb.js')
+    const common = require('../../../../lib/common.js')
 
     const q = context?.params?.q || ''
 
@@ -148,36 +92,15 @@ module.exports = function (context) {
 
         // form extraction
         try {
-            try {
-                // Try standard formValue first
-                // This might throw if the request body is already read or incompatible
-                if (typeof request.formValue === 'function') {
-                    tmdbId = request.formValue('tmdb_id')
-                    targetListId = request.formValue('watchlist_id')
-                }
-            } catch (fvErr) { }
-
-            // Fallback to context.formData which is a function
-            if (!tmdbId && typeof context.formData === 'function') {
-                try {
-                    const fd = context.formData()
-
-                    if (fd) {
-                        // Check if it's a Map/FormData object with .get()
-                        if (typeof fd.get === 'function') {
-                            tmdbId = fd.get('tmdb_id')
-                            targetListId = fd.get('watchlist_id')
-                        } else {
-                            // Assume plain object
-                            tmdbId = fd.tmdb_id
-                            targetListId = fd.watchlist_id
-                        }
-                    }
-                } catch (fdCallErr) {
-                    $app.logger().error('Error calling context.formData():', fdCallErr)
-                }
+            const fd = common.parseFormData(context)
+            // Handle both map-like (get) and object-like access
+            if (typeof fd.get === 'function') {
+                tmdbId = fd.get('tmdb_id')
+                targetListId = fd.get('watchlist_id')
+            } else {
+                tmdbId = fd.tmdb_id
+                targetListId = fd.watchlist_id
             }
-
         } catch (err) {
             $app.logger().error('Error processing form data:', err)
         }
@@ -189,7 +112,7 @@ module.exports = function (context) {
         if (user && tmdbId) {
             try {
                 // Get movie details from TMDB
-                const movieData = getMovie(tmdbId)
+                const movieData = tmdb.getMovie(tmdbId)
 
                 // 1. Find or Create Movie
                 let movie = null
@@ -307,7 +230,7 @@ module.exports = function (context) {
     // Perform search if query is provided
     if (q && q.trim().length > 0) {
         try {
-            const searchData = searchMovies(q.trim())
+            const searchData = tmdb.searchMovies(q.trim())
             results = searchData.results || []
         } catch (e) {
             error = 'Search failed: ' + e.message

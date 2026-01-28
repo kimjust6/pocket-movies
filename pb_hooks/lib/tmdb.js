@@ -21,10 +21,13 @@ function fetchTMDB(endpoint, params = {}) {
         throw new Error('TMDB_API_KEY is not set')
     }
 
-    const query = new URLSearchParams(params)
-    query.set('api_key', apiKey)
+    // Build query string manually (URLSearchParams not available in JSVM)
+    const queryParams = Object.assign({}, params, { api_key: apiKey })
+    const queryString = Object.keys(queryParams)
+        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+        .join('&')
 
-    const url = `${BASE_URL}${endpoint}?${query.toString()}`
+    const url = `${BASE_URL}${endpoint}?${queryString}`
 
     // Use PocketBase $http.send if available for better integration, or standard fetch
     // $http.send returns { statusCode, headers, raw, json, ... }

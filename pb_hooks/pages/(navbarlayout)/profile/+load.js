@@ -6,6 +6,7 @@
  */
 module.exports = function (context) {
     const user = context.request.auth
+    const common = require('../../../lib/common.js')
     if (!user) {
         context.response.redirect('/login')
         return
@@ -20,6 +21,7 @@ module.exports = function (context) {
     }
 
     return {
-        profile
+        profile,
+        formatDateTime: common.formatDateTime
     }
 }

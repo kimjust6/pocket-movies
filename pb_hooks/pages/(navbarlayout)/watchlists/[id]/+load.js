@@ -13,6 +13,8 @@
  *   message: string|null
  * }}
  */
+const common = require('../../../../lib/common.js')
+
 module.exports = function (api) {
 
     /**
@@ -115,7 +117,7 @@ module.exports = function (api) {
     // 3. Fetch potential users to invite (if owner)
     const potentialUsers = fetchPotentialUsers(user, isOwner);
 
-    const common = require('../../../../lib/common.js')
+
 
     return {
         list: {
@@ -173,19 +175,14 @@ function handlePostAction(api, list, isOwner, user) {
      * @type {UpdateListData & InviteUserData & HistoryItemData}
      * Parsed form data from the request.
      */
-    let data = {}
-    try {
-        if (typeof api.formData === 'function') {
-            data = api.formData()
-        } else if (typeof api.body === 'function') {
-            data = api.body()
-        } else {
-            data = api.formData || api.body || {}
-        }
-    } catch (e) {
-        console.error('Error parsing form data:', e)
-        return { error: 'Invalid form data' };
+    let data = common.parseFormData(api)
+    // Compatibility: handle map-like access
+    if (typeof data.get === 'function') {
+        const fd = data
+        data = {}
+        fd.forEach((v, k) => { data[k] = v })
     }
+
 
     const action = data.action;
 
