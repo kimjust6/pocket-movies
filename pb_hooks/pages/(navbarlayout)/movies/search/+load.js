@@ -28,7 +28,18 @@ module.exports = function (context) {
 
     const q = context?.params?.q || ''
 
+    // Debug logging
+    console.log('[Search Debug] Params:', JSON.stringify(context?.params))
+    console.log('[Search Debug] Query:', JSON.stringify(context?.query))
+
+    // Check where 'page' is located
+    const pageParam = context?.params?.page || context?.query?.page
+    const page = parseInt(pageParam) || 1
+
+    console.log('[Search Debug] Extracted Page:', page)
+
     let results = []
+    let totalPages = 1
     let lists = []
     let message = context.query?.message || null
     let error = null
@@ -230,8 +241,9 @@ module.exports = function (context) {
     // Perform search if query is provided
     if (q && q.trim().length > 0) {
         try {
-            const searchData = tmdb.searchMovies(q.trim())
+            const searchData = tmdb.searchMovies(q.trim(), page)
             results = searchData.results || []
+            totalPages = searchData.total_pages || 1
         } catch (e) {
             error = 'Search failed: ' + e.message
         }
@@ -240,6 +252,8 @@ module.exports = function (context) {
     return {
         results,
         q,
+        currentPage: page,
+        totalPages,
         message,
         error,
         user,
