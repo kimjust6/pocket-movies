@@ -62,7 +62,10 @@ module.exports = function (context) {
 
     // 3. Fetch movies (fetch one extra to determine if there are more)
     const pageSize = 20
-    const allMovies = common.fetchWatchlistMovies(listId, pageSize + 1)
+    const allMovies = common.fetchWatchlistMovies(listId, {
+        limit: pageSize + 1,
+        sort: '-watched'
+    })
     const hasMore = allMovies.length > pageSize
     const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies
 

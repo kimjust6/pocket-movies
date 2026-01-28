@@ -11,6 +11,19 @@ module.exports = {
         return `${month} ${day}, ${year}`
     },
     /**
+     * Helper to get param from various context locations
+     * @param {object} context - The pb_hooks context object
+     * @param {string} key - The parameter key
+     * @returns {string|null} The parameter value or null
+     */
+    getParam: function (context, key) {
+        if (context.params && context.params[key]) return context.params[key]
+        if (context.query && context.query[key]) return context.query[key]
+        if (typeof context.queryParam === 'function') return context.queryParam(key)
+        return null
+    },
+
+    /**
      * Helper to safely extract form data from a PocketBase context.
      * Handles both multipart/form-data and JSON bodies (if parsed).
      * @param {object} context - The pb_hooks context object (request/response)
@@ -167,17 +180,21 @@ module.exports = {
     /**
      * Fetch movies for a watchlist.
      * @param {string} listId - The watchlist ID
-     * @param {number} [limit=20] - Maximum number of items to fetch
+     * @param {object} options - Fetch options { limit: 20, offset: 0, sort: '-created' }
      * @returns {Array} Array of movie objects with history data
      */
-    fetchWatchlistMovies: function (listId, limit = 20) {
+    fetchWatchlistMovies: function (listId, options = {}) {
+        const limit = options.limit || 20
+        const offset = options.offset || 0
+        const sort = options.sort || '-created'
+
         try {
             const historyRecords = $app.findRecordsByFilter(
                 'watched_history',
                 `list = '${listId}'`,
-                '-created',
+                sort,
                 limit,
-                0
+                offset
             )
 
             $app.expandRecords(historyRecords, ['movie'])
