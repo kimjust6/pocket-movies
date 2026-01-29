@@ -12,10 +12,14 @@
         x-transition:leave-end="opacity-0 scale-95"
         class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
 
-        <h3 class="text-xl font-bold mb-4">Edit Entry</h3>
+
 
         <!-- Update Form -->
         <form method="POST" id="updateDateForm" class="space-y-4">
+            <label class="label flex flex-col justify-start items-start">
+                <span class="label-text">Title</span>
+                <p class="text-base-content/60 text-sm truncate" x-text="editMovieTitle"></p>
+            </label>
             <input type="hidden" name="action" value="update_history_item">
             <input type="hidden" name="history_id" :value="editHistoryId">
 
@@ -51,17 +55,17 @@
             </div>
         </form>
 
-        <div class="modal-action flex justify-between items-center mt-6">
-            <!-- Delete Form -->
+        <div class="grid grid-cols-3 gap-3 mt-6">
+            <!-- Remove -->
             <form method="POST" @submit.prevent="openItemDeleteModal()">
-                <button type="submit" class="btn btn-error btn-outline btn-sm">Remove</button>
+                <button type="submit" class="btn btn-error btn-outline w-full">Remove</button>
             </form>
 
-            <!-- Actions -->
-            <div class="flex gap-2">
-                <button type="button" @click="showDateModal = false" class="btn btn-ghost">Cancel</button>
-                <button type="submit" form="updateDateForm" class="btn btn-primary">Save</button>
-            </div>
+            <!-- Cancel -->
+            <button type="button" @click="showDateModal = false" class="btn btn-ghost w-full">Cancel</button>
+
+            <!-- Save -->
+            <button type="submit" form="updateDateForm" class="btn btn-primary w-full">Save</button>
         </div>
     </div>
 </div>

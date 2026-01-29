@@ -89,6 +89,12 @@ document.addEventListener('alpine:init', () => {
         editHistoryId: '',
 
         /**
+         * The title of the movie being edited.
+         * @type {string}
+         */
+        editMovieTitle: '',
+
+        /**
          * The current watched date value for the edit form.
          * @type {string}
          */
@@ -352,6 +358,7 @@ document.addEventListener('alpine:init', () => {
          */
         openEditMovieModal(movie) {
             this.editHistoryId = movie.history_id;
+            this.editMovieTitle = movie.title || '';
             this.editDateValue = movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '';
             this.editTmdbScore = movie.tmdb_score || '';
             this.editImdbScore = movie.imdb_score || '';

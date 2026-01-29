@@ -5002,6 +5002,10 @@ html::-webkit-scrollbar,
   align-items: center;
 }
 
+.justify-start {
+  justify-content: flex-start;
+}
+
 .justify-end {
   justify-content: flex-end;
 }
