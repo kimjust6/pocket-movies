@@ -4352,6 +4352,10 @@ html::-webkit-scrollbar,
   position: relative;
 }
 
+.sticky {
+  position: sticky;
+}
+
 .inset-0 {
   inset: 0px;
 }
@@ -4415,6 +4419,10 @@ html::-webkit-scrollbar,
 
 .z-10 {
   z-index: 10;
+}
+
+.z-30 {
+  z-index: 30;
 }
 
 .z-50 {

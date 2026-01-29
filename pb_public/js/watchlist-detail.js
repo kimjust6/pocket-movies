@@ -123,11 +123,28 @@ document.addEventListener('alpine:init', () => {
          */
         init() {
             this.applySort();
+            this.updateNavbarHeight();
 
             // Set up intersection observer for infinite scroll
             this.$nextTick(() => {
                 this.setupInfiniteScroll();
             });
+
+            window.addEventListener('resize', () => {
+                this.updateNavbarHeight();
+            });
+        },
+
+        /**
+         * Measure and set the navbar height CSS variable.
+         */
+        updateNavbarHeight() {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                const height = navbar.offsetHeight;
+                document.documentElement.style.setProperty('--navbar-height', height + 'px');
+                console.log('[WatchlistDetail] Navbar height set to:', height);
+            }
         },
 
         /**
