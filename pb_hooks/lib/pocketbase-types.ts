@@ -110,6 +110,7 @@ export type ListUserRecord = {
 	created: IsoAutoDateString
 	id: string
 	invited_user?: RecordIdString
+	list?: RecordIdString
 	updated: IsoAutoDateString
 	user_permission?: string
 }

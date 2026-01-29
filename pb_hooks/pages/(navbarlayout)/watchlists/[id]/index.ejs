@@ -155,7 +155,14 @@
                                                 <form method="POST">
                                                     <input type="hidden" name="action" value="invite_user">
                                                     <input type="hidden" name="user_id" value="<%= u.id %>">
-                                                    <button type="submit" class="btn btn-sm btn-secondary">Add</button>
+                                                    <input type="hidden" name="list_id" value="<%= data.list.id %>">
+                                                    <% if (u.is_invited) { %>
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-success btn-outline pointer-events-none">Added</button>
+                                                        <% } else { %>
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-secondary">Add</button>
+                                                            <% } %>
                                                 </form>
                                             </div>
                                             <% }) %>

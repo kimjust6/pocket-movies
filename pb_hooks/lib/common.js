@@ -234,21 +234,45 @@ module.exports = {
      * Fetch potential users to invite to a watchlist.
      * @param {string} excludeUserId - User ID to exclude (current user)
      * @param {boolean} isOwner - Whether current user is owner
-     * @returns {Array} Array of user objects
+     * @param {string} listId - The list ID to check for existing invites
+     * @returns {Array} Array of users with is_invited flag
      */
-    fetchPotentialInviteUsers: function (excludeUserId, isOwner) {
+    fetchPotentialInviteUsers: function (excludeUserId, isOwner, listId) {
         if (!isOwner || !excludeUserId) return []
 
         try {
-            return $app.findRecordsByFilter(
+            // 1. Fetch potential users
+            const users = $app.findRecordsByFilter(
                 'users',
                 `id != '${excludeUserId}'`,
                 'email',
                 50,
                 0
-            ).map(u => ({
+            )
+
+            // 2. If listId is provided, check who is already added
+            const invitedUserIds = new Set()
+            if (listId) {
+                try {
+                    const existingInvites = $app.findRecordsByFilter(
+                        'list_user',
+                        `list = '${listId}'`,
+                        '-created',
+                        100,
+                        0
+                    )
+                    existingInvites.forEach(invite => {
+                        invitedUserIds.add(invite.getString('invited_user'))
+                    })
+                } catch (ignore) {
+                    // Ignore errors if list_user fetch fails
+                }
+            }
+
+            return users.map(u => ({
                 id: u.id,
                 email: u.getString('email'),
+                is_invited: invitedUserIds.has(u.id)
             }))
         } catch (e) {
             console.error("[common.js] Failed to fetch users", e)

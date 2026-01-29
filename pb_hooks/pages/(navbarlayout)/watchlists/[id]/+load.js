@@ -70,7 +70,7 @@ module.exports = function (context) {
     const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies
 
     // 4. Fetch potential users to invite (if owner)
-    const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner)
+    const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner, listId)
 
     return {
         list: {
