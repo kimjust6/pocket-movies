@@ -1,0 +1,67 @@
+<!-- Edit Entry Modal (Update Date / Delete) -->
+<div x-show="showDateModal" x-cloak x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    @click.self="showDateModal = false" @keydown.escape.window="showDateModal = false">
+
+    <div x-show="showDateModal" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+
+        <h3 class="text-xl font-bold mb-4">Edit Entry</h3>
+
+        <!-- Update Form -->
+        <form method="POST" id="updateDateForm" class="space-y-4">
+            <input type="hidden" name="action" value="update_history_item">
+            <input type="hidden" name="history_id" :value="editHistoryId">
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Date Watched</span>
+                </label>
+                <input type="date" name="watched_date" x-model="editDateValue" class="input input-bordered w-full" />
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <div class="form-control">
+                    <label class="label p-1">
+                        <span class="label-text text-xs">TMDB</span>
+                    </label>
+                    <input type="number" step="any" min="0" max="10" name="tmdb_score" x-model="editTmdbScore"
+                        class="input input-bordered w-full px-2 text-center" placeholder="-" />
+                </div>
+                <div class="form-control">
+                    <label class="label p-1">
+                        <span class="label-text text-xs">IMDB</span>
+                    </label>
+                    <input type="number" step="any" min="0" max="10" name="imdb_score" x-model="editImdbScore"
+                        class="input input-bordered w-full px-2 text-center" placeholder="-" />
+                </div>
+                <div class="form-control">
+                    <label class="label p-1">
+                        <span class="label-text text-xs">RT</span>
+                    </label>
+                    <input type="number" step="1" min="0" max="100" name="rt_score" x-model="editRtScore"
+                        class="input input-bordered w-full px-2 text-center" placeholder="-" />
+                </div>
+            </div>
+        </form>
+
+        <div class="modal-action flex justify-between items-center mt-6">
+            <!-- Delete Form -->
+            <form method="POST" @submit.prevent="openItemDeleteModal()">
+                <button type="submit" class="btn btn-error btn-outline btn-sm">Remove</button>
+            </form>
+
+            <!-- Actions -->
+            <div class="flex gap-2">
+                <button type="button" @click="showDateModal = false" class="btn btn-ghost">Cancel</button>
+                <button type="submit" form="updateDateForm" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

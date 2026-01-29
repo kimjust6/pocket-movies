@@ -1,0 +1,28 @@
+<!-- Delete Watchlist Confirmation Modal -->
+<div x-show="showDeleteModal" x-cloak x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    @click.self="showDeleteModal = false" @keydown.escape.window="showDeleteModal = false">
+
+    <div x-show="showDeleteModal" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="relative w-full max-w-sm rounded-2xl border border-error/20 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+
+        <h3 class="text-xl font-bold text-error mb-2">Delete Watchlist?</h3>
+        <p class="text-base-content/70 mb-6">Are you sure you want to delete this watchlist? This action cannot be
+            undone.</p>
+
+        <div class="flex gap-3">
+            <button type="button" @click="showDeleteModal = false" class="btn btn-ghost flex-1">Cancel</button>
+
+            <form method="POST" class="flex-1">
+                <input type="hidden" name="action" value="delete_list">
+                <button type="submit" class="btn btn-error w-full">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>

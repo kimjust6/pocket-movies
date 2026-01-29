@@ -1,0 +1,55 @@
+<!-- Edit Watchlist Modal -->
+<div x-show="showEditModal" x-cloak x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    @click.self="showEditModal = false" @keydown.escape.window="showEditModal = false">
+
+    <div x-show="showEditModal" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+
+        <button @click="showEditModal = false" class="btn btn-circle btn-ghost btn-sm absolute right-4 top-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <h3 class="text-2xl font-bold bg-gradient-to-br from-white to-white/60 bg-clip-text mb-2">
+            Edit Watchlist
+        </h3>
+
+        <form method="POST" class="space-y-4">
+            <input type="hidden" name="action" value="update_list">
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Watchlist Name</span>
+                </label>
+                <input type="text" name="list_title" value="<%= list.title %>" class="input input-bordered w-full"
+                    required />
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Description</span>
+                </label>
+                <textarea name="description" class="textarea textarea-bordered h-24"
+                    placeholder="Optional description..."><%= list.description || '' %></textarea>
+            </div>
+
+            <div class="modal-action">
+                <button type="submit" class="btn btn-primary w-full">Save Changes</button>
+            </div>
+        </form>
+
+        <div class="divider">Danger Zone</div>
+
+        <button type="button" @click="openDeleteModal()" class="btn btn-error btn-outline w-full">Delete
+            Watchlist</button>
+    </div>
+</div>

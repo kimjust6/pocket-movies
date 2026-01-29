@@ -1,0 +1,120 @@
+<!-- Movies Table -->
+<div class="w-full bg-base-100/40 rounded-xl border border-base-content/5 shadow-lg backdrop-blur-sm">
+    <table class="table w-full">
+        <!-- head -->
+        <thead>
+            <tr class="bg-base-200 shadow-sm border-b border-base-content/10">
+                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">Poster</th>
+                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
+                    <button type="button" @click.prevent="sortBy('watched_at')"
+                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                        Watched On <span class="opacity-50 text-xs" x-text="getSortIcon('watched_at')"></span>
+                    </button>
+                </th>
+                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
+                    <button type="button" @click.prevent="sortBy('title')"
+                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                        Title <span class="opacity-50 text-xs" x-text="getSortIcon('title')"></span>
+                    </button>
+                </th>
+                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
+                    <button type="button" @click.prevent="sortBy('release_date')"
+                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                        Release Date <span class="opacity-50 text-xs" x-text="getSortIcon('release_date')"></span>
+                    </button>
+                </th>
+                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
+                    <button type="button" @click.prevent="sortBy('runtime')"
+                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                        Runtime <span class="opacity-50 text-xs" x-text="getSortIcon('runtime')"></span>
+                    </button>
+                </th>
+                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
+                    <button type="button" @click.prevent="sortBy('tmdb_score')"
+                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                        Score <span class="opacity-50 text-xs" x-text="getSortIcon('tmdb_score')"></span>
+                    </button>
+                </th>
+                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <template x-for="movie in movies" :key="movie.history_id">
+                <tr class="hover transition-colors duration-200">
+                    <td>
+                        <div class="avatar">
+                            <div class="mask mask-squircle w-12 h-18 bg-base-300">
+                                <template x-if="movie.poster_path">
+                                    <img :src="'https://image.tmdb.org/t/p/w200' + movie.poster_path" :alt="movie.title"
+                                        loading="lazy">
+                                </template>
+                                <template x-if="!movie.poster_path">
+                                    <div class="w-full h-full flex items-center justify-center text-xs opacity-50">
+                                        No Img</div>
+                                </template>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <span x-text="formatDate(movie.watched_at)"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="font-bold text-lg">
+                            <a :href="'/movies/' + movie.tmdb_id"
+                                class="hover:text-primary hover:underline transition-colors" x-text="movie.title"></a>
+                        </div>
+                        <template x-if="movie.tagline">
+                            <div class="text-sm opacity-50 italic max-w-xs truncate" :title="movie.tagline"
+                                x-text="movie.tagline">
+                            </div>
+                        </template>
+                    </td>
+                    <td x-text="formatDate(movie.release_date)"></td>
+                    <td x-text="movie.runtime ? movie.runtime + ' min' : 'N/A'">
+                    </td>
+                    <td>
+                        <div class="flex flex-col gap-1">
+                            <span class="badge badge-sm badge-ghost whitespace-nowrap" title="TMDB Score">TMDB:
+                                <span x-text="movie.tmdb_score ? movie.tmdb_score : '-'"></span>
+                            </span>
+                            <span class="badge badge-sm badge-ghost whitespace-nowrap" title="IMDB Score">IMDB:
+                                <span x-text="movie.imdb_score ? movie.imdb_score : '-'"></span>
+                            </span>
+                            <span class="badge badge-sm badge-ghost whitespace-nowrap" title="RT Score">RT:
+                                <span x-text="movie.rt_score ? movie.rt_score + '%' : '-'"></span>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <template x-if="isOwner">
+                            <button @click="openEditMovieModal(movie)"
+                                class="btn btn-xs btn-ghost btn-circle opacity-50 hover:opacity-100" title="Edit Entry">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </button>
+                        </template>
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+
+    <!-- Scroll Sentinel for Infinite Scroll -->
+    <div id="scroll-sentinel" class="w-full py-4">
+        <template x-if="isLoading">
+            <div class="flex justify-center items-center py-8">
+                <span class="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+        </template>
+        <template x-if="!hasMore && movies.length > 0 && !isLoading">
+            <div class="text-center py-4 text-base-content/50">
+                <p>You've reached the end of the list</p>
+            </div>
+        </template>
+    </div>
+</div>
