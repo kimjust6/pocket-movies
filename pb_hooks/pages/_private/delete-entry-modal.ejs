@@ -12,8 +12,10 @@
         x-transition:leave-end="opacity-0 scale-95"
         class="relative w-full max-w-sm rounded-2xl border border-error/20 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
 
-        <h3 class="text-xl font-bold text-error mb-2">Remove Movie?</h3>
+        <h3 class="text-xl font-bold text-error mb-1">Remove Movie?</h3>
+        <p class="text-base-content/60 text-sm mb-4 truncate" x-text="editMovieTitle"></p>
         <p class="text-base-content/70 mb-6">Are you sure you want to remove this movie from your watchlist?</p>
+
 
         <div class="flex gap-3">
             <button type="button" @click="showItemDeleteModal = false; showDateModal = true"

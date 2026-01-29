@@ -112,6 +112,36 @@
                                             <%= data.movie.overview %>
                                         </p>
                                     </div>
+
+                                    <!-- Action Buttons -->
+                                    <% if (locals.auth) { %>
+                                        <div class="flex flex-wrap gap-4 mt-8">
+                                            <form method="POST" action="/movies/search">
+                                                <input type="hidden" name="tmdb_id" value="<%= data.movie.id %>">
+                                                <input type="hidden" name="watchlist_id" value="">
+                                                <button type="submit"
+                                                    class="btn btn-primary btn-lg gap-2 shadow-lg shadow-primary/30 hover:scale-105 transition-all duration-300">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                                        viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                                    </svg>
+                                                    Add to Watchlist
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="mt-8">
+                                                <a href="/login" class="btn btn-primary btn-lg gap-2 shadow-lg">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                                    </svg>
+                                                    Login to Save
+                                                </a>
+                                            </div>
+                                            <% } %>
                         </div>
                     </div>
                 </div>
