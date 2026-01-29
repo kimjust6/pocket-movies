@@ -169,9 +169,11 @@ document.addEventListener('alpine:init', () => {
 
         /**
          * Loads more movies from the API.
+         * @param {boolean} isReset - If true, replaces the current list instead of appending.
          */
-        async loadMore() {
-            if (this.isLoading || !this.hasMore) return;
+        async loadMore(isReset = false) {
+            // If resetting, we bypass the isLoading check if it was set by sortBy
+            if (!isReset && (this.isLoading || !this.hasMore)) return;
 
             this.isLoading = true;
             this.currentPage++;
@@ -183,7 +185,6 @@ document.addEventListener('alpine:init', () => {
 
                 const response = await fetch(url);
                 const text = await response.text();
-                // console.log('[Infinite Scroll] Raw response:', text.substring(0, 200));
 
                 let data;
                 try {
@@ -194,17 +195,27 @@ document.addEventListener('alpine:init', () => {
                     return;
                 }
 
-                // console.log('[Infinite Scroll] Parsed data:', data);
-
                 if (data.success && data.movies && data.movies.length > 0) {
-                    // Add new movies to the array
-                    this.movies = [...this.movies, ...data.movies];
+                    // Update movies array
+                    if (isReset) {
+                        this.movies = data.movies; // Replace
+                        // Scroll to top of table or container if needed? 
+                        // Actually, if we just replace data, the scroll position might be okay, 
+                        // or we might want to reset to top of list if user was deep down.
+                        // But let's stick to the requested behavior: "don't jump to top".
+                    } else {
+                        this.movies = [...this.movies, ...data.movies]; // Append
+                    }
+
                     this.hasMore = data.hasMore;
-                    // Re-apply sort after adding new items (just in case)
+                    // Re-apply sort client-side for consistent ordering of the batch
                     this.applySort();
                     console.log('[Infinite Scroll] Added', data.movies.length, 'movies. hasMore:', data.hasMore);
                 } else {
                     console.log('[Infinite Scroll] No more movies or error:', data);
+                    if (isReset) {
+                        this.movies = []; // If reset yielded nothing, clear list
+                    }
                     this.hasMore = false;
                 }
             } catch (error) {
@@ -238,7 +249,13 @@ document.addEventListener('alpine:init', () => {
          * Sort by a specific column. Toggles direction if same column.
          * @param {string} column - The column name to sort by.
          */
+        /**
+         * Sort by a specific column. Toggles direction if same column.
+         * @param {string} column - The column name to sort by.
+         */
         sortBy(column) {
+            if (this.isLoading) return; // Prevent double clicks
+
             if (this.sortColumn === column) {
                 this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
             } else {
@@ -247,14 +264,18 @@ document.addEventListener('alpine:init', () => {
             }
 
             // Hybrid Sort Logic:
-            // If we have more items to load, we must query the database to get the correct sorted order.
-            // If we have fully loaded the list, we can just sort client-side.
             if (this.hasMore) {
                 console.log('[Sort] Reloading from server due to incomplete list');
-                this.movies = [];
-                this.currentPage = 0; // Will be incremented to 1 in loadMore
-                this.hasMore = true;
-                this.loadMore();
+                this.isLoading = true;
+
+                // Do NOT clear movies immediately to prevent layout shift
+                // this.movies = []; 
+
+                this.currentPage = 0; // Reset page
+                // We don't set hasMore to true yet, to prevent scroll triggering
+
+                // Call loadMore but with a flag to indicate it's a reset
+                this.loadMore(true);
             } else {
                 console.log('[Sort] Sorting client-side');
                 this.applySort();

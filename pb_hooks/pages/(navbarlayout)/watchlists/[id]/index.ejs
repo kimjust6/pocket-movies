@@ -409,7 +409,7 @@
                                                         style="top: var(--navbar-height, 80px)">Poster</th>
                                                     <th class="sticky z-30 bg-base-200 backdrop-blur-md"
                                                         style="top: var(--navbar-height, 80px)">
-                                                        <button @click="sortBy('watched_at')"
+                                                        <button type="button" @click.prevent="sortBy('watched_at')"
                                                             class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                                             Watched On <span class="opacity-50 text-xs"
                                                                 x-text="getSortIcon('watched_at')"></span>
@@ -417,7 +417,7 @@
                                                     </th>
                                                     <th class="sticky z-30 bg-base-200 backdrop-blur-md"
                                                         style="top: var(--navbar-height, 80px)">
-                                                        <button @click="sortBy('title')"
+                                                        <button type="button" @click.prevent="sortBy('title')"
                                                             class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                                             Title <span class="opacity-50 text-xs"
                                                                 x-text="getSortIcon('title')"></span>
@@ -425,7 +425,7 @@
                                                     </th>
                                                     <th class="sticky z-30 bg-base-200 backdrop-blur-md"
                                                         style="top: var(--navbar-height, 80px)">
-                                                        <button @click="sortBy('release_date')"
+                                                        <button type="button" @click.prevent="sortBy('release_date')"
                                                             class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                                             Release Date <span class="opacity-50 text-xs"
                                                                 x-text="getSortIcon('release_date')"></span>
@@ -433,7 +433,7 @@
                                                     </th>
                                                     <th class="sticky z-30 bg-base-200 backdrop-blur-md"
                                                         style="top: var(--navbar-height, 80px)">
-                                                        <button @click="sortBy('runtime')"
+                                                        <button type="button" @click.prevent="sortBy('runtime')"
                                                             class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                                             Runtime <span class="opacity-50 text-xs"
                                                                 x-text="getSortIcon('runtime')"></span>
@@ -441,7 +441,7 @@
                                                     </th>
                                                     <th class="sticky z-30 bg-base-200 backdrop-blur-md"
                                                         style="top: var(--navbar-height, 80px)">
-                                                        <button @click="sortBy('tmdb_score')"
+                                                        <button type="button" @click.prevent="sortBy('tmdb_score')"
                                                             class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                                             Score <span class="opacity-50 text-xs"
                                                                 x-text="getSortIcon('tmdb_score')"></span>
