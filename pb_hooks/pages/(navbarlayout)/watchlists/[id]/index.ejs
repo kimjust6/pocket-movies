@@ -119,7 +119,7 @@
                                 x-transition:leave="transition ease-in duration-150"
                                 x-transition:leave-start="opacity-100 scale-100"
                                 x-transition:leave-end="opacity-0 scale-95"
-                                class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+                                class="relative w-full max-w-2xl rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
 
                                 <button @click="showShareModal = false"
                                     class="btn btn-circle btn-ghost btn-sm absolute right-4 top-4">
@@ -139,31 +139,60 @@
                                     <% if (data.users && data.users.length> 0) { %>
                                         <% data.users.forEach(u=> { %>
                                             <div
-                                                class="flex items-center justify-between p-3 bg-base-100 rounded-lg border border-base-content/5">
+                                                class="flex items-center justify-between p-4 bg-base-100/50 rounded-xl border border-base-content/5 hover:bg-base-100 transition-colors duration-200 group">
                                                 <div class="flex items-center gap-3">
                                                     <div class="avatar placeholder">
-                                                        <div class="bg-neutral text-neutral-content rounded-full w-8">
-                                                            <span class="text-xs">
+                                                        <div
+                                                            class="bg-neutral text-neutral-content rounded-full w-10 shadow-sm">
+                                                            <span class="text-xs font-semibold">
                                                                 <%= u.email.substring(0, 2).toUpperCase() %>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <span class="font-medium text-sm">
-                                                        <%= u.email %>
-                                                    </span>
-                                                </div>
-                                                <form method="POST">
-                                                    <input type="hidden" name="action" value="invite_user">
-                                                    <input type="hidden" name="user_id" value="<%= u.id %>">
-                                                    <input type="hidden" name="list_id" value="<%= data.list.id %>">
-                                                    <% if (u.is_invited) { %>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-success btn-outline pointer-events-none">Added</button>
-                                                        <% } else { %>
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-secondary">Add</button>
+                                                    <div class="flex flex-col">
+                                                        <span class="font-medium text-sm text-base-content">
+                                                            <%= u.email %>
+                                                        </span>
+                                                        <% if (u.is_invited) { %>
+                                                            <span
+                                                                class="text-[10px] uppercase tracking-wider text-base-content/50 font-bold">
+                                                                <%= u.current_permission %>
+                                                            </span>
                                                             <% } %>
-                                                </form>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex items-center gap-2">
+                                                    <form method="POST" class="flex items-center gap-2"
+                                                        onsubmit="if(this.permission.value === 'remove') return confirm('Are you sure you want to remove this user?');">
+                                                        <input type="hidden" name="action" value="invite_user">
+                                                        <input type="hidden" name="user_id" value="<%= u.id %>">
+                                                        <input type="hidden" name="list_id" value="<%= data.list.id %>">
+
+                                                        <select name="permission"
+                                                            class="select select-bordered select-xs w-24 text-xs focus:select-primary"
+                                                            onchange="if(this.value==='remove') this.classList.add('text-error'); else this.classList.remove('text-error');">
+                                                            <option value="view" <%=(u.is_invited &&
+                                                                u.current_permission==='view' ) ? 'selected' : '' %>
+                                                                >View</option>
+                                                            <option value="edit" <%=(u.is_invited &&
+                                                                u.current_permission==='edit' ) ? 'selected' : '' %>
+                                                                >Edit</option>
+                                                            <% if (u.is_invited) { %>
+                                                                <option value="remove" class="text-error font-medium">
+                                                                    Remove</option>
+                                                                <% } %>
+                                                        </select>
+
+                                                        <% if (u.is_invited) { %>
+                                                            <button type="submit"
+                                                                class="btn btn-xs btn-ghost text-primary hover:bg-primary/10">Update</button>
+                                                            <% } else { %>
+                                                                <button type="submit"
+                                                                    class="btn btn-xs btn-secondary shadow-sm shadow-secondary/20">Add</button>
+                                                                <% } %>
+                                                    </form>
+                                                </div>
                                             </div>
                                             <% }) %>
                                                 <% } else { %>
@@ -489,7 +518,8 @@
                                                             </div>
                                                             <template x-if="movie.tagline">
                                                                 <div class="text-sm opacity-50 italic max-w-xs truncate"
-                                                                    :title="movie.tagline" x-text="movie.tagline"></div>
+                                                                    :title="movie.tagline" x-text="movie.tagline">
+                                                                </div>
                                                             </template>
                                                         </td>
                                                         <td x-text="formatDate(movie.release_date)"></td>

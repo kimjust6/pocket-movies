@@ -235,7 +235,7 @@ module.exports = {
      * @param {string} excludeUserId - User ID to exclude (current user)
      * @param {boolean} isOwner - Whether current user is owner
      * @param {string} listId - The list ID to check for existing invites
-     * @returns {Array} Array of users with is_invited flag
+     * @returns {Array} Array of users with is_invited flag and current_permission
      */
     fetchPotentialInviteUsers: function (excludeUserId, isOwner, listId) {
         if (!isOwner || !excludeUserId) return []
@@ -250,8 +250,8 @@ module.exports = {
                 0
             )
 
-            // 2. If listId is provided, check who is already added
-            const invitedUserIds = new Set()
+            // 2. If listId is provided, check who is already added and their permission
+            const invitedUserMap = new Map() // userId -> permission
             if (listId) {
                 try {
                     const existingInvites = $app.findRecordsByFilter(
@@ -262,7 +262,7 @@ module.exports = {
                         0
                     )
                     existingInvites.forEach(invite => {
-                        invitedUserIds.add(invite.getString('invited_user'))
+                        invitedUserMap.set(invite.getString('invited_user'), invite.getString('user_permission'))
                     })
                 } catch (ignore) {
                     // Ignore errors if list_user fetch fails
@@ -272,7 +272,8 @@ module.exports = {
             return users.map(u => ({
                 id: u.id,
                 email: u.getString('email'),
-                is_invited: invitedUserIds.has(u.id)
+                is_invited: invitedUserMap.has(u.id),
+                current_permission: invitedUserMap.get(u.id) || 'view' // Default to view if not found
             }))
         } catch (e) {
             console.error("[common.js] Failed to fetch users", e)

@@ -37,6 +37,8 @@ function handlePostAction(context, list, isOwner, userId) {
             redirect = '/watchlists'
         } else if (action === 'invite_user') {
             message = handleInviteUser(list, data, isOwner, userId)
+        } else if (action === 'remove_user') {
+            message = handleRemoveUser(list, data, isOwner)
         } else if (action === 'update_history_item') {
             message = handleUpdateHistoryItem(list, data, isOwner)
         } else if (action === 'delete_history_item') {
@@ -113,23 +115,39 @@ function handleInviteUser(list, data, isOwner, userId) {
         if (!invitedUser) throw new Error("User not found.")
         if (invitedUser.id === userId) throw new Error("You cannot invite yourself.")
 
+        // Determine permission from form data, default to 'view'
+        const permission = data.permission || 'view'
+
+        // Delegate to remove handler if permission is 'remove'
+        if (permission === 'remove') {
+            return handleRemoveUser(list, { user_id: invitedUser.id }, isOwner)
+        }
+
         // Check if already invited
+        let existing = null
         try {
-            const existing = $app.findFirstRecordByFilter(
+            existing = $app.findFirstRecordByFilter(
                 'list_user',
                 `list = '${list.id}' && invited_user = '${invitedUser.id}'`
             )
-            if (existing) throw new Error("User is already invited.")
         } catch (e) { /* not found */ }
 
+        if (existing) {
+            // Update existing permission
+            existing.set('user_permission', permission)
+            $app.save(existing)
+            return `User ${invitedUser.getString('email')} permissions updated to ${permission}.`
+        }
+
+        // Create new invite
         const listUserCollection = $app.findCollectionByNameOrId('list_user')
         const invite = new Record(listUserCollection)
         invite.set('list', list.id)
         invite.set('invited_user', invitedUser.id)
-        invite.set('user_permission', 'view')
+        invite.set('user_permission', permission)
         $app.save(invite)
 
-        return `User ${invitedUser.getString('email')} invited successfully!`
+        return `User ${invitedUser.getString('email')} invited with ${permission} access!`
     }
     return null
 }
@@ -206,11 +224,53 @@ function handleDeleteHistoryItem(list, data, isOwner) {
     return null
 }
 
+/**
+ * Removes a user from the watchlist.
+ * @param {import('pocketbase').Record} list
+ * @param {object} data - Form data with user_id
+ * @param {boolean} isOwner
+ * @returns {string|null}
+ */
+function handleRemoveUser(list, data, isOwner) {
+    const targetUserId = data.user_id
+
+    if (targetUserId) {
+        if (!isOwner) throw new Error("Only the owner can remove users.")
+
+        try {
+            const invite = $app.findFirstRecordByFilter(
+                'list_user',
+                `list = '${list.id}' && invited_user = '${targetUserId}'`
+            )
+
+            if (invite) {
+                // Get user email for message before deleting
+                let email = "User"
+                try {
+                    const u = $app.findRecordById('users', targetUserId)
+                    email = u.getString('email')
+                } catch (ignore) { }
+
+                $app.delete(invite)
+                return `${email} removed from the list.`
+            } else {
+                throw new Error("User is not on the list.")
+            }
+        } catch (e) {
+            // Re-throw if it's our error, otherwise generic not found
+            if (e.message === "User is not on the list.") throw e
+            throw new Error("User not found on this list.")
+        }
+    }
+    return null
+}
+
 module.exports = {
     handlePostAction,
     handleUpdateList,
     handleDeleteList,
     handleInviteUser,
+    handleRemoveUser,
     handleUpdateHistoryItem,
     handleDeleteHistoryItem
 }
