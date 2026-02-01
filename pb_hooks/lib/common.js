@@ -80,50 +80,67 @@ module.exports = {
             // 1. Owned lists
             let ownedLists = []
             try {
-                ownedLists = client.collection('lists').getFullList({
-                    filter: `owner = '${user.id}' && (is_deleted = false || is_deleted = null)`,
-                    sort: '-created',
-                })
+                // Use server-side search to bypass API rules
+                const records = $app.findRecordsByFilter(
+                    'lists',
+                    `owner = '${user.id}' && (is_deleted = false || is_deleted = null)`,
+                    '-created'
+                )
+                ownedLists = records.map(r => ({
+                    id: r.id,
+                    list_title: r.getString('list_title'),
+                    description: r.getString('description'),
+                    is_private: r.getBool('is_private'),
+                    owner: r.getString('owner'),
+                    created: r.getString('created'),
+                    updated: r.getString('updated'),
+                    is_deleted: r.getBool('is_deleted')
+                }))
             } catch (e) {
-                // Ignore error
+                console.error('[common.js] Failed to fetch owned lists:', e)
             }
 
             // 2. Shared lists
             let sharedLists = []
             try {
-                const sharedInvites = client.collection('list_user').getFullList({
-                    filter: `invited_user = '${user.id}'`,
-                    sort: '-created',
-                    expand: 'list',
-                })
+                const sharedInvites = $app.findRecordsByFilter(
+                    'list_user',
+                    `invited_user = '${user.id}'`,
+                    '-created'
+                )
+                $app.expandRecords(sharedInvites, ['list'])
 
                 sharedLists = sharedInvites
-                    .map((invite) => invite.expand?.list)
-                    .filter(list => list && !list.is_deleted)
+                    .map((invite) => {
+                        const list = invite.expandedOne('list')
+                        if (list && !list.getBool('is_deleted')) {
+                            return {
+                                id: list.id,
+                                list_title: list.getString('list_title'),
+                                description: list.getString('description'),
+                                is_private: list.getBool('is_private'),
+                                owner: list.getString('owner'),
+                                created: list.getString('created'),
+                                updated: list.getString('updated'),
+                                is_deleted: list.getBool('is_deleted')
+                            }
+                        }
+                        return null
+                    })
+                    .filter(Boolean)
             } catch (e) {
-                // Ignore error
+                console.error('[common.js] Failed to fetch shared lists:', e)
             }
 
             // Combine and deduplicate
             const allLists = [...ownedLists, ...sharedLists]
             const seenIds = new Set()
 
-            lists = allLists
-                .filter((list) => {
-                    if (seenIds.has(list.id)) return false
-                    seenIds.add(list.id)
-                    return true
-                })
-                .map((list) => ({
-                    id: list.id,
-                    list_title: list.list_title,
-                    description: list.description,
-                    is_private: list.is_private,
-                    owner: list.owner,
-                    created: list.created,
-                    updated: list.updated,
-                    is_deleted: list.is_deleted
-                }))
+            lists = allLists.filter((list) => {
+                if (seenIds.has(list.id)) return false
+                seenIds.add(list.id)
+                return true
+            })
         } catch (e) {
             console.error('[common.js] Failed to load watchlists:', e)
         }

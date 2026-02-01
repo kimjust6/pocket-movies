@@ -4973,12 +4973,12 @@ html::-webkit-scrollbar,
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .cursor-not-allowed {
   cursor: not-allowed;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .select-none {
@@ -5201,6 +5201,10 @@ html::-webkit-scrollbar,
   border-color: rgb(255 255 255 / 0.05);
 }
 
+.bg-\[linear-gradient\(to_right\2c \#80808012_1px\2c transparent_1px\)\2c linear_gradient\(to_bottom\2c \#80808012_1px\2c transparent_1px\)\] {
+  background-color: linear-gradient(to right,#80808012 1px,transparent 1px),linear gradient(to bottom,#80808012 1px,transparent 1px);
+}
+
 .bg-accent\/10 {
   background-color: var(--fallback-a,oklch(var(--a)/0.1));
 }
@@ -5294,6 +5298,10 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-s,oklch(var(--s)/0.1));
 }
 
+.bg-secondary\/15 {
+  background-color: var(--fallback-s,oklch(var(--s)/0.15));
+}
+
 .bg-success {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-su,oklch(var(--su)/var(--tw-bg-opacity, 1)));
@@ -5301,14 +5309,6 @@ html::-webkit-scrollbar,
 
 .bg-transparent {
   background-color: transparent;
-}
-
-.bg-\[linear-gradient\(to_right\2c \#80808012_1px\2c transparent_1px\)\2c linear_gradient\(to_bottom\2c \#80808012_1px\2c transparent_1px\)\] {
-  background-color: linear-gradient(to right,#80808012 1px,transparent 1px),linear gradient(to bottom,#80808012 1px,transparent 1px);
-}
-
-.bg-secondary\/15 {
-  background-color: var(--fallback-s,oklch(var(--s)/0.15));
 }
 
 .bg-\[linear-gradient\(to_right\2c \#80808012_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#80808012_1px\2c transparent_1px\)\] {
@@ -5931,6 +5931,11 @@ html::-webkit-scrollbar,
   --tw-shadow: var(--tw-shadow-colored);
 }
 
+.shadow-primary\/30 {
+  --tw-shadow-color: var(--fallback-p,oklch(var(--p)/0.3));
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
 .shadow-secondary\/20 {
   --tw-shadow-color: var(--fallback-s,oklch(var(--s)/0.2));
   --tw-shadow: var(--tw-shadow-colored);
@@ -5938,11 +5943,6 @@ html::-webkit-scrollbar,
 
 .shadow-secondary\/30 {
   --tw-shadow-color: var(--fallback-s,oklch(var(--s)/0.3));
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-primary\/30 {
-  --tw-shadow-color: var(--fallback-p,oklch(var(--p)/0.3));
   --tw-shadow: var(--tw-shadow-colored);
 }
 

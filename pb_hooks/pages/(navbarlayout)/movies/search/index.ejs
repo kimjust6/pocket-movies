@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-base-200"
-    x-data="{ query: '<%= data.q || '' %>', showAddModal: false, selectedTmdbId: null }">
+    x-data="{ query: <%= JSON.stringify(data.q || '') %>, showAddModal: false, selectedTmdbId: null }">
     <!-- Hero / Search Section -->
     <div class="hero bg-base-100 py-12 shadow-sm">
         <div class="hero-content w-full max-w-4xl flex-col text-center">
