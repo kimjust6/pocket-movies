@@ -1,7 +1,7 @@
 <!-- Force Refresh -->
 <script src="/js/watchlist-detail.js?v=<%= new Date().getTime() %>"></script>
 <div class="w-full p-4"
-    x-data="watchlistDetail(<%= JSON.stringify(data.movies || []) %>, <%= data.list ? data.list.is_owner : false %>, '<%= data.list ? data.list.id : '' %>', <%= data.hasMore !== undefined ? data.hasMore : true %>)">
+    x-data="watchlistDetail(<%= JSON.stringify(data.movies || []) %>, <%= data.list ? data.list.is_owner : false %>, '<%= data.list ? data.list.id : '' %>', <%= data.hasMore !== undefined ? data.hasMore : true %>, '<%= data.user ? data.user.id : '' %>')">
     <!-- Header -->
     <div class="container mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

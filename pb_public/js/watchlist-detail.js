@@ -3,7 +3,7 @@
  * Manages the state of Share and Edit modals, table sorting, and infinite scroll.
  */
 document.addEventListener('alpine:init', () => {
-    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false, listId = '', initialHasMore = true) => ({
+    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false, listId = '', initialHasMore = true, currentUserId = '') => ({
         /**
          * Movies array for the watchlist.
          * @type {Array}
@@ -15,6 +15,12 @@ document.addEventListener('alpine:init', () => {
          * @type {boolean}
          */
         isOwner: isOwner,
+
+        /**
+         * The ID of the current logged-in user.
+         * @type {string}
+         */
+        currentUserId: currentUserId,
 
         /**
          * The watchlist ID for API calls.
@@ -59,6 +65,12 @@ document.addEventListener('alpine:init', () => {
         sortDirection: 'desc',
 
         /**
+         * Whether the rating modal is in read-only mode.
+         * @type {boolean}
+         */
+        isRatingReadOnly: false,
+
+        /**
          * Controls the visibility of the Share Watchlist modal.
          * @type {boolean}
          */
@@ -81,6 +93,12 @@ document.addEventListener('alpine:init', () => {
          * @type {boolean}
          */
         showDateModal: false,
+
+        /**
+         * Controls the visibility of the Item Delete modal.
+         * @type {boolean}
+         */
+        showItemDeleteModal: false,
 
         /**
          * The ID of the history item being edited.
@@ -143,32 +161,11 @@ document.addEventListener('alpine:init', () => {
         editUserReview: '',
 
         /**
-         * Initializes the component and sets up infinite scroll.
+         * The title for the rating modal.
+         * @type {string}
          */
-        // ...
-        /**
-         * Opens the user rating modal for a specific movie and user.
-         * @param {object} movie - The movie object.
-         * @param {string} userId - The current user's ID.
-         */
-        openRatingModal(movie, userId) {
-            this.editHistoryId = movie.history_id;
-            this.editMovieTitle = movie.title || '';
+        ratingModalTitle: 'Edit Rating',
 
-            // Get existing attendance if any
-            const attendance = movie.attendance && movie.attendance[userId];
-            if (attendance) {
-                this.editUserRating = attendance.rating || 0;
-                this.editUserFailed = attendance.failed || false;
-                this.editUserReview = attendance.review || '';
-            } else {
-                this.editUserRating = 0;
-                this.editUserFailed = false;
-                this.editUserReview = '';
-            }
-
-            this.showRatingModal = true;
-        },
         init() {
             this.applySort();
             this.updateNavbarHeight();
@@ -182,8 +179,6 @@ document.addEventListener('alpine:init', () => {
                 this.updateNavbarHeight();
             });
         },
-
-        // ... existing methods ...
 
         updateNavbarHeight() {
             const navbar = document.querySelector('.navbar');
@@ -212,7 +207,6 @@ document.addEventListener('alpine:init', () => {
         },
 
         async loadMore(isReset = false) {
-            // ... existing loadMore implementation ...
             if (!isReset && (this.isLoading || !this.hasMore)) return;
 
             this.isLoading = true;
@@ -275,6 +269,22 @@ document.addEventListener('alpine:init', () => {
             return dir + col;
         },
 
+        sortByUser(userId) {
+            if (this.isLoading) return;
+            const column = 'user_' + userId;
+
+            if (this.sortColumn === column) {
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortColumn = column;
+                this.sortDirection = 'desc'; // Default to desc for ratings (high to low)
+            }
+
+            // For user specific sort, we only do client side sort of loaded movies
+            console.log('[Sort] Sorting by user rating client-side');
+            this.applySort();
+        },
+
         sortBy(column) {
             if (this.isLoading) return;
 
@@ -301,8 +311,16 @@ document.addEventListener('alpine:init', () => {
             const dir = this.sortDirection;
 
             this.movies.sort((a, b) => {
-                let valA = a[col];
-                let valB = b[col];
+                let valA, valB;
+
+                if (col.startsWith('user_')) {
+                    const userId = col.split('_')[1];
+                    valA = (a.attendance && a.attendance[userId] && a.attendance[userId].rating) ? a.attendance[userId].rating : -1;
+                    valB = (b.attendance && b.attendance[userId] && b.attendance[userId].rating) ? b.attendance[userId].rating : -1;
+                } else {
+                    valA = a[col];
+                    valB = b[col];
+                }
 
                 if (valA == null) valA = '';
                 if (valB == null) valB = '';
@@ -352,20 +370,26 @@ document.addEventListener('alpine:init', () => {
         /**
          * Opens the user rating modal for a specific movie and user.
          * @param {object} movie - The movie object.
-         * @param {string} userId - The current user's ID.
+         * @param {string} userId - The user ID whose rating we are viewing/editing.
          */
         openRatingModal(movie, userId) {
             this.editHistoryId = movie.history_id;
             this.editMovieTitle = movie.title || '';
+
+            // Determine if read-only
+            this.isRatingReadOnly = (userId !== this.currentUserId);
+            this.ratingModalTitle = this.isRatingReadOnly ? 'View Review' : 'Edit Rating';
 
             // Get existing attendance if any
             const attendance = movie.attendance && movie.attendance[userId];
             if (attendance) {
                 this.editUserRating = attendance.rating || 0;
                 this.editUserFailed = attendance.failed || false;
+                this.editUserReview = attendance.review || '';
             } else {
                 this.editUserRating = 0;
                 this.editUserFailed = false;
+                this.editUserReview = '';
             }
 
             this.showRatingModal = true;

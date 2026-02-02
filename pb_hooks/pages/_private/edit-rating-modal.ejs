@@ -27,24 +27,15 @@
             <!-- Rating -->
             <div class="form-control">
                 <label class="label">
-                    <span class="label-text">Rating (1-10)</span>
-                    <span class="label-text-alt font-bold text-primary"
-                        x-text="editUserRating > 0 ? editUserRating + '/10' : '-'"></span>
+                    <span class="label-text">Rating (0-10)</span>
                 </label>
-                <div class="flex justify-center py-2">
-                    <div class="rating rating-lg rating-half">
-                        <input type="radio" name="rating-10" class="rating-hidden" value="0" x-model="editUserRating" />
-                        <template x-for="i in 10">
-                            <input type="radio" name="rating-10" class="mask mask-star-2 bg-orange-400"
-                                :class="i % 2 !== 0 ? 'mask-half-1' : 'mask-half-2'" :value="i"
-                                x-model="editUserRating" />
-                        </template>
-                    </div>
+                <div class="flex items-center gap-4">
+                    <input type="number" step="0.1" min="0" max="10"
+                        class="input input-bordered w-full text-center text-xl font-bold" placeholder="0.0"
+                        x-model="editUserRating" name="rating" :disabled="isRatingReadOnly" />
                 </div>
-                <div class="flex justify-between text-xs px-2 opacity-50">
-                    <span>1</span>
-                    <span>5</span>
-                    <span>10</span>
+                <div class="label" x-show="!isRatingReadOnly">
+                    <span class="label-text-alt text-base-content/50">Enter a score between 0 and 10</span>
                 </div>
             </div>
 
@@ -54,13 +45,14 @@
                     <span class="label-text">Review (Optional)</span>
                 </label>
                 <textarea class="textarea textarea-bordered h-24" name="review" x-model="editUserReview"
-                    placeholder="What did you think?"></textarea>
+                    placeholder="What did you think?" :disabled="isRatingReadOnly"></textarea>
             </div>
 
             <!-- Failed/Bailed -->
             <div class="form-control">
                 <label class="label cursor-pointer justify-start gap-4">
-                    <input type="checkbox" name="failed" class="checkbox checkbox-error" x-model="editUserFailed" />
+                    <input type="checkbox" name="failed" class="checkbox checkbox-error" x-model="editUserFailed"
+                        :disabled="isRatingReadOnly" />
                     <span class="label-text">I bailed on this movie (Failed)</span>
                 </label>
             </div>
@@ -68,10 +60,12 @@
 
         <div class="grid grid-cols-2 gap-3 mt-6">
             <!-- Cancel -->
-            <button type="button" @click="showRatingModal = false" class="btn btn-ghost w-full">Cancel</button>
+            <button type="button" @click="showRatingModal = false" class="btn btn-ghost w-full"
+                x-text="isRatingReadOnly ? 'Close' : 'Cancel'"></button>
 
             <!-- Save -->
-            <button type="submit" form="updateRatingForm" class="btn btn-primary w-full">Save</button>
+            <button type="submit" form="updateRatingForm" class="btn btn-primary w-full"
+                x-show="!isRatingReadOnly">Save</button>
         </div>
     </div>
 </div>
