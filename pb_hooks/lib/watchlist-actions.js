@@ -72,6 +72,11 @@ function handleUpdateList(list, data, isOwner) {
             list.set('description', newDescription)
         }
 
+        // Handle privacy toggle (inverted)
+        // If is_public is 'on' or 'true', then is_private is false.
+        const isPublic = data.is_public === 'on' || data.is_public === 'true'
+        list.set('is_private', !isPublic)
+
         $app.save(list)
         return "List updated successfully!"
     }

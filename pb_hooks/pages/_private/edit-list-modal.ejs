@@ -42,6 +42,18 @@
                     placeholder="Optional description..."><%= list.description || '' %></textarea>
             </div>
 
+            <div class="form-control">
+                <label class="label cursor-pointer justify-start gap-4">
+                    <span class="label-text text-base">Public Watchlist</span>
+                    <input type="checkbox" name="is_public" class="toggle toggle-primary" <%=!list.is_private
+                        ? 'checked' : '' %> />
+                </label>
+                <label class="label pt-0">
+                    <span class="label-text-alt opacity-50">If public, anyone with the link can view this
+                        watchlist.</span>
+                </label>
+            </div>
+
             <div class="modal-action">
                 <button type="submit" class="btn btn-primary w-full">Save Changes</button>
             </div>

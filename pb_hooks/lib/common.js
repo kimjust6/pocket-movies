@@ -215,7 +215,6 @@ module.exports = {
             )
 
             $app.expandRecords(historyRecords, ['movie'])
-            console.log('[common.js] fetchWatchlistMovies count:', historyRecords.length, 'for list:', listId)
 
             const results = historyRecords.map((item) => {
                 const m = item.expandedOne('movie')

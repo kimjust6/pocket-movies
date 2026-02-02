@@ -185,7 +185,6 @@ document.addEventListener('alpine:init', () => {
             if (navbar) {
                 const height = navbar.offsetHeight;
                 document.documentElement.style.setProperty('--navbar-height', height + 'px');
-                console.log('[WatchlistDetail] Navbar height set to:', height);
             }
         },
 
@@ -215,7 +214,6 @@ document.addEventListener('alpine:init', () => {
             try {
                 const sortParam = this.getDbSortParam();
                 const url = `/api/watchlists/movies?listId=${this.listId}&page=${this.currentPage}&limit=${this.pageSize}&sort=${encodeURIComponent(sortParam)}`;
-                console.log('[Infinite Scroll] Fetching:', url);
 
                 const response = await fetch(url);
                 const text = await response.text();
@@ -238,9 +236,7 @@ document.addEventListener('alpine:init', () => {
 
                     this.hasMore = data.hasMore;
                     this.applySort();
-                    console.log('[Infinite Scroll] Added', data.movies.length, 'movies. hasMore:', data.hasMore);
                 } else {
-                    console.log('[Infinite Scroll] No more movies or error:', data);
                     if (isReset) {
                         this.movies = [];
                     }
@@ -281,7 +277,6 @@ document.addEventListener('alpine:init', () => {
             }
 
             // For user specific sort, we only do client side sort of loaded movies
-            console.log('[Sort] Sorting by user rating client-side');
             this.applySort();
         },
 
@@ -296,12 +291,10 @@ document.addEventListener('alpine:init', () => {
             }
 
             if (this.hasMore) {
-                console.log('[Sort] Reloading from server due to incomplete list');
                 this.isLoading = true;
                 this.currentPage = 0;
                 this.loadMore(true);
             } else {
-                console.log('[Sort] Sorting client-side');
                 this.applySort();
             }
         },

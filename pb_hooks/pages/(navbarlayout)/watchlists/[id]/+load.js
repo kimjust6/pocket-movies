@@ -84,7 +84,8 @@ module.exports = function (context) {
             title: list.getString('list_title'),
             description: list.getString('description'),
             created: list.getString('created'),
-            is_owner: !!isOwner
+            is_owner: !!isOwner,
+            is_private: list.getBool('is_private')
         },
         movies,
         hasMore,
@@ -94,12 +95,6 @@ module.exports = function (context) {
         error,
         message,
         formatDateTime: common.formatDateTime
-    }
-
-    console.log('[Watchlist Detail] Loaded. User:', user?.id || 'guest', 'List:', listId, 'Movie Count:', movies.length, 'HasMore:', hasMore)
-    if (movies.length > 0) {
-        // Log first movie structure to check for anomalies
-        console.log('[Watchlist Detail] First movie sample:', JSON.stringify(movies[0]))
     }
 
     return responseData
