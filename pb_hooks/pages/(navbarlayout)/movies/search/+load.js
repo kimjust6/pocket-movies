@@ -185,9 +185,9 @@ module.exports = function (context) {
     }
 
     // Perform search if query is provided
-    if (q && q.trim().length > 0) {
+    if (q && String(q).trim().length > 0) {
         try {
-            const searchData = tmdb.searchMovies(q.trim(), page)
+            const searchData = tmdb.searchMovies(String(q).trim(), page)
             results = searchData.results || []
             totalPages = searchData.total_pages || 1
         } catch (e) {
