@@ -45,7 +45,7 @@ module.exports = function (context) {
         sort: sort
     })
 
-    const hasMore = allMovies.length > limit
+    const hasMore = (allMovies.totalFetched !== undefined ? allMovies.totalFetched : allMovies.length) > limit
     const movies = hasMore ? allMovies.slice(0, limit) : allMovies
 
     // Attach Attendance Data

@@ -1,7 +1,27 @@
 <!-- Force Refresh -->
 <script src="/js/watchlist-detail.js?v=<%= new Date().getTime() %>"></script>
-<div class="w-full p-4"
-    x-data="watchlistDetail(<%= JSON.stringify(data.movies || []) %>, <%= data.list ? data.list.is_owner : false %>, '<%= data.list ? data.list.id : '' %>', <%= data.hasMore !== undefined ? data.hasMore : true %>, '<%= data.user ? data.user.id : '' %>')">
+<script id="watchlist-context" type="application/json">
+    {
+        "movies": <%- JSON.stringify(data.movies || []) %>,
+        "isOwner": <%= data.list ? data.list.is_owner : false %>,
+        "listId": "<%= data.list ? data.list.id : '' %>",
+        "hasMore": <%= data.hasMore !== undefined ? data.hasMore : true %>,
+        "currentUserId": "<%= data.user ? data.user.id : '' %>"
+    }
+</script>
+<div class="w-full p-4" x-data="(() => {
+            try {
+                const text = document.getElementById('watchlist-context').textContent;
+                const ctx = JSON.parse(text);
+                console.log('[Watchlist Debug] Parsed Data:', ctx);
+                console.log('[Watchlist Debug] Movies Count:', ctx.movies ? ctx.movies.length : 0);
+                return watchlistDetail(ctx.movies, ctx.isOwner, ctx.listId, ctx.hasMore, ctx.currentUserId);
+            } catch(e) {
+                console.error('Failed to parse watchlist context', e);
+                document.write('<div class=\'alert alert-error\'>Error parsing data: ' + e.message + '</div>');
+                return watchlistDetail();
+            }
+        })()">
     <!-- Header -->
     <div class="container mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

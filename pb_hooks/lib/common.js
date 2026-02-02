@@ -215,8 +215,9 @@ module.exports = {
             )
 
             $app.expandRecords(historyRecords, ['movie'])
+            console.log('[common.js] fetchWatchlistMovies count:', historyRecords.length, 'for list:', listId)
 
-            return historyRecords.map((item) => {
+            const results = historyRecords.map((item) => {
                 const m = item.expandedOne('movie')
                 if (m) {
                     return {
@@ -241,6 +242,10 @@ module.exports = {
                 }
                 return null
             }).filter(Boolean)
+
+            // Attach metadata to the array to help with pagination
+            results.totalFetched = historyRecords.length
+            return results
         } catch (e) {
             console.error('[common.js] Failed to load list items:', e)
             return []

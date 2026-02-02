@@ -66,7 +66,7 @@ module.exports = function (context) {
         limit: pageSize + 1,
         sort: '-watched'
     })
-    const hasMore = allMovies.length > pageSize
+    const hasMore = (allMovies.totalFetched !== undefined ? allMovies.totalFetched : allMovies.length) > pageSize
     const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies
 
     // 4. Fetch List Members (for columns)
@@ -78,13 +78,13 @@ module.exports = function (context) {
     // 6. Fetch potential users to invite (if owner)
     const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner, listId)
 
-    return {
+    const responseData = {
         list: {
             id: list.id,
             title: list.getString('list_title'),
             description: list.getString('description'),
             created: list.getString('created'),
-            is_owner: isOwner
+            is_owner: !!isOwner
         },
         movies,
         hasMore,
@@ -95,4 +95,12 @@ module.exports = function (context) {
         message,
         formatDateTime: common.formatDateTime
     }
+
+    console.log('[Watchlist Detail] Loaded. User:', user?.id || 'guest', 'List:', listId, 'Movie Count:', movies.length, 'HasMore:', hasMore)
+    if (movies.length > 0) {
+        // Log first movie structure to check for anomalies
+        console.log('[Watchlist Detail] First movie sample:', JSON.stringify(movies[0]))
+    }
+
+    return responseData
 }
