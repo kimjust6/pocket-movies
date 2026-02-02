@@ -140,26 +140,18 @@ module.exports = function (context) {
 
                 // 3. Add to Watched History
                 try {
-                    const filter = `movie = '${movie.id}' && list = '${actualListId}'`
-                    try {
-                        // Check if already exists
-                        client.collection('watched_history').getFirstListItem(filter)
-
-                        message = `"${movieData.title}" is already in that watchlist!`
-                    } catch (e) {
-                        // Not found, so add it
-                        const watchPayload = {
-                            movie: movie.id,
-                            list: actualListId,
-                            watched: new Date().toISOString()
-                        }
-                        if (movieData.vote_average) {
-                            watchPayload.tmdb_score = movieData.vote_average
-                        }
-
-                        const watchEntry = client.collection('watched_history').create(watchPayload)
-                        message = `"${movieData.title}" added to watchlist!`
+                    const watchPayload = {
+                        movie: movie.id,
+                        list: actualListId,
+                        watched: new Date().toISOString()
                     }
+                    if (movieData.vote_average) {
+                        watchPayload.tmdb_score = movieData.vote_average
+                    }
+
+                    // No check for duplicates per user request
+                    client.collection('watched_history').create(watchPayload)
+                    message = `"${movieData.title}" added to watchlist!`
 
                     // PRG: Redirect to prevent double submission
                     const redirectUrl = `/movies/search?q=${encodeURIComponent(q)}&message=${encodeURIComponent(message)}`
