@@ -119,14 +119,56 @@ document.addEventListener('alpine:init', () => {
         editRtScore: '',
 
         /**
-         * Controls the visibility of the Item Delete Confirmation modal.
+         * Controls the visibility of the User Rating modal.
          * @type {boolean}
          */
-        showItemDeleteModal: false,
+        showRatingModal: false,
+
+        /**
+         * The current user rating for the edit form.
+         * @type {number}
+         */
+        editUserRating: 0,
+
+        /**
+         * The current user failed status for the edit form.
+         * @type {boolean}
+         */
+        editUserFailed: false,
+
+        /**
+         * The current user review for the edit form.
+         * @type {string}
+         */
+        editUserReview: '',
 
         /**
          * Initializes the component and sets up infinite scroll.
          */
+        // ...
+        /**
+         * Opens the user rating modal for a specific movie and user.
+         * @param {object} movie - The movie object.
+         * @param {string} userId - The current user's ID.
+         */
+        openRatingModal(movie, userId) {
+            this.editHistoryId = movie.history_id;
+            this.editMovieTitle = movie.title || '';
+
+            // Get existing attendance if any
+            const attendance = movie.attendance && movie.attendance[userId];
+            if (attendance) {
+                this.editUserRating = attendance.rating || 0;
+                this.editUserFailed = attendance.failed || false;
+                this.editUserReview = attendance.review || '';
+            } else {
+                this.editUserRating = 0;
+                this.editUserFailed = false;
+                this.editUserReview = '';
+            }
+
+            this.showRatingModal = true;
+        },
         init() {
             this.applySort();
             this.updateNavbarHeight();
@@ -141,9 +183,8 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        /**
-         * Measure and set the navbar height CSS variable.
-         */
+        // ... existing methods ...
+
         updateNavbarHeight() {
             const navbar = document.querySelector('.navbar');
             if (navbar) {
@@ -153,9 +194,6 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        /**
-         * Sets up the intersection observer for infinite scroll.
-         */
         setupInfiniteScroll() {
             const sentinel = document.getElementById('scroll-sentinel');
             if (!sentinel) return;
@@ -173,12 +211,8 @@ document.addEventListener('alpine:init', () => {
             observer.observe(sentinel);
         },
 
-        /**
-         * Loads more movies from the API.
-         * @param {boolean} isReset - If true, replaces the current list instead of appending.
-         */
         async loadMore(isReset = false) {
-            // If resetting, we bypass the isLoading check if it was set by sortBy
+            // ... existing loadMore implementation ...
             if (!isReset && (this.isLoading || !this.hasMore)) return;
 
             this.isLoading = true;
@@ -202,25 +236,19 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 if (data.success && data.movies && data.movies.length > 0) {
-                    // Update movies array
                     if (isReset) {
-                        this.movies = data.movies; // Replace
-                        // Scroll to top of table or container if needed? 
-                        // Actually, if we just replace data, the scroll position might be okay, 
-                        // or we might want to reset to top of list if user was deep down.
-                        // But let's stick to the requested behavior: "don't jump to top".
+                        this.movies = data.movies;
                     } else {
-                        this.movies = [...this.movies, ...data.movies]; // Append
+                        this.movies = [...this.movies, ...data.movies];
                     }
 
                     this.hasMore = data.hasMore;
-                    // Re-apply sort client-side for consistent ordering of the batch
                     this.applySort();
                     console.log('[Infinite Scroll] Added', data.movies.length, 'movies. hasMore:', data.hasMore);
                 } else {
                     console.log('[Infinite Scroll] No more movies or error:', data);
                     if (isReset) {
-                        this.movies = []; // If reset yielded nothing, clear list
+                        this.movies = [];
                     }
                     this.hasMore = false;
                 }
@@ -232,10 +260,6 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        /**
-         * Get the database sort parameter based on current column and direction.
-         * @returns {string} - The sort string (e.g. "+movie.title").
-         */
         getDbSortParam() {
             const colMap = {
                 'watched_at': 'watched',
@@ -251,16 +275,8 @@ document.addEventListener('alpine:init', () => {
             return dir + col;
         },
 
-        /**
-         * Sort by a specific column. Toggles direction if same column.
-         * @param {string} column - The column name to sort by.
-         */
-        /**
-         * Sort by a specific column. Toggles direction if same column.
-         * @param {string} column - The column name to sort by.
-         */
         sortBy(column) {
-            if (this.isLoading) return; // Prevent double clicks
+            if (this.isLoading) return;
 
             if (this.sortColumn === column) {
                 this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -269,18 +285,10 @@ document.addEventListener('alpine:init', () => {
                 this.sortDirection = 'asc';
             }
 
-            // Hybrid Sort Logic:
             if (this.hasMore) {
                 console.log('[Sort] Reloading from server due to incomplete list');
                 this.isLoading = true;
-
-                // Do NOT clear movies immediately to prevent layout shift
-                // this.movies = []; 
-
-                this.currentPage = 0; // Reset page
-                // We don't set hasMore to true yet, to prevent scroll triggering
-
-                // Call loadMore but with a flag to indicate it's a reset
+                this.currentPage = 0;
                 this.loadMore(true);
             } else {
                 console.log('[Sort] Sorting client-side');
@@ -288,9 +296,6 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        /**
-         * Applies the current sort to the movies array.
-         */
         applySort() {
             const col = this.sortColumn;
             const dir = this.sortDirection;
@@ -299,11 +304,9 @@ document.addEventListener('alpine:init', () => {
                 let valA = a[col];
                 let valB = b[col];
 
-                // Handle null/undefined
                 if (valA == null) valA = '';
                 if (valB == null) valB = '';
 
-                // String comparison (case-insensitive)
                 if (typeof valA === 'string' && typeof valB === 'string') {
                     valA = valA.toLowerCase();
                     valB = valB.toLowerCase();
@@ -315,47 +318,27 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        /**
-         * Get sort icon for a column.
-         * @param {string} column - The column name.
-         * @returns {string} - The sort icon (↑, ↓, or empty).
-         */
         getSortIcon(column) {
             if (this.sortColumn !== column) return '';
             return this.sortDirection === 'asc' ? '↑' : '↓';
         },
 
-        /**
-         * Format a date string to a readable format.
-         * @param {string} dateStr - The date string.
-         * @returns {string} - Formatted date.
-         */
         formatDate(dateStr) {
             if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
             return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
         },
 
-        /**
-         * Opens the Delete Confirmation modal and optionally closes the Edit modal.
-         */
         openDeleteModal() {
             this.showEditModal = false;
             this.showDeleteModal = true;
         },
 
-        /**
-         * Opens the Delete Item Confirmation modal and closes the Date modal.
-         */
         openItemDeleteModal() {
             this.showDateModal = false;
             this.showItemDeleteModal = true;
         },
 
-        /**
-         * Opens the edit modal for a specific movie.
-         * @param {object} movie - The movie object.
-         */
         openEditMovieModal(movie) {
             this.editHistoryId = movie.history_id;
             this.editMovieTitle = movie.title || '';
@@ -364,6 +347,28 @@ document.addEventListener('alpine:init', () => {
             this.editImdbScore = movie.imdb_score || '';
             this.editRtScore = movie.rt_score || '';
             this.showDateModal = true;
+        },
+
+        /**
+         * Opens the user rating modal for a specific movie and user.
+         * @param {object} movie - The movie object.
+         * @param {string} userId - The current user's ID.
+         */
+        openRatingModal(movie, userId) {
+            this.editHistoryId = movie.history_id;
+            this.editMovieTitle = movie.title || '';
+
+            // Get existing attendance if any
+            const attendance = movie.attendance && movie.attendance[userId];
+            if (attendance) {
+                this.editUserRating = attendance.rating || 0;
+                this.editUserFailed = attendance.failed || false;
+            } else {
+                this.editUserRating = 0;
+                this.editUserFailed = false;
+            }
+
+            this.showRatingModal = true;
         }
     }));
 });

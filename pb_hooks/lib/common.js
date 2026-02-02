@@ -296,5 +296,93 @@ module.exports = {
             console.error("[common.js] Failed to fetch users", e)
             return []
         }
+    },
+    /**
+     * Fetch all members of a list (owner + invited users).
+     * @param {string} listId - The list ID
+     * @param {string} ownerId - The owner's User ID
+     * @returns {Array<{id: string, name: string, avatar: string, is_owner: boolean}>}
+     */
+    fetchListMembers: function (listId, ownerId) {
+        const members = []
+        const seenIds = new Set()
+
+        // 1. Add Owner
+        if (ownerId) {
+            try {
+                const owner = $app.findRecordById("users", ownerId)
+                members.push({
+                    id: owner.id,
+                    name: owner.getString('name') || owner.getString('username'),
+                    avatar: owner.getString('avatar'),
+                    is_owner: true
+                })
+                seenIds.add(ownerId)
+            } catch (e) { }
+        }
+
+        // 2. Add Invited Users
+        try {
+            const invites = $app.findRecordsByFilter("list_user", `list = '${listId}'`)
+            invites.forEach(invite => {
+                const uid = invite.getString('invited_user')
+                if (!seenIds.has(uid)) {
+                    try {
+                        const u = $app.findRecordById("users", uid)
+                        members.push({
+                            id: u.id,
+                            name: u.getString('name') || u.getString('username'),
+                            avatar: u.getString('avatar'),
+                            is_owner: false
+                        })
+                        seenIds.add(uid)
+                    } catch (e) { }
+                }
+            })
+        } catch (e) { }
+
+        return members
+    },
+
+    /**
+     * Attach attendance data to movies.
+     * @param {Array} movies - Array of movie objects (must have history_id)
+     * @param {string} listId - The list ID (for optimization if needed, currently unused as we filter by history IDs)
+     */
+    attachAttendance: function (movies, listId) {
+        if (!movies || movies.length === 0) return
+
+        const historyIds = movies.map(m => m.history_id).filter(Boolean)
+        if (historyIds.length === 0) return
+
+        // Construct filter: watch_history = 'id1' || watch_history = 'id2' ...
+        const filter = historyIds.map(id => `watch_history = '${id}'`).join(' || ')
+
+        const attendanceMap = {} // history_id -> { user_id: { ... } }
+
+        try {
+            const records = $app.findRecordsByFilter("watch_history_user", filter)
+            records.forEach(rec => {
+                const hid = rec.getString('watch_history')
+                const uid = rec.getString('user')
+
+                if (!attendanceMap[hid]) attendanceMap[hid] = {}
+
+                attendanceMap[hid][uid] = {
+                    id: rec.id,
+                    rating: rec.getInt('rating'),
+                    review: rec.getString('review'),
+                    failed: rec.getBool('failed'),
+                    created: rec.getString('created')
+                }
+            })
+        } catch (e) {
+            console.error('[common.js] Failed to fetch attendance:', e)
+        }
+
+        // Attach to movies
+        movies.forEach(m => {
+            m.attendance = attendanceMap[m.history_id] || {}
+        })
     }
 }

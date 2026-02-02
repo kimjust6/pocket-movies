@@ -48,6 +48,9 @@ module.exports = function (context) {
     const hasMore = allMovies.length > limit
     const movies = hasMore ? allMovies.slice(0, limit) : allMovies
 
+    // Attach Attendance Data
+    common.attachAttendance(movies, listId)
+
     return {
         success: true,
         movies,

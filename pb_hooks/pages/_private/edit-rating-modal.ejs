@@ -1,0 +1,77 @@
+<!-- Edit Rating Modal -->
+<div x-show="showRatingModal" x-cloak x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    @click.self="showRatingModal = false" @keydown.escape.window="showRatingModal = false">
+
+    <div x-show="showRatingModal" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+
+        <h3 class="text-xl font-bold mb-4">Update My Score</h3>
+
+        <!-- Update Form -->
+        <form method="POST" id="updateRatingForm" class="space-y-4">
+            <input type="hidden" name="action" value="update_attendance">
+            <input type="hidden" name="history_id" :value="editHistoryId">
+
+            <label class="label flex flex-col justify-start items-start">
+                <span class="label-text font-semibold text-base-content/70">Movie</span>
+                <p class="text-lg font-medium truncate w-full" x-text="editMovieTitle"></p>
+            </label>
+
+            <!-- Rating -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Rating (1-10)</span>
+                    <span class="label-text-alt font-bold text-primary"
+                        x-text="editUserRating > 0 ? editUserRating + '/10' : '-'"></span>
+                </label>
+                <div class="flex justify-center py-2">
+                    <div class="rating rating-lg rating-half">
+                        <input type="radio" name="rating-10" class="rating-hidden" value="0" x-model="editUserRating" />
+                        <template x-for="i in 10">
+                            <input type="radio" name="rating-10" class="mask mask-star-2 bg-orange-400"
+                                :class="i % 2 !== 0 ? 'mask-half-1' : 'mask-half-2'" :value="i"
+                                x-model="editUserRating" />
+                        </template>
+                    </div>
+                </div>
+                <div class="flex justify-between text-xs px-2 opacity-50">
+                    <span>1</span>
+                    <span>5</span>
+                    <span>10</span>
+                </div>
+            </div>
+
+            <!-- Review -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Review (Optional)</span>
+                </label>
+                <textarea class="textarea textarea-bordered h-24" name="review" x-model="editUserReview"
+                    placeholder="What did you think?"></textarea>
+            </div>
+
+            <!-- Failed/Bailed -->
+            <div class="form-control">
+                <label class="label cursor-pointer justify-start gap-4">
+                    <input type="checkbox" name="failed" class="checkbox checkbox-error" x-model="editUserFailed" />
+                    <span class="label-text">I bailed on this movie (Failed)</span>
+                </label>
+            </div>
+        </form>
+
+        <div class="grid grid-cols-2 gap-3 mt-6">
+            <!-- Cancel -->
+            <button type="button" @click="showRatingModal = false" class="btn btn-ghost w-full">Cancel</button>
+
+            <!-- Save -->
+            <button type="submit" form="updateRatingForm" class="btn btn-primary w-full">Save</button>
+        </div>
+    </div>
+</div>

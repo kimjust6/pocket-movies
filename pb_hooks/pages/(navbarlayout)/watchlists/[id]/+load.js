@@ -69,7 +69,13 @@ module.exports = function (context) {
     const hasMore = allMovies.length > pageSize
     const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies
 
-    // 4. Fetch potential users to invite (if owner)
+    // 4. Fetch List Members (for columns)
+    const members = common.fetchListMembers(listId, list.getString('owner'))
+
+    // 5. Attach Attendance Data
+    common.attachAttendance(movies, listId)
+
+    // 6. Fetch potential users to invite (if owner)
     const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner, listId)
 
     return {
@@ -82,7 +88,9 @@ module.exports = function (context) {
         },
         movies,
         hasMore,
+        members,
         users: potentialUsers,
+        user: user ? { id: user.id } : null,
         error,
         message,
         formatDateTime: common.formatDateTime

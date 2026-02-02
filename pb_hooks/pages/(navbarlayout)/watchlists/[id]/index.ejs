@@ -107,21 +107,22 @@
                 </div>
                 <% } %>
 
-                    <!-- Modals (owner only) -->
+                    <!-- Modals -->
                     <% if (data.list) { %>
                         <%- include('../../_private/share-modal', { users: data.users, listId: data.list.id }) %>
                             <%- include('../../_private/edit-list-modal', { list: data.list }) %>
                                 <%- include('../../_private/delete-list-modal') %>
                                     <%- include('../../_private/edit-entry-modal') %>
-                                        <% } %>
+                                        <%- include('../../_private/edit-rating-modal') %>
+                                            <% } %>
 
-                                            <!-- Delete Entry Modal -->
-                                            <%- include('../../_private/delete-entry-modal') %>
+                                                <!-- Delete Entry Modal -->
+                                                <%- include('../../_private/delete-entry-modal') %>
 
-                                                <!-- Content -->
-                                                <% if ((!data.movies || data.movies.length===0) && !data.error) { %>
-                                                    <%- include('../../_private/watchlist-empty-state') %>
-                                                        <% } else { %>
-                                                            <%- include('../../_private/movies-table') %>
-                                                                <% } %>
+                                                    <!-- Content -->
+                                                    <% if ((!data.movies || data.movies.length===0) && !data.error) { %>
+                                                        <%- include('../../_private/watchlist-empty-state') %>
+                                                            <% } else { %>
+                                                                <%- include('../../_private/movies-table') %>
+                                                                    <% } %>
 </div>

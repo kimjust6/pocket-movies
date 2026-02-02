@@ -43,6 +43,8 @@ function handlePostAction(context, list, isOwner, userId) {
             message = handleUpdateHistoryItem(list, data, isOwner)
         } else if (action === 'delete_history_item') {
             message = handleDeleteHistoryItem(list, data, isOwner)
+        } else if (action === 'update_attendance') {
+            message = handleUpdateAttendance(list, data, userId)
         }
     } catch (e) {
         error = e.message
@@ -265,6 +267,55 @@ function handleRemoveUser(list, data, isOwner) {
     return null
 }
 
+/**
+ * Updates or creates a user's attendance record (rating, failed).
+ * @param {import('pocketbase').Record} list
+ * @param {object} data - Form data with history_id, rating, failed
+ * @param {string} userId - Current user's ID
+ * @returns {string|null}
+ */
+function handleUpdateAttendance(list, data, userId) {
+    const historyId = data.history_id
+    if (!historyId) throw new Error("History ID is missing.")
+
+    // Verify history item belongs to this list
+    const historyItem = $app.findRecordById('watched_history', historyId)
+    if (historyItem.getString('list') !== list.id) {
+        throw new Error("Item does not belong to this list.")
+    }
+
+    // Check for existing record
+    let attendance = null
+    try {
+        attendance = $app.findFirstRecordByFilter(
+            'watch_history_user',
+            `watch_history = '${historyId}' && user = '${userId}'`
+        )
+    } catch (e) { }
+
+    if (attendance) {
+        // Update
+        if (data.rating !== undefined) attendance.set('rating', parseInt(data.rating))
+        if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
+        if (data.review !== undefined) attendance.set('review', data.review)
+
+        $app.save(attendance)
+        return "Rating updated!"
+    } else {
+        // Create
+        const collection = $app.findCollectionByNameOrId('watch_history_user')
+        attendance = new Record(collection)
+        attendance.set('watch_history', historyId)
+        attendance.set('user', userId)
+        if (data.rating !== undefined) attendance.set('rating', parseInt(data.rating))
+        if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
+        if (data.review !== undefined) attendance.set('review', data.review)
+
+        $app.save(attendance)
+        return "Rating saved!"
+    }
+}
+
 module.exports = {
     handlePostAction,
     handleUpdateList,
@@ -272,5 +323,6 @@ module.exports = {
     handleInviteUser,
     handleRemoveUser,
     handleUpdateHistoryItem,
-    handleDeleteHistoryItem
+    handleDeleteHistoryItem,
+    handleUpdateAttendance
 }
