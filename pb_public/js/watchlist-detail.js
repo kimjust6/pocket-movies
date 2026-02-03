@@ -412,6 +412,20 @@ document.addEventListener('alpine:init', () => {
         async updateDate() {
             if (!this.editHistoryId) return;
 
+            // Validation
+            if (this.editTmdbScore !== "" && (this.editTmdbScore < 0 || this.editTmdbScore > 10)) {
+                alert("TMDB Score must be between 0 and 10");
+                return;
+            }
+            if (this.editImdbScore !== "" && (this.editImdbScore < 0 || this.editImdbScore > 10)) {
+                alert("IMDB Score must be between 0 and 10");
+                return;
+            }
+            if (this.editRtScore !== "" && (this.editRtScore < 0 || this.editRtScore > 100)) {
+                alert("Rotten Tomatoes Score must be between 0 and 100");
+                return;
+            }
+
             // 1. Find the item
             const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);
             if (index === -1) return;
@@ -473,6 +487,12 @@ document.addEventListener('alpine:init', () => {
 
         async updateRating() {
             if (!this.editHistoryId) return;
+
+            // Validation
+            if (this.editUserRating !== "" && (this.editUserRating < 0 || this.editUserRating > 10)) {
+                alert("Rating must be between 0 and 10");
+                return;
+            }
 
             // 1. Find the item
             const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);

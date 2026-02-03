@@ -15,7 +15,7 @@
 
 
         <!-- Update Form -->
-        <form method="POST" id="updateDateForm" class="space-y-4">
+        <form method="POST" id="updateDateForm" class="space-y-4" @submit.prevent="updateDate()">
             <label class="label flex flex-col justify-start items-start">
                 <span class="label-text">Title</span>
                 <p class="text-base-content/60 text-sm truncate" x-text="editMovieTitle"></p>
@@ -53,6 +53,8 @@
                         class="input input-bordered w-full px-2 text-center" placeholder="-" />
                 </div>
             </div>
+            <!-- Hidden submit button for Enter key support -->
+            <input type="submit" hidden />
         </form>
 
         <div class="grid grid-cols-3 gap-3 mt-6">

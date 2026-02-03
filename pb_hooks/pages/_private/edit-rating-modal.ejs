@@ -15,7 +15,7 @@
         <h3 class="text-xl font-bold mb-4">Update My Score</h3>
 
         <!-- Update Form -->
-        <form method="POST" id="updateRatingForm" class="space-y-4">
+        <form method="POST" id="updateRatingForm" class="space-y-4" @submit.prevent="updateRating()">
             <input type="hidden" name="action" value="update_attendance">
             <input type="hidden" name="history_id" :value="editHistoryId">
 
@@ -56,6 +56,8 @@
                     <span class="label-text">I bailed on this movie (Failed)</span>
                 </label>
             </div>
+            <!-- Hidden submit button for Enter key support -->
+            <input type="submit" hidden />
         </form>
 
         <div class="grid grid-cols-2 gap-3 mt-6">
