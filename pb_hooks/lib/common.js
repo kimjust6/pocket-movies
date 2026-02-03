@@ -374,7 +374,7 @@ module.exports = {
 
                 attendanceMap[hid][uid] = {
                     id: rec.id,
-                    rating: rec.getInt('rating'),
+                    rating: rec.getFloat('rating'),
                     review: rec.getString('review'),
                     failed: rec.getBool('failed'),
                     created: rec.getString('created')

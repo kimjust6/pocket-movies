@@ -302,7 +302,7 @@ function handleUpdateAttendance(list, data, userId) {
 
     if (attendance) {
         // Update
-        if (data.rating !== undefined) attendance.set('rating', parseInt(data.rating))
+        if (data.rating !== undefined) attendance.set('rating', parseFloat(data.rating))
         if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
         if (data.review !== undefined) attendance.set('review', data.review)
 
@@ -314,7 +314,7 @@ function handleUpdateAttendance(list, data, userId) {
         attendance = new Record(collection)
         attendance.set('watch_history', historyId)
         attendance.set('user', userId)
-        if (data.rating !== undefined) attendance.set('rating', parseInt(data.rating))
+        if (data.rating !== undefined) attendance.set('rating', parseFloat(data.rating))
         if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
         if (data.review !== undefined) attendance.set('review', data.review)
 

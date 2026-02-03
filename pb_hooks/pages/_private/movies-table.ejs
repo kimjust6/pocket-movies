@@ -132,7 +132,7 @@
                                             <template x-if="movie.attendance['<%= member.id %>'].rating">
                                                 <div class="badge badge-sm font-bold"
                                                     :class="movie.attendance['<%= member.id %>'].failed ? 'badge-error' : 'badge-success'"
-                                                    x-text="movie.attendance['<%= member.id %>'].rating + '/10'">
+                                                    x-text="formatRating(movie.attendance['<%= member.id %>'].rating) + '/10'">
                                                 </div>
                                             </template>
 

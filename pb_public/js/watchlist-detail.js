@@ -354,6 +354,13 @@ document.addEventListener('alpine:init', () => {
             return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
         },
 
+        formatRating(val) {
+            const num = parseFloat(val);
+            if (isNaN(num)) return '-';
+            if (num % 1 === 0) return num.toFixed(1);
+            return num.toString();
+        },
+
         openDeleteModal() {
             this.showEditModal = false;
             this.showDeleteModal = true;
