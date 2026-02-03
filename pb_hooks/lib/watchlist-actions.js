@@ -12,14 +12,16 @@ const common = require('./common.js')
  * @param {import('pocketbase').Record} list 
  * @param {boolean} isOwner 
  * @param {string} userId 
+ * @param {string} userId 
+ * @param {object} [explicitData] - Optional pre-parsed data
  * @returns {{message: string|null, error: string|null, redirect: string|null}}
  */
-function handlePostAction(context, list, isOwner, userId) {
+function handlePostAction(context, list, isOwner, userId, explicitData = null) {
     let message = null
     let error = null
     let redirect = null
 
-    let data = common.parseFormData(context)
+    let data = explicitData || common.parseFormData(context)
     // Compatibility: handle map-like access
     if (typeof data.get === 'function') {
         const fd = data

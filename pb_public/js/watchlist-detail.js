@@ -386,6 +386,68 @@ document.addEventListener('alpine:init', () => {
             }
 
             this.showRatingModal = true;
+        },
+
+        async updateDate() {
+            if (!this.editHistoryId) return;
+
+            // 1. Find the item
+            const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);
+            if (index === -1) return;
+
+            // 2. Backup original state
+            const originalMovie = { ...this.movies[index] };
+
+            // 3. Optimistic Update
+            // We construct a temporary movie object merging old data with form values
+            this.movies[index] = {
+                ...originalMovie,
+                watched_at: this.editDateValue ? new Date(this.editDateValue).toISOString() : originalMovie.watched_at,
+                tmdb_score: this.editTmdbScore ? parseFloat(this.editTmdbScore) : 0,
+                imdb_score: this.editImdbScore ? parseFloat(this.editImdbScore) : 0,
+                rt_score: this.editRtScore ? parseInt(this.editRtScore) : 0
+            };
+
+            // 4. Close modal immediately
+            this.showDateModal = false;
+
+            const formData = new FormData();
+            formData.append('action', 'update_history_item');
+            formData.append('history_id', this.editHistoryId);
+            formData.append('watched_date', this.editDateValue);
+            formData.append('tmdb_score', this.editTmdbScore);
+            formData.append('imdb_score', this.editImdbScore);
+            formData.append('rt_score', this.editRtScore);
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    // 5. Success: Update with canonical server data
+                    if (result.movie) {
+                        // Re-find index just in case list changed (unlikely but safe)
+                        const freshIndex = this.movies.findIndex(m => m.history_id === result.movie.history_id);
+                        if (freshIndex !== -1) {
+                            this.movies[freshIndex] = result.movie;
+                        }
+                    }
+                } else {
+                    // 6. Failure: Revert and Alert
+                    console.error('Update failed:', result.error);
+                    this.movies[index] = originalMovie;
+                    // Optional: re-open modal or simple toast
+                    alert(result.error || 'Update failed, changes reverted.');
+                }
+            } catch (error) {
+                console.error('Update failed:', error);
+                this.movies[index] = originalMovie;
+                alert('An error occurred. Changes reverted.');
+            }
         }
     }));
 });

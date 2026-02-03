@@ -45,6 +45,7 @@
         "caniuse-lite": "^1.0.30001765",
         "pocketbase": "^0.26.5",
         "pocketpages": "^0.22.3",
+        "pocketpages-plugin-datastar": "^0.2.0",
         "pocketpages-plugin-js-sdk": "^0.2.0"
     },
     "files": [
