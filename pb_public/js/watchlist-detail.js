@@ -443,6 +443,9 @@ document.addEventListener('alpine:init', () => {
                 rt_score: this.editRtScore ? parseInt(this.editRtScore) : 0
             };
 
+            // Re-sort the list immediately
+            this.applySort();
+
             // 4. Close modal immediately
             this.showDateModal = false;
 
@@ -511,6 +514,9 @@ document.addEventListener('alpine:init', () => {
                 review: this.editUserReview,
                 failed: this.editUserFailed
             };
+
+            // Re-sort the list immediately
+            this.applySort();
 
             // 4. Close modal immediately
             this.showRatingModal = false;
