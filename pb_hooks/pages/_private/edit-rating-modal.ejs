@@ -64,7 +64,7 @@
                 x-text="isRatingReadOnly ? 'Close' : 'Cancel'"></button>
 
             <!-- Save -->
-            <button type="submit" form="updateRatingForm" class="btn btn-primary w-full"
+            <button type="button" @click="updateRating()" class="btn btn-primary w-full"
                 x-show="!isRatingReadOnly">Save</button>
         </div>
     </div>

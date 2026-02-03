@@ -78,6 +78,49 @@ module.exports = function (context) {
             }
         }
 
+        // Handle update_attendance
+        if (data.action === 'update_attendance' && data.history_id) {
+            try {
+                const historyItem = $app.findRecordById('watched_history', data.history_id)
+                // Need to fetch movie to return complete object
+
+                // Mock array for common formatter
+                const tempArray = [historyItem]
+                $app.expandRecords(tempArray, ['movie'])
+
+                let movieData = null
+                const m = historyItem.expandedOne('movie')
+                if (m) {
+                    movieData = {
+                        id: m.id,
+                        tmdb_id: m.getString('tmdb_id'),
+                        title: m.getString('title'),
+                        release_date: m.getString('release_date'),
+                        runtime: m.getInt('runtime'),
+                        poster_path: m.getString('poster_path'),
+                        backdrop_path: m.getString('backdrop_path'),
+                        overview: m.getString('overview'),
+                        tagline: m.getString('tagline'),
+                        imdb_id: m.getString('imdb_id'),
+                        status: m.getString('status'),
+                        history_id: historyItem.id,
+                        history_created: historyItem.getString('created'),
+                        watched_at: historyItem.getString('watched'),
+                        tmdb_score: historyItem.getFloat('tmdb_score'),
+                        imdb_score: historyItem.getFloat('imdb_score'),
+                        rt_score: historyItem.getInt('rt_score'),
+                    }
+                    // Attach attendance
+                    common.attachAttendance([movieData], listId)
+
+                    return { success: true, message: result.message, movie: movieData }
+                }
+
+            } catch (e) {
+                console.error("Failed to fetch updated movie for attendance", e)
+            }
+        }
+
         return { success: true, message: result.message }
     }
 

@@ -448,6 +448,66 @@ document.addEventListener('alpine:init', () => {
                 this.movies[index] = originalMovie;
                 alert('An error occurred. Changes reverted.');
             }
+        },
+
+        async updateRating() {
+            if (!this.editHistoryId) return;
+
+            // 1. Find the item
+            const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);
+            if (index === -1) return;
+
+            // 2. Backup original state
+            const originalMovie = JSON.parse(JSON.stringify(this.movies[index])); // Deep copy for nested objects
+
+            // 3. Optimistic Update
+            if (!this.movies[index].attendance) this.movies[index].attendance = {};
+            if (!this.movies[index].attendance[this.currentUserId]) this.movies[index].attendance[this.currentUserId] = {};
+
+            this.movies[index].attendance[this.currentUserId] = {
+                ...this.movies[index].attendance[this.currentUserId],
+                rating: this.editUserRating ? parseFloat(this.editUserRating) : 0,
+                review: this.editUserReview,
+                failed: this.editUserFailed
+            };
+
+            // 4. Close modal immediately
+            this.showRatingModal = false;
+
+            const formData = new FormData();
+            formData.append('action', 'update_attendance');
+            formData.append('history_id', this.editHistoryId);
+            formData.append('rating', this.editUserRating);
+            formData.append('review', this.editUserReview);
+            formData.append('failed', this.editUserFailed ? 'on' : 'off');
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    // 5. Success: Update with canonical server data
+                    if (result.movie) {
+                        const freshIndex = this.movies.findIndex(m => m.history_id === result.movie.history_id);
+                        if (freshIndex !== -1) {
+                            this.movies[freshIndex] = result.movie;
+                        }
+                    }
+                } else {
+                    // 6. Failure
+                    console.error('Update failed:', result.error);
+                    this.movies[index] = originalMovie;
+                    alert(result.error || 'Update failed, changes reverted.');
+                }
+            } catch (error) {
+                console.error('Update failed:', error);
+                this.movies[index] = originalMovie;
+                alert('An error occurred. Changes reverted.');
+            }
         }
     }));
 });
