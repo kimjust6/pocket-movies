@@ -167,6 +167,18 @@ document.addEventListener('alpine:init', () => {
         ratingModalTitle: 'Edit Rating',
 
         init() {
+            // Parse URL params for sort
+            const urlParams = new URLSearchParams(window.location.search);
+            const sortParam = urlParams.get('sort');
+            const dirParam = urlParams.get('dir');
+
+            if (sortParam) {
+                this.sortColumn = sortParam;
+            }
+            if (dirParam && (dirParam === 'asc' || dirParam === 'desc')) {
+                this.sortDirection = dirParam;
+            }
+
             this.applySort();
             this.updateNavbarHeight();
 
@@ -278,6 +290,7 @@ document.addEventListener('alpine:init', () => {
 
             // For user specific sort, we only do client side sort of loaded movies
             this.applySort();
+            this.updateUrlParams();
         },
 
         sortBy(column) {
@@ -297,6 +310,7 @@ document.addEventListener('alpine:init', () => {
             } else {
                 this.applySort();
             }
+            this.updateUrlParams();
         },
 
         applySort() {
@@ -508,6 +522,13 @@ document.addEventListener('alpine:init', () => {
                 this.movies[index] = originalMovie;
                 alert('An error occurred. Changes reverted.');
             }
+        },
+
+        updateUrlParams() {
+            const url = new URL(window.location);
+            url.searchParams.set('sort', this.sortColumn);
+            url.searchParams.set('dir', this.sortDirection);
+            window.history.pushState({}, '', url);
         }
     }));
 });
