@@ -227,7 +227,8 @@ document.addEventListener('alpine:init', () => {
                 const sortParam = this.getDbSortParam();
                 const url = `/api/watchlists/movies?listId=${this.listId}&page=${this.currentPage}&limit=${this.pageSize}&sort=${encodeURIComponent(sortParam)}`;
 
-                const response = await fetch(url);
+                // Use fetchWithRetry helper
+                const response = await this.fetchWithRetry(url);
                 const text = await response.text();
 
                 let data;
@@ -243,7 +244,10 @@ document.addEventListener('alpine:init', () => {
                     if (isReset) {
                         this.movies = data.movies;
                     } else {
-                        this.movies = [...this.movies, ...data.movies];
+                        // Filter out duplicates based on history_id
+                        const existingIds = new Set(this.movies.map(m => m.history_id));
+                        const newMovies = data.movies.filter(m => !existingIds.has(m.history_id));
+                        this.movies = [...this.movies, ...newMovies];
                     }
 
                     this.hasMore = data.hasMore;
@@ -259,6 +263,26 @@ document.addEventListener('alpine:init', () => {
                 this.hasMore = false;
             } finally {
                 this.isLoading = false;
+            }
+        },
+
+        async fetchWithRetry(url, options = {}, retries = 3, backoff = 300) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    if (retries > 0 && (response.status >= 500 || response.status === 429)) {
+                        await new Promise(resolve => setTimeout(resolve, backoff));
+                        return this.fetchWithRetry(url, options, retries - 1, backoff * 2);
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response;
+            } catch (error) {
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, backoff));
+                    return this.fetchWithRetry(url, options, retries - 1, backoff * 2);
+                }
+                throw error;
             }
         },
 
