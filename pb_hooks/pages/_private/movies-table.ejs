@@ -1,5 +1,6 @@
 <!-- Movies Table -->
-<div class="w-full overflow-x-auto bg-base-100/40 rounded-xl border border-base-content/5 shadow-lg backdrop-blur-sm">
+<div
+    class="w-full h-[calc(100vh-10rem)] sm:h-[calc(100vh-14rem)] overflow-y-auto overflow-x-auto bg-base-100/40 rounded-xl border border-base-content/5 shadow-lg backdrop-blur-sm scrollbar-thin scrollbar-thumb-base-content/10 scrollbar-track-transparent">
     <table class="table w-full">
         <!-- head -->
         <thead>
@@ -7,11 +8,11 @@
                 label: 'Release Date' , key: 'release_date' }, { label: 'Runtime' , key: 'runtime' }, { label: 'Score' ,
                 key: 'tmdb_score' } ]; %>
                 <tr class="bg-base-200 shadow-sm border-b border-base-content/10">
-                    <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">Poster
+                    <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: 0">Poster
                     </th>
                     <% sortableColumns.forEach(col=> { %>
-                        <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
-                            <button type="button" @click.prevent="sortBy('<%= col.key %>')"
+                        <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: 0">
+                            <button type=" button" @click.prevent="sortBy('<%= col.key %>')"
                                 class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                 <%= col.label %> <span class="opacity-50 text-xs"
                                         x-text="getSortIcon('<%= col.key %>')"></span>
@@ -22,8 +23,7 @@
                             <!-- Member Columns -->
                             <% if (data.members && data.members.length> 0) { %>
                                 <% data.members.forEach(member=> { %>
-                                    <th class="sticky z-30 bg-base-200 backdrop-blur-md text-center"
-                                        style="top: var(--navbar-height, 80px)">
+                                    <th class="sticky z-30 bg-base-200 backdrop-blur-md text-center" style="top: 0">
                                         <div class="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
                                             @click.prevent="sortByUser('<%= member.id %>')"
                                             title="Sort by <%= member.name %>'s rating">
@@ -51,8 +51,7 @@
                                     <% }) %>
                                         <% } %>
 
-                                            <th class="sticky z-30 bg-base-200 backdrop-blur-md"
-                                                style="top: var(--navbar-height, 80px)"></th>
+                                            <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: 0"></th>
                 </tr>
         </thead>
         <tbody>

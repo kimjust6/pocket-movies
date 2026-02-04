@@ -1,11 +1,28 @@
 <header class="navbar fixed inset-x-0 top-0 z-50 border-b border-base-300 bg-base-100/80 shadow-sm backdrop-blur-md">
     <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5">
         <!-- Logo - visible on all screens -->
-        <a href="/" class="flex items-center gap-3 transition-opacity hover:opacity-80">
-            <div class="select-none leading-tight">
+        <!-- Logo / Mobile Title -->
+        <a href="/" class="flex items-center gap-3 transition-opacity hover:opacity-80" x-data="{ 
+                 mobileTitle: '', 
+                 mobileSubtitle: '' 
+             }" @set-mobile-navbar-title.window="
+                 mobileTitle = $event.detail.title;
+                 mobileSubtitle = $event.detail.subtitle;
+             ">
+
+            <!-- Default Logo (visible if no mobile title or on desktop) -->
+            <div class="select-none leading-tight" :class="{ 'hidden md:block': mobileTitle, 'block': !mobileTitle }">
                 <p class="text-2xl font-bold text-base-content lg:text-3xl">
                     Dank Movies
                 </p>
+            </div>
+
+            <!-- Custom Mobile Title (visible only on mobile if title is set) -->
+            <div class="md:hidden flex flex-col leading-tight" x-show="mobileTitle" x-cloak>
+                <h1 class="text-xl font-bold bg-gradient-to-br from-base-content to-base-content/70 bg-clip-text text-transparent truncate max-w-[200px]"
+                    x-text="mobileTitle"></h1>
+                <p class="text-xs text-base-content/60 truncate max-w-[200px]" x-show="mobileSubtitle"
+                    x-text="mobileSubtitle"></p>
             </div>
         </a>
 
