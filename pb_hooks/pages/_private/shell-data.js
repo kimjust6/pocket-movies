@@ -11,6 +11,7 @@ module.exports = function shellData() {
             { title: 'Search', href: '/movies/search', desktop: false, mobile: true },
             { title: 'Watchlists', href: '/watchlists', desktop: true, mobile: true },
         ],
+        headerVisible: true,
 
         init() { },
 

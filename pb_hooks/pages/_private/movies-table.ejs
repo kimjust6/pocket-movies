@@ -1,6 +1,10 @@
 <!-- Movies Table -->
-<div
-    class="w-full h-[calc(100vh-10rem)] sm:h-[calc(100vh-14rem)] overflow-y-auto overflow-x-auto bg-base-100/40 rounded-xl border border-base-content/5 shadow-lg backdrop-blur-sm scrollbar-thin scrollbar-thumb-base-content/10 scrollbar-track-transparent">
+<div class="w-full overflow-y-auto overflow-x-auto bg-base-100/40 rounded-xl border border-base-content/5 shadow-lg backdrop-blur-sm scrollbar-thin scrollbar-thumb-base-content/10 scrollbar-track-transparent transition-all duration-200"
+    :class="{ 
+        'h-[calc(100vh-10rem)]': headerVisible, 
+        'h-[calc(100vh-4rem)]': !headerVisible,
+        'sm:h-[calc(100vh-14rem)]': true 
+    }">
     <table class="table w-full">
         <!-- head -->
         <thead>

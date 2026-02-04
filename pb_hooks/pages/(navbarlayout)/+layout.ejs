@@ -12,7 +12,8 @@
             <%- include('header') %> <%- include('mobile-menu') %>
         </div>
 
-        <main class="relative pt-24 flex-grow"><%- slot %></main>
+        <main class="relative flex-grow transition-all duration-200"
+            :class="{ 'pt-24': headerVisible, 'pt-0': !headerVisible }"><%- slot %></main>
 
         <%- include('footer') %>
     </div>
