@@ -8,7 +8,7 @@
         "currentUserId": "<%= data.user ? data.user.id : '' %>"
     }
 </script>
-<div class="w-full p-4" x-data="(() => {
+<div class="w-full sm:p-4" x-data="(() => {
     try {
         const text = document.getElementById('watchlist-context').textContent;
         const ctx = JSON.parse(text);
