@@ -98,8 +98,32 @@
                             <li class="menu-title px-4 py-2 text-xs text-base-content/50">
                                 <%= auth.email() %>
                             </li>
-                            <li><a href="/profile">Profile</a></li>
-                            <li><a href="/auth/logout">Logout</a></li>
+                            <li class="menu-title px-4 py-2 text-xs text-base-content/50">
+                                Watchlists
+
+                                <% const userLists=(locals.data && locals.data.data && locals.data.data.userWatchlists)
+                                    || (locals.data && locals.data.userWatchlists) || locals.userWatchlists || []; if
+                                    (userLists.length> 0) {
+                                    %>
+                                    <% userLists.forEach(function(list) { %>
+                            <li><a href="/watchlists/<%= list.id %>" class="truncate max-w-[200px]">
+                                    <%= list.list_title %>
+                                </a></li>
+                            <% }); %>
+                                <li><a href="/watchlists" class="text-xs text-primary">View All
+                                        Watchlists</a>
+                                </li>
+                                <% } else { %>
+                                    <li><a href="/watchlists" class="text-base-content/50 italic">No
+                                            watchlists
+                                            yet</a></li>
+                                    <% } %>
+                                        <div class="divider my-1"></div>
+                                        <li class="menu-title px-4 py-2 text-xs text-base-content/50">
+                                            Account
+                                        </li>
+                                        <li><a href="/profile">Profile</a></li>
+                                        <li><a href="/auth/logout">Logout</a></li>
                         </ul>
                     </div>
                     <% } else { %>

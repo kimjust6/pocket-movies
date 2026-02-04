@@ -3,6 +3,6 @@
  * @type {import('pocketpages').PageDataLoaderFunc}
  * @returns {Object} Empty object
  */
-module.exports = function (api) {
+module.exports = function (context) {
     return {}
 }

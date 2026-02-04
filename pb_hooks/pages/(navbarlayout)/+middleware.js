@@ -1,16 +1,43 @@
+const common = require('../../lib/common.js')
+
 // Configure your site URL here (no trailing slash)
-const BASE_URL = 'https://dank.pockethost.io';
+const BASE_URL = 'https://movie.jkim.win';
 
 /**
- * Middleware function to provide site metadata.
+ * Middleware function to provide site metadata and global data.
  * @param {import('pocketpages').MiddlewareContext} context - The middleware context.
- * @returns {Object} The metadata object used by head.ejs.
+ * @returns {Object} The metadata and data object.
  */
 module.exports = function (context) {
-    // Auth logic removed.
-    // Returning metadata required by head.ejs
+    const { client, user } = common.init(context)
+
+    let userWatchlists = []
+
+    if (user) {
+        // Fetch all lists where user is owner or invited
+        const allLists = common.getWatchlists(client, user)
+
+        userWatchlists = allLists
+            .sort((a, b) => {
+                const dateA = new Date(a.updated || a.created)
+                const dateB = new Date(b.updated || b.created)
+                return dateB - dateA
+            })
+            .slice(0, 5)
+
+        console.log('[Middleware] User:', user ? user.id : 'none');
+        console.log('[Middleware] Watchlists found:', userWatchlists.length);
+
+        // Assign to locals for view access
+        if (context.locals) {
+            context.locals.userWatchlists = userWatchlists;
+        }
+    } else {
+        console.log('[Middleware] No user logged in');
+    }
 
     return {
+        userWatchlists,
         metadata: [
             // Basic metadata
             {

@@ -9,7 +9,7 @@ module.exports = function shellData() {
         darkMode: localStorage.getItem('theme') === 'dark',
         navigation: [
             { title: 'Search', href: '/movies/search', desktop: false, mobile: true },
-            { title: 'Watchlists', href: '/watchlists', desktop: true, mobile: true },
+            { title: 'Watchlists', href: '/watchlists', desktop: false, mobile: true },
         ],
         headerVisible: true,
 
