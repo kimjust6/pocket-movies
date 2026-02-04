@@ -3,73 +3,57 @@
     <table class="table w-full">
         <!-- head -->
         <thead>
-            <tr class="bg-base-200 shadow-sm border-b border-base-content/10">
-                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">Poster</th>
-                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
-                    <button type="button" @click.prevent="sortBy('watched_at')"
-                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
-                        Watched On <span class="opacity-50 text-xs" x-text="getSortIcon('watched_at')"></span>
-                    </button>
-                </th>
-                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
-                    <button type="button" @click.prevent="sortBy('title')"
-                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
-                        Title <span class="opacity-50 text-xs" x-text="getSortIcon('title')"></span>
-                    </button>
-                </th>
-                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
-                    <button type="button" @click.prevent="sortBy('release_date')"
-                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
-                        Release Date <span class="opacity-50 text-xs" x-text="getSortIcon('release_date')"></span>
-                    </button>
-                </th>
-                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
-                    <button type="button" @click.prevent="sortBy('runtime')"
-                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
-                        Runtime <span class="opacity-50 text-xs" x-text="getSortIcon('runtime')"></span>
-                    </button>
-                </th>
-                <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
-                    <button type="button" @click.prevent="sortBy('tmdb_score')"
-                        class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
-                        Score <span class="opacity-50 text-xs" x-text="getSortIcon('tmdb_score')"></span>
-                    </button>
-                </th>
-
-                <!-- Member Columns -->
-                <% if (data.members && data.members.length> 0) { %>
-                    <% data.members.forEach(member=> { %>
-                        <th class="sticky z-30 bg-base-200 backdrop-blur-md text-center"
-                            style="top: var(--navbar-height, 80px)">
-                            <div class="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
-                                @click.prevent="sortByUser('<%= member.id %>')"
-                                title="Sort by <%= member.name %>'s rating">
-                                <div class="avatar placeholder">
-                                    <div class="bg-neutral text-neutral-content rounded-full w-8 h-8 ring ring-offset-base-100 ring-offset-2"
-                                        :class="sortColumn === 'user_<%= member.id %>' ? 'ring-primary' : 'ring-transparent'">
-                                        <% if (member.avatar) { %>
-                                            <img src="/api/files/users/<%= member.id %>/<%= member.avatar %>"
-                                                alt="<%= member.name %>" />
-                                            <% } else { %>
-                                                <span class="text-xs">
-                                                    <%= member.name.charAt(0).toUpperCase() %>
-                                                </span>
-                                                <% } %>
-                                    </div>
-                                </div>
-                                <span class="text-[10px] opacity-70 mt-1 max-w-[60px] truncate">
-                                    <%= member.name %>
-                                        <span x-show="sortColumn === 'user_<%= member.id %>'"
-                                            x-text="sortDirection === 'asc' ? '↑' : '↓'" class="text-[9px]"></span>
-                                </span>
-                            </div>
+            <% const sortableColumns=[ { label: 'Watched On' , key: 'watched_at' }, { label: 'Title' , key: 'title' }, {
+                label: 'Release Date' , key: 'release_date' }, { label: 'Runtime' , key: 'runtime' }, { label: 'Score' ,
+                key: 'tmdb_score' } ]; %>
+                <tr class="bg-base-200 shadow-sm border-b border-base-content/10">
+                    <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">Poster
+                    </th>
+                    <% sortableColumns.forEach(col=> { %>
+                        <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: var(--navbar-height, 80px)">
+                            <button type="button" @click.prevent="sortBy('<%= col.key %>')"
+                                class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                                <%= col.label %> <span class="opacity-50 text-xs"
+                                        x-text="getSortIcon('<%= col.key %>')"></span>
+                            </button>
                         </th>
-                        <% }) %>
-                            <% } %>
+                        <% }); %>
 
-                                <th class="sticky z-30 bg-base-200 backdrop-blur-md"
-                                    style="top: var(--navbar-height, 80px)"></th>
-            </tr>
+                            <!-- Member Columns -->
+                            <% if (data.members && data.members.length> 0) { %>
+                                <% data.members.forEach(member=> { %>
+                                    <th class="sticky z-30 bg-base-200 backdrop-blur-md text-center"
+                                        style="top: var(--navbar-height, 80px)">
+                                        <div class="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
+                                            @click.prevent="sortByUser('<%= member.id %>')"
+                                            title="Sort by <%= member.name %>'s rating">
+                                            <div class="avatar placeholder">
+                                                <div class="bg-neutral text-neutral-content rounded-full w-8 h-8 ring ring-offset-base-100 ring-offset-2"
+                                                    :class="sortColumn === 'user_<%= member.id %>' ? 'ring-primary' : 'ring-transparent'">
+                                                    <% if (member.avatar) { %>
+                                                        <img src="/api/files/users/<%= member.id %>/<%= member.avatar %>"
+                                                            alt="<%= member.name %>" />
+                                                        <% } else { %>
+                                                            <span class="text-xs">
+                                                                <%= member.name.charAt(0).toUpperCase() %>
+                                                            </span>
+                                                            <% } %>
+                                                </div>
+                                            </div>
+                                            <span class="text-[10px] opacity-70 mt-1 max-w-[60px] truncate">
+                                                <%= member.name %>
+                                                    <span x-show="sortColumn === 'user_<%= member.id %>'"
+                                                        x-text="sortDirection === 'asc' ? '↑' : '↓'"
+                                                        class="text-[9px]"></span>
+                                            </span>
+                                        </div>
+                                    </th>
+                                    <% }) %>
+                                        <% } %>
+
+                                            <th class="sticky z-30 bg-base-200 backdrop-blur-md"
+                                                style="top: var(--navbar-height, 80px)"></th>
+                </tr>
         </thead>
         <tbody>
             <template x-for="movie in movies" :key="movie.history_id">

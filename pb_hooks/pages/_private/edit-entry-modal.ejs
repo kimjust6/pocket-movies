@@ -31,27 +31,21 @@
             </div>
 
             <div class="grid grid-cols-3 gap-2">
-                <div class="form-control">
-                    <label class="label p-1">
-                        <span class="label-text text-xs">TMDB</span>
-                    </label>
-                    <input type="number" step="any" min="0" max="10" name="tmdb_score" x-model="editTmdbScore"
-                        class="input input-bordered w-full px-2 text-center" placeholder="-" />
-                </div>
-                <div class="form-control">
-                    <label class="label p-1">
-                        <span class="label-text text-xs">IMDB</span>
-                    </label>
-                    <input type="number" step="any" min="0" max="10" name="imdb_score" x-model="editImdbScore"
-                        class="input input-bordered w-full px-2 text-center" placeholder="-" />
-                </div>
-                <div class="form-control">
-                    <label class="label p-1">
-                        <span class="label-text text-xs">RT</span>
-                    </label>
-                    <input type="number" step="1" min="0" max="100" name="rt_score" x-model="editRtScore"
-                        class="input input-bordered w-full px-2 text-center" placeholder="-" />
-                </div>
+                <% const scores=[ { label: 'TMDB' , name: 'tmdb_score' , model: 'editTmdbScore' , max: 10, step: 'any'
+                    }, { label: 'IMDB' , name: 'imdb_score' , model: 'editImdbScore' , max: 10, step: 'any' }, {
+                    label: 'RT' , name: 'rt_score' , model: 'editRtScore' , max: 100, step: '1' } ];
+                    scores.forEach(score=> { %>
+                    <div class="form-control">
+                        <label class="label p-1">
+                            <span class="label-text text-xs">
+                                <%= score.label %>
+                            </span>
+                        </label>
+                        <input type="number" step="<%= score.step %>" min="0" max="<%= score.max %>"
+                            name="<%= score.name %>" x-model="<%= score.model %>"
+                            class="input input-bordered w-full px-2 text-center" placeholder="-" />
+                    </div>
+                    <% }); %>
             </div>
             <!-- Hidden submit button for Enter key support -->
             <input type="submit" hidden />
