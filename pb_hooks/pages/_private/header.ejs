@@ -3,10 +3,12 @@
     x-transition:enter-end="translate-y-0" x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full"
     class="navbar fixed inset-x-0 top-0 z-50 border-b border-base-300 bg-base-100/80 shadow-sm backdrop-blur-md">
-    <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5">
+    <div
+        class="mx-auto flex w-full justify-between py-5 <%= locals.data && locals.data.list ? 'px-4' : 'container px-6' %>">
         <!-- Logo - visible on all screens -->
         <!-- Logo / Mobile Title -->
-        <a href="/" class="flex items-center gap-3 transition-opacity hover:opacity-80" x-data="{ 
+        <!-- Left Side Content Group -->
+        <div class="flex items-center gap-3" x-data="{ 
                  mobileTitle: '', 
                  mobileSubtitle: '' 
              }" @set-mobile-navbar-title.window="
@@ -14,119 +16,193 @@
                  mobileSubtitle = $event.detail.subtitle;
              ">
 
-            <!-- Default Logo (visible if no mobile title or on desktop) -->
-            <div class="select-none leading-tight" :class="{ 'hidden md:block': mobileTitle, 'block': !mobileTitle }">
-                <p class="text-2xl font-bold text-base-content lg:text-3xl">
-                    Dank Movies
-                </p>
-            </div>
+            <% const activeList=locals.data && locals.data.list; const isOwner=activeList && activeList.is_owner; %>
 
-            <!-- Custom Mobile Title (visible only on mobile if title is set) -->
-            <div class="md:hidden flex flex-col leading-tight" x-show="mobileTitle" x-cloak>
-                <h1 class="text-xl font-bold bg-gradient-to-br from-base-content to-base-content/70 bg-clip-text text-transparent truncate max-w-[200px]"
-                    x-text="mobileTitle"></h1>
-                <p class="text-xs text-base-content/60 truncate max-w-[200px]" x-show="mobileSubtitle"
-                    x-text="mobileSubtitle"></p>
-            </div>
-        </a>
+                <!-- Default Logo Link (visible if no mobile title or on desktop/no list) -->
+                <a href="/" class="flex items-center gap-3 transition-opacity hover:opacity-80"
+                    :class="{ 'hidden md:block': mobileTitle, 'block': !mobileTitle }" <% if (activeList) { %>
+                    class="hidden md:hidden" <% } %>>
 
-        <div class="hidden items-center gap-8 md:flex lg:gap-10">
-            <!-- Search Component -->
-            <div class="flex items-center">
-                <button class="btn btn-ghost btn-circle btn-sm" x-show="!searchOpen"
-                    @click="searchOpen = true; $nextTick(() => $refs.searchInput.focus())">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </button>
-
-                <form action="/movies/search" method="GET" x-show="searchOpen"
-                    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                    @click.outside="searchOpen = false" class="relative">
-                    <input type="text" name="q" x-ref="searchInput"
-                        class="input input-sm input-bordered w-full md:w-64 pr-10 bg-base-100/50 focus:bg-base-100"
-                        placeholder="Search movies..." @keydown.escape="searchOpen = false">
-                    <button type="submit"
-                        class="absolute right-0 top-0 h-full px-3 text-base-content/50 hover:text-primary transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
-                </form>
-            </div>
-
-            <template x-for="item in navigation" :key="item.title">
-                <a :href="item.href"
-                    class="group relative text-sm font-medium tracking-wide text-base-content/80 transition-colors duration-200 hover:text-primary"
-                    x-text="item.title" x-show="item.desktop">
-                    <span
-                        class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </template>
-
-            <div class="h-6 w-px bg-base-content/10"></div>
-
-            <%- include('theme-toggle') %>
-
-                <% if (locals.auth) { %>
-                    <div class="dropdown dropdown-end" x-data="{ open: false }" :class="{ 'dropdown-open': open }"
-                        @click.outside="open = false">
-                        <div role="button" class="btn btn-ghost btn-circle avatar"
-                            @click="open = !open; if(!open) $el.blur()">
-                            <div
-                                class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 hover:ring-accent transition-all duration-200 overflow-hidden">
-                                <%# Check if avatarUrl exists, otherwise use UI Avatars %>
-                                    <% if (auth.getString('avatar')) { %>
-                                        <img src="<%= '/api/files/' + auth.collection().id + '/' + auth.id + '/' + auth.getString('avatar') %>"
-                                            alt="User Avatar" class="w-full h-full object-cover" />
-                                        <% } else { %>
-                                            <span
-                                                class="text-xl font-bold flex h-full w-full items-center justify-center bg-neutral text-neutral-content">
-                                                <%= auth.email().slice(0, 1).toUpperCase() %>
-                                            </span>
-                                            <% } %>
-                            </div>
+                        <div class="select-none leading-tight">
+                            <% if (!activeList) { %>
+                                <p class="text-2xl font-bold text-base-content lg:text-3xl">
+                                    Dank Movies
+                                </p>
+                                <% } %>
                         </div>
-                        <ul tabindex="0"
-                            class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
-                            <li class="menu-title px-4 py-2 text-xs text-base-content/50">
-                                <%= auth.email() %>
-                            </li>
-                            <li class="menu-title px-4 py-2 text-xs text-base-content/50">
-                                Watchlists
+                </a>
 
-                                <% const userLists=(locals.data && locals.data.data && locals.data.data.userWatchlists)
-                                    || (locals.data && locals.data.userWatchlists) || locals.userWatchlists || []; if
-                                    (userLists.length> 0) {
-                                    %>
-                                    <% userLists.forEach(function(list) { %>
-                            <li><a href="/watchlists/<%= list.id %>" class="truncate max-w-[200px]">
-                                    <%= list.list_title %>
-                                </a></li>
-                            <% }); %>
-                                <% } else { %>
-                                    <li><a href="/watchlists" class="text-base-content/50 italic">No
-                                            watchlists
-                                            yet</a></li>
-                                    <% } %>
-                                        <div class="divider my-1"></div>
-                                        <li class="menu-title px-4 py-2 text-xs text-base-content/50">
-                                            Account
-                                        </li>
-                                        <li><a href="/profile">Profile</a></li>
-                                        <li><a href="/watchlists">All Watchlists</a></li>
-                                        <li><a href="/auth/logout">Logout</a></li>
-                        </ul>
+                <!-- Watchlist Context Header (Desktop Only) -->
+                <% if (activeList) { %>
+                    <div class="hidden md:flex flex-col items-start gap-1">
+                        <div class="flex items-center gap-2">
+                            <a href="/watchlists"
+                                class="btn btn-ghost btn-xs gap-1 text-base-content/60 hover:text-primary pl-0 -ml-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                Back
+                            </a>
+                        </div>
+                        <div>
+                            <h1
+                                class="text-xl font-bold bg-gradient-to-br from-base-content to-base-content/70 bg-clip-text text-transparent leading-tight">
+                                <%= activeList.title %>
+                            </h1>
+                            <% if (activeList.description) { %>
+                                <p class="text-xs text-base-content/60 max-w-md truncate">
+                                    <%= activeList.description %>
+                                </p>
+                                <% } %>
+                        </div>
                     </div>
-                    <% } else { %>
-                        <a href="/login" class="btn btn-primary btn-sm">Login / Register</a>
-                        <% } %>
+                    <% } %>
+
+                        <!-- Custom Mobile Title (visible only on mobile if title is set) -->
+                        <div class="md:hidden flex flex-col leading-tight" x-show="mobileTitle" x-cloak>
+                            <h1 class="text-xl font-bold bg-gradient-to-br from-base-content to-base-content/70 bg-clip-text text-transparent truncate max-w-[200px]"
+                                x-text="mobileTitle"></h1>
+                            <p class="text-xs text-base-content/60 truncate max-w-[200px]" x-show="mobileSubtitle"
+                                x-text="mobileSubtitle"></p>
+                        </div>
+        </div>
+
+        <div class="hidden items-center gap-4 md:flex lg:gap-6">
+
+            <% if (activeList && isOwner) { %>
+                <!-- Watchlist Actions -->
+                <div class="flex items-center gap-2 mr-2">
+                    <button @click="$dispatch('open-edit-modal')"
+                        class="btn btn-ghost btn-sm gap-2 hover:bg-base-content/5 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                            </path>
+                        </svg>
+                        <span class="hidden lg:inline">Edit</span>
+                    </button>
+                    <button @click="$dispatch('open-share-modal')"
+                        class="btn btn-secondary btn-sm gap-2 shadow-sm shadow-secondary/20 hover:shadow-secondary/40 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z">
+                            </path>
+                        </svg>
+                        <span class="hidden lg:inline">Share</span>
+                    </button>
+                    <a href="/movies/search?watchlistId=<%= activeList.id %>"
+                        class="btn btn-primary btn-sm gap-2 shadow-sm shadow-primary/20 hover:shadow-primary/40 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="hidden lg:inline">Add Movie</span>
+                    </a>
+                </div>
+                <div class="h-6 w-px bg-base-content/10 mx-2"></div>
+                <% } %>
+
+                    <!-- Search Component -->
+                    <div class="flex items-center">
+                        <button class="btn btn-ghost btn-circle btn-sm" x-show="!searchOpen"
+                            @click="searchOpen = true; $nextTick(() => $refs.searchInput.focus())">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+
+                        <form action="/movies/search" method="GET" x-show="searchOpen"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                            @click.outside="searchOpen = false" class="relative">
+                            <input type="text" name="q" x-ref="searchInput"
+                                class="input input-sm input-bordered w-full md:w-64 pr-10 bg-base-100/50 focus:bg-base-100"
+                                placeholder="Search movies..." @keydown.escape="searchOpen = false">
+                            <button type="submit"
+                                class="absolute right-0 top-0 h-full px-3 text-base-content/50 hover:text-primary transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+
+                    <template x-for="item in navigation" :key="item.title">
+                        <a :href="item.href"
+                            class="group relative text-sm font-medium tracking-wide text-base-content/80 transition-colors duration-200 hover:text-primary"
+                            x-text="item.title" x-show="item.desktop">
+                            <span
+                                class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </template>
+
+                    <div class="h-6 w-px bg-base-content/10"></div>
+
+                    <%- include('theme-toggle') %>
+
+                        <% if (locals.auth) { %>
+                            <div class="dropdown dropdown-end" x-data="{ open: false }"
+                                :class="{ 'dropdown-open': open }" @click.outside="open = false">
+                                <div role="button" class="btn btn-ghost btn-circle avatar"
+                                    @click="open = !open; if(!open) $el.blur()">
+                                    <div
+                                        class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 hover:ring-accent transition-all duration-200 overflow-hidden">
+                                        <%# Check if avatarUrl exists, otherwise use UI Avatars %>
+                                            <% if (auth.getString('avatar')) { %>
+                                                <img src="<%= '/api/files/' + auth.collection().id + '/' + auth.id + '/' + auth.getString('avatar') %>"
+                                                    alt="User Avatar" class="w-full h-full object-cover" />
+                                                <% } else { %>
+                                                    <span
+                                                        class="text-xl font-bold flex h-full w-full items-center justify-center bg-neutral text-neutral-content">
+                                                        <%= auth.email().slice(0, 1).toUpperCase() %>
+                                                    </span>
+                                                    <% } %>
+                                    </div>
+                                </div>
+                                <ul tabindex="0"
+                                    class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
+                                    <li class="menu-title px-4 py-2 text-xs text-base-content/50">
+                                        <%= auth.email() %>
+                                    </li>
+                                    <li class="menu-title px-4 py-2 text-xs text-base-content/50">
+                                        Watchlists
+
+                                        <% const userLists=(locals.data && locals.data.data &&
+                                            locals.data.data.userWatchlists) || (locals.data &&
+                                            locals.data.userWatchlists) || locals.userWatchlists || []; if
+                                            (userLists.length> 0) {
+                                            %>
+                                            <% userLists.forEach(function(list) { %>
+                                    <li><a href="/watchlists/<%= list.id %>" class="truncate max-w-[200px]">
+                                            <%= list.list_title %>
+                                        </a></li>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <li><a href="/watchlists" class="text-base-content/50 italic">No
+                                                    watchlists
+                                                    yet</a></li>
+                                            <% } %>
+                                                <div class="divider my-1"></div>
+                                                <li class="menu-title px-4 py-2 text-xs text-base-content/50">
+                                                    Account
+                                                </li>
+                                                <li><a href="/profile">Profile</a></li>
+                                                <li><a href="/watchlists">All Watchlists</a></li>
+                                                <li><a href="/auth/logout">Logout</a></li>
+                                </ul>
+                            </div>
+                            <% } else { %>
+                                <a href="/login" class="btn btn-primary btn-sm">Login / Register</a>
+                                <% } %>
         </div>
 
         <!-- Mobile Menu Buttons -->

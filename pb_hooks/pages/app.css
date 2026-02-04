@@ -2638,10 +2638,51 @@ html::-webkit-scrollbar,
   justify-self: end;
 }
 
+.modal {
+  pointer-events: none;
+  position: fixed;
+  inset: 0px;
+  margin: 0px;
+  display: grid;
+  height: 100%;
+  max-height: none;
+  width: 100%;
+  max-width: none;
+  justify-items: center;
+  padding: 0px;
+  opacity: 0;
+  overscroll-behavior: contain;
+  z-index: 999;
+  background-color: transparent;
+  color: inherit;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-property: transform, opacity, visibility;
+  overflow-y: hidden;
+}
+
+:where(.modal) {
+  align-items: center;
+}
+
+.modal-open,
+.modal:target,
+.modal-toggle:checked + .modal,
+.modal[open] {
+  pointer-events: auto;
+  visibility: visible;
+  opacity: 1;
+}
+
 .modal-action {
   display: flex;
   margin-top: 1.5rem;
   justify-content: flex-end;
+}
+
+:root:has(:is(.modal-open, .modal:target, .modal-toggle:checked + .modal, .modal[open])) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
 }
 
 .navbar {
@@ -3706,6 +3747,22 @@ html::-webkit-scrollbar,
   opacity: 0.6;
 }
 
+.modal:not(dialog:not(.modal-open)),
+  .modal::backdrop {
+  background-color: #0006;
+  animation: modal-pop 0.2s ease-out;
+}
+
+.modal-open .modal-box,
+.modal-toggle:checked + .modal .modal-box,
+.modal:target .modal-box,
+.modal[open] .modal-box {
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .modal-action > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -4752,6 +4809,11 @@ html::-webkit-scrollbar,
   z-index: 1;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -4775,6 +4837,10 @@ html::-webkit-scrollbar,
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.-ml-1 {
+  margin-left: -0.25rem;
 }
 
 .mb-1 {
@@ -4807,6 +4873,10 @@ html::-webkit-scrollbar,
 
 .ml-2 {
   margin-left: 0.5rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
 }
 
 .mt-0\.5 {
@@ -5847,10 +5917,6 @@ html::-webkit-scrollbar,
   padding-bottom: 2rem;
 }
 
-.pb-0 {
-  padding-bottom: 0px;
-}
-
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -6567,11 +6633,6 @@ html::-webkit-scrollbar,
   border-color: rgb(255 255 255 / 0.2);
 }
 
-.hover\:bg-base-100:hover {
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity, 1)));
-}
-
 .hover\:bg-base-100\/80:hover {
   background-color: var(--fallback-b1,oklch(var(--b1)/0.8));
 }
@@ -6848,8 +6909,9 @@ html::-webkit-scrollbar,
     flex-direction: row;
   }
 
-  .sm\:p-4 {
-    padding: 1rem;
+  .sm\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .sm\:py-10 {
@@ -6895,10 +6957,6 @@ html::-webkit-scrollbar,
     align-items: flex-start;
   }
 
-  .md\:items-center {
-    align-items: center;
-  }
-
   .md\:justify-start {
     justify-content: flex-start;
   }
@@ -6942,6 +7000,10 @@ html::-webkit-scrollbar,
 }
 
 @media (min-width: 1024px) {
+  .lg\:inline {
+    display: inline;
+  }
+
   .lg\:h-6 {
     height: 1.5rem;
   }
@@ -6958,8 +7020,8 @@ html::-webkit-scrollbar,
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .lg\:gap-10 {
-    gap: 2.5rem;
+  .lg\:gap-6 {
+    gap: 1.5rem;
   }
 
   .lg\:text-3xl {

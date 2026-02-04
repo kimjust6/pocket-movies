@@ -15,7 +15,9 @@
         <main class="relative flex-grow transition-all duration-200"
             :class="{ 'pt-24': headerVisible, 'pt-0': !headerVisible }"><%- slot %></main>
 
-        <%- include('footer') %>
+        <% if (!locals.data.list) { %>
+            <%- include('footer') %>
+                <% } %>
     </div>
     <%- include('../_private/link-fixer') %>
 </body>
