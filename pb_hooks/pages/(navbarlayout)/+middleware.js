@@ -46,7 +46,7 @@ module.exports = function (context) {
             },
             {
                 name: 'description',
-                content: 'Personal movie watchlist application.',
+                content: "Track films you've watched. Share films you love.",
             },
             { name: 'url', content: BASE_URL },
 
@@ -66,7 +66,7 @@ module.exports = function (context) {
             { name: 'og:image:height', content: '425' },
             {
                 name: 'og:description',
-                content: 'Personal movie watchlist application.',
+                content: "Track films you've watched and share films you love",
             },
             { name: 'og:site_name', content: 'Dank Movies' },
             { name: 'og:locale', content: 'en_CA' },
@@ -80,7 +80,7 @@ module.exports = function (context) {
             },
             {
                 name: 'twitter:description',
-                content: 'Personal movie watchlist application.',
+                content: "Track films you've watched and share films you love",
             },
             {
                 name: 'twitter:image',
