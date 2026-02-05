@@ -1,7 +1,7 @@
 ﻿<!-- Hero Section with Dark Gradient Background -->
 <div class="min-h-screen" id="home">
     <!-- Hero -->
-    <div class="hero relative min-h-[80vh] overflow-hidden bg-gradient-to-b from-base-300 via-base-200 to-base-100">
+    <div class="hero relative min-h-[80vh] overflow-hidden bg-gradient-to-b from-base-200 via-base-100">
         <!-- Background Pattern -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <!-- Subtle Film Reel Pattern -->
@@ -16,23 +16,27 @@
             </div>
         </div>
 
-        <div class="hero-content relative z-10 text-center py-20">
+        <div class="hero-content relative z-10 py-20 text-left place-items-start">
             <div class="max-w-4xl">
                 <!-- Main Headline -->
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight">
-                    <span class="text-base-content">
-                        Track films you've watched.<br />Save those you want to see.
+                <h1
+                    class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight text-shadow-lg">
+                    <span class="text-base-content ">
+                        <span class="text-primary italic">Track</span> films you've watched.
                     </span>
+                    <div class="text-base-content ">
+                        Discover films you <span class="text-primary italic">love.</span>
+                    </div>
                 </h1>
 
                 <!-- Tagline -->
-                <p class="text-lg md:text-xl text-base-content/60 mb-10 leading-relaxed max-w-2xl mx-auto">
-                    The social network for film lovers. Log, rate, and review. Create lists and share your taste with
-                    friends.
-                </p>
+                <span
+                    class="text-lg md:text-xl text-base-content/60 mb-10 leading-relaxed max-w-2xl mx-auto italic text-left items-start">
+                    Log, rate, and review. Create lists and share your taste with friends.
+                </span>
 
                 <!-- CTA Buttons -->
-                <div class="flex flex-col justify-center gap-4 sm:flex-row">
+                <div class="flex flex-col justify-start gap-4 sm:flex-row pt-8">
                     <a href="/login"
                         class="btn btn-primary btn-lg gap-2 shadow-lg transition-all duration-300 hover:scale-105">
                         Get Started — It's Free
@@ -46,12 +50,12 @@
         </div>
     </div>
 
-    <!-- Popular This Week Section -->
+    <!-- Recently Watched Section -->
     <section class="bg-base-100 px-4 py-16">
         <div class="mx-auto max-w-6xl">
             <div class="flex justify-between items-center mb-8">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-bold">Popular This Week</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold">Recently Watched</h2>
                     <p class="text-base-content/60 mt-1">What the community is watching right now</p>
                 </div>
                 <a href="/movies/search" class="btn btn-ghost btn-sm gap-1">

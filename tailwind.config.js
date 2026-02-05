@@ -3,7 +3,11 @@ export default {
     content: ['./pb_hooks/pages/**/*.{ejs,md}'],
     darkMode: 'class',
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                serif: ['"Playfair Display"', 'serif'],
+            },
+        },
     },
     daisyui: {
         themes: [
@@ -17,9 +21,9 @@ export default {
                     "accent-content": "#1C1917",    // Dark text on accent
                     "neutral": "#1C1917",           // Dark neutral
                     "neutral-content": "#D4D4D4",   // Light text on dark
-                    "base-100": "#1C1917",          // Darkest background
-                    "base-200": "#292524",          // Slightly lighter
-                    "base-300": "#44403C",          // Even lighter
+                    "base-100": "#000000ff",          // Darkest background
+                    "base-200": "#201f1fff",          // Slightly lighter
+                    "base-300": "#2b2826ff",          // Even lighter
                     "base-content": "#E7E5E4",      // Light content text
                     "info": "#38BDF8",              // Sky blue
                     "info-content": "#1C1917",

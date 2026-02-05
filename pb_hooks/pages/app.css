@@ -642,9 +642,9 @@ html {
   --ac: 21.6115% 0.006126 56.043375;
   --n: 21.6115% 0.006126 56.043375;
   --nc: 86.9944% 0 0;
-  --b1: 21.6115% 0.006126 56.043375;
-  --b2: 26.8485% 0.006287 34.297556;
-  --b3: 37.4116% 0.008678 67.558153;
+  --b1: 0% 0 0;
+  --b2: 24.0386% 0.001521 17.262882;
+  --b3: 27.9328% 0.005737 56.150306;
   --bc: 92.3175% 0.002563 48.717095;
   --in: 75.3513% 0.138989 232.66148;
   --inc: 21.6115% 0.006126 56.043375;
@@ -674,9 +674,9 @@ html {
   --ac: 21.6115% 0.006126 56.043375;
   --n: 21.6115% 0.006126 56.043375;
   --nc: 86.9944% 0 0;
-  --b1: 21.6115% 0.006126 56.043375;
-  --b2: 26.8485% 0.006287 34.297556;
-  --b3: 37.4116% 0.008678 67.558153;
+  --b1: 0% 0 0;
+  --b2: 24.0386% 0.001521 17.262882;
+  --b3: 27.9328% 0.005737 56.150306;
   --bc: 92.3175% 0.002563 48.717095;
   --in: 75.3513% 0.138989 232.66148;
   --inc: 21.6115% 0.006126 56.043375;
@@ -5388,6 +5388,10 @@ html::-webkit-scrollbar,
   flex-wrap: wrap;
 }
 
+.place-items-start {
+  place-items: start;
+}
+
 .items-start {
   align-items: flex-start;
 }
@@ -5877,6 +5881,11 @@ html::-webkit-scrollbar,
   --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b2,oklch(var(--b2)/1)) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
+.via-base-200\/50 {
+  --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b2,oklch(var(--b2)/0.5)) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
 .via-base-200\/80 {
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b2,oklch(var(--b2)/0.8)) var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -5903,10 +5912,6 @@ html::-webkit-scrollbar,
 
 .to-accent\/40 {
   --tw-gradient-to: var(--fallback-a,oklch(var(--a)/0.4)) var(--tw-gradient-to-position);
-}
-
-.to-base-100 {
-  --tw-gradient-to: var(--fallback-b1,oklch(var(--b1)/1)) var(--tw-gradient-to-position);
 }
 
 .to-base-100\/40 {
@@ -6146,8 +6151,8 @@ html::-webkit-scrollbar,
   padding-top: 1.5rem;
 }
 
-.pt-\[16rem\] {
-  padding-top: 16rem;
+.pt-8 {
+  padding-top: 2rem;
 }
 
 .text-left {
