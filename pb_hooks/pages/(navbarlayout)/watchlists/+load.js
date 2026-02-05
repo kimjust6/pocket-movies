@@ -10,6 +10,7 @@
  */
 module.exports = function (context) {
     const common = require('../../../lib/common.js')
+    const { TABLES, COLS } = common
     const { client, user } = common.init(context)
     const userId = user?.id
 

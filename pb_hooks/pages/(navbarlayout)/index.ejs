@@ -25,7 +25,7 @@
                         <span class="text-primary italic">Track</span> films you've watched.
                     </span>
                     <div class="text-base-content ">
-                        Discover films you <span class="text-primary italic">love.</span>
+                        Share films you <span class="text-primary italic">love.</span>
                     </div>
                 </h1>
 
@@ -160,8 +160,14 @@
                                                 <%= list.title %>
                                             </h3>
                                             <p class="text-sm text-base-content/60">
-                                                <%= list.count %> films
+                                                <%= list.description %>
                                             </p>
+                                            <% if (list.description) { %>
+                                                <p class="text-xs text-base-content/50 truncate mt-1">
+                                                    <%= list.count %>
+                                                        <%= list.count===1 ? 'film' : 'films' %>
+                                                </p>
+                                                <% } %>
                                         </div>
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             class="h-5 w-5 text-base-content/30 group-hover:text-primary transition-colors"

@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1770331583321,
+    "generatedTime": 1770332893476,
     "data": [
         {
             "type": "file",
@@ -590,8 +590,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/api/watchlists/movies/+load.js",
-            "size": 7062,
-            "hash": "a9182723dd74dc85bdb07a5a04b45a57f15af51e63b548026776db8e4760ebef"
+            "size": 4488,
+            "hash": "9c0287c2eb8392f80cea833369b2df1c6dd8529c13a631e68ec804e4fe44e926"
         },
         {
             "type": "file",
@@ -722,8 +722,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/index.ejs",
-            "size": 28835,
-            "hash": "e013913ecb4f042a71613652a68b4373d829c3e68106bded25b4775f0f49655d"
+            "size": 29291,
+            "hash": "624d5da3e70576bef7b986413217d66d4a9159063bc1d717f38752458e27ad4a"
         },
         {
             "type": "file",
@@ -734,8 +734,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+load.js",
-            "size": 6250,
-            "hash": "744b3b063a90927bd4b18ee4867bcb4a9dd0f335931440b4e703d88399ed0375"
+            "size": 772,
+            "hash": "88dd6ec9fb8015ea2068fcc74b9af71a2b0bdff5c20f5a7e7c2d6bb250a901ff"
         },
         {
             "type": "file",
@@ -756,8 +756,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/+load.js",
-            "size": 6129,
-            "hash": "42b70037424a6ea591d1b627f821889cfc04583b3a02082b40fce14a8fc07e15"
+            "size": 6165,
+            "hash": "b4a2d0c6394cb3043d6d3a6b615fb96023aed2135ed2aab27bfdeca846720102"
         },
         {
             "type": "file",
@@ -768,8 +768,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/+load.js",
-            "size": 3112,
-            "hash": "9f96efcdcd1f691aadce0a11a9f08178352d74a93c8c27ac90dfbcefc2519773"
+            "size": 3144,
+            "hash": "27d52bbfd6246818c8728b367dd92790615b48923ae43f5aef32c3fa03dafd1d"
         },
         {
             "type": "file",
@@ -784,8 +784,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/profile/+load.js",
-            "size": 1186,
-            "hash": "42b7a4aff3e2c215bb9b198e065437684e87299b3d3510797e6269d26394c083"
+            "size": 1216,
+            "hash": "9443c66309ffa6ea061ed5e31169838121a8a0a522d00924b6a4b30ab148dec1"
         },
         {
             "type": "file",
@@ -796,8 +796,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/profile/edit/+load.js",
-            "size": 2899,
-            "hash": "b45d433be84a6b44da1bad1cedc191ece617780f69ed8615abd9deb8a60916d5"
+            "size": 2995,
+            "hash": "f68a033e87dcfb48ce5b6d3870099db6f3a7d023e22afb110a9ec405ffbe2430"
         },
         {
             "type": "folder",
@@ -816,8 +816,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/search/+load.js",
-            "size": 8066,
-            "hash": "ca91ec1909fbdb36bc03e1ea7f2cb6538125526f71a23fcbed555de30af2cddc"
+            "size": 8102,
+            "hash": "6bfe157f581166823ae3acca19929da4ecedea46d67e09fff526ddadd769e6d2"
         },
         {
             "type": "file",
@@ -852,8 +852,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/common.js",
-            "size": 15022,
-            "hash": "d4f34c12026d2dc4ab3bc2e92589b9f68bf9153719f7a827027838714097d086"
+            "size": 31363,
+            "hash": "ac82eecb629cce06d5262f04f19a818413ac7c2f71de8e0a6855390798e64c6e"
         }
     ]
 }

@@ -15,6 +15,7 @@ module.exports = function (context) {
     const { request } = context
     const tmdb = require('../../../../lib/tmdb.js')
     const common = require('../../../../lib/common.js')
+    const { TABLES, COLS } = common
 
     // Initialize using common (gets client and user)
     const { client, user } = common.init(context)

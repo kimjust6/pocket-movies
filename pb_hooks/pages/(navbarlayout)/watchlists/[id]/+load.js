@@ -15,6 +15,7 @@
  */
 const common = require('../../../../lib/common.js')
 const actions = require('../../../../lib/watchlist-actions.js')
+const { TABLES, COLS } = common
 
 module.exports = function (context) {
     const { client, user } = common.init(context)

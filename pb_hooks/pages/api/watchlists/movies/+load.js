@@ -4,6 +4,7 @@
  */
 const common = require('../../../../lib/common.js')
 const actions = require('../../../../lib/watchlist-actions.js')
+const { TABLES, COLS } = common
 
 module.exports = function (context) {
     const { user } = common.init(context)
@@ -37,40 +38,14 @@ module.exports = function (context) {
         // If successful update, fetch the single updated movie to return
         if (data.action === 'update_history_item' && data.history_id) {
             try {
-                // We use findRecordById directly for efficiency, then manual cleanup if needed
-                // OR duplicate logic from common.fetchWatchlistMovies to get expanded movie
-                const historyItem = $app.findRecordById('watched_history', data.history_id)
-
-                // Mock array for common formatter
+                const historyItem = $app.findRecordById(TABLES.WATCHED_HISTORY, data.history_id)
                 const tempArray = [historyItem]
-                $app.expandRecords(tempArray, ['movie'])
+                $app.expandRecords(tempArray, [COLS.MOVIE])
 
-                // Manual mapping (duplicate of common.fetchWatchlistMovies logic for single item)
-                let movieData = null
-                const m = historyItem.expandedOne('movie')
-                if (m) {
-                    movieData = {
-                        id: m.id,
-                        tmdb_id: m.getString('tmdb_id'),
-                        title: m.getString('title'),
-                        release_date: m.getString('release_date'),
-                        runtime: m.getInt('runtime'),
-                        poster_path: m.getString('poster_path'),
-                        backdrop_path: m.getString('backdrop_path'),
-                        overview: m.getString('overview'),
-                        tagline: m.getString('tagline'),
-                        imdb_id: m.getString('imdb_id'),
-                        status: m.getString('status'),
-                        history_id: historyItem.id,
-                        history_created: historyItem.getString('created'),
-                        watched_at: historyItem.getString('watched'),
-                        tmdb_score: historyItem.getFloat('tmdb_score'),
-                        imdb_score: historyItem.getFloat('imdb_score'),
-                        rt_score: historyItem.getInt('rt_score'),
-                    }
-                    // Attach attendance
+                const m = historyItem.expandedOne(COLS.MOVIE)
+                const movieData = common.mapMovieFromRecord(m, historyItem)
+                if (movieData) {
                     common.attachAttendance([movieData], listId)
-
                     return { success: true, message: result.message, movie: movieData }
                 }
             } catch (e) {
@@ -81,41 +56,16 @@ module.exports = function (context) {
         // Handle update_attendance
         if (data.action === 'update_attendance' && data.history_id) {
             try {
-                const historyItem = $app.findRecordById('watched_history', data.history_id)
-                // Need to fetch movie to return complete object
-
-                // Mock array for common formatter
+                const historyItem = $app.findRecordById(TABLES.WATCHED_HISTORY, data.history_id)
                 const tempArray = [historyItem]
-                $app.expandRecords(tempArray, ['movie'])
+                $app.expandRecords(tempArray, [COLS.MOVIE])
 
-                let movieData = null
-                const m = historyItem.expandedOne('movie')
-                if (m) {
-                    movieData = {
-                        id: m.id,
-                        tmdb_id: m.getString('tmdb_id'),
-                        title: m.getString('title'),
-                        release_date: m.getString('release_date'),
-                        runtime: m.getInt('runtime'),
-                        poster_path: m.getString('poster_path'),
-                        backdrop_path: m.getString('backdrop_path'),
-                        overview: m.getString('overview'),
-                        tagline: m.getString('tagline'),
-                        imdb_id: m.getString('imdb_id'),
-                        status: m.getString('status'),
-                        history_id: historyItem.id,
-                        history_created: historyItem.getString('created'),
-                        watched_at: historyItem.getString('watched'),
-                        tmdb_score: historyItem.getFloat('tmdb_score'),
-                        imdb_score: historyItem.getFloat('imdb_score'),
-                        rt_score: historyItem.getInt('rt_score'),
-                    }
-                    // Attach attendance
+                const m = historyItem.expandedOne(COLS.MOVIE)
+                const movieData = common.mapMovieFromRecord(m, historyItem)
+                if (movieData) {
                     common.attachAttendance([movieData], listId)
-
                     return { success: true, message: result.message, movie: movieData }
                 }
-
             } catch (e) {
                 console.error("Failed to fetch updated movie for attendance", e)
             }
