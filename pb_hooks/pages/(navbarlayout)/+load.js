@@ -46,7 +46,7 @@ module.exports = function (context) {
             .andWhere($dbx.hashExp({ "w.is_private": false }))
             .groupBy("wh.list")
             .orderBy("count DESC")
-            .limit(3)
+            .limit(4)
             .all(listCountResult);
 
         // Fetch the list details and posters for each top list
