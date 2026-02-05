@@ -195,117 +195,76 @@
                     </div>
 
                     <div class="space-y-4">
-                        <!-- Activity Item 1 -->
-                        <div class="card bg-base-100 shadow-md">
-                            <div class="card-body p-4">
-                                <div class="flex items-start gap-3">
-                                    <div class="avatar placeholder">
-                                        <div class="bg-primary text-primary-content rounded-full w-10">
-                                            <span class="text-sm font-bold">AR</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm">
-                                            <span class="font-semibold">Alex Rivera</span>
-                                            <span class="text-base-content/60"> reviewed </span>
-                                            <span class="font-semibold text-primary">Dune: Part Two</span>
-                                        </p>
-                                        <p class="text-sm text-base-content/60 mt-1 line-clamp-2">A masterpiece of
-                                            visual storytelling. Denis Villeneuve has created something truly epic.</p>
-                                        <div class="flex items-center gap-1 mt-2">
-                                            <div class="rating rating-sm">
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
+                        <% if (data.recentActivity && data.recentActivity.length> 0) { %>
+                            <% const colors=['primary', 'secondary' , 'accent' , 'info' ]; %>
+                                <% data.recentActivity.forEach((activity, index)=> { %>
+                                    <div class="card bg-base-100 shadow-md">
+                                        <div class="card-body p-4">
+                                            <div class="flex items-start gap-3">
+                                                <div class="avatar placeholder">
+                                                    <div
+                                                        class="bg-<%= colors[index % 4] %> text-<%= colors[index % 4] %>-content rounded-full w-10">
+                                                        <span class="text-sm font-bold">
+                                                            <%= activity.userInitials || 'U' %>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm">
+                                                        <% if (activity.type==='add' ) { %>
+                                                            <span class="text-base-content/60">A movie was added to
+                                                            </span>
+                                                            <a href="/watchlists/<%= activity.listId %>"
+                                                                class="font-semibold hover:text-primary">
+                                                                <%= activity.listTitle %>
+                                                            </a>
+                                                            <span class="text-base-content/60">: </span>
+                                                            <a href="/movies/<%= activity.movieId %>"
+                                                                class="font-semibold text-primary hover:underline">
+                                                                <%= activity.movieTitle %>
+                                                            </a>
+                                                            <% } else { %>
+                                                                <span class="font-semibold">
+                                                                    <%= activity.userName %>
+                                                                </span>
+                                                                <span class="text-base-content/60">
+                                                                    <%= activity.type==='review' ? 'reviewed' : 'rated'
+                                                                        %>
+                                                                </span>
+                                                                <a href="/movies/<%= activity.movieId %>"
+                                                                    class="font-semibold text-primary hover:underline">
+                                                                    <%= activity.movieTitle %>
+                                                                </a>
+                                                                <% } %>
+                                                    </p>
+                                                    <% if (activity.review) { %>
+                                                        <p class="text-sm text-base-content/60 mt-1 line-clamp-2">
+                                                            <%= activity.review %>
+                                                        </p>
+                                                        <% } %>
+                                                            <% if (activity.rating> 0) { %>
+                                                                <div class="flex items-center gap-1 mt-2">
+                                                                    <div class="rating rating-sm">
+                                                                        <% for (let i=1; i <=5; i++) { %>
+                                                                            <input type="radio"
+                                                                                class="mask mask-star-2 bg-warning"
+                                                                                disabled <%=i
+                                                                                <=Math.round(activity.rating)
+                                                                                ? 'checked' : '' %> />
+                                                                            <% } %>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Activity Item 2 -->
-                        <div class="card bg-base-100 shadow-md">
-                            <div class="card-body p-4">
-                                <div class="flex items-start gap-3">
-                                    <div class="avatar placeholder">
-                                        <div class="bg-secondary text-secondary-content rounded-full w-10">
-                                            <span class="text-sm font-bold">SW</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm">
-                                            <span class="font-semibold">Sophie Wang</span>
-                                            <span class="text-base-content/60"> watched </span>
-                                            <span class="font-semibold text-primary">Poor Things</span>
-                                        </p>
-                                        <p class="text-sm text-base-content/60 mt-1 line-clamp-2">Emma Stone delivers
-                                            her best performance yet. Surreal and darkly funny.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Activity Item 3 -->
-                        <div class="card bg-base-100 shadow-md">
-                            <div class="card-body p-4">
-                                <div class="flex items-start gap-3">
-                                    <div class="avatar placeholder">
-                                        <div class="bg-accent text-accent-content rounded-full w-10">
-                                            <span class="text-sm font-bold">JM</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm">
-                                            <span class="font-semibold">James Miller</span>
-                                            <span class="text-base-content/60"> added </span>
-                                            <span class="font-semibold text-primary">The Holdovers</span>
-                                            <span class="text-base-content/60"> to list </span>
-                                            <span class="font-semibold">2023 Favorites</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Activity Item 4 -->
-                        <div class="card bg-base-100 shadow-md">
-                            <div class="card-body p-4">
-                                <div class="flex items-start gap-3">
-                                    <div class="avatar placeholder">
-                                        <div class="bg-info text-info-content rounded-full w-10">
-                                            <span class="text-sm font-bold">MP</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm">
-                                            <span class="font-semibold">Maya Patel</span>
-                                            <span class="text-base-content/60"> reviewed </span>
-                                            <span class="font-semibold text-primary">Oppenheimer</span>
-                                        </p>
-                                        <p class="text-sm text-base-content/60 mt-1 line-clamp-2">An absolute triumph.
-                                            Nolan at his best with an incredible ensemble cast.</p>
-                                        <div class="flex items-center gap-1 mt-2">
-                                            <div class="rating rating-sm">
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled
-                                                    checked />
-                                                <input type="radio" class="mask mask-star-2 bg-warning" disabled />
+                                    <% }); %>
+                                        <% } else { %>
+                                            <div class="text-center py-10 text-base-content/50">
+                                                <p>No recent activity yet.</p>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                            <% } %>
                     </div>
                 </div>
             </div>
