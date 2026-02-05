@@ -11,7 +11,7 @@ export default {
                 yellowdark: {
                     "primary": "#FACC15",          // Vibrant yellow
                     "primary-content": "#1C1917",   // Dark text on yellow
-                    "secondary": "#F59E0B",         // Amber/orange
+                    "secondary": "#e4b159ff",         // Amber/orange
                     "secondary-content": "#1C1917", // Dark text on amber
                     "accent": "#EAB308",            // Yellow accent
                     "accent-content": "#1C1917",    // Dark text on accent
@@ -27,7 +27,7 @@ export default {
                     "success-content": "#1C1917",
                     "warning": "#FB923C",           // Orange
                     "warning-content": "#1C1917",
-                    "error": "#F87171",             // Red
+                    "error": "#dd2e2eff",             // Red (Darker)
                     "error-content": "#1C1917",
                 },
             },
