@@ -8,16 +8,13 @@
         "currentUserId": "<%= data.user ? data.user.id : '' %>"
     }
 </script>
-<div class="w-full sm:px-4" x-data="(() => {
-    try {
-        const text = document.getElementById('watchlist-context').textContent;
-        const ctx = JSON.parse(text);
-        return watchlistDetail(ctx.movies, ctx.isOwner, ctx.listId, ctx.hasMore, ctx.currentUserId);
-    } catch(e) {
-        console.error('Failed to parse watchlist context', e);
-        return watchlistDetail();
-    }
-})" x-init="
+<div class="w-full" x-data="watchlistDetail(
+    <%= JSON.stringify(data.movies || []) %>,
+    <%= data.list ? data.list.is_owner : false %>,
+    '<%= data.list ? data.list.id : '' %>',
+    <%= data.hasMore !== undefined ? data.hasMore : true %>,
+    '<%= data.user ? data.user.id : '' %>'
+)" x-init="
     $dispatch('set-mobile-navbar-title', { 
         title: '<%= data.list ? data.list.title : (data.error ? 'Error' : 'Dank Movies') %>',
         subtitle: '<%= data.list && data.list.description ? data.list.description : '' %>'

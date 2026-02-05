@@ -636,7 +636,7 @@ html {
   --tab-border: 1px;
   --tab-radius: 0.5rem;
   --pc: 21.6115% 0.006126 56.043375;
-  --s: 81.85% 0.14663 77.310157;
+  --s: 78.992% 0.121027 79.115148;
   --sc: 21.6115% 0.006126 56.043375;
   --a: 79.5243% 0.161668 86.046788;
   --ac: 21.6115% 0.006126 56.043375;
@@ -652,7 +652,7 @@ html {
   --suc: 21.6115% 0.006126 56.043375;
   --wa: 75.764% 0.159037 55.934415;
   --wac: 21.6115% 0.006126 56.043375;
-  --er: 57.7099% 0.215157 27.325049;
+  --er: 58.4938% 0.210256 26.713505;
   --erc: 21.6115% 0.006126 56.043375;
 }
 
@@ -668,7 +668,7 @@ html {
   --tab-border: 1px;
   --tab-radius: 0.5rem;
   --pc: 21.6115% 0.006126 56.043375;
-  --s: 81.85% 0.14663 77.310157;
+  --s: 78.992% 0.121027 79.115148;
   --sc: 21.6115% 0.006126 56.043375;
   --a: 79.5243% 0.161668 86.046788;
   --ac: 21.6115% 0.006126 56.043375;
@@ -684,7 +684,7 @@ html {
   --suc: 21.6115% 0.006126 56.043375;
   --wa: 75.764% 0.159037 55.934415;
   --wac: 21.6115% 0.006126 56.043375;
-  --er: 57.7099% 0.215157 27.325049;
+  --er: 58.4938% 0.210256 26.713505;
   --erc: 21.6115% 0.006126 56.043375;
 }
 
@@ -5644,10 +5644,6 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity, 1)));
 }
 
-.bg-base-300\/50 {
-  background-color: var(--fallback-b3,oklch(var(--b3)/0.5));
-}
-
 .bg-base-content\/10 {
   background-color: var(--fallback-bc,oklch(var(--bc)/0.1));
 }
@@ -6027,6 +6023,11 @@ html::-webkit-scrollbar,
   padding: 2rem;
 }
 
+.px-14 {
+  padding-left: 3.5rem;
+  padding-right: 3.5rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -6050,6 +6051,11 @@ html::-webkit-scrollbar,
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .py-12 {
@@ -6132,16 +6138,16 @@ html::-webkit-scrollbar,
   padding-top: 5rem;
 }
 
-.pt-24 {
-  padding-top: 6rem;
-}
-
 .pt-4 {
   padding-top: 1rem;
 }
 
 .pt-6 {
   padding-top: 1.5rem;
+}
+
+.pt-\[16rem\] {
+  padding-top: 16rem;
 }
 
 .text-left {
@@ -7098,11 +7104,6 @@ html::-webkit-scrollbar,
 
   .sm\:flex-row {
     flex-direction: row;
-  }
-
-  .sm\:px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
   }
 
   .sm\:py-10 {
