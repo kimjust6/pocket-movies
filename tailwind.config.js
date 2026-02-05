@@ -6,8 +6,34 @@ export default {
         extend: {},
     },
     daisyui: {
-        themes: ['light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate', 'synthwave', 'retro', 'cyberpunk', 'valentine', 'halloween', 'garden', 'forest', 'aqua', 'lofi', 'pastel', 'fantasy', 'wireframe', 'black', 'luxury', 'dracula', 'cmyk', 'autumn', 'business', 'acid', 'lemonade', 'night', 'coffee', 'winter', 'dim', 'nord', 'sunset'],
-        darkTheme: 'business',
+        themes: [
+            {
+                yellowdark: {
+                    "primary": "#FACC15",          // Vibrant yellow
+                    "primary-content": "#1C1917",   // Dark text on yellow
+                    "secondary": "#F59E0B",         // Amber/orange
+                    "secondary-content": "#1C1917", // Dark text on amber
+                    "accent": "#EAB308",            // Yellow accent
+                    "accent-content": "#1C1917",    // Dark text on accent
+                    "neutral": "#1C1917",           // Dark neutral
+                    "neutral-content": "#D4D4D4",   // Light text on dark
+                    "base-100": "#1C1917",          // Darkest background
+                    "base-200": "#292524",          // Slightly lighter
+                    "base-300": "#44403C",          // Even lighter
+                    "base-content": "#E7E5E4",      // Light content text
+                    "info": "#38BDF8",              // Sky blue
+                    "info-content": "#1C1917",
+                    "success": "#4ADE80",           // Green
+                    "success-content": "#1C1917",
+                    "warning": "#FB923C",           // Orange
+                    "warning-content": "#1C1917",
+                    "error": "#F87171",             // Red
+                    "error-content": "#1C1917",
+                },
+            },
+            'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate', 'synthwave', 'retro', 'cyberpunk', 'valentine', 'halloween', 'garden', 'forest', 'aqua', 'lofi', 'pastel', 'fantasy', 'wireframe', 'black', 'luxury', 'dracula', 'cmyk', 'autumn', 'business', 'acid', 'lemonade', 'night', 'coffee', 'winter', 'dim', 'nord', 'sunset'
+        ],
+        darkTheme: 'yellowdark',
         base: true,
         styled: true,
         utils: true,
