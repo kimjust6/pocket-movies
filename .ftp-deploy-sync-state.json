@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1770282197881,
+    "generatedTime": 1770331583321,
     "data": [
         {
             "type": "file",
@@ -492,8 +492,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 173177,
-            "hash": "2f0c00e038229851fcd6863359ec0a97d693481d68d85c6bd320284bc5ec7bc6"
+            "size": 173964,
+            "hash": "1e4aa4f1015aeaf912ab4b4e99a043d1cd683814dc3dcdbd31b95874e0956de3"
         },
         {
             "type": "folder",
@@ -722,8 +722,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/index.ejs",
-            "size": 28015,
-            "hash": "d40d9eb31b088ce45db24dacfc6d56b7e552cc4246c0ee81fb2f696ddd297e18"
+            "size": 28835,
+            "hash": "e013913ecb4f042a71613652a68b4373d829c3e68106bded25b4775f0f49655d"
         },
         {
             "type": "file",
@@ -734,8 +734,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+load.js",
-            "size": 5303,
-            "hash": "3c159fc4c679edfefce6d464ee8e0f7d5720bf68c744ac009fa0d756ba6dc25b"
+            "size": 6250,
+            "hash": "744b3b063a90927bd4b18ee4867bcb4a9dd0f335931440b4e703d88399ed0375"
         },
         {
             "type": "file",
@@ -846,8 +846,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/pocketbase-types.ts",
-            "size": 8239,
-            "hash": "c53fa1ec5301f2e6b89e7c9aebb6073819d33066328b5206ee4485fc578b1e08"
+            "size": 8266,
+            "hash": "a7a35c7f9a5363a9be751a17b76515bfc154acd7a312e5f8272fc73fc86805ac"
         },
         {
             "type": "file",

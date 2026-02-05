@@ -1,25 +1,20 @@
 module.exports = function (context) {
     try {
-        // 1. Fetch watched_history (covers both Recent Movies and Top Lists)
-        // We fetch 300 to get enough data for top lists, which also covers recent movies
-        const allHistory = $app.findRecordsByFilter(
+        // 1. Fetch recent movies (first 6 unique movies)
+        const recentHistory = $app.findRecordsByFilter(
             "watched_history",
             "",
             "-watched",
-            300,
+            20,
             0
         );
-        $app.expandRecords(allHistory, ['movie', 'list']);
+        $app.expandRecords(recentHistory, ['movie']);
 
         const seenMovies = new Set();
         const recentMovies = [];
-        const listMap = new Map();
 
-        for (const h of allHistory) {
+        for (const h of recentHistory) {
             const movie = h.expandedOne('movie');
-            const list = h.expandedOne('list');
-
-            // Process for Recent Movies (first 6 unique movies)
             if (movie && recentMovies.length < 6 && !seenMovies.has(movie.id)) {
                 recentMovies.push({
                     id: movie.id,
@@ -30,34 +25,68 @@ module.exports = function (context) {
                 });
                 seenMovies.add(movie.id);
             }
+        }
 
-            // Process for Top Lists
-            if (list && !list.getBool('is_deleted') && !list.getBool('is_private')) {
-                const listId = list.id;
-                if (!listMap.has(listId)) {
-                    listMap.set(listId, {
-                        id: listId,
-                        title: list.getString('list_title'),
-                        count: 0,
-                        posters: []
-                    });
-                }
+        // 2. Use query builder to get top 3 lists by movie count
+        // SELECT list, COUNT(*) as count FROM watched_history 
+        // JOIN watchlists ON watched_history.list = watchlists.id
+        // WHERE list != '' AND watchlists.is_deleted = false AND watchlists.is_private = false
+        // GROUP BY list ORDER BY count DESC LIMIT 3
+        const listCountResult = arrayOf(new DynamicModel({
+            "list": "",
+            "count": 0
+        }));
 
-                const entry = listMap.get(listId);
-                entry.count++;
-                if (movie && entry.posters.length < 3) {
+        $app.db()
+            .select("wh.list", "COUNT(*) as count")
+            .from("watched_history wh")
+            .innerJoin("lists w", $dbx.exp("w.id = wh.list"))
+            .where($dbx.exp("wh.list != ''"))
+            .andWhere($dbx.hashExp({ "w.is_deleted": false }))
+            .andWhere($dbx.hashExp({ "w.is_private": false }))
+            .groupBy("wh.list")
+            .orderBy("count DESC")
+            .limit(3)
+            .all(listCountResult);
+
+        // Fetch the list details and posters for each top list
+        const topLists = [];
+        for (const row of listCountResult) {
+            const listId = row.list;
+            const count = row.count;
+
+            // Get the list record
+            const listRecord = $app.findRecordById("lists", listId);
+            if (!listRecord) continue;
+
+            // Get up to 3 movie posters for this list
+            const listHistory = $app.findRecordsByFilter(
+                "watched_history",
+                `list = "${listId}"`,
+                "-watched",
+                3,
+                0
+            );
+            $app.expandRecords(listHistory, ['movie']);
+
+            const posters = [];
+            for (const h of listHistory) {
+                const movie = h.expandedOne('movie');
+                if (movie) {
                     const posterPath = movie.getString('poster_path');
-                    if (posterPath && !entry.posters.includes(posterPath)) {
-                        entry.posters.push(posterPath);
+                    if (posterPath && !posters.includes(posterPath)) {
+                        posters.push(posterPath);
                     }
                 }
             }
-        }
 
-        // Sort Top Lists by count and take top 3
-        const topLists = Array.from(listMap.values())
-            .sort((a, b) => b.count - a.count)
-            .slice(0, 3);
+            topLists.push({
+                id: listId,
+                title: listRecord.getString('list_title'),
+                count: count,
+                posters: posters
+            });
+        }
 
         // 3. Fetch recent activity (last 4 from watched_history + last 4 from watch_history_user)
         const recentActivity = [];
