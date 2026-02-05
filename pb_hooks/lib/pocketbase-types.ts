@@ -183,6 +183,7 @@ export type WatchHistoryUserRecord = {
 }
 
 export type WatchedHistoryRecord = {
+	added_by?: RecordIdString
 	created: IsoAutoDateString
 	id: string
 	imdb_score?: number

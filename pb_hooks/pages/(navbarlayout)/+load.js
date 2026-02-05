@@ -114,7 +114,7 @@ module.exports = function (context) {
                         userInitials: (user.getString('shortHand') || user.getString('name') || 'U').substring(0, 2).toUpperCase(),
                         movieTitle: movie.getString('title'),
                         movieId: movie.getString('tmdb_id'),
-                        rating: rating,
+                        rating: Math.round(rating) / 2,
                         review: review
                     });
                 }

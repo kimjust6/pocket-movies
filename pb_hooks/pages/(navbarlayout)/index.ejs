@@ -244,12 +244,19 @@
                                                         <% } %>
                                                             <% if (activity.rating> 0) { %>
                                                                 <div class="flex items-center gap-1 mt-2">
-                                                                    <div class="rating rating-sm">
+                                                                    <div class="rating rating-sm rating-half">
+                                                                        <input type="radio" name="rating-<%= index %>"
+                                                                            class="rating-hidden" />
                                                                         <% for (let i=1; i <=5; i++) { %>
                                                                             <input type="radio"
-                                                                                class="mask mask-star-2 bg-warning"
-                                                                                disabled <%=i
-                                                                                <=Math.round(activity.rating)
+                                                                                name="rating-<%= index %>"
+                                                                                class="mask mask-star-2 mask-half-1 bg-warning"
+                                                                                disabled <%=activity.rating===(i - 0.5)
+                                                                                ? 'checked' : '' %> />
+                                                                            <input type="radio"
+                                                                                name="rating-<%= index %>"
+                                                                                class="mask mask-star-2 mask-half-2 bg-warning"
+                                                                                disabled <%=activity.rating===i
                                                                                 ? 'checked' : '' %> />
                                                                             <% } %>
                                                                     </div>
