@@ -4851,6 +4851,10 @@ html::-webkit-scrollbar,
   z-index: 1;
 }
 
+.col-span-full {
+  grid-column: 1 / -1;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -5758,12 +5762,6 @@ html::-webkit-scrollbar,
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
 }
 
-.from-accent\/30 {
-  --tw-gradient-from: var(--fallback-a,oklch(var(--a)/0.3)) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
 .from-accent\/40 {
   --tw-gradient-from: var(--fallback-a,oklch(var(--a)/0.4)) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
@@ -5785,12 +5783,6 @@ html::-webkit-scrollbar,
 .from-base-200 {
   --tw-gradient-from: var(--fallback-b2,oklch(var(--b2)/1)) var(--tw-gradient-from-position);
   --tw-gradient-to: var(--fallback-b2,oklch(var(--b2)/0)) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.from-base-300 {
-  --tw-gradient-from: var(--fallback-b3,oklch(var(--b3)/1)) var(--tw-gradient-from-position);
-  --tw-gradient-to: var(--fallback-b3,oklch(var(--b3)/0)) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
@@ -5824,12 +5816,6 @@ html::-webkit-scrollbar,
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
-.from-primary\/30 {
-  --tw-gradient-from: var(--fallback-p,oklch(var(--p)/0.3)) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
 .from-primary\/40 {
   --tw-gradient-from: var(--fallback-p,oklch(var(--p)/0.4)) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
@@ -5844,12 +5830,6 @@ html::-webkit-scrollbar,
 
 .from-secondary\/20 {
   --tw-gradient-from: var(--fallback-s,oklch(var(--s)/0.2)) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.from-secondary\/30 {
-  --tw-gradient-from: var(--fallback-s,oklch(var(--s)/0.3)) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
@@ -5881,11 +5861,6 @@ html::-webkit-scrollbar,
   --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b2,oklch(var(--b2)/1)) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
-.via-base-200\/50 {
-  --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b2,oklch(var(--b2)/0.5)) var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-
 .via-base-200\/80 {
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--fallback-b2,oklch(var(--b2)/0.8)) var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -5904,10 +5879,6 @@ html::-webkit-scrollbar,
 .via-white {
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-
-.to-accent\/30 {
-  --tw-gradient-to: var(--fallback-a,oklch(var(--a)/0.3)) var(--tw-gradient-to-position);
 }
 
 .to-accent\/40 {
@@ -5934,10 +5905,6 @@ html::-webkit-scrollbar,
   --tw-gradient-to: var(--fallback-p,oklch(var(--p)/0.2)) var(--tw-gradient-to-position);
 }
 
-.to-primary\/30 {
-  --tw-gradient-to: var(--fallback-p,oklch(var(--p)/0.3)) var(--tw-gradient-to-position);
-}
-
 .to-primary\/40 {
   --tw-gradient-to: var(--fallback-p,oklch(var(--p)/0.4)) var(--tw-gradient-to-position);
 }
@@ -5948,10 +5915,6 @@ html::-webkit-scrollbar,
 
 .to-secondary\/10 {
   --tw-gradient-to: var(--fallback-s,oklch(var(--s)/0.1)) var(--tw-gradient-to-position);
-}
-
-.to-secondary\/30 {
-  --tw-gradient-to: var(--fallback-s,oklch(var(--s)/0.3)) var(--tw-gradient-to-position);
 }
 
 .to-secondary\/40 {
@@ -6061,6 +6024,11 @@ html::-webkit-scrollbar,
 .py-0 {
   padding-top: 0px;
   padding-bottom: 0px;
+}
+
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
 .py-12 {
@@ -7095,10 +7063,6 @@ html::-webkit-scrollbar,
 }
 
 @media (min-width: 640px) {
-  .sm\:block {
-    display: block;
-  }
-
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

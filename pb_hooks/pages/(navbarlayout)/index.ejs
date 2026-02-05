@@ -59,7 +59,7 @@
                     <p class="text-base-content/60 mt-1">What the community is watching right now</p>
                 </div>
                 <a href="/movies/search" class="btn btn-ghost btn-sm gap-1">
-                    View All
+                    Search Movies
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -69,108 +69,39 @@
 
             <!-- Movie Posters Grid -->
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
-                <!-- Movie Poster 1 -->
-                <div class="group cursor-pointer">
-                    <div
-                        class="aspect-[2/3] rounded-lg bg-gradient-to-br from-primary/30 to-secondary/30 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/20" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                            </svg>
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p class="text-white text-xs font-medium truncate">Dune: Part Two</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Movie Poster 2 -->
-                <div class="group cursor-pointer">
-                    <div
-                        class="aspect-[2/3] rounded-lg bg-gradient-to-br from-secondary/30 to-accent/30 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/20" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                            </svg>
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p class="text-white text-xs font-medium truncate">Poor Things</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Movie Poster 3 -->
-                <div class="group cursor-pointer">
-                    <div
-                        class="aspect-[2/3] rounded-lg bg-gradient-to-br from-accent/30 to-primary/30 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/20" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                            </svg>
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p class="text-white text-xs font-medium truncate">Oppenheimer</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Movie Poster 4 -->
-                <div class="group cursor-pointer">
-                    <div
-                        class="aspect-[2/3] rounded-lg bg-gradient-to-br from-primary/30 to-accent/30 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/20" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                            </svg>
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p class="text-white text-xs font-medium truncate">The Holdovers</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Movie Poster 5 -->
-                <div class="group cursor-pointer hidden sm:block">
-                    <div
-                        class="aspect-[2/3] rounded-lg bg-gradient-to-br from-secondary/30 to-primary/30 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/20" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                            </svg>
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p class="text-white text-xs font-medium truncate">Killers of the Flower Moon</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Movie Poster 6 -->
-                <div class="group cursor-pointer hidden md:block">
-                    <div
-                        class="aspect-[2/3] rounded-lg bg-gradient-to-br from-accent/30 to-secondary/30 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/20" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                            </svg>
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p class="text-white text-xs font-medium truncate">Barbie</p>
-                        </div>
-                    </div>
-                </div>
+                <% if (data.recentMovies && data.recentMovies.length> 0) { %>
+                    <% data.recentMovies.forEach(movie=> { %>
+                        <a href="/movies/<%= movie.tmdb_id %>" class="group cursor-pointer block">
+                            <div
+                                class="aspect-[2/3] rounded-lg bg-base-200 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
+                                <% if (movie.poster_path) { %>
+                                    <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                                        alt="<%= movie.title %>" class="w-full h-full object-cover">
+                                    <% } else { %>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-base-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-10 w-10 text-base-content/20" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                            </svg>
+                                        </div>
+                                        <% } %>
+                                            <div
+                                                class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <p class="text-white text-xs font-medium truncate">
+                                                    <%= movie.title %>
+                                                </p>
+                                            </div>
+                            </div>
+                        </a>
+                        <% }); %>
+                            <% } else { %>
+                                <!-- Fallback if no movies -->
+                                <div class="col-span-full text-center py-10 text-base-content/50">
+                                    <p>No recently watched movies yet.</p>
+                                </div>
+                                <% } %>
             </div>
         </div>
     </section>
@@ -274,14 +205,14 @@
                 <div>
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl md:text-2xl font-bold">Recent Activity</h2>
-                        <a href="#" class="btn btn-ghost btn-sm gap-1">
+                        <!-- <a href="#" class="btn btn-ghost btn-sm gap-1">
                             View All
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7" />
                             </svg>
-                        </a>
+                        </a> -->
                     </div>
 
                     <div class="space-y-4">
