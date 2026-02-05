@@ -5551,6 +5551,10 @@ html::-webkit-scrollbar,
   border-width: 1px;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
 .border-b {
   border-bottom-width: 1px;
 }
@@ -5561,6 +5565,11 @@ html::-webkit-scrollbar,
 
 .border-none {
   border-style: none;
+}
+
+.border-base-100 {
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-border-opacity, 1)));
 }
 
 .border-base-300 {

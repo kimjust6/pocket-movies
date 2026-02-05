@@ -126,78 +126,57 @@
                     <p class="text-base-content/60 mb-6 -mt-4">Curated collections from the community</p>
 
                     <div class="space-y-4">
-                        <!-- List Card 1 -->
-                        <a href="/watchlists"
-                            class="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                            <div class="card-body p-4 flex-row items-center gap-4">
-                                <div class="flex -space-x-2">
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-primary/40 to-secondary/40">
+                        <% if (data.topLists && data.topLists.length> 0) { %>
+                            <% data.topLists.forEach(list=> { %>
+                                <a href="/watchlists/<%= list.id %>"
+                                    class="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                                    <div class="card-body p-4 flex-row items-center gap-4">
+                                        <div class="flex -space-x-2">
+                                            <% if (list.posters.length> 0) { %>
+                                                <% list.posters.forEach(poster=> { %>
+                                                    <img src="https://image.tmdb.org/t/p/w92<%= poster %>"
+                                                        class="w-10 h-14 rounded object-cover border-2 border-base-100">
+                                                    <% }); %>
+                                                        <% for (let i=list.posters.length; i < 3; i++) { %>
+                                                            <div
+                                                                class="w-10 h-14 rounded bg-gradient-to-br from-primary/40 to-secondary/40 border-2 border-base-100">
+                                                            </div>
+                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <div
+                                                                        class="w-10 h-14 rounded bg-gradient-to-br from-primary/40 to-secondary/40">
+                                                                    </div>
+                                                                    <div
+                                                                        class="w-10 h-14 rounded bg-gradient-to-br from-secondary/40 to-accent/40">
+                                                                    </div>
+                                                                    <div
+                                                                        class="w-10 h-14 rounded bg-gradient-to-br from-accent/40 to-primary/40">
+                                                                    </div>
+                                                                    <% } %>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <h3
+                                                class="font-semibold group-hover:text-primary transition-colors truncate">
+                                                <%= list.title %>
+                                            </h3>
+                                            <p class="text-sm text-base-content/60">
+                                                <%= list.count %> films
+                                            </p>
+                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-5 w-5 text-base-content/30 group-hover:text-primary transition-colors"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
                                     </div>
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-secondary/40 to-accent/40">
-                                    </div>
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-accent/40 to-primary/40"></div>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-semibold group-hover:text-primary transition-colors truncate">2024
-                                        Oscar Nominees</h3>
-                                    <p class="text-sm text-base-content/60">24 films</p>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 text-base-content/30 group-hover:text-primary transition-colors"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                        </a>
-                        <!-- List Card 2 -->
-                        <a href="/watchlists"
-                            class="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                            <div class="card-body p-4 flex-row items-center gap-4">
-                                <div class="flex -space-x-2">
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-secondary/40 to-primary/40">
-                                    </div>
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-accent/40 to-secondary/40">
-                                    </div>
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-primary/40 to-accent/40"></div>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-semibold group-hover:text-primary transition-colors truncate">Best
-                                        Sci-Fi of the Decade</h3>
-                                    <p class="text-sm text-base-content/60">18 films</p>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 text-base-content/30 group-hover:text-primary transition-colors"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                        </a>
-                        <!-- List Card 3 -->
-                        <a href="/watchlists"
-                            class="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                            <div class="card-body p-4 flex-row items-center gap-4">
-                                <div class="flex -space-x-2">
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-accent/40 to-secondary/40">
-                                    </div>
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-primary/40 to-accent/40"></div>
-                                    <div class="w-10 h-14 rounded bg-gradient-to-br from-secondary/40 to-primary/40">
-                                    </div>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-semibold group-hover:text-primary transition-colors truncate">Hidden
-                                        Gems You Missed</h3>
-                                    <p class="text-sm text-base-content/60">32 films</p>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 text-base-content/30 group-hover:text-primary transition-colors"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                        </a>
+                                </a>
+                                <% }); %>
+                                    <% } else { %>
+                                        <div class="text-center py-10 text-base-content/50">
+                                            <p>No lists yet.</p>
+                                        </div>
+                                        <% } %>
                     </div>
                 </div>
 
