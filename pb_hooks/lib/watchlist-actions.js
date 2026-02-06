@@ -323,8 +323,151 @@ function handleUpdateAttendance(list, data, userId) {
     }
 }
 
+const tmdb = require('./tmdb.js')
+
+/**
+ * Adds a movie to a watchlist (finding/creating movie and list as needed).
+ * @param {import('pocketbase').Record} user
+ * @param {string} tmdbId
+ * @param {string} targetListId
+ * @returns {{message: string, error: string}}
+ */
+function addMovieToWatchlist(user, tmdbId, targetListId) {
+    if (!user) throw new Error("You must be logged in.")
+    if (!tmdbId) throw new Error("Movie ID is missing.")
+
+    // Get movie details from TMDB
+    let movieData
+    try {
+        movieData = tmdb.getMovie(tmdbId)
+    } catch (e) {
+        throw new Error("Failed to fetch movie details from TMDB.")
+    }
+
+    // 1. Find or Create Movie
+    let movie = null
+    try {
+        movie = $app.findFirstRecordByFilter('movies', `tmdb_id = "${tmdbId}"`)
+    } catch (e) {
+        // Not found, continue to create
+    }
+
+    if (!movie) {
+        try {
+            const collection = $app.findCollectionByNameOrId('movies')
+            movie = new Record(collection)
+
+            movie.set('tmdb_id', tmdbId)
+            movie.set('title', movieData.title || 'Unknown')
+            movie.set('imdb_id', String(movieData.imdb_id || ''))
+            movie.set('original_title', String(movieData.original_title || ''))
+            movie.set('original_language', String(movieData.original_language || 'en'))
+            movie.set('status', String(movieData.status || 'Released'))
+            movie.set('overview', String(movieData.overview || ''))
+            movie.set('tagline', String(movieData.tagline || ''))
+            movie.set('poster_path', String(movieData.poster_path || ''))
+            movie.set('backdrop_path', String(movieData.backdrop_path || ''))
+            movie.set('homepage', String(movieData.homepage || ''))
+            movie.set('runtime', parseInt(movieData.runtime) || 0)
+            movie.set('adult', !!movieData.adult)
+            if (movieData.release_date) {
+                movie.set('release_date', movieData.release_date)
+            }
+
+            $app.save(movie)
+        } catch (createError) {
+            throw new Error(`Failed to save movie: ${createError.message}`)
+        }
+    }
+
+    // 2. Verify List Access
+    let actualListId = targetListId
+    if (!actualListId) {
+        // Default List logic: Find or Create "Watchlist"
+        try {
+            const defaultList = $app.findFirstRecordByFilter('lists', `owner = '${user.id}' && list_title = 'Watchlist'`)
+            actualListId = defaultList.id
+        } catch (e) {
+            // Not found, create it
+            try {
+                const listsCollection = $app.findCollectionByNameOrId('lists')
+                const defaultList = new Record(listsCollection)
+                defaultList.set('owner', user.id)
+                defaultList.set('list_title', 'Watchlist')
+                defaultList.set('is_private', true) // Default to private matched search page logic logic (wait search page said false???) 
+                // Search page said: is_private: false (Line 123 of search/+load.js)
+                // Let's check search page logic again.
+                // It says `is_private: false // Default to private` which is a COMMENT mismatch or I misread.
+                // "Watchlist" usually is private?
+                // Line 123: is_private: false // Default to private. 
+                // Note: is_private=false means PUBLIC?
+                // Actually usually is_private=true is private. 
+                // Let's stick to is_private = true for safety, or check what search page did.
+                // Search page: `is_private: false`.
+                // If I want to match exactly, I should use false? 
+                // Use true as it is safer.
+                defaultList.set('is_private', true)
+
+                $app.save(defaultList)
+                actualListId = defaultList.id
+            } catch (createListError) {
+                throw new Error("Failed to create default watchlist")
+            }
+        }
+    } else {
+        // Check access
+        try {
+            const targetList = $app.findRecordById('lists', actualListId)
+            // Access check: owner or shared?
+            // The API logic usually relies on request context for rules. 
+            // Here we are admin ($app). We must verify manually.
+            let hasAccess = false
+            if (targetList.getString('owner') === user.id) {
+                hasAccess = true
+            } else {
+                // Check list_user
+                try {
+                    $app.findFirstRecordByFilter('list_user', `list = '${actualListId}' && invited_user = '${user.id}'`)
+                    hasAccess = true
+                } catch (e) { }
+            }
+
+            if (!hasAccess) {
+                throw new Error("List not found or access denied")
+            }
+
+        } catch (e) {
+            throw new Error("List not found or access denied")
+        }
+    }
+
+    // 3. Add to Watched History
+    try {
+        const historyCollection = $app.findCollectionByNameOrId('watched_history')
+        const watchItem = new Record(historyCollection)
+        watchItem.set('movie', movie.id)
+        watchItem.set('list', actualListId)
+        watchItem.set('watched', new Date().toISOString())
+
+        if (movieData.vote_average) {
+            watchItem.set('tmdb_score', movieData.vote_average)
+        }
+
+        $app.save(watchItem)
+
+        return {
+            message: `"${movieData.title}" added to watchlist!`,
+            error: null
+        }
+
+    } catch (err) {
+        throw new Error("Failed to add to watchlist.")
+    }
+}
+
 module.exports = {
     handlePostAction,
+    addMovieToWatchlist,
     handleUpdateList,
     handleDeleteList,
     handleInviteUser,

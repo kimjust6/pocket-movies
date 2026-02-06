@@ -4867,6 +4867,10 @@ html::-webkit-scrollbar,
   top: 0.5rem;
 }
 
+.top-20 {
+  top: 5rem;
+}
+
 .top-4 {
   top: 1rem;
 }

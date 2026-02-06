@@ -15,6 +15,7 @@ module.exports = function (context) {
     const { request } = context
     const tmdb = require('../../../../lib/tmdb.js')
     const common = require('../../../../lib/common.js')
+    const watchlistActions = require('../../../../lib/watchlist-actions.js')
     const { TABLES, COLS } = common
 
     // Initialize using common (gets client and user)
@@ -69,102 +70,13 @@ module.exports = function (context) {
 
         if (user && tmdbId) {
             try {
-                // Get movie details from TMDB
-                const movieData = tmdb.getMovie(tmdbId)
+                const result = watchlistActions.addMovieToWatchlist(user, tmdbId, targetListId)
+                message = result.message || `Movie added to watchlist!`
 
-                // 1. Find or Create Movie
-                let movie = null
-                try {
-                    movie = client.collection('movies').getFirstListItem(`tmdb_id = "${tmdbId}"`)
-                } catch (e) {
-                    // Not found, continue to create
-                }
+                // PRG: Redirect to prevent double submission
+                const redirectUrl = `/movies/search?q=${encodeURIComponent(q)}&message=${encodeURIComponent(message)}`
+                return context.redirect(redirectUrl)
 
-                if (!movie) {
-                    try {
-                        const moviePayload = {
-                            tmdb_id: tmdbId,
-                            title: movieData.title || 'Unknown',
-                            imdb_id: String(movieData.imdb_id || ''),
-                            original_title: String(movieData.original_title || ''),
-                            original_language: String(movieData.original_language || 'en'),
-                            status: String(movieData.status || 'Released'),
-                            overview: String(movieData.overview || ''),
-                            tagline: String(movieData.tagline || ''),
-                            poster_path: String(movieData.poster_path || ''),
-                            backdrop_path: String(movieData.backdrop_path || ''),
-                            homepage: String(movieData.homepage || ''),
-                            runtime: parseInt(movieData.runtime) || 0,
-                            adult: !!movieData.adult,
-                            release_date: movieData.release_date || undefined
-                        }
-
-                        // Create movie using SDK
-                        movie = client.collection('movies').create(moviePayload)
-                    } catch (createError) {
-                        $app.logger().error('[ADD_MOVIE] Creation failed:', createError)
-                        throw new Error(`Failed to save movie: ${createError.message}`)
-                    }
-                }
-
-                // 2. Verify List Access
-                let actualListId = targetListId
-                if (!actualListId) {
-                    // Default List logic: Find or Create "Watchlist"
-                    try {
-                        const defaultList = client.collection('lists').getFirstListItem(`owner = '${user.id}' && list_title = 'Watchlist'`)
-                        actualListId = defaultList.id
-                    } catch (e) {
-                        // Not found, create it
-                        try {
-                            const params = {
-                                owner: user.id,
-                                list_title: 'Watchlist',
-                                is_private: false // Default to private
-                            }
-                            const defaultList = client.collection('lists').create(params)
-                            actualListId = defaultList.id
-                        } catch (createListError) {
-                            throw new Error("Failed to create default watchlist")
-                        }
-                    }
-                } else {
-                    // Check access by trying to fetch the list with the user context
-                    // The API Rule for 'view' will enforce we only get it if we have access (owned or shared)
-                    try {
-                        const targetList = client.collection('lists').getOne(actualListId)
-                        // If we are here, we have access.
-                    } catch (e) {
-                        throw new Error("List not found or access denied")
-                    }
-                }
-
-                // 3. Add to Watched History
-                try {
-                    const watchPayload = {
-                        movie: movie.id,
-                        list: actualListId,
-                        watched: new Date().toISOString()
-                    }
-                    if (movieData.vote_average) {
-                        watchPayload.tmdb_score = movieData.vote_average
-                    }
-
-                    // No check for duplicates per user request
-                    client.collection('watched_history').create(watchPayload)
-                    message = `"${movieData.title}" added to watchlist!`
-
-                    // PRG: Redirect to prevent double submission
-                    const redirectUrl = `/movies/search?q=${encodeURIComponent(q)}&message=${encodeURIComponent(message)}`
-                    return context.redirect(redirectUrl)
-
-                } catch (err) {
-                    $app.logger().error('[ADD_MOVIE] Failed to add to watched_history:', err)
-                    if (err.data) {
-                        $app.logger().error('[ADD_MOVIE] Watched history validation errors:', JSON.stringify(err.data))
-                    }
-                    throw new Error("Failed to add to watchlist.")
-                }
             } catch (e) {
                 // Global error for this flow
                 $app.logger().error('[ADD_MOVIE] Process failed:', e)
