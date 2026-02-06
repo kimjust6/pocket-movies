@@ -23,56 +23,110 @@
 
         <p class="mb-4 text-base-content/60">Select a watchlist for this movie:</p>
 
-        <div class="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-2">
-            <!-- Data form -->
-            <form method="POST" id="addToWatchlistForm">
-                <input type="hidden" name="tmdb_id" x-ref="tmdbIdField" />
-                <input type="hidden" name="q" value="<%= data.q || '' %>" />
-                <!-- watchlist_id will be set by the buttons -->
+        <div class="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-2" x-data="{
+                submitting: false,
+                message: '',
+                error: '',
+                tmdbId: '',
+                async addToWatchlist(listId) {
+                    this.submitting = true;
+                    this.message = '';
+                    this.error = '';
+                    
+                    if (!this.tmdbId) {
+                        this.error = 'Movie ID is missing';
+                        this.submitting = false;
+                        return;
+                    }
+                    
+                    try {
+                        const formData = new FormData();
+                        formData.append('tmdb_id', this.tmdbId);
+                        formData.append('watchlist_id', listId);
 
-                <!-- Default List -->
-                <button type="submit" name="watchlist_id" value=""
-                    class="btn btn-outline w-full justify-between hover:bg-primary hover:text-primary-content group transition-all">
-                    <span class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 text-primary group-hover:text-primary-content" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-                        </svg>
-                        Default Watchlist
-                    </span>
+                        const res = await fetch('/api/watchlists/add', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        // Check for JSON response (even on error status it might be JSON)
+                        const data = await res.json();
+
+                        if (data.success) {
+                            this.message = data.message;
+                            if (typeof window.refreshWatchlists === 'function') {
+                                window.refreshWatchlists();
+                            }
+                            setTimeout(() => {
+                                showAddModal = false;
+                                this.message = '';
+                                // Keep tmdbId for now, gets overwritten next open
+                            }, 1500);
+                        } else {
+                            this.error = data.error;
+                        }
+                    } catch (e) {
+                         this.error = 'Something went wrong: ' + e.message;
+                    } finally {
+                        this.submitting = false;
+                    }
+                }
+            }" @set-watchlist-movie.window="tmdbId = $event.detail.id; error = ''; message = ''">
+
+            <!-- Messages -->
+            <div x-show="message" x-transition class="alert alert-success shadow-sm mb-2 p-2 text-sm text-center">
+                <span x-text="message"></span>
+            </div>
+            <div x-show="error" x-transition class="alert alert-error shadow-sm mb-2 p-2 text-sm text-center">
+                <span x-text="error"></span>
+            </div>
+
+            <!-- Hidden Inputs target for refs -->
+            <input type="hidden" :value="tmdbId" />
+
+            <!-- Default List -->
+            <button type="button" @click="addToWatchlist('')" :disabled="submitting"
+                class="btn btn-outline w-full justify-between hover:bg-primary hover:text-primary-content group transition-all">
+                <span class="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        class="h-5 w-5 text-primary group-hover:text-primary-content" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
                     </svg>
-                </button>
+                    Default Watchlist
+                </span>
+                <span x-show="submitting" class="loading loading-spinner loading-xs text-primary"></span>
+                <svg x-show="!submitting" xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
 
-                <!-- Custom Lists -->
-                <% if (data.lists && data.lists.length> 0) { %>
-                    <div class="divider text-xs opacity-50 my-2">Custom Lists</div>
-                    <% data.lists.forEach(list=> { %>
-                        <button type="submit" name="watchlist_id" value="<%= list.id %>"
-                            class="btn btn-outline w-full justify-between hover:bg-secondary hover:text-secondary-content group transition-all mb-2">
-                            <span class="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 text-secondary group-hover:text-secondary-content" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                </svg>
-                                <%= list.list_title %>
-                            </span>
+            <!-- Custom Lists -->
+            <% if (data.lists && data.lists.length> 0) { %>
+                <div class="divider text-xs opacity-50 my-2">Custom Lists</div>
+                <% data.lists.forEach(list=> { %>
+                    <button type="button" @click="addToWatchlist('<%= list.id %>')" :disabled="submitting"
+                        class="btn btn-outline w-full justify-between hover:bg-secondary hover:text-secondary-content group transition-all mb-2">
+                        <span class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none"
+                                class="h-5 w-5 text-secondary group-hover:text-secondary-content" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v16m8-8H4" />
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
-                        </button>
-                        <% }) %>
-                            <% } %>
-            </form>
+                            <%= list.list_title %>
+                        </span>
+                        <span x-show="submitting" class="loading loading-spinner loading-xs text-secondary"></span>
+                        <svg x-show="!submitting" xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </button>
+                    <% }) %>
+                        <% } %>
         </div>
 
     </div>

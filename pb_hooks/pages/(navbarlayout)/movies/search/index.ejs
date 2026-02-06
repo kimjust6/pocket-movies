@@ -200,7 +200,7 @@
                                                             <div class="card-actions mt-auto justify-end">
                                                                 <% if (data.user) { %>
                                                                     <button type="button"
-                                                                        @click="showAddModal = true; $nextTick(() => { $refs.tmdbIdField.value = '<%= movie.id %>'; selectedTmdbId = '<%= movie.id %>'; })"
+                                                                        @click="$dispatch('set-watchlist-movie', { id: '<%= movie.id %>' }); showAddModal = true"
                                                                         class="btn btn-primary btn-sm w-full gap-2">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             class="h-4 w-4" viewBox="0 0 20 20"

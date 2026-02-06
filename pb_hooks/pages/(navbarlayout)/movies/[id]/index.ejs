@@ -144,7 +144,7 @@
                                             <% if (locals.auth) { %>
                                                 <div class="flex flex-wrap gap-4 mt-8">
                                                     <button type="button"
-                                                        @click="showAddModal = true; $nextTick(() => { $refs.tmdbIdField.value = '<%= data.movie.id %>'; })"
+                                                        @click="$dispatch('set-watchlist-movie', { id: '<%= data.movie.id %>' }); showAddModal = true"
                                                         class="btn btn-primary btn-lg gap-2 shadow-lg shadow-primary/30 hover:scale-105 transition-all duration-300">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
                                                             viewBox="0 0 20 20" fill="currentColor">
