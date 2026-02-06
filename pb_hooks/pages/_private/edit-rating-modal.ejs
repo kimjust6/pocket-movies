@@ -60,8 +60,14 @@
             <input type="submit" hidden />
         </form>
 
-        <div class="grid grid-cols-2 gap-3 mt-6">
-            <!-- Cancel -->
+        <div class="grid grid-cols-3 gap-3 mt-6">
+            <!-- Delete (only show if user has existing rating) -->
+            <button type="button" @click="deleteRating()" class="btn btn-error btn-outline w-full"
+                x-show="!isRatingReadOnly && hasExistingRating">Delete</button>
+            <!-- Empty space when no existing rating -->
+            <div x-show="isRatingReadOnly || !hasExistingRating"></div>
+
+            <!-- Cancel/Close -->
             <button type="button" @click="showRatingModal = false" class="btn btn-ghost w-full"
                 x-text="isRatingReadOnly ? 'Close' : 'Cancel'"></button>
 

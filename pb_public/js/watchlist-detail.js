@@ -71,6 +71,12 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
         isRatingReadOnly: false,
 
         /**
+         * Whether the user has an existing rating for the current movie.
+         * @type {boolean}
+         */
+        hasExistingRating: false,
+
+        /**
          * Controls the visibility of the Share Watchlist modal.
          * @type {boolean}
          */
@@ -99,6 +105,20 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
          * @type {boolean}
          */
         showItemDeleteModal: false,
+
+        /**
+         * State for the generic confirmation modal.
+         * @type {object}
+         */
+        confirmModal: {
+            show: false,
+            title: '',
+            subtitle: '',
+            message: '',
+            confirmText: 'Confirm',
+            onConfirm: () => { },
+            onCancel: null
+        },
 
         /**
          * The ID of the history item being edited.
@@ -606,10 +626,12 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                 this.editUserRating = attendance.rating || 0;
                 this.editUserFailed = attendance.failed || false;
                 this.editUserReview = attendance.review || '';
+                this.hasExistingRating = true;
             } else {
                 this.editUserRating = 0;
                 this.editUserFailed = false;
                 this.editUserReview = '';
+                this.hasExistingRating = false;
             }
 
             this.showRatingModal = true;
@@ -759,6 +781,74 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             } catch (error) {
                 console.error('Update failed:', error);
                 this.movies[index] = originalMovie;
+                alert('An error occurred. Changes reverted.');
+            }
+        },
+
+        deleteRating() {
+            if (!this.editHistoryId) return;
+
+            // Store context for the confirmation
+            const historyId = this.editHistoryId;
+            const movieTitle = this.editMovieTitle;
+
+            // Close rating modal and show confirmation
+            this.showRatingModal = false;
+
+            this.confirmModal = {
+                show: true,
+                title: 'Delete Rating?',
+                subtitle: movieTitle,
+                message: 'Are you sure you want to delete your rating for this movie?',
+                confirmText: 'Delete',
+                onConfirm: () => this.confirmDeleteRating(historyId),
+                onCancel: () => {
+                    this.confirmModal.show = false;
+                    this.showRatingModal = true;
+                }
+            };
+        },
+
+        async confirmDeleteRating(historyId) {
+            // Close confirmation modal
+            this.confirmModal.show = false;
+
+            // 1. Find the item
+            const index = this.movies.findIndex(m => m.history_id === historyId);
+            if (index === -1) return;
+
+            // 2. Backup original state
+            const originalMovie = JSON.parse(JSON.stringify(this.movies[index]));
+
+            // 3. Optimistic Update - remove attendance for current user
+            if (this.movies[index].attendance && this.movies[index].attendance[this.currentUserId]) {
+                delete this.movies[index].attendance[this.currentUserId];
+                // Trigger reactivity
+                this.movies = [...this.movies];
+            }
+
+            const formData = new FormData();
+            formData.append('action', 'delete_attendance');
+            formData.append('history_id', historyId);
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (!result.success) {
+                    console.error('Delete failed:', result.error);
+                    this.movies[index] = originalMovie;
+                    this.movies = [...this.movies];
+                    alert(result.error || 'Delete failed, changes reverted.');
+                }
+            } catch (error) {
+                console.error('Delete failed:', error);
+                this.movies[index] = originalMovie;
+                this.movies = [...this.movies];
                 alert('An error occurred. Changes reverted.');
             }
         },

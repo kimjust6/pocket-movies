@@ -47,6 +47,8 @@ function handlePostAction(context, list, isOwner, userId, explicitData = null) {
             message = handleDeleteHistoryItem(list, data, isOwner)
         } else if (action === 'update_attendance') {
             message = handleUpdateAttendance(list, data, userId)
+        } else if (action === 'delete_attendance') {
+            message = handleDeleteAttendance(list, data, userId)
         }
     } catch (e) {
         error = e.message
@@ -359,6 +361,78 @@ function handleUpdateAttendance(list, data, userId) {
     return isNew ? "Rating saved!" : "Rating updated!"
 }
 
+/**
+ * Deletes a user's attendance record (rating/review).
+ * @param {import('pocketbase').Record} list
+ * @param {object} data - Form data with history_id
+ * @param {string} userId - Current user's ID
+ * @returns {string|null}
+ */
+function handleDeleteAttendance(list, data, userId) {
+    const historyId = data.history_id
+    if (!historyId) throw new Error("History ID is missing.")
+
+    // Verify history item belongs to this list
+    const historyItem = $app.findRecordById('watched_history', historyId)
+    if (historyItem.getString('list') !== list.id) {
+        throw new Error("Item does not belong to this list.")
+    }
+
+    // Find the attendance record
+    let attendance = null
+    try {
+        attendance = $app.findFirstRecordByFilter(
+            'watch_history_user',
+            `watch_history = '${historyId}' && user = '${userId}'`
+        )
+    } catch (e) {
+        throw new Error("Rating not found.")
+    }
+
+    if (!attendance) {
+        throw new Error("Rating not found.")
+    }
+
+    const attendanceId = attendance.id
+
+    // Delete the record
+    $app.delete(attendance)
+
+    // Broadcast realtime event to subscribers
+    try {
+        const message = new SubscriptionMessage({
+            name: 'watch_history_user/' + attendanceId,
+            data: JSON.stringify({
+                action: 'delete',
+                record: { id: attendanceId, watch_history: historyId, user: userId }
+            })
+        })
+
+        const wildcardMessage = new SubscriptionMessage({
+            name: 'watch_history_user/*',
+            data: JSON.stringify({
+                action: 'delete',
+                record: { id: attendanceId, watch_history: historyId, user: userId }
+            })
+        })
+
+        const clients = $app.subscriptionsBroker().clients()
+        for (const clientId in clients) {
+            const client = clients[clientId]
+            if (client.hasSubscription('watch_history_user/' + attendanceId)) {
+                client.send(message)
+            }
+            if (client.hasSubscription('watch_history_user/*')) {
+                client.send(wildcardMessage)
+            }
+        }
+    } catch (e) {
+        console.log('[Realtime] Failed to broadcast attendance delete:', e)
+    }
+
+    return "Rating deleted!"
+}
+
 const tmdb = require('./tmdb.js')
 
 /**
@@ -510,5 +584,6 @@ module.exports = {
     handleRemoveUser,
     handleUpdateHistoryItem,
     handleDeleteHistoryItem,
-    handleUpdateAttendance
+    handleUpdateAttendance,
+    handleDeleteAttendance
 }
