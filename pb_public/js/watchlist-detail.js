@@ -196,7 +196,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
         },
 
         /**
-         * Sets up PocketBase realtime subscription for watched_history table.
+         * Sets up PocketBase realtime subscription for watched_history and watch_history_user tables.
          * Subscribes to changes filtered by the current list ID.
          */
         setupRealtimeSubscription() {
@@ -205,8 +205,29 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                 return;
             }
 
-            // Initialize PocketBase client
+            // Initialize PocketBase client and load auth from cookie
             const pb = new PocketBase(window.location.origin);
+
+            // Load auth from cookie if available (pb_auth cookie set by server)
+            try {
+                const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+                    const [key, ...rest] = cookie.trim().split('=');
+                    acc[key] = rest.join('=');
+                    return acc;
+                }, {});
+
+                if (cookies.pb_auth) {
+                    const authData = JSON.parse(decodeURIComponent(cookies.pb_auth));
+                    if (authData.token) {
+                        pb.authStore.save(authData.token, authData.record);
+                        console.log('[Realtime] Auth loaded, user:', pb.authStore.model?.id);
+                    }
+                } else {
+                    console.log('[Realtime] No pb_auth cookie found, subscribing as anonymous');
+                }
+            } catch (e) {
+                console.log('[Realtime] Error parsing auth cookie:', e);
+            }
 
             // Subscribe to watched_history table changes for this specific list
             pb.collection('watched_history').subscribe('*', (e) => {
@@ -216,7 +237,17 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             }).then(() => {
                 console.log('[Realtime] Subscribed to watched_history for list:', this.listId);
             }).catch((err) => {
-                console.error('[Realtime] Subscription error:', err);
+                console.error('[Realtime] watched_history subscription error:', err);
+            });
+
+            // Subscribe to watch_history_user table changes (ratings/reviews)
+            // We subscribe to all changes but filter client-side based on loaded movies
+            pb.collection('watch_history_user').subscribe('*', (e) => {
+                this.handleRatingRealtimeEvent(e);
+            }).then(() => {
+                console.log('[Realtime] Subscribed to watch_history_user for ratings');
+            }).catch((err) => {
+                console.error('[Realtime] watch_history_user subscription error:', err);
             });
 
             // Store reference for cleanup
@@ -226,6 +257,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             window.addEventListener('beforeunload', () => {
                 if (this.pb) {
                     this.pb.collection('watched_history').unsubscribe('*');
+                    this.pb.collection('watch_history_user').unsubscribe('*');
                 }
             });
         },
@@ -276,6 +308,69 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                 }
             } catch (error) {
                 console.error('[Realtime] Error handling event:', error);
+            }
+        },
+
+        /**
+         * Handles realtime events for rating/review changes from watch_history_user table.
+         * @param {object} e - The realtime event object with action and record properties.
+         */
+        handleRatingRealtimeEvent(e) {
+            const { action, record } = e;
+
+            // Debug: log the full record to see field names
+            console.log('[Realtime] Rating raw event:', action, JSON.stringify(record));
+
+            // PocketBase realtime sends field names as defined in schema (snake_case)
+            const watchHistoryId = record.watch_history;
+            const userId = record.user;
+
+            if (!watchHistoryId) {
+                console.log('[Realtime] No watch_history field found in record');
+                return;
+            }
+
+            // Check if this rating change is for a movie we have loaded
+            const movieIndex = this.movies.findIndex(m => m.history_id === watchHistoryId);
+            if (movieIndex === -1) {
+                console.log('[Realtime] Rating for unloaded movie, ignoring. history_id:', watchHistoryId);
+                return;
+            }
+
+            console.log('[Realtime] Rating event matched movie at index:', movieIndex, 'action:', action);
+
+            if (action === 'delete') {
+                // Remove this user's attendance from the movie
+                if (this.movies[movieIndex].attendance && this.movies[movieIndex].attendance[userId]) {
+                    delete this.movies[movieIndex].attendance[userId];
+                    // Trigger Alpine.js reactivity by creating new array
+                    this.movies = [...this.movies];
+                    console.log('[Realtime] Deleted rating for user:', userId);
+                }
+                return;
+            }
+
+            // For create or update, update the attendance data
+            if (!this.movies[movieIndex].attendance) {
+                this.movies[movieIndex].attendance = {};
+            }
+
+            this.movies[movieIndex].attendance[userId] = {
+                id: record.id,
+                rating: record.rating || 0,
+                review: record.review || '',
+                failed: record.failed || false,
+                created: record.created
+            };
+
+            console.log('[Realtime] Updated attendance for user:', userId, 'rating:', record.rating);
+
+            // Trigger Alpine.js reactivity by creating new array
+            this.movies = [...this.movies];
+
+            // Re-sort if we're sorted by this user's rating
+            if (this.sortColumn === 'user_' + userId) {
+                this.applySort();
             }
         },
 
