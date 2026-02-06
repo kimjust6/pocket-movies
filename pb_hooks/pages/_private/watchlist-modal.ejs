@@ -3,7 +3,8 @@
     x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-    @click.self="showAddModal = false" @keydown.escape.window="showAddModal = false">
+    @click.self="showAddModal = false" @keydown.escape.window="showAddModal = false"
+    @close-add-modal.window="showAddModal = false">
 
     <div x-show="showAddModal" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
@@ -57,11 +58,11 @@
                             if (typeof window.refreshWatchlists === 'function') {
                                 window.refreshWatchlists();
                             }
+                            // Close modal immediately after success
                             setTimeout(() => {
-                                showAddModal = false;
+                                $dispatch('close-add-modal');
                                 this.message = '';
-                                // Keep tmdbId for now, gets overwritten next open
-                            }, 1500);
+                            }, 500); 
                         } else {
                             this.error = data.error;
                         }
