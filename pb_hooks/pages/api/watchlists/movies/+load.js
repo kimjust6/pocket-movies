@@ -76,6 +76,7 @@ module.exports = function (context) {
 
     // GET Handling
     const listId = common.getParam(context, 'listId')
+    const historyId = common.getParam(context, 'historyId')
     const page = parseInt(common.getParam(context, 'page') || '1', 10)
     const limit = parseInt(common.getParam(context, 'limit') || '20', 10)
     const sort = common.getParam(context, 'sort') || '-created'
@@ -98,6 +99,52 @@ module.exports = function (context) {
             error: accessError || "Access denied.",
             movies: [],
             hasMore: false
+        }
+    }
+
+    // If historyId is provided, fetch a single specific movie (for realtime updates)
+    if (historyId) {
+        try {
+            const historyItem = $app.findRecordById(TABLES.WATCHED_HISTORY, historyId)
+
+            // Verify it belongs to this list
+            if (historyItem.getString('list') !== listId) {
+                return {
+                    success: false,
+                    error: "History item does not belong to this list.",
+                    movies: [],
+                    hasMore: false
+                }
+            }
+
+            const tempArray = [historyItem]
+            $app.expandRecords(tempArray, [COLS.MOVIE])
+
+            const m = historyItem.expandedOne(COLS.MOVIE)
+            const movieData = common.mapMovieFromRecord(m, historyItem)
+
+            if (movieData) {
+                common.attachAttendance([movieData], listId)
+                return {
+                    success: true,
+                    movies: [movieData],
+                    hasMore: false
+                }
+            }
+
+            return {
+                success: false,
+                error: "Failed to map movie data.",
+                movies: [],
+                hasMore: false
+            }
+        } catch (e) {
+            return {
+                success: false,
+                error: "History item not found.",
+                movies: [],
+                hasMore: false
+            }
         }
     }
 

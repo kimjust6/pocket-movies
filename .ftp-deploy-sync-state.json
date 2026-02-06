@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1770333308604,
+    "generatedTime": 1770351912595,
     "data": [
         {
             "type": "file",
@@ -492,8 +492,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 173964,
-            "hash": "1e4aa4f1015aeaf912ab4b4e99a043d1cd683814dc3dcdbd31b95874e0956de3"
+            "size": 174024,
+            "hash": "5b6f0f6e479e722b33e66dd827cf6a09d44c3c2c0ca6d528eb9c3aac7644050a"
         },
         {
             "type": "folder",
@@ -582,6 +582,10 @@
             "name": "pb_hooks/pages/api/watchlists/movies"
         },
         {
+            "type": "folder",
+            "name": "pb_hooks/pages/api/watchlists/add"
+        },
+        {
             "type": "file",
             "name": "pb_hooks/pages/api/watchlists/movies/index.ejs",
             "size": 27,
@@ -590,8 +594,26 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/api/watchlists/movies/+load.js",
-            "size": 4488,
-            "hash": "9c0287c2eb8392f80cea833369b2df1c6dd8529c13a631e68ec804e4fe44e926"
+            "size": 4392,
+            "hash": "74def9ac1547bc021585f6e53582a0420020a71eee26ba415d88d97a19597f99"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/api/watchlists/add/index.ejs",
+            "size": 27,
+            "hash": "9d30d663d258c14aa399e4ca989618fcaffc05cc98c8ac7bbd61b0e8b40fb3f1"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/api/watchlists/add/+load.js",
+            "size": 1376,
+            "hash": "402c73489fbbe62bc04866210c9865ebde7a5fe71a3c5a33e0b60dd4dfd2223d"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/_private/watchlist-modal.ejs",
+            "size": 7386,
+            "hash": "4e40192a482814572d485e53c5a0a4a76de22d90d9ac8070421914b66f6d68fa"
         },
         {
             "type": "file",
@@ -638,8 +660,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/mobile-menu.ejs",
-            "size": 2893,
-            "hash": "b5ec36e4213babbb88c905bf2c9139ee4b1114459a586d52e8d689fe3f9fa144"
+            "size": 2894,
+            "hash": "b64770deafce6f3bb6c2f233ce1ab6a51464114f81d0fc172d1e5d98a8b42725"
         },
         {
             "type": "file",
@@ -650,8 +672,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/header.ejs",
-            "size": 14721,
-            "hash": "e4aa2a2c4eb3bd9f3757c0eff68119c8cd185edf9d398ecc647c3dc99f5d5f0a"
+            "size": 14445,
+            "hash": "ac7ddc2f39a2321395bafc779d13c03a3bc679cc85716292c2583c128d2f31ba"
         },
         {
             "type": "file",
@@ -728,8 +750,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+middleware.js",
-            "size": 3110,
-            "hash": "521277121e7d695f6bf233074116b65708012733d8a818ca9e5d78a1b3c0b7fe"
+            "size": 2890,
+            "hash": "4bcec84dab6ccedc0967618d94c6476bfcbcedb884bc1430d1a5ca33649a1740"
         },
         {
             "type": "file",
@@ -756,8 +778,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/+load.js",
-            "size": 6165,
-            "hash": "b4a2d0c6394cb3043d6d3a6b615fb96023aed2135ed2aab27bfdeca846720102"
+            "size": 6104,
+            "hash": "a5a8f6e015a330f2e40059396faa7bffe5c59927e84a3106725caa3a0d20914a"
         },
         {
             "type": "file",
@@ -768,8 +790,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/+load.js",
-            "size": 3144,
-            "hash": "27d52bbfd6246818c8728b367dd92790615b48923ae43f5aef32c3fa03dafd1d"
+            "size": 3746,
+            "hash": "f539307b9eb165637696031f15d83da5c04904816bdc7c50e22908e0975896b6"
         },
         {
             "type": "file",
@@ -810,38 +832,38 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/search/index.ejs",
-            "size": 36145,
-            "hash": "f8ff1dd3dc3d5f77ea3a349a671c05afc991a373a7740152b08558ede9a0c36c"
+            "size": 29353,
+            "hash": "c4fa1571b26b34f76a1b2fd73a3870ecda35d42fd6a0a57f8bd59e9691d32520"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/search/+load.js",
-            "size": 8102,
-            "hash": "6bfe157f581166823ae3acca19929da4ecedea46d67e09fff526ddadd769e6d2"
+            "size": 3508,
+            "hash": "b7dd029fac5fa06c89491e7447e54db174ca261e717d59007be5290484c6bf8e"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/index.ejs",
-            "size": 15748,
-            "hash": "c5ac035410c8180c08954d1a4223e22c984242acfb8387918cac8b09e1d2e485"
+            "size": 19644,
+            "hash": "3f65e4da9ca432f94de37cfabe45423c9311c5aaf1ddc7977802ab90ca2d376e"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/+load.js",
-            "size": 2378,
-            "hash": "d29b61c709e633e55d6e7ccb6e548db41664582eaf5da6f99448473f3a1192c6"
+            "size": 2698,
+            "hash": "68c0aa467dc9715a97288677742e8febaa452154bb93df502d71514b6fb578e4"
         },
         {
             "type": "file",
             "name": "pb_hooks/lib/watchlist-actions.js",
-            "size": 11260,
-            "hash": "35def5e37cce45bce69b7f486f18c85f6f3e1bcee5fdaf9f072589ccb9921063"
+            "size": 16866,
+            "hash": "3dc18c48d5aabfd34b1a13a023e80a877de1780a4c536fd6961efb003a2982d3"
         },
         {
             "type": "file",
             "name": "pb_hooks/lib/tmdb.js",
-            "size": 2379,
-            "hash": "e54742cc612f041659ceaa9d819214590cb33d88eb9d6e2f2d07ec152cc4498e"
+            "size": 2797,
+            "hash": "9c95ca362de9b7bec3cee172ce27cb9ebb5244c270ade0ad430cc054d5e629f4"
         },
         {
             "type": "file",
@@ -852,8 +874,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/common.js",
-            "size": 31363,
-            "hash": "ac82eecb629cce06d5262f04f19a818413ac7c2f71de8e0a6855390798e64c6e"
+            "size": 32147,
+            "hash": "666e5bfeb5a022b59663b0f69e541606a1760b6a1ac031aa67ec66b06d1766f3"
         }
     ]
 }

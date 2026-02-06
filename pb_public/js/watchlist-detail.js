@@ -190,6 +190,93 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             window.addEventListener('resize', () => {
                 this.updateNavbarHeight();
             });
+
+            // Set up realtime subscription for watched_history updates
+            this.setupRealtimeSubscription();
+        },
+
+        /**
+         * Sets up PocketBase realtime subscription for watched_history table.
+         * Subscribes to changes filtered by the current list ID.
+         */
+        setupRealtimeSubscription() {
+            if (!this.listId || typeof PocketBase === 'undefined') {
+                console.warn('[Realtime] PocketBase not available or listId missing');
+                return;
+            }
+
+            // Initialize PocketBase client
+            const pb = new PocketBase(window.location.origin);
+
+            // Subscribe to watched_history table changes for this specific list
+            pb.collection('watched_history').subscribe('*', (e) => {
+                this.handleRealtimeEvent(e);
+            }, {
+                filter: `list = "${this.listId}"`
+            }).then(() => {
+                console.log('[Realtime] Subscribed to watched_history for list:', this.listId);
+            }).catch((err) => {
+                console.error('[Realtime] Subscription error:', err);
+            });
+
+            // Store reference for cleanup
+            this.pb = pb;
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', () => {
+                if (this.pb) {
+                    this.pb.collection('watched_history').unsubscribe('*');
+                }
+            });
+        },
+
+        /**
+         * Handles realtime events from PocketBase.
+         * @param {object} e - The realtime event object with action and record properties.
+         */
+        async handleRealtimeEvent(e) {
+            const { action, record } = e;
+            console.log('[Realtime] Event received:', action, record?.id);
+
+            // For delete action, we don't need to fetch from API
+            if (action === 'delete') {
+                const historyId = record.id;
+                this.movies = this.movies.filter(m => m.history_id !== historyId);
+                return;
+            }
+
+            // Fetch the updated movie data from the API to get full details with attendance
+            try {
+                const response = await this.fetchWithRetry(
+                    `/api/watchlists/movies?listId=${this.listId}&historyId=${record.id}`
+                );
+                const data = await response.json();
+
+                if (action === 'create') {
+                    // Add new movie to the list if we have the data
+                    if (data.success && data.movies && data.movies.length > 0) {
+                        const newMovie = data.movies[0];
+                        // Check if it already exists (avoid duplicates)
+                        const exists = this.movies.some(m => m.history_id === newMovie.history_id);
+                        if (!exists) {
+                            this.movies.unshift(newMovie);
+                            this.applySort();
+                        }
+                    }
+                } else if (action === 'update') {
+                    // Update existing movie in the list
+                    if (data.success && data.movies && data.movies.length > 0) {
+                        const updatedMovie = data.movies[0];
+                        const index = this.movies.findIndex(m => m.history_id === updatedMovie.history_id);
+                        if (index !== -1) {
+                            this.movies[index] = updatedMovie;
+                            this.applySort();
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('[Realtime] Error handling event:', error);
+            }
         },
 
         updateNavbarHeight() {
