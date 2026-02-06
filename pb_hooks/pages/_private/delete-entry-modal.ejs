@@ -1,0 +1,31 @@
+<!-- Item Delete Confirmation Modal -->
+<div x-show="showItemDeleteModal" x-cloak x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    @click.self="showItemDeleteModal = false" @keydown.escape.window="showItemDeleteModal = false">
+
+    <div x-show="showItemDeleteModal" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="relative w-full max-w-sm rounded-2xl border border-error/20 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+
+        <h3 class="text-xl font-bold text-error mb-1">Remove Movie?</h3>
+        <p class="text-base-content/60 text-sm mb-4 truncate" x-text="editMovieTitle"></p>
+        <p class="text-base-content/70 mb-6">Are you sure you want to remove this movie from your watchlist?</p>
+
+
+        <div class="flex gap-3">
+            <button type="button" @click="showItemDeleteModal = false; showDateModal = true"
+                class="btn btn-ghost flex-1">Cancel</button>
+
+            <form method="POST" class="flex-1">
+                <input type="hidden" name="action" value="delete_history_item">
+                <input type="hidden" name="history_id" :value="editHistoryId">
+                <button type="submit" class="btn btn-error w-full">Remove</button>
+            </form>
+        </div>
+    </div>
+</div>

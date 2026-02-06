@@ -3,7 +3,7 @@
  * Manages the state of Share and Edit modals, table sorting, and infinite scroll.
  */
 document.addEventListener('alpine:init', () => {
-    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false, listId = '', initialHasMore = true) => ({
+    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false, listId = '', initialHasMore = true, currentUserId = '') => ({
         /**
          * Movies array for the watchlist.
          * @type {Array}
@@ -15,6 +15,12 @@ document.addEventListener('alpine:init', () => {
          * @type {boolean}
          */
         isOwner: isOwner,
+
+        /**
+         * The ID of the current logged-in user.
+         * @type {string}
+         */
+        currentUserId: currentUserId,
 
         /**
          * The watchlist ID for API calls.
@@ -59,6 +65,12 @@ document.addEventListener('alpine:init', () => {
         sortDirection: 'desc',
 
         /**
+         * Whether the rating modal is in read-only mode.
+         * @type {boolean}
+         */
+        isRatingReadOnly: false,
+
+        /**
          * Controls the visibility of the Share Watchlist modal.
          * @type {boolean}
          */
@@ -83,10 +95,22 @@ document.addEventListener('alpine:init', () => {
         showDateModal: false,
 
         /**
+         * Controls the visibility of the Item Delete modal.
+         * @type {boolean}
+         */
+        showItemDeleteModal: false,
+
+        /**
          * The ID of the history item being edited.
          * @type {string}
          */
         editHistoryId: '',
+
+        /**
+         * The title of the movie being edited.
+         * @type {string}
+         */
+        editMovieTitle: '',
 
         /**
          * The current watched date value for the edit form.
@@ -113,26 +137,69 @@ document.addEventListener('alpine:init', () => {
         editRtScore: '',
 
         /**
-         * Controls the visibility of the Item Delete Confirmation modal.
+         * Controls the visibility of the User Rating modal.
          * @type {boolean}
          */
-        showItemDeleteModal: false,
+        showRatingModal: false,
 
         /**
-         * Initializes the component and sets up infinite scroll.
+         * The current user rating for the edit form.
+         * @type {number}
          */
+        editUserRating: 0,
+
+        /**
+         * The current user failed status for the edit form.
+         * @type {boolean}
+         */
+        editUserFailed: false,
+
+        /**
+         * The current user review for the edit form.
+         * @type {string}
+         */
+        editUserReview: '',
+
+        /**
+         * The title for the rating modal.
+         * @type {string}
+         */
+        ratingModalTitle: 'Edit Rating',
+
         init() {
+            // Parse URL params for sort
+            const urlParams = new URLSearchParams(window.location.search);
+            const sortParam = urlParams.get('sort');
+            const dirParam = urlParams.get('dir');
+
+            if (sortParam) {
+                this.sortColumn = sortParam;
+            }
+            if (dirParam && (dirParam === 'asc' || dirParam === 'desc')) {
+                this.sortDirection = dirParam;
+            }
+
             this.applySort();
+            this.updateNavbarHeight();
 
             // Set up intersection observer for infinite scroll
             this.$nextTick(() => {
                 this.setupInfiniteScroll();
             });
+
+            window.addEventListener('resize', () => {
+                this.updateNavbarHeight();
+            });
         },
 
-        /**
-         * Sets up the intersection observer for infinite scroll.
-         */
+        updateNavbarHeight() {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                const height = navbar.offsetHeight;
+                document.documentElement.style.setProperty('--navbar-height', height + 'px');
+            }
+        },
+
         setupInfiniteScroll() {
             const sentinel = document.getElementById('scroll-sentinel');
             if (!sentinel) return;
@@ -150,11 +217,8 @@ document.addEventListener('alpine:init', () => {
             observer.observe(sentinel);
         },
 
-        /**
-         * Loads more movies from the API.
-         */
-        async loadMore() {
-            if (this.isLoading || !this.hasMore) return;
+        async loadMore(isReset = false) {
+            if (!isReset && (this.isLoading || !this.hasMore)) return;
 
             this.isLoading = true;
             this.currentPage++;
@@ -162,11 +226,10 @@ document.addEventListener('alpine:init', () => {
             try {
                 const sortParam = this.getDbSortParam();
                 const url = `/api/watchlists/movies?listId=${this.listId}&page=${this.currentPage}&limit=${this.pageSize}&sort=${encodeURIComponent(sortParam)}`;
-                console.log('[Infinite Scroll] Fetching:', url);
 
-                const response = await fetch(url);
+                // Use fetchWithRetry helper
+                const response = await this.fetchWithRetry(url);
                 const text = await response.text();
-                // console.log('[Infinite Scroll] Raw response:', text.substring(0, 200));
 
                 let data;
                 try {
@@ -177,17 +240,22 @@ document.addEventListener('alpine:init', () => {
                     return;
                 }
 
-                // console.log('[Infinite Scroll] Parsed data:', data);
-
                 if (data.success && data.movies && data.movies.length > 0) {
-                    // Add new movies to the array
-                    this.movies = [...this.movies, ...data.movies];
+                    if (isReset) {
+                        this.movies = data.movies;
+                    } else {
+                        // Filter out duplicates based on history_id
+                        const existingIds = new Set(this.movies.map(m => m.history_id));
+                        const newMovies = data.movies.filter(m => !existingIds.has(m.history_id));
+                        this.movies = [...this.movies, ...newMovies];
+                    }
+
                     this.hasMore = data.hasMore;
-                    // Re-apply sort after adding new items (just in case)
                     this.applySort();
-                    console.log('[Infinite Scroll] Added', data.movies.length, 'movies. hasMore:', data.hasMore);
                 } else {
-                    console.log('[Infinite Scroll] No more movies or error:', data);
+                    if (isReset) {
+                        this.movies = [];
+                    }
                     this.hasMore = false;
                 }
             } catch (error) {
@@ -198,10 +266,26 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        /**
-         * Get the database sort parameter based on current column and direction.
-         * @returns {string} - The sort string (e.g. "+movie.title").
-         */
+        async fetchWithRetry(url, options = {}, retries = 3, backoff = 300) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    if (retries > 0 && (response.status >= 500 || response.status === 429)) {
+                        await new Promise(resolve => setTimeout(resolve, backoff));
+                        return this.fetchWithRetry(url, options, retries - 1, backoff * 2);
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response;
+            } catch (error) {
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, backoff));
+                    return this.fetchWithRetry(url, options, retries - 1, backoff * 2);
+                }
+                throw error;
+            }
+        },
+
         getDbSortParam() {
             const colMap = {
                 'watched_at': 'watched',
@@ -217,11 +301,25 @@ document.addEventListener('alpine:init', () => {
             return dir + col;
         },
 
-        /**
-         * Sort by a specific column. Toggles direction if same column.
-         * @param {string} column - The column name to sort by.
-         */
+        sortByUser(userId) {
+            if (this.isLoading) return;
+            const column = 'user_' + userId;
+
+            if (this.sortColumn === column) {
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortColumn = column;
+                this.sortDirection = 'desc'; // Default to desc for ratings (high to low)
+            }
+
+            // For user specific sort, we only do client side sort of loaded movies
+            this.applySort();
+            this.updateUrlParams();
+        },
+
         sortBy(column) {
+            if (this.isLoading) return;
+
             if (this.sortColumn === column) {
                 this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
             } else {
@@ -229,37 +327,35 @@ document.addEventListener('alpine:init', () => {
                 this.sortDirection = 'asc';
             }
 
-            // Hybrid Sort Logic:
-            // If we have more items to load, we must query the database to get the correct sorted order.
-            // If we have fully loaded the list, we can just sort client-side.
             if (this.hasMore) {
-                console.log('[Sort] Reloading from server due to incomplete list');
-                this.movies = [];
-                this.currentPage = 0; // Will be incremented to 1 in loadMore
-                this.hasMore = true;
-                this.loadMore();
+                this.isLoading = true;
+                this.currentPage = 0;
+                this.loadMore(true);
             } else {
-                console.log('[Sort] Sorting client-side');
                 this.applySort();
             }
+            this.updateUrlParams();
         },
 
-        /**
-         * Applies the current sort to the movies array.
-         */
         applySort() {
             const col = this.sortColumn;
             const dir = this.sortDirection;
 
             this.movies.sort((a, b) => {
-                let valA = a[col];
-                let valB = b[col];
+                let valA, valB;
 
-                // Handle null/undefined
+                if (col.startsWith('user_')) {
+                    const userId = col.split('_')[1];
+                    valA = (a.attendance && a.attendance[userId] && a.attendance[userId].rating) ? a.attendance[userId].rating : -1;
+                    valB = (b.attendance && b.attendance[userId] && b.attendance[userId].rating) ? b.attendance[userId].rating : -1;
+                } else {
+                    valA = a[col];
+                    valB = b[col];
+                }
+
                 if (valA == null) valA = '';
                 if (valB == null) valB = '';
 
-                // String comparison (case-insensitive)
                 if (typeof valA === 'string' && typeof valB === 'string') {
                     valA = valA.toLowerCase();
                     valB = valB.toLowerCase();
@@ -271,54 +367,225 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        /**
-         * Get sort icon for a column.
-         * @param {string} column - The column name.
-         * @returns {string} - The sort icon (↑, ↓, or empty).
-         */
         getSortIcon(column) {
             if (this.sortColumn !== column) return '';
             return this.sortDirection === 'asc' ? '↑' : '↓';
         },
 
-        /**
-         * Format a date string to a readable format.
-         * @param {string} dateStr - The date string.
-         * @returns {string} - Formatted date.
-         */
         formatDate(dateStr) {
             if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
             return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
         },
 
-        /**
-         * Opens the Delete Confirmation modal and optionally closes the Edit modal.
-         */
+        formatRating(val) {
+            const num = parseFloat(val);
+            if (isNaN(num)) return '-';
+            if (num % 1 === 0) return num.toFixed(1);
+            return num.toString();
+        },
+
         openDeleteModal() {
             this.showEditModal = false;
             this.showDeleteModal = true;
         },
 
-        /**
-         * Opens the Delete Item Confirmation modal and closes the Date modal.
-         */
         openItemDeleteModal() {
             this.showDateModal = false;
             this.showItemDeleteModal = true;
         },
 
-        /**
-         * Opens the edit modal for a specific movie.
-         * @param {object} movie - The movie object.
-         */
         openEditMovieModal(movie) {
             this.editHistoryId = movie.history_id;
+            this.editMovieTitle = movie.title || '';
             this.editDateValue = movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '';
             this.editTmdbScore = movie.tmdb_score || '';
             this.editImdbScore = movie.imdb_score || '';
             this.editRtScore = movie.rt_score || '';
             this.showDateModal = true;
+        },
+
+        /**
+         * Opens the user rating modal for a specific movie and user.
+         * @param {object} movie - The movie object.
+         * @param {string} userId - The user ID whose rating we are viewing/editing.
+         */
+        openRatingModal(movie, userId) {
+            this.editHistoryId = movie.history_id;
+            this.editMovieTitle = movie.title || '';
+
+            // Determine if read-only
+            this.isRatingReadOnly = (userId !== this.currentUserId);
+            this.ratingModalTitle = this.isRatingReadOnly ? 'View Review' : 'Edit Rating';
+
+            // Get existing attendance if any
+            const attendance = movie.attendance && movie.attendance[userId];
+            if (attendance) {
+                this.editUserRating = attendance.rating || 0;
+                this.editUserFailed = attendance.failed || false;
+                this.editUserReview = attendance.review || '';
+            } else {
+                this.editUserRating = 0;
+                this.editUserFailed = false;
+                this.editUserReview = '';
+            }
+
+            this.showRatingModal = true;
+        },
+
+        async updateDate() {
+            if (!this.editHistoryId) return;
+
+            // Validation
+            if (this.editTmdbScore !== "" && (this.editTmdbScore < 0 || this.editTmdbScore > 10)) {
+                alert("TMDB Score must be between 0 and 10");
+                return;
+            }
+            if (this.editImdbScore !== "" && (this.editImdbScore < 0 || this.editImdbScore > 10)) {
+                alert("IMDB Score must be between 0 and 10");
+                return;
+            }
+            if (this.editRtScore !== "" && (this.editRtScore < 0 || this.editRtScore > 100)) {
+                alert("Rotten Tomatoes Score must be between 0 and 100");
+                return;
+            }
+
+            // 1. Find the item
+            const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);
+            if (index === -1) return;
+
+            // 2. Backup original state
+            const originalMovie = { ...this.movies[index] };
+
+            // 3. Optimistic Update
+            // We construct a temporary movie object merging old data with form values
+            this.movies[index] = {
+                ...originalMovie,
+                watched_at: this.editDateValue ? new Date(this.editDateValue).toISOString() : originalMovie.watched_at,
+                tmdb_score: this.editTmdbScore ? parseFloat(this.editTmdbScore) : 0,
+                imdb_score: this.editImdbScore ? parseFloat(this.editImdbScore) : 0,
+                rt_score: this.editRtScore ? parseInt(this.editRtScore) : 0
+            };
+
+            // Re-sort the list immediately
+            this.applySort();
+
+            // 4. Close modal immediately
+            this.showDateModal = false;
+
+            const formData = new FormData();
+            formData.append('action', 'update_history_item');
+            formData.append('history_id', this.editHistoryId);
+            formData.append('watched_date', this.editDateValue);
+            formData.append('tmdb_score', this.editTmdbScore);
+            formData.append('imdb_score', this.editImdbScore);
+            formData.append('rt_score', this.editRtScore);
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    // 5. Success: Update with canonical server data
+                    if (result.movie) {
+                        // Re-find index just in case list changed (unlikely but safe)
+                        const freshIndex = this.movies.findIndex(m => m.history_id === result.movie.history_id);
+                        if (freshIndex !== -1) {
+                            this.movies[freshIndex] = result.movie;
+                        }
+                    }
+                } else {
+                    // 6. Failure: Revert and Alert
+                    console.error('Update failed:', result.error);
+                    this.movies[index] = originalMovie;
+                    // Optional: re-open modal or simple toast
+                    alert(result.error || 'Update failed, changes reverted.');
+                }
+            } catch (error) {
+                console.error('Update failed:', error);
+                this.movies[index] = originalMovie;
+                alert('An error occurred. Changes reverted.');
+            }
+        },
+
+        async updateRating() {
+            if (!this.editHistoryId) return;
+
+            // Validation
+            if (this.editUserRating !== "" && (this.editUserRating < 0 || this.editUserRating > 10)) {
+                alert("Rating must be between 0 and 10");
+                return;
+            }
+
+            // 1. Find the item
+            const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);
+            if (index === -1) return;
+
+            // 2. Backup original state
+            const originalMovie = JSON.parse(JSON.stringify(this.movies[index])); // Deep copy for nested objects
+
+            // 3. Optimistic Update
+            if (!this.movies[index].attendance) this.movies[index].attendance = {};
+            if (!this.movies[index].attendance[this.currentUserId]) this.movies[index].attendance[this.currentUserId] = {};
+
+            this.movies[index].attendance[this.currentUserId] = {
+                ...this.movies[index].attendance[this.currentUserId],
+                rating: this.editUserRating ? parseFloat(this.editUserRating) : 0,
+                review: this.editUserReview,
+                failed: this.editUserFailed
+            };
+
+            // Re-sort the list immediately
+            this.applySort();
+
+            // 4. Close modal immediately
+            this.showRatingModal = false;
+
+            const formData = new FormData();
+            formData.append('action', 'update_attendance');
+            formData.append('history_id', this.editHistoryId);
+            formData.append('rating', this.editUserRating);
+            formData.append('review', this.editUserReview);
+            formData.append('failed', this.editUserFailed ? 'on' : 'off');
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    // 5. Success: Update with canonical server data
+                    if (result.movie) {
+                        const freshIndex = this.movies.findIndex(m => m.history_id === result.movie.history_id);
+                        if (freshIndex !== -1) {
+                            this.movies[freshIndex] = result.movie;
+                        }
+                    }
+                } else {
+                    // 6. Failure
+                    console.error('Update failed:', result.error);
+                    this.movies[index] = originalMovie;
+                    alert(result.error || 'Update failed, changes reverted.');
+                }
+            } catch (error) {
+                console.error('Update failed:', error);
+                this.movies[index] = originalMovie;
+                alert('An error occurred. Changes reverted.');
+            }
+        },
+
+        updateUrlParams() {
+            const url = new URL(window.location);
+            url.searchParams.set('sort', this.sortColumn);
+            url.searchParams.set('dir', this.sortDirection);
+            window.history.pushState({}, '', url);
         }
     }));
 });

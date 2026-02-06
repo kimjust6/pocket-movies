@@ -66,25 +66,36 @@ module.exports = function (context) {
         limit: pageSize + 1,
         sort: '-watched'
     })
-    const hasMore = allMovies.length > pageSize
+    const hasMore = (allMovies.totalFetched !== undefined ? allMovies.totalFetched : allMovies.length) > pageSize
     const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies
 
-    // 4. Fetch potential users to invite (if owner)
-    const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner)
+    // 4. Fetch List Members (for columns)
+    const members = common.fetchListMembers(listId, list.getString('owner'))
 
-    return {
+    // 5. Attach Attendance Data
+    common.attachAttendance(movies, listId)
+
+    // 6. Fetch potential users to invite (if owner)
+    const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner, listId)
+
+    const responseData = {
         list: {
             id: list.id,
             title: list.getString('list_title'),
             description: list.getString('description'),
             created: list.getString('created'),
-            is_owner: isOwner
+            is_owner: !!isOwner,
+            is_private: list.getBool('is_private')
         },
         movies,
         hasMore,
+        members,
         users: potentialUsers,
+        user: user ? { id: user.id } : null,
         error,
         message,
         formatDateTime: common.formatDateTime
     }
+
+    return responseData
 }

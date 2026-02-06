@@ -111,44 +111,57 @@ module.exports = function (context) {
         }
     }
 
-    // 2. Try to fetch custom lists from 'lists' collection
-    try {
-        let listRecords = []
+    // 2. Fetch lists
+    result.myLists = []
+    result.publicLists = []
 
-        if (userId) {
-            // Use common function
+    // A. Fetch My Lists (Owned + Shared) if logged in
+    if (userId) {
+        try {
+            // Use common function to get Owned + Shared
             const allLists = common.getWatchlists(client, user)
 
-            // Map to required format (adding is_owner)
-            listRecords = allLists.map(list => ({
+            result.myLists = allLists.map(list => ({
                 id: list.id,
                 list_title: list.list_title,
                 description: list.description,
                 created: list.created,
-                is_owner: list.owner === userId
+                is_owner: list.owner === userId,
+                owner_id: list.owner
             }))
-
-        } else {
-            // NOT logged in: Fetch PUBLIC lists
-            // We can use SDK here too
-            const publicLists = client.collection('lists').getList(1, 50, {
-                filter: 'is_private = false && (is_deleted = false || is_deleted = null)',
-                sort: '-created'
-            })
-
-            listRecords = publicLists.items.map((list) => ({
-                id: list.id,
-                list_title: list.list_title,
-                description: list.description,
-                created: list.created,
-                is_owner: false
-            }))
+        } catch (e) {
+            console.error('Failed to load my lists:', e)
         }
+    }
 
-        result.lists = listRecords
+    // B. Fetch Public Lists (for everyone)
+    try {
+        // Fetch all public lists
+        // Note: Sort by -created to show newest first
+        const publicLists = client.collection('lists').getList(1, 50, {
+            filter: 'is_private = false && (is_deleted = false || is_deleted = null)',
+            sort: '-created',
+            expand: 'owner'
+        })
+
+        // Map and IDs to exclude (already in myLists)
+        const myIds = new Set(result.myLists.map(l => l.id))
+
+        result.publicLists = publicLists.items
+            .filter(list => !myIds.has(list.id)) // Exclude if already in "My Lists"
+            .map((list) => {
+                const owner = list.expand?.owner
+                return {
+                    id: list.id,
+                    list_title: list.list_title,
+                    description: list.description,
+                    created: list.created,
+                    is_owner: list.owner === userId,
+                    owner_name: owner ? (owner.name || owner.username) : 'Unknown'
+                }
+            })
     } catch (e) {
-        console.error('Failed to load custom lists (collection "lists"):', e)
-        // Keep result.lists as []
+        console.error('Failed to load public lists:', e)
     }
 
     return {

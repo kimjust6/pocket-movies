@@ -80,50 +80,67 @@ module.exports = {
             // 1. Owned lists
             let ownedLists = []
             try {
-                ownedLists = client.collection('lists').getFullList({
-                    filter: `owner = '${user.id}' && (is_deleted = false || is_deleted = null)`,
-                    sort: '-created',
-                })
+                // Use server-side search to bypass API rules
+                const records = $app.findRecordsByFilter(
+                    'lists',
+                    `owner = '${user.id}' && (is_deleted = false || is_deleted = null)`,
+                    '-created'
+                )
+                ownedLists = records.map(r => ({
+                    id: r.id,
+                    list_title: r.getString('list_title'),
+                    description: r.getString('description'),
+                    is_private: r.getBool('is_private'),
+                    owner: r.getString('owner'),
+                    created: r.getString('created'),
+                    updated: r.getString('updated'),
+                    is_deleted: r.getBool('is_deleted')
+                }))
             } catch (e) {
-                // Ignore error
+                console.error('[common.js] Failed to fetch owned lists:', e)
             }
 
             // 2. Shared lists
             let sharedLists = []
             try {
-                const sharedInvites = client.collection('list_user').getFullList({
-                    filter: `invited_user = '${user.id}'`,
-                    sort: '-created',
-                    expand: 'list',
-                })
+                const sharedInvites = $app.findRecordsByFilter(
+                    'list_user',
+                    `invited_user = '${user.id}'`,
+                    '-created'
+                )
+                $app.expandRecords(sharedInvites, ['list'])
 
                 sharedLists = sharedInvites
-                    .map((invite) => invite.expand?.list)
-                    .filter(list => list && !list.is_deleted)
+                    .map((invite) => {
+                        const list = invite.expandedOne('list')
+                        if (list && !list.getBool('is_deleted')) {
+                            return {
+                                id: list.id,
+                                list_title: list.getString('list_title'),
+                                description: list.getString('description'),
+                                is_private: list.getBool('is_private'),
+                                owner: list.getString('owner'),
+                                created: list.getString('created'),
+                                updated: list.getString('updated'),
+                                is_deleted: list.getBool('is_deleted')
+                            }
+                        }
+                        return null
+                    })
+                    .filter(Boolean)
             } catch (e) {
-                // Ignore error
+                console.error('[common.js] Failed to fetch shared lists:', e)
             }
 
             // Combine and deduplicate
             const allLists = [...ownedLists, ...sharedLists]
             const seenIds = new Set()
 
-            lists = allLists
-                .filter((list) => {
-                    if (seenIds.has(list.id)) return false
-                    seenIds.add(list.id)
-                    return true
-                })
-                .map((list) => ({
-                    id: list.id,
-                    list_title: list.list_title,
-                    description: list.description,
-                    is_private: list.is_private,
-                    owner: list.owner,
-                    created: list.created,
-                    updated: list.updated,
-                    is_deleted: list.is_deleted
-                }))
+            lists = allLists.filter((list) => {
+                if (seenIds.has(list.id)) return false
+                seenIds.add(list.id)
+                return true
+            })
         } catch (e) {
             console.error('[common.js] Failed to load watchlists:', e)
         }
@@ -199,7 +216,7 @@ module.exports = {
 
             $app.expandRecords(historyRecords, ['movie'])
 
-            return historyRecords.map((item) => {
+            const results = historyRecords.map((item) => {
                 const m = item.expandedOne('movie')
                 if (m) {
                     return {
@@ -224,6 +241,10 @@ module.exports = {
                 }
                 return null
             }).filter(Boolean)
+
+            // Attach metadata to the array to help with pagination
+            results.totalFetched = historyRecords.length
+            return results
         } catch (e) {
             console.error('[common.js] Failed to load list items:', e)
             return []
@@ -234,25 +255,138 @@ module.exports = {
      * Fetch potential users to invite to a watchlist.
      * @param {string} excludeUserId - User ID to exclude (current user)
      * @param {boolean} isOwner - Whether current user is owner
-     * @returns {Array} Array of user objects
+     * @param {string} listId - The list ID to check for existing invites
+     * @returns {Array} Array of users with is_invited flag and current_permission
      */
-    fetchPotentialInviteUsers: function (excludeUserId, isOwner) {
+    fetchPotentialInviteUsers: function (excludeUserId, isOwner, listId) {
         if (!isOwner || !excludeUserId) return []
 
         try {
-            return $app.findRecordsByFilter(
+            // 1. Fetch potential users
+            const users = $app.findRecordsByFilter(
                 'users',
                 `id != '${excludeUserId}'`,
                 'email',
                 50,
                 0
-            ).map(u => ({
+            )
+
+            // 2. If listId is provided, check who is already added and their permission
+            const invitedUserMap = new Map() // userId -> permission
+            if (listId) {
+                try {
+                    const existingInvites = $app.findRecordsByFilter(
+                        'list_user',
+                        `list = '${listId}'`,
+                        '-created',
+                        100,
+                        0
+                    )
+                    existingInvites.forEach(invite => {
+                        invitedUserMap.set(invite.getString('invited_user'), invite.getString('user_permission'))
+                    })
+                } catch (ignore) {
+                    // Ignore errors if list_user fetch fails
+                }
+            }
+
+            return users.map(u => ({
                 id: u.id,
                 email: u.getString('email'),
+                is_invited: invitedUserMap.has(u.id),
+                current_permission: invitedUserMap.get(u.id) || 'view' // Default to view if not found
             }))
         } catch (e) {
             console.error("[common.js] Failed to fetch users", e)
             return []
         }
+    },
+    /**
+     * Fetch all members of a list (owner + invited users).
+     * @param {string} listId - The list ID
+     * @param {string} ownerId - The owner's User ID
+     * @returns {Array<{id: string, name: string, avatar: string, is_owner: boolean}>}
+     */
+    fetchListMembers: function (listId, ownerId) {
+        const members = []
+        const seenIds = new Set()
+
+        // 1. Add Owner
+        if (ownerId) {
+            try {
+                const owner = $app.findRecordById("users", ownerId)
+                members.push({
+                    id: owner.id,
+                    name: owner.getString('name') || owner.getString('username'),
+                    avatar: owner.getString('avatar'),
+                    is_owner: true
+                })
+                seenIds.add(ownerId)
+            } catch (e) { }
+        }
+
+        // 2. Add Invited Users
+        try {
+            const invites = $app.findRecordsByFilter("list_user", `list = '${listId}'`)
+            invites.forEach(invite => {
+                const uid = invite.getString('invited_user')
+                if (!seenIds.has(uid)) {
+                    try {
+                        const u = $app.findRecordById("users", uid)
+                        members.push({
+                            id: u.id,
+                            name: u.getString('name') || u.getString('username'),
+                            avatar: u.getString('avatar'),
+                            is_owner: false
+                        })
+                        seenIds.add(uid)
+                    } catch (e) { }
+                }
+            })
+        } catch (e) { }
+
+        return members
+    },
+
+    /**
+     * Attach attendance data to movies.
+     * @param {Array} movies - Array of movie objects (must have history_id)
+     * @param {string} listId - The list ID (for optimization if needed, currently unused as we filter by history IDs)
+     */
+    attachAttendance: function (movies, listId) {
+        if (!movies || movies.length === 0) return
+
+        const historyIds = movies.map(m => m.history_id).filter(Boolean)
+        if (historyIds.length === 0) return
+
+        // Construct filter: watch_history = 'id1' || watch_history = 'id2' ...
+        const filter = historyIds.map(id => `watch_history = '${id}'`).join(' || ')
+
+        const attendanceMap = {} // history_id -> { user_id: { ... } }
+
+        try {
+            const records = $app.findRecordsByFilter("watch_history_user", filter)
+            records.forEach(rec => {
+                const hid = rec.getString('watch_history')
+                const uid = rec.getString('user')
+
+                if (!attendanceMap[hid]) attendanceMap[hid] = {}
+
+                attendanceMap[hid][uid] = {
+                    id: rec.id,
+                    rating: rec.getFloat('rating'),
+                    review: rec.getString('review'),
+                    failed: rec.getBool('failed'),
+                    created: rec.getString('created')
+                }
+            })
+        } catch (e) {
+            console.error('[common.js] Failed to fetch attendance:', e)
+        }
+
+        // Attach to movies
+        movies.forEach(m => {
+            m.attendance = attendanceMap[m.history_id] || {}
+        })
     }
 }

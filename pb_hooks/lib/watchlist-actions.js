@@ -12,14 +12,16 @@ const common = require('./common.js')
  * @param {import('pocketbase').Record} list 
  * @param {boolean} isOwner 
  * @param {string} userId 
+ * @param {string} userId 
+ * @param {object} [explicitData] - Optional pre-parsed data
  * @returns {{message: string|null, error: string|null, redirect: string|null}}
  */
-function handlePostAction(context, list, isOwner, userId) {
+function handlePostAction(context, list, isOwner, userId, explicitData = null) {
     let message = null
     let error = null
     let redirect = null
 
-    let data = common.parseFormData(context)
+    let data = explicitData || common.parseFormData(context)
     // Compatibility: handle map-like access
     if (typeof data.get === 'function') {
         const fd = data
@@ -37,10 +39,14 @@ function handlePostAction(context, list, isOwner, userId) {
             redirect = '/watchlists'
         } else if (action === 'invite_user') {
             message = handleInviteUser(list, data, isOwner, userId)
+        } else if (action === 'remove_user') {
+            message = handleRemoveUser(list, data, isOwner)
         } else if (action === 'update_history_item') {
             message = handleUpdateHistoryItem(list, data, isOwner)
         } else if (action === 'delete_history_item') {
             message = handleDeleteHistoryItem(list, data, isOwner)
+        } else if (action === 'update_attendance') {
+            message = handleUpdateAttendance(list, data, userId)
         }
     } catch (e) {
         error = e.message
@@ -67,6 +73,11 @@ function handleUpdateList(list, data, isOwner) {
         if (newDescription !== undefined) {
             list.set('description', newDescription)
         }
+
+        // Handle privacy toggle (inverted)
+        // If is_public is 'on' or 'true', then is_private is false.
+        const isPublic = data.is_public === 'on' || data.is_public === 'true'
+        list.set('is_private', !isPublic)
 
         $app.save(list)
         return "List updated successfully!"
@@ -113,23 +124,39 @@ function handleInviteUser(list, data, isOwner, userId) {
         if (!invitedUser) throw new Error("User not found.")
         if (invitedUser.id === userId) throw new Error("You cannot invite yourself.")
 
+        // Determine permission from form data, default to 'view'
+        const permission = data.permission || 'view'
+
+        // Delegate to remove handler if permission is 'remove'
+        if (permission === 'remove') {
+            return handleRemoveUser(list, { user_id: invitedUser.id }, isOwner)
+        }
+
         // Check if already invited
+        let existing = null
         try {
-            const existing = $app.findFirstRecordByFilter(
+            existing = $app.findFirstRecordByFilter(
                 'list_user',
                 `list = '${list.id}' && invited_user = '${invitedUser.id}'`
             )
-            if (existing) throw new Error("User is already invited.")
         } catch (e) { /* not found */ }
 
+        if (existing) {
+            // Update existing permission
+            existing.set('user_permission', permission)
+            $app.save(existing)
+            return `User ${invitedUser.getString('email')} permissions updated to ${permission}.`
+        }
+
+        // Create new invite
         const listUserCollection = $app.findCollectionByNameOrId('list_user')
         const invite = new Record(listUserCollection)
         invite.set('list', list.id)
         invite.set('invited_user', invitedUser.id)
-        invite.set('user_permission', 'view')
+        invite.set('user_permission', permission)
         $app.save(invite)
 
-        return `User ${invitedUser.getString('email')} invited successfully!`
+        return `User ${invitedUser.getString('email')} invited with ${permission} access!`
     }
     return null
 }
@@ -206,11 +233,103 @@ function handleDeleteHistoryItem(list, data, isOwner) {
     return null
 }
 
+/**
+ * Removes a user from the watchlist.
+ * @param {import('pocketbase').Record} list
+ * @param {object} data - Form data with user_id
+ * @param {boolean} isOwner
+ * @returns {string|null}
+ */
+function handleRemoveUser(list, data, isOwner) {
+    const targetUserId = data.user_id
+
+    if (targetUserId) {
+        if (!isOwner) throw new Error("Only the owner can remove users.")
+
+        try {
+            const invite = $app.findFirstRecordByFilter(
+                'list_user',
+                `list = '${list.id}' && invited_user = '${targetUserId}'`
+            )
+
+            if (invite) {
+                // Get user email for message before deleting
+                let email = "User"
+                try {
+                    const u = $app.findRecordById('users', targetUserId)
+                    email = u.getString('email')
+                } catch (ignore) { }
+
+                $app.delete(invite)
+                return `${email} removed from the list.`
+            } else {
+                throw new Error("User is not on the list.")
+            }
+        } catch (e) {
+            // Re-throw if it's our error, otherwise generic not found
+            if (e.message === "User is not on the list.") throw e
+            throw new Error("User not found on this list.")
+        }
+    }
+    return null
+}
+
+/**
+ * Updates or creates a user's attendance record (rating, failed).
+ * @param {import('pocketbase').Record} list
+ * @param {object} data - Form data with history_id, rating, failed
+ * @param {string} userId - Current user's ID
+ * @returns {string|null}
+ */
+function handleUpdateAttendance(list, data, userId) {
+    const historyId = data.history_id
+    if (!historyId) throw new Error("History ID is missing.")
+
+    // Verify history item belongs to this list
+    const historyItem = $app.findRecordById('watched_history', historyId)
+    if (historyItem.getString('list') !== list.id) {
+        throw new Error("Item does not belong to this list.")
+    }
+
+    // Check for existing record
+    let attendance = null
+    try {
+        attendance = $app.findFirstRecordByFilter(
+            'watch_history_user',
+            `watch_history = '${historyId}' && user = '${userId}'`
+        )
+    } catch (e) { }
+
+    if (attendance) {
+        // Update
+        if (data.rating !== undefined) attendance.set('rating', parseFloat(data.rating))
+        if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
+        if (data.review !== undefined) attendance.set('review', data.review)
+
+        $app.save(attendance)
+        return "Rating updated!"
+    } else {
+        // Create
+        const collection = $app.findCollectionByNameOrId('watch_history_user')
+        attendance = new Record(collection)
+        attendance.set('watch_history', historyId)
+        attendance.set('user', userId)
+        if (data.rating !== undefined) attendance.set('rating', parseFloat(data.rating))
+        if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
+        if (data.review !== undefined) attendance.set('review', data.review)
+
+        $app.save(attendance)
+        return "Rating saved!"
+    }
+}
+
 module.exports = {
     handlePostAction,
     handleUpdateList,
     handleDeleteList,
     handleInviteUser,
+    handleRemoveUser,
     handleUpdateHistoryItem,
-    handleDeleteHistoryItem
+    handleDeleteHistoryItem,
+    handleUpdateAttendance
 }

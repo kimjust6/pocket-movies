@@ -1,0 +1,67 @@
+<!-- Edit Entry Modal (Update Date / Delete) -->
+<div x-show="showDateModal" x-cloak x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    @click.self="showDateModal = false" @keydown.escape.window="showDateModal = false">
+
+    <div x-show="showDateModal" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+
+
+
+        <!-- Update Form -->
+        <form method="POST" id="updateDateForm" class="space-y-4" @submit.prevent="updateDate()">
+            <label class="label flex flex-col justify-start items-start">
+                <span class="label-text">Title</span>
+                <p class="text-base-content/60 text-sm truncate" x-text="editMovieTitle"></p>
+            </label>
+            <input type="hidden" name="action" value="update_history_item">
+            <input type="hidden" name="history_id" :value="editHistoryId">
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Date Watched</span>
+                </label>
+                <input type="date" name="watched_date" x-model="editDateValue" class="input input-bordered w-full" />
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <% const scores=[ { label: 'TMDB' , name: 'tmdb_score' , model: 'editTmdbScore' , max: 10, step: 'any'
+                    }, { label: 'IMDB' , name: 'imdb_score' , model: 'editImdbScore' , max: 10, step: 'any' }, {
+                    label: 'RT' , name: 'rt_score' , model: 'editRtScore' , max: 100, step: '1' } ];
+                    scores.forEach(score=> { %>
+                    <div class="form-control">
+                        <label class="label p-1">
+                            <span class="label-text text-xs">
+                                <%= score.label %>
+                            </span>
+                        </label>
+                        <input type="number" step="<%= score.step %>" min="0" max="<%= score.max %>"
+                            name="<%= score.name %>" x-model="<%= score.model %>"
+                            class="input input-bordered w-full px-2 text-center" placeholder="-" />
+                    </div>
+                    <% }); %>
+            </div>
+            <!-- Hidden submit button for Enter key support -->
+            <input type="submit" hidden />
+        </form>
+
+        <div class="grid grid-cols-3 gap-3 mt-6">
+            <!-- Remove -->
+            <form method="POST" @submit.prevent="openItemDeleteModal()">
+                <button type="submit" class="btn btn-error btn-outline w-full">Remove</button>
+            </form>
+
+            <!-- Cancel -->
+            <button type="button" @click="showDateModal = false" class="btn btn-ghost w-full">Cancel</button>
+
+            <!-- Save -->
+            <button type="button" @click="updateDate()" class="btn btn-primary w-full">Save</button>
+        </div>
+    </div>
+</div>

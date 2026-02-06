@@ -17,6 +17,7 @@ export enum Collections {
 	Movies = "movies",
 	MoviesGenres = "movies_genres",
 	Users = "users",
+	WatchHistoryUser = "watch_history_user",
 	WatchedHistory = "watched_history",
 }
 
@@ -110,6 +111,7 @@ export type ListUserRecord = {
 	created: IsoAutoDateString
 	id: string
 	invited_user?: RecordIdString
+	list?: RecordIdString
 	updated: IsoAutoDateString
 	user_permission?: string
 }
@@ -169,6 +171,17 @@ export type UsersRecord = {
 	verified?: boolean
 }
 
+export type WatchHistoryUserRecord = {
+	created: IsoAutoDateString
+	failed?: boolean
+	id: string
+	rating?: number
+	review?: HTMLString
+	updated: IsoAutoDateString
+	user?: RecordIdString
+	watch_history?: RecordIdString
+}
+
 export type WatchedHistoryRecord = {
 	created: IsoAutoDateString
 	id: string
@@ -193,6 +206,7 @@ export type ListsResponse<Texpand = unknown> = Required<ListsRecord> & BaseSyste
 export type MoviesResponse<Texpand = unknown> = Required<MoviesRecord> & BaseSystemFields<Texpand>
 export type MoviesGenresResponse<Texpand = unknown> = Required<MoviesGenresRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
+export type WatchHistoryUserResponse<Texpand = unknown> = Required<WatchHistoryUserRecord> & BaseSystemFields<Texpand>
 export type WatchedHistoryResponse<Texpand = unknown> = Required<WatchedHistoryRecord> & BaseSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -209,6 +223,7 @@ export type CollectionRecords = {
 	movies: MoviesRecord
 	movies_genres: MoviesGenresRecord
 	users: UsersRecord
+	watch_history_user: WatchHistoryUserRecord
 	watched_history: WatchedHistoryRecord
 }
 
@@ -224,6 +239,7 @@ export type CollectionResponses = {
 	movies: MoviesResponse
 	movies_genres: MoviesGenresResponse
 	users: UsersResponse
+	watch_history_user: WatchHistoryUserResponse
 	watched_history: WatchedHistoryResponse
 }
 
