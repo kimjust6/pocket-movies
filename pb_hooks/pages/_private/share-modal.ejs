@@ -88,7 +88,7 @@
                                 <input type="hidden" name="list_id" value="<%= listId %>">
 
                                 <select name="permission"
-                                    class="select select-sm w-28 bg-base-300/50 border-white/10 focus:border-primary focus:outline-none text-sm font-medium"
+                                    class="select select-sm w-28 bg-base-300 border-white/10 focus:border-primary focus:outline-none text-sm font-medium"
                                     onchange="if(this.value==='remove') { this.classList.add('text-error', 'border-error/50'); } else { this.classList.remove('text-error', 'border-error/50'); }">
                                     <option value="view" <%=(u.is_invited && u.current_permission==='view' )
                                         ? 'selected' : '' %>>View</option>

@@ -2,8 +2,8 @@
  * Alpine.js component for the watchlist detail page.
  * Manages the state of Share and Edit modals, table sorting, and infinite scroll.
  */
-document.addEventListener('alpine:init', () => {
-    Alpine.data('watchlistDetail', (initialMovies = [], isOwner = false, listId = '', initialHasMore = true, currentUserId = '') => ({
+function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initialHasMore = true, currentUserId = '') {
+    return {
         /**
          * Movies array for the watchlist.
          * @type {Array}
@@ -587,5 +587,5 @@ document.addEventListener('alpine:init', () => {
             url.searchParams.set('dir', this.sortDirection);
             window.history.pushState({}, '', url);
         }
-    }));
-});
+    };
+}

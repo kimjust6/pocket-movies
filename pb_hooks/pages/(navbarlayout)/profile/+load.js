@@ -6,6 +6,7 @@
  */
 module.exports = function (context) {
     const common = require('../../../lib/common.js')
+    const { TABLES } = common
     const { client, user } = common.init(context)
 
     if (!user) {

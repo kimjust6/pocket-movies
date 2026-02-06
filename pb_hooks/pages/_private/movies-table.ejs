@@ -10,11 +10,11 @@
             <% const sortableColumns=[ { label: 'Watched On' , key: 'watched_at' }, { label: 'Title' , key: 'title' }, {
                 label: 'Release Date' , key: 'release_date' }, { label: 'Runtime' , key: 'runtime' }, { label: 'Score' ,
                 key: 'tmdb_score' } ]; %>
-                <tr class="bg-base-200 shadow-sm border-b border-base-content/10">
-                    <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: 0">Poster
+                <tr class="bg-base-300 shadow-sm border-b border-base-content/10">
+                    <th class="sticky z-30 bg-base-300 backdrop-blur-md" style="top: 0">Poster
                     </th>
                     <% sortableColumns.forEach(col=> { %>
-                        <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: 0">
+                        <th class="sticky z-30 bg-base-300 backdrop-blur-md" style="top: 0">
                             <button type=" button" @click.prevent="sortBy('<%= col.key %>')"
                                 class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                 <%= col.label %> <span class="opacity-50 text-xs"
@@ -26,7 +26,7 @@
                             <!-- Member Columns -->
                             <% if (data.members && data.members.length> 0) { %>
                                 <% data.members.forEach(member=> { %>
-                                    <th class="sticky z-30 bg-base-200 backdrop-blur-md text-center" style="top: 0">
+                                    <th class="sticky z-30 bg-base-300 backdrop-blur-md text-center" style="top: 0">
                                         <div class="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
                                             @click.prevent="sortByUser('<%= member.id %>')"
                                             title="Sort by <%= member.name %>'s rating">
@@ -54,7 +54,8 @@
                                     <% }) %>
                                         <% } %>
 
-                                            <th class="sticky z-30 bg-base-200 backdrop-blur-md" style="top: 0"></th>
+                                            <th class="sticky z-30 bg-base-300 backdrop-blur-md" style="top: 0">
+                                            </th>
                 </tr>
         </thead>
         <tbody>

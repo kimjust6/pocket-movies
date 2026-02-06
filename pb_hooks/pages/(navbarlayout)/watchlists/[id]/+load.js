@@ -15,6 +15,7 @@
  */
 const common = require('../../../../lib/common.js')
 const actions = require('../../../../lib/watchlist-actions.js')
+const { TABLES, COLS } = common
 
 module.exports = function (context) {
     const { client, user } = common.init(context)
@@ -62,9 +63,31 @@ module.exports = function (context) {
 
     // 3. Fetch movies (fetch one extra to determine if there are more)
     const pageSize = 20
+
+    // Handle Sorting
+    const sortParam = common.getParam(context, 'sort') || 'watched_at'
+    const dirParam = common.getParam(context, 'dir') || 'desc'
+
+    let dbSort = '-watched' // default
+
+    const colMap = {
+        'watched_at': 'watched',
+        'title': 'movie.title',
+        'release_date': 'movie.release_date',
+        'runtime': 'movie.runtime',
+        'tmdb_score': 'tmdb_score',
+        'imdb_score': 'imdb_score',
+        'rt_score': 'rt_score'
+    }
+
+    if (colMap[sortParam]) {
+        const dir = (dirParam === 'asc') ? '+' : '-'
+        dbSort = dir + colMap[sortParam]
+    }
+
     const allMovies = common.fetchWatchlistMovies(listId, {
         limit: pageSize + 1,
-        sort: '-watched'
+        sort: dbSort
     })
     const hasMore = (allMovies.totalFetched !== undefined ? allMovies.totalFetched : allMovies.length) > pageSize
     const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies

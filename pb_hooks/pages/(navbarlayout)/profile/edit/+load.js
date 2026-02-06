@@ -5,6 +5,8 @@
  * @returns {{ profile: import('../../../../lib/pocketbase-types').UsersResponse }}
  */
 module.exports = function (context) {
+    const common = require('../../../../lib/common.js')
+    const { TABLES } = common
     const user = context.request.auth
     if (!user) {
         context.response.redirect('/login')
@@ -14,7 +16,7 @@ module.exports = function (context) {
     // Fetch fresh user data
     let profile = user
     try {
-        profile = $app.findRecordById("users", user.id)
+        profile = $app.findRecordById(TABLES.USERS, user.id)
     } catch (e) {
         console.error("Failed to fetch fresh profile:", e)
     }
@@ -27,7 +29,7 @@ module.exports = function (context) {
             const bio = formData.bio
             const shortHand = formData.shortHand
 
-            const record = $app.findRecordById("users", user.id)
+            const record = $app.findRecordById(TABLES.USERS, user.id)
 
             if (name) record.set("name", name)
             if (bio) record.set("bio", bio)

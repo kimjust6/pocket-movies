@@ -68,7 +68,22 @@ module.exports = {
      * @param {string|number} id - The TMDB movie ID.
      * @returns {Object} The movie details.
      */
+    /**
+     * Retrieves details for a specific movie by ID.
+     * @param {string|number} id - The TMDB movie ID.
+     * @returns {Object} The movie details.
+     */
     getMovie: (id) => {
         return fetchTMDB(`/movie/${id}`)
     },
+
+    /**
+     * Retrieves credits for a specific movie by ID.
+     * @param {string|number} id - The TMDB movie ID.
+     * @returns {Object} The movie credits.
+     */
+    getCredits: (id) => {
+        return fetchTMDB(`/movie/${id}/credits`)
+    },
 }
+

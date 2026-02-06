@@ -6,80 +6,98 @@
  *   movie: Object|null,
  *   credits: Object|null,
  *   user: import('../../../../lib/pocketbase-types').UsersResponse|null,
+ *   lists: Array<{id: string, list_title: string, is_private: boolean}>,
  *   error?: string
  * }}
  */
 module.exports = function (context) {
-    // TMDB API helper functions
-    // We inline this because we don't have a shared util folder for these scripts easily accessible in JSVM without some setup
-    const TMDB_API_KEY = ($os.getenv('TMDB_API_KEY') || process.env.TMDB_API_KEY || '').trim()
-    const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
+    const tmdb = require('../../../../lib/tmdb.js')
+    const common = require('../../../../lib/common.js')
+    const watchlistActions = require('../../../../lib/watchlist-actions.js')
 
-    /**
-     * Helper to fetch data from TMDB.
-     * @param {string} endpoint - The TMDB endpoint.
-     * @param {Object} [queryParams={}] - Query parameters.
-     * @returns {Object} JSON response.
-     */
-    function fetchTMDB(endpoint, queryParams = {}) {
-        if (!TMDB_API_KEY) {
-            throw new Error('TMDB_API_KEY is not set')
-        }
-
-        const params = Object.assign({}, queryParams, { api_key: TMDB_API_KEY })
-        const queryString = Object.keys(params)
-            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
-            .join('&')
-
-        const url = `${TMDB_BASE_URL}${endpoint}?${queryString}`
-
-        const res = $http.send({
-            url: url,
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-        })
-
-        if (res.statusCode >= 400) {
-            // Check if 404
-            if (res.statusCode === 404) {
-                return null
-            }
-            throw new Error(`TMDB API Error: ${res.statusCode}`)
-        }
-
-        return res.json
-    }
+    const { client, user } = common.init(context)
 
     const movieId = context.params.id
+    let message = context.query?.message || null
+
+    // Handle POST (Add to Watchlist)
+    if (context.request.method === 'POST') {
+        if (!user) {
+            return context.redirect(`/login`)
+        }
+
+        try {
+            const fd = common.parseFormData(context)
+            let tmdbId = '', targetListId = ''
+            if (typeof fd.get === 'function') {
+                tmdbId = fd.get('tmdb_id')
+                targetListId = fd.get('watchlist_id')
+            } else {
+                tmdbId = fd.tmdb_id
+                targetListId = fd.watchlist_id
+            }
+
+            if (tmdbId) {
+                const res = watchlistActions.addMovieToWatchlist(user, tmdbId, targetListId)
+
+                // Redirect to self to show message
+                return context.redirect(`/movies/${movieId}?message=${encodeURIComponent(res.message)}`)
+            }
+        } catch (e) {
+            return {
+                error: e.message,
+                movie: null,
+                user,
+                lists: [],
+                message: null
+            }
+        }
+    }
 
     if (!movieId) {
         return {
             error: "Movie ID is required",
-            movie: null
+            movie: null,
+            user,
+            lists: [],
+            message
         }
     }
 
     try {
-        const movie = fetchTMDB(`/movie/${movieId}`)
+        const movie = tmdb.getMovie(movieId)
 
         if (!movie) {
             return {
                 error: "Movie not found",
-                movie: null
+                movie: null,
+                user,
+                lists: [],
+                message
             }
         }
 
-        const credits = fetchTMDB(`/movie/${movieId}/credits`)
+        const credits = tmdb.getCredits(movieId)
+
+        let lists = []
+        if (user) {
+            lists = common.getWatchlists(client, user)
+        }
 
         return {
             movie,
             credits,
-            user: context.request.auth
+            user,
+            lists,
+            message
         }
     } catch (e) {
         return {
             error: e.message,
-            movie: null
+            movie: null,
+            user,
+            lists: [],
+            message
         }
     }
 }
