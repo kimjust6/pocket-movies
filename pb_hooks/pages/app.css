@@ -4835,6 +4835,10 @@ html::-webkit-scrollbar,
   bottom: 0px;
 }
 
+.bottom-6 {
+  bottom: 1.5rem;
+}
+
 .left-0 {
   left: 0px;
 }
@@ -4869,10 +4873,6 @@ html::-webkit-scrollbar,
 
 .top-2 {
   top: 0.5rem;
-}
-
-.top-20 {
-  top: 5rem;
 }
 
 .top-4 {
@@ -5245,6 +5245,10 @@ html::-webkit-scrollbar,
 
 .w-\[600px\] {
   width: 600px;
+}
+
+.w-\[90\%\] {
+  width: 90%;
 }
 
 .w-full {
