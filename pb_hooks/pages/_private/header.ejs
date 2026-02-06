@@ -61,12 +61,13 @@
                     <% } %>
 
                         <!-- Custom Mobile Title (visible only on mobile if title is set) -->
-                        <div class="md:hidden flex flex-col leading-tight" x-show="mobileTitle" x-cloak>
+                        <a href="/watchlists" class="md:hidden flex flex-col leading-tight" x-show="mobileTitle"
+                            x-cloak>
                             <h1 class="text-xl font-bold bg-gradient-to-br from-base-content to-base-content/70 bg-clip-text text-transparent truncate max-w-[200px]"
                                 x-text="mobileTitle"></h1>
                             <p class="text-xs text-base-content/60 truncate max-w-[200px]" x-show="mobileSubtitle"
                                 x-text="mobileSubtitle"></p>
-                        </div>
+                        </a>
         </div>
 
         <div class="hidden items-center gap-4 md:flex lg:gap-6">

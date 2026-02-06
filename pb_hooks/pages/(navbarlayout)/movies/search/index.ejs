@@ -1,5 +1,4 @@
-<div class="min-h-screen bg-base-200"
-    x-data="{ query: <%= JSON.stringify(data.q || '') %>, showAddModal: false, selectedTmdbId: null }"
+<div class="min-h-screen bg-base-200" x-data="{ query: <%= JSON.stringify(data.q || '') %>, showAddModal: false }"
     @close-add-modal.window="showAddModal = false">
     <!-- Hero / Search Section -->
     <div class="hero bg-base-100 py-12 shadow-sm">

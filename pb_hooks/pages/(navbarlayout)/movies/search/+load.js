@@ -23,15 +23,9 @@ module.exports = function (context) {
 
     const q = context?.params?.q || ''
 
-    // Debug logging
-    console.log('[Search Debug] Params:', JSON.stringify(context?.params))
-    console.log('[Search Debug] Query:', JSON.stringify(context?.query))
-
-    // Check where 'page' is located
+    // Get page parameter from either params or query
     const pageParam = context?.params?.page || context?.query?.page
     const page = parseInt(pageParam) || 1
-
-    console.log('[Search Debug] Extracted Page:', page)
 
     let results = []
     let totalPages = 1

@@ -25,15 +25,10 @@ module.exports = function (context) {
             })
             .slice(0, 5)
 
-        console.log('[Middleware] User:', user ? user.id : 'none');
-        console.log('[Middleware] Watchlists found:', userWatchlists.length);
-
         // Assign to locals for view access
         if (context.locals) {
             context.locals.userWatchlists = userWatchlists;
         }
-    } else {
-        console.log('[Middleware] No user logged in');
     }
 
     return {

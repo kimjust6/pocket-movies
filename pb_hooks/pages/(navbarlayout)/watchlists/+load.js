@@ -24,7 +24,6 @@ module.exports = function (context) {
             fd.forEach((v, k) => { data[k] = v })
         }
 
-        console.log('Processed Data:', JSON.stringify(data))
         const action = data?.action
 
         if (action === 'delete') {

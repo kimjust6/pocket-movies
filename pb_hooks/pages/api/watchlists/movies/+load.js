@@ -80,8 +80,6 @@ module.exports = function (context) {
     const limit = parseInt(common.getParam(context, 'limit') || '20', 10)
     const sort = common.getParam(context, 'sort') || '-created'
 
-    console.log('[API movies] listId:', listId, 'page:', page, 'limit:', limit, 'sort:', sort)
-
     if (!listId) {
         return {
             success: false,
