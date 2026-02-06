@@ -115,19 +115,18 @@
 
                                     <!-- Action Buttons -->
                                     <% if (locals.auth) { %>
-                                        <div class="flex flex-wrap gap-4 mt-8">
-                                            <form method="POST" action="/movies/search">
-                                                <input type="hidden" name="tmdb_id" value="<%= data.movie.id %>">
-                                                <input type="hidden" name="watchlist_id" value="">
-                                                <button type="submit"
-                                                    class="btn btn-primary btn-lg gap-2 shadow-lg shadow-primary/30 hover:scale-105 transition-all duration-300">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                        viewBox="0 0 20 20" fill="currentColor">
-                                                        <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-                                                    </svg>
-                                                    Add to Watchlist
-                                                </button>
-                                            </form>
+                                        <div class="flex flex-wrap gap-4 mt-8" x-data="{ showAddModal: false }">
+                                            <button type="button" @click="showAddModal = true"
+                                                class="btn btn-primary btn-lg gap-2 shadow-lg shadow-primary/30 hover:scale-105 transition-all duration-300">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                                </svg>
+                                                Add to Watchlist
+                                            </button>
+
+                                            <%- include('../../../_private/watchlist-modal', { tmdbId: data.movie.id })
+                                                %>
                                         </div>
                                         <% } else { %>
                                             <div class="mt-8">
