@@ -78,98 +78,93 @@
                                         <%- include('../../_private/edit-rating-modal') %>
                                             <% } %>
 
-                                                <!-- Delete Entry Modal -->
-                                                <%- include('../../_private/delete-entry-modal') %>
+                                                <!-- Generic Confirmation Modal -->
+                                                <%- include('../../_private/confirm-modal') %>
 
-                                                    <!-- Generic Confirmation Modal -->
-                                                    <%- include('../../_private/confirm-modal') %>
+                                                    <!-- Content -->
+                                                    <% if ((!data.movies || data.movies.length===0) && !data.error) { %>
+                                                        <%- include('../../_private/watchlist-empty-state') %>
+                                                            <% } else { %>
+                                                                <%- include('../../_private/movies-table') %>
+                                                                    <% } %>
+                                                                        <!-- Mobile Bottom Navigation -->
+                                                                        <% if (data.list) { %>
+                                                                            <div
+                                                                                class="btm-nav md:hidden z-50 bg-base-100/95 backdrop-blur border-t border-base-content/10">
+                                                                                <a href="/watchlists"
+                                                                                    class="text-base-content/70 hover:text-primary">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        class="h-5 w-5" fill="none"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        stroke="currentColor">
+                                                                                        <path stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-width="2"
+                                                                                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                                                                    </svg>
+                                                                                    <span
+                                                                                        class="btm-nav-label text-xs">Back</span>
+                                                                                </a>
 
-                                                        <!-- Content -->
-                                                        <% if ((!data.movies || data.movies.length===0) && !data.error)
-                                                            { %>
-                                                            <%- include('../../_private/watchlist-empty-state') %>
-                                                                <% } else { %>
-                                                                    <%- include('../../_private/movies-table') %>
-                                                                        <% } %>
-                                                                            <!-- Mobile Bottom Navigation -->
-                                                                            <% if (data.list) { %>
-                                                                                <div
-                                                                                    class="btm-nav md:hidden z-50 bg-base-100/95 backdrop-blur border-t border-base-content/10">
-                                                                                    <a href="/watchlists"
-                                                                                        class="text-base-content/70 hover:text-primary">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                            class="h-5 w-5" fill="none"
-                                                                                            viewBox="0 0 24 24"
-                                                                                            stroke="currentColor">
-                                                                                            <path stroke-linecap="round"
-                                                                                                stroke-linejoin="round"
-                                                                                                stroke-width="2"
-                                                                                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                                                                                        </svg>
-                                                                                        <span
-                                                                                            class="btm-nav-label text-xs">Back</span>
-                                                                                    </a>
+                                                                                <button
+                                                                                    @click="$dispatch('toggle-mobile-header')"
+                                                                                    class="text-base-content/70 hover:text-primary">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        class="h-5 w-5" fill="none"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        stroke="currentColor">
+                                                                                        <path stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-width="2"
+                                                                                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                                                                    </svg>
+                                                                                    <span
+                                                                                        class="btm-nav-label text-xs">Fullscreen</span>
+                                                                                </button>
 
+                                                                                <% if (data.list.is_owner) { %>
                                                                                     <button
-                                                                                        @click="$dispatch('toggle-mobile-header')"
+                                                                                        @click="showEditModal = true"
                                                                                         class="text-base-content/70 hover:text-primary">
                                                                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                            class="h-5 w-5" fill="none"
-                                                                                            viewBox="0 0 24 24"
-                                                                                            stroke="currentColor">
-                                                                                            <path stroke-linecap="round"
-                                                                                                stroke-linejoin="round"
-                                                                                                stroke-width="2"
-                                                                                                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                                                                            class="h-5 w-5"
+                                                                                            viewBox="0 0 20 20"
+                                                                                            fill="currentColor">
+                                                                                            <path
+                                                                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                         </svg>
                                                                                         <span
-                                                                                            class="btm-nav-label text-xs">Fullscreen</span>
+                                                                                            class="btm-nav-label text-xs">Edit</span>
                                                                                     </button>
 
-                                                                                    <% if (data.list.is_owner) { %>
-                                                                                        <button
-                                                                                            @click="showEditModal = true"
-                                                                                            class="text-base-content/70 hover:text-primary">
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                                class="h-5 w-5"
-                                                                                                viewBox="0 0 20 20"
-                                                                                                fill="currentColor">
-                                                                                                <path
-                                                                                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                                                                            </svg>
-                                                                                            <span
-                                                                                                class="btm-nav-label text-xs">Edit</span>
-                                                                                        </button>
+                                                                                    <button
+                                                                                        @click="showShareModal = true"
+                                                                                        class="text-base-content/70 hover:text-primary">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            class="h-5 w-5"
+                                                                                            viewBox="0 0 20 20"
+                                                                                            fill="currentColor">
+                                                                                            <path
+                                                                                                d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                                                                                        </svg>
+                                                                                        <span
+                                                                                            class="btm-nav-label text-xs">Share</span>
+                                                                                    </button>
 
-                                                                                        <button
-                                                                                            @click="showShareModal = true"
-                                                                                            class="text-base-content/70 hover:text-primary">
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                                class="h-5 w-5"
-                                                                                                viewBox="0 0 20 20"
-                                                                                                fill="currentColor">
-                                                                                                <path
-                                                                                                    d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                                                                                            </svg>
-                                                                                            <span
-                                                                                                class="btm-nav-label text-xs">Share</span>
-                                                                                        </button>
-
-                                                                                        <a href="/movies/search?watchlistId=<%= data.list.id %>"
-                                                                                            class="active text-primary bg-primary/10">
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                                class="h-5 w-5"
-                                                                                                viewBox="0 0 20 20"
-                                                                                                fill="currentColor">
-                                                                                                <path
-                                                                                                    fill-rule="evenodd"
-                                                                                                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                                                                                                    clip-rule="evenodd" />
-                                                                                            </svg>
-                                                                                            <span
-                                                                                                class="btm-nav-label text-xs">Add</span>
-                                                                                        </a>
-                                                                                        <% } %>
-                                                                                </div>
-                                                                                <% } %>
+                                                                                    <a href="/movies/search?watchlistId=<%= data.list.id %>"
+                                                                                        class="active text-primary bg-primary/10">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            class="h-5 w-5"
+                                                                                            viewBox="0 0 20 20"
+                                                                                            fill="currentColor">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                                                                                clip-rule="evenodd" />
+                                                                                        </svg>
+                                                                                        <span
+                                                                                            class="btm-nav-label text-xs">Add</span>
+                                                                                    </a>
+                                                                                    <% } %>
+                                                                            </div>
+                                                                            <% } %>
 </div>

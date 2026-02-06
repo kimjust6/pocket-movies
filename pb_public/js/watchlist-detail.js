@@ -101,12 +101,6 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
         showDateModal: false,
 
         /**
-         * Controls the visibility of the Item Delete modal.
-         * @type {boolean}
-         */
-        showItemDeleteModal: false,
-
-        /**
          * State for the generic confirmation modal.
          * @type {object}
          */
@@ -594,7 +588,60 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
 
         openItemDeleteModal() {
             this.showDateModal = false;
-            this.showItemDeleteModal = true;
+
+            // Store context for confirmation
+            const historyId = this.editHistoryId;
+            const movieTitle = this.editMovieTitle;
+
+            this.confirmModal = {
+                show: true,
+                title: 'Remove Movie?',
+                subtitle: movieTitle,
+                message: 'Are you sure you want to remove this movie from your watchlist?',
+                confirmText: 'Remove',
+                onConfirm: () => this.confirmDeleteMovie(historyId),
+                onCancel: () => {
+                    this.confirmModal.show = false;
+                    this.showDateModal = true;
+                }
+            };
+        },
+
+        async confirmDeleteMovie(historyId) {
+            this.confirmModal.show = false;
+
+            const index = this.movies.findIndex(m => m.history_id === historyId);
+            if (index === -1) return;
+
+            // Optimistic removal
+            const movie = this.movies[index];
+            this.movies.splice(index, 1);
+            this.movies = [...this.movies]; // Trigger reactivity
+
+            const formData = new FormData();
+            formData.append('action', 'delete_history_item');
+            formData.append('history_id', historyId);
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (!result.success) {
+                    console.error('Delete failed:', result.error);
+                    this.movies.splice(index, 0, movie); // Revert
+                    this.movies = [...this.movies];
+                    alert(result.error || 'Failed to remove movie.');
+                }
+            } catch (error) {
+                console.error('Delete failed:', error);
+                this.movies.splice(index, 0, movie); // Revert
+                this.movies = [...this.movies];
+                alert('An error occurred. Changes reverted.');
+            }
         },
 
         openEditMovieModal(movie) {
