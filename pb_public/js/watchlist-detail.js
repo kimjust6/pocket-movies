@@ -71,6 +71,12 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
         isRatingReadOnly: false,
 
         /**
+         * Whether the user has an existing rating for the current movie.
+         * @type {boolean}
+         */
+        hasExistingRating: false,
+
+        /**
          * Controls the visibility of the Share Watchlist modal.
          * @type {boolean}
          */
@@ -95,10 +101,18 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
         showDateModal: false,
 
         /**
-         * Controls the visibility of the Item Delete modal.
-         * @type {boolean}
+         * State for the generic confirmation modal.
+         * @type {object}
          */
-        showItemDeleteModal: false,
+        confirmModal: {
+            show: false,
+            title: '',
+            subtitle: '',
+            message: '',
+            confirmText: 'Confirm',
+            onConfirm: () => { },
+            onCancel: null
+        },
 
         /**
          * The ID of the history item being edited.
@@ -190,6 +204,188 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             window.addEventListener('resize', () => {
                 this.updateNavbarHeight();
             });
+
+            // Set up realtime subscription for watched_history updates
+            this.setupRealtimeSubscription();
+        },
+
+        /**
+         * Sets up PocketBase realtime subscription for watched_history and watch_history_user tables.
+         * Subscribes to changes filtered by the current list ID.
+         */
+        setupRealtimeSubscription() {
+            if (!this.listId || typeof PocketBase === 'undefined') {
+                console.warn('[Realtime] PocketBase not available or listId missing');
+                return;
+            }
+
+            // Initialize PocketBase client and load auth from cookie
+            const pb = new PocketBase(window.location.origin);
+
+            // Load auth from cookie if available (pb_auth cookie set by server)
+            try {
+                const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+                    const [key, ...rest] = cookie.trim().split('=');
+                    acc[key] = rest.join('=');
+                    return acc;
+                }, {});
+
+                if (cookies.pb_auth) {
+                    const authData = JSON.parse(decodeURIComponent(cookies.pb_auth));
+                    if (authData.token) {
+                        pb.authStore.save(authData.token, authData.record);
+                        console.log('[Realtime] Auth loaded, user:', pb.authStore.model?.id);
+                    }
+                } else {
+                    console.log('[Realtime] No pb_auth cookie found, subscribing as anonymous');
+                }
+            } catch (e) {
+                console.log('[Realtime] Error parsing auth cookie:', e);
+            }
+
+            // Subscribe to watched_history table changes for this specific list
+            pb.collection('watched_history').subscribe('*', (e) => {
+                this.handleRealtimeEvent(e);
+            }, {
+                filter: `list = "${this.listId}"`
+            }).then(() => {
+                console.log('[Realtime] Subscribed to watched_history for list:', this.listId);
+            }).catch((err) => {
+                console.error('[Realtime] watched_history subscription error:', err);
+            });
+
+            // Subscribe to watch_history_user table changes (ratings/reviews)
+            // We subscribe to all changes but filter client-side based on loaded movies
+            pb.collection('watch_history_user').subscribe('*', (e) => {
+                this.handleRatingRealtimeEvent(e);
+            }).then(() => {
+                console.log('[Realtime] Subscribed to watch_history_user for ratings');
+            }).catch((err) => {
+                console.error('[Realtime] watch_history_user subscription error:', err);
+            });
+
+            // Store reference for cleanup
+            this.pb = pb;
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', () => {
+                if (this.pb) {
+                    this.pb.collection('watched_history').unsubscribe('*');
+                    this.pb.collection('watch_history_user').unsubscribe('*');
+                }
+            });
+        },
+
+        /**
+         * Handles realtime events from PocketBase.
+         * @param {object} e - The realtime event object with action and record properties.
+         */
+        async handleRealtimeEvent(e) {
+            const { action, record } = e;
+            console.log('[Realtime] Event received:', action, record?.id);
+
+            // For delete action, we don't need to fetch from API
+            if (action === 'delete') {
+                const historyId = record.id;
+                this.movies = this.movies.filter(m => m.history_id !== historyId);
+                return;
+            }
+
+            // Fetch the updated movie data from the API to get full details with attendance
+            try {
+                const response = await this.fetchWithRetry(
+                    `/api/watchlists/movies?listId=${this.listId}&historyId=${record.id}`
+                );
+                const data = await response.json();
+
+                if (action === 'create') {
+                    // Add new movie to the list if we have the data
+                    if (data.success && data.movies && data.movies.length > 0) {
+                        const newMovie = data.movies[0];
+                        // Check if it already exists (avoid duplicates)
+                        const exists = this.movies.some(m => m.history_id === newMovie.history_id);
+                        if (!exists) {
+                            this.movies.unshift(newMovie);
+                            this.applySort();
+                        }
+                    }
+                } else if (action === 'update') {
+                    // Update existing movie in the list
+                    if (data.success && data.movies && data.movies.length > 0) {
+                        const updatedMovie = data.movies[0];
+                        const index = this.movies.findIndex(m => m.history_id === updatedMovie.history_id);
+                        if (index !== -1) {
+                            this.movies[index] = updatedMovie;
+                            this.applySort();
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('[Realtime] Error handling event:', error);
+            }
+        },
+
+        /**
+         * Handles realtime events for rating/review changes from watch_history_user table.
+         * @param {object} e - The realtime event object with action and record properties.
+         */
+        handleRatingRealtimeEvent(e) {
+            const { action, record } = e;
+
+            // Debug: log the full record to see field names
+            console.log('[Realtime] Rating raw event:', action, JSON.stringify(record));
+
+            // PocketBase realtime sends field names as defined in schema (snake_case)
+            const watchHistoryId = record.watch_history;
+            const userId = record.user;
+
+            if (!watchHistoryId) {
+                console.log('[Realtime] No watch_history field found in record');
+                return;
+            }
+
+            // Check if this rating change is for a movie we have loaded
+            const movieIndex = this.movies.findIndex(m => m.history_id === watchHistoryId);
+            if (movieIndex === -1) {
+                console.log('[Realtime] Rating for unloaded movie, ignoring. history_id:', watchHistoryId);
+                return;
+            }
+
+            console.log('[Realtime] Rating event matched movie at index:', movieIndex, 'action:', action);
+
+            if (action === 'delete') {
+                // Remove this user's attendance from the movie
+                if (this.movies[movieIndex].attendance && this.movies[movieIndex].attendance[userId]) {
+                    delete this.movies[movieIndex].attendance[userId];
+                    // Trigger Alpine.js reactivity by creating new array
+                    this.movies = [...this.movies];
+                    console.log('[Realtime] Deleted rating for user:', userId);
+                }
+                return;
+            }
+
+            // For create or update, update the attendance data
+            if (!this.movies[movieIndex].attendance) {
+                this.movies[movieIndex].attendance = {};
+            }
+
+            this.movies[movieIndex].attendance[userId] = {
+                id: record.id,
+                rating: record.rating || 0,
+                review: record.review || '',
+                failed: record.failed || false,
+                created: record.created
+            };
+
+            console.log('[Realtime] Updated attendance for user:', userId, 'rating:', record.rating);
+
+            // Trigger Alpine.js reactivity by creating new array
+            this.movies = [...this.movies];
+
+            // Re-sort if we're sorted by this user's rating
+            if (this.sortColumn === 'user_' + userId) {
+                this.applySort();
+            }
         },
 
         updateNavbarHeight() {
@@ -392,7 +588,60 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
 
         openItemDeleteModal() {
             this.showDateModal = false;
-            this.showItemDeleteModal = true;
+
+            // Store context for confirmation
+            const historyId = this.editHistoryId;
+            const movieTitle = this.editMovieTitle;
+
+            this.confirmModal = {
+                show: true,
+                title: 'Remove Movie?',
+                subtitle: movieTitle,
+                message: 'Are you sure you want to remove this movie from your watchlist?',
+                confirmText: 'Remove',
+                onConfirm: () => this.confirmDeleteMovie(historyId),
+                onCancel: () => {
+                    this.confirmModal.show = false;
+                    this.showDateModal = true;
+                }
+            };
+        },
+
+        async confirmDeleteMovie(historyId) {
+            this.confirmModal.show = false;
+
+            const index = this.movies.findIndex(m => m.history_id === historyId);
+            if (index === -1) return;
+
+            // Optimistic removal
+            const movie = this.movies[index];
+            this.movies.splice(index, 1);
+            this.movies = [...this.movies]; // Trigger reactivity
+
+            const formData = new FormData();
+            formData.append('action', 'delete_history_item');
+            formData.append('history_id', historyId);
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (!result.success) {
+                    console.error('Delete failed:', result.error);
+                    this.movies.splice(index, 0, movie); // Revert
+                    this.movies = [...this.movies];
+                    alert(result.error || 'Failed to remove movie.');
+                }
+            } catch (error) {
+                console.error('Delete failed:', error);
+                this.movies.splice(index, 0, movie); // Revert
+                this.movies = [...this.movies];
+                alert('An error occurred. Changes reverted.');
+            }
         },
 
         openEditMovieModal(movie) {
@@ -424,10 +673,12 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                 this.editUserRating = attendance.rating || 0;
                 this.editUserFailed = attendance.failed || false;
                 this.editUserReview = attendance.review || '';
+                this.hasExistingRating = true;
             } else {
                 this.editUserRating = 0;
                 this.editUserFailed = false;
                 this.editUserReview = '';
+                this.hasExistingRating = false;
             }
 
             this.showRatingModal = true;
@@ -577,6 +828,74 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             } catch (error) {
                 console.error('Update failed:', error);
                 this.movies[index] = originalMovie;
+                alert('An error occurred. Changes reverted.');
+            }
+        },
+
+        deleteRating() {
+            if (!this.editHistoryId) return;
+
+            // Store context for the confirmation
+            const historyId = this.editHistoryId;
+            const movieTitle = this.editMovieTitle;
+
+            // Close rating modal and show confirmation
+            this.showRatingModal = false;
+
+            this.confirmModal = {
+                show: true,
+                title: 'Delete Rating?',
+                subtitle: movieTitle,
+                message: 'Are you sure you want to delete your rating for this movie?',
+                confirmText: 'Delete',
+                onConfirm: () => this.confirmDeleteRating(historyId),
+                onCancel: () => {
+                    this.confirmModal.show = false;
+                    this.showRatingModal = true;
+                }
+            };
+        },
+
+        async confirmDeleteRating(historyId) {
+            // Close confirmation modal
+            this.confirmModal.show = false;
+
+            // 1. Find the item
+            const index = this.movies.findIndex(m => m.history_id === historyId);
+            if (index === -1) return;
+
+            // 2. Backup original state
+            const originalMovie = JSON.parse(JSON.stringify(this.movies[index]));
+
+            // 3. Optimistic Update - remove attendance for current user
+            if (this.movies[index].attendance && this.movies[index].attendance[this.currentUserId]) {
+                delete this.movies[index].attendance[this.currentUserId];
+                // Trigger reactivity
+                this.movies = [...this.movies];
+            }
+
+            const formData = new FormData();
+            formData.append('action', 'delete_attendance');
+            formData.append('history_id', historyId);
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (!result.success) {
+                    console.error('Delete failed:', result.error);
+                    this.movies[index] = originalMovie;
+                    this.movies = [...this.movies];
+                    alert(result.error || 'Delete failed, changes reverted.');
+                }
+            } catch (error) {
+                console.error('Delete failed:', error);
+                this.movies[index] = originalMovie;
+                this.movies = [...this.movies];
                 alert('An error occurred. Changes reverted.');
             }
         },

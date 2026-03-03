@@ -4835,6 +4835,10 @@ html::-webkit-scrollbar,
   bottom: 0px;
 }
 
+.bottom-6 {
+  bottom: 1.5rem;
+}
+
 .left-0 {
   left: 0px;
 }
@@ -4869,10 +4873,6 @@ html::-webkit-scrollbar,
 
 .top-2 {
   top: 0.5rem;
-}
-
-.top-20 {
-  top: 5rem;
 }
 
 .top-4 {
@@ -5247,6 +5247,10 @@ html::-webkit-scrollbar,
   width: 600px;
 }
 
+.w-\[90\%\] {
+  width: 90%;
+}
+
 .w-full {
   width: 100%;
 }
@@ -5414,10 +5418,6 @@ html::-webkit-scrollbar,
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid-cols-3 {
