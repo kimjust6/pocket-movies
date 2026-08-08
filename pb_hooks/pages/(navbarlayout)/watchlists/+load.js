@@ -121,15 +121,21 @@ module.exports = function (context) {
             // Use common function to get Owned + Shared
             const allLists = common.getWatchlists(client, user)
 
-            result.myLists = allLists.map(list => ({
-                id: list.id,
-                list_title: list.list_title,
-                description: list.description,
-                created: list.created,
-                is_owner: list.owner === userId,
-                owner_id: list.owner,
-                url: common.getWatchlistUrl(list)
-            }))
+            result.myLists = allLists.map(list => {
+                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-created' })
+                const total_movies = common.countWatchlistMovies(list.id)
+                return {
+                    id: list.id,
+                    list_title: list.list_title,
+                    description: list.description,
+                    created: list.created,
+                    is_owner: list.owner === userId,
+                    owner_id: list.owner,
+                    url: common.getWatchlistUrl(list),
+                    recent_movies,
+                    total_movies
+                }
+            })
         } catch (e) {
             console.error('Failed to load my lists:', e)
         }
@@ -152,6 +158,8 @@ module.exports = function (context) {
             .filter(list => !myIds.has(list.id)) // Exclude if already in "My Lists"
             .map((list) => {
                 const owner = list.expand?.owner
+                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-created' })
+                const total_movies = common.countWatchlistMovies(list.id)
                 return {
                     id: list.id,
                     list_title: list.list_title,
@@ -159,7 +167,9 @@ module.exports = function (context) {
                     created: list.created,
                     is_owner: list.owner === userId,
                     owner_name: owner ? (owner.name || owner.username) : 'Unknown',
-                    url: common.getWatchlistUrl(list)
+                    url: common.getWatchlistUrl(list),
+                    recent_movies,
+                    total_movies
                 }
             })
     } catch (e) {

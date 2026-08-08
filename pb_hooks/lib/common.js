@@ -407,6 +407,28 @@ module.exports = {
     },
 
     /**
+     * Count total movies in a watchlist.
+     * @param {string} listId - The watchlist ID
+     * @returns {number} Total count of movies in list
+     */
+    countWatchlistMovies: function (listId) {
+        if (!listId) return 0
+        try {
+            const records = $app.findRecordsByFilter(
+                'watched_history',
+                `list = '${listId}'`,
+                '',
+                500,
+                0
+            )
+            return records.length
+        } catch (e) {
+            console.error('[common.js] Failed to count watchlist movies:', e)
+            return 0
+        }
+    },
+
+    /**
      * Fetch potential users to invite to a watchlist.
      * @param {string} excludeUserId - User ID to exclude (current user)
      * @param {boolean} isOwner - Whether current user is owner
