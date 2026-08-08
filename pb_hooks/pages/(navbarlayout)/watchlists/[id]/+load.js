@@ -61,8 +61,8 @@ module.exports = function (context) {
         }
     }
 
-    // 3. Fetch movies (fetch one extra to determine if there are more)
-    const pageSize = 20
+    // 3. Fetch movies (fetch all items for watchlists up to 300)
+    const pageSize = 300
 
     // Handle Sorting
     const sortParam = common.getParam(context, 'sort') || 'watched_at'

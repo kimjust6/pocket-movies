@@ -1,13 +1,13 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1786164973758,
+    "generatedTime": 1786168786238,
     "data": [
         {
             "type": "file",
             "name": "package.json",
-            "size": 1630,
-            "hash": "73a1db1c39284126f54fa2699843bc1942d2f01466263a0d2d282852974dfa15"
+            "size": 1628,
+            "hash": "6fe35fe455076ee18b0646948e2f3f87ffb75025cb6c5bdd9ef9512238c0e9dc"
         },
         {
             "type": "file",
@@ -460,8 +460,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pocketpages.pb.js",
-            "size": 113,
-            "hash": "78bfc58937865fd612aacd4f2548e9dfcb38cff320abfb4fb4acd69a4c66cc22"
+            "size": 304,
+            "hash": "34e96663c9cb9c95079c80fe1e48b2f322f88eb2f58230ebe0ce8353319186d7"
         },
         {
             "type": "folder",
@@ -498,8 +498,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 174549,
-            "hash": "2bf26a5c2fdf81222725a1ff5eedda18956d094cdfe8d6894da5dcd249ee547f"
+            "size": 175547,
+            "hash": "721a057cc0dc4efd1819b2d4934707b2a1fc3da5d43593df4f8f9dd1373a082b"
         },
         {
             "type": "folder",
@@ -582,6 +582,10 @@
         {
             "type": "folder",
             "name": "pb_hooks/pages/api/watchlists"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/api/watchlists/seed"
         },
         {
             "type": "folder",
@@ -754,6 +758,10 @@
             "hash": "db3c66fcbad47337b9dba0ed3795dd077460b0422e64a6148dade0a8f9495d80"
         },
         {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/debug-seed"
+        },
+        {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+middleware.js",
             "size": 2890,
@@ -796,8 +804,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/+load.js",
-            "size": 3870,
-            "hash": "aed8f437822949d89c14cafd05cca0c18ed9a2ad5231d66bcd5a7a016b088bf6"
+            "size": 3741,
+            "hash": "d8648f6e2869bcd3849e75314117f1f24a6aec92e56b41ac5730f835f2dec6cd"
         },
         {
             "type": "file",
