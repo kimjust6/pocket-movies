@@ -173,7 +173,7 @@
                                     <% movies.forEach((movie, idx) => { %>
                                         <% const cfg = items[idx] || items[items.length - 1]; %>
                                         <div class="poster-stack-item absolute <%= cfg.w %> aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/15 -translate-x-1/2 group-hover:scale-105 transition-all duration-300"
-                                             style="--pos: <%= cfg.left %>; --pos-hover: <%= cfg.hoverLeft %>; z-index: <%= cfg.z %>;">
+                                             <%- 'style="--pos: ' + cfg.left + '; --pos-hover: ' + cfg.hoverLeft + '; z-index: ' + cfg.z + ';"' %>>
                                             <% if (movie.poster_path) { %>
                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                      alt="<%= movie.title %>" title="<%= movie.title %>" loading="lazy"
@@ -313,7 +313,7 @@
                                     <% movies.forEach((movie, idx) => { %>
                                         <% const cfg = items[idx] || items[items.length - 1]; %>
                                         <div class="poster-stack-item absolute <%= cfg.w %> aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/15 -translate-x-1/2 group-hover:scale-105 transition-all duration-300"
-                                             style="--pos: <%= cfg.left %>; --pos-hover: <%= cfg.hoverLeft %>; z-index: <%= cfg.z %>;">
+                                             <%- 'style="--pos: ' + cfg.left + '; --pos-hover: ' + cfg.hoverLeft + '; z-index: ' + cfg.z + ';"' %>>
                                             <% if (movie.poster_path) { %>
                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                      alt="<%= movie.title %>" title="<%= movie.title %>" loading="lazy"
