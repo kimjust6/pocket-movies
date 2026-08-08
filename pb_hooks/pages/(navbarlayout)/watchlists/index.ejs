@@ -47,10 +47,11 @@
                     <a href="<%= list.url || ('/watchlists/' + list.id) %>"
                         class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-secondary/20 hover:border-secondary/30 flex flex-col overflow-hidden">
                         <!-- Movie Preview Header (Stacked Posters up to 5) -->
-                        <div class="relative h-48 w-full overflow-hidden bg-gradient-to-b from-base-300/40 via-base-300/20 to-transparent p-4 border-b border-base-content/5 flex items-center justify-center">
+                        <!-- Movie Preview Header (Stacked Posters up to 5) -->
+                        <div class="relative h-36 sm:h-48 w-full overflow-hidden bg-gradient-to-b from-base-300/40 via-base-300/20 to-transparent p-4 border-b border-base-content/5 flex items-center justify-center">
                             <% const movies = (list.recent_movies || []).slice().reverse(); %>
                             <% if (movies.length === 0) { %>
-                                <div class="relative w-24 aspect-[2/3] rounded-xl border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
+                                <div class="relative w-20 sm:w-24 aspect-[2/3] rounded-xl border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 opacity-40 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                                     </svg>
@@ -59,36 +60,40 @@
                             <% } else { %>
                                 <%
                                 const count = movies.length;
-                                const classMap = {
-                                    1: ['w-26 aspect-[2/3] rounded-xl overflow-hidden shadow-xl ring-1 ring-white/10 group-hover:scale-105 transition-transform duration-300'],
+                                const posMap = {
+                                    1: [
+                                        { w: 'w-20 sm:w-28', left: '50%', hoverLeft: '50%', z: 10 }
+                                    ],
                                     2: [
-                                        'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-6 z-10 opacity-90 group-hover:-translate-x-9 transition-all duration-300',
-                                        'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-xl ring-1 ring-white/15 translate-x-5 z-20 group-hover:translate-x-8 transition-all duration-300'
+                                        { w: 'w-16 sm:w-24', left: '34%', hoverLeft: '26%', z: 10 },
+                                        { w: 'w-16 sm:w-24', left: '66%', hoverLeft: '74%', z: 20 }
                                     ],
                                     3: [
-                                        'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-12 scale-90 z-10 opacity-80 group-hover:-translate-x-16 group-hover:scale-95 transition-all duration-300',
-                                        'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 translate-x-0 scale-95 z-20 opacity-90 group-hover:scale-100 transition-all duration-300',
-                                        'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 translate-x-12 scale-100 z-30 group-hover:translate-x-16 group-hover:scale-105 transition-all duration-300'
+                                        { w: 'w-16 sm:w-20', left: '24%', hoverLeft: '18%', z: 10 },
+                                        { w: 'w-16 sm:w-20', left: '50%', hoverLeft: '50%', z: 20 },
+                                        { w: 'w-16 sm:w-20', left: '76%', hoverLeft: '82%', z: 30 }
                                     ],
                                     4: [
-                                        'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-16 scale-85 z-10 opacity-75 group-hover:-translate-x-20 transition-all duration-300',
-                                        'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-5 scale-90 z-20 opacity-85 group-hover:-translate-x-7 transition-all duration-300',
-                                        'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 translate-x-5 scale-95 z-30 opacity-95 group-hover:translate-x-7 transition-all duration-300',
-                                        'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 translate-x-16 scale-100 z-40 group-hover:translate-x-20 group-hover:scale-105 transition-all duration-300'
+                                        { w: 'w-16 sm:w-20', left: '20%', hoverLeft: '15%', z: 10 },
+                                        { w: 'w-16 sm:w-20', left: '40%', hoverLeft: '38%', z: 20 },
+                                        { w: 'w-16 sm:w-20', left: '60%', hoverLeft: '62%', z: 30 },
+                                        { w: 'w-16 sm:w-20', left: '80%', hoverLeft: '85%', z: 40 }
                                     ],
                                     5: [
-                                        'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-16 scale-80 z-10 opacity-70 group-hover:-translate-x-20 transition-all duration-300',
-                                        'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-8 scale-85 z-20 opacity-80 group-hover:-translate-x-10 transition-all duration-300',
-                                        'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 translate-x-0 scale-90 z-30 opacity-90 group-hover:scale-95 transition-all duration-300',
-                                        'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-xl ring-1 ring-white/15 translate-x-8 scale-95 z-40 opacity-95 group-hover:translate-x-10 transition-all duration-300',
-                                        'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 translate-x-16 scale-100 z-50 group-hover:translate-x-20 group-hover:scale-105 transition-all duration-300'
+                                        { w: 'w-16 sm:w-20', left: '18%', hoverLeft: '13%', z: 10 },
+                                        { w: 'w-16 sm:w-20', left: '34%', hoverLeft: '31%', z: 20 },
+                                        { w: 'w-16 sm:w-20', left: '50%', hoverLeft: '50%', z: 30 },
+                                        { w: 'w-16 sm:w-20', left: '66%', hoverLeft: '69%', z: 40 },
+                                        { w: 'w-16 sm:w-20', left: '82%', hoverLeft: '87%', z: 50 }
                                     ]
                                 };
-                                const itemClasses = classMap[count] || classMap[5];
+                                const items = posMap[count] || posMap[5];
                                 %>
                                 <div class="relative flex items-center justify-center h-full w-full">
                                     <% movies.forEach((movie, idx) => { %>
-                                        <div class="<%= itemClasses[idx] || itemClasses[itemClasses.length - 1] %>">
+                                        <% const cfg = items[idx] || items[items.length - 1]; %>
+                                        <div class="poster-stack-item absolute <%= cfg.w %> aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/15 -translate-x-1/2 group-hover:scale-105 transition-all duration-300"
+                                             style="--pos: <%= cfg.left %>; --pos-hover: <%= cfg.hoverLeft %>; z-index: <%= cfg.z %>;">
                                             <% if (movie.poster_path) { %>
                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                      alt="<%= movie.title %>" title="<%= movie.title %>" loading="lazy"
@@ -159,10 +164,10 @@
                             <a href="<%= list.url || ('/watchlists/' + list.id) %>"
                                 class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-accent/20 hover:border-accent/30 flex flex-col overflow-hidden">
                                 <!-- Movie Preview Header (Stacked Posters up to 5) -->
-                                <div class="relative h-48 w-full overflow-hidden bg-gradient-to-b from-base-300/40 via-base-300/20 to-transparent p-4 border-b border-base-content/5 flex items-center justify-center">
+                                <div class="relative h-36 sm:h-48 w-full overflow-hidden bg-gradient-to-b from-base-300/40 via-base-300/20 to-transparent p-4 border-b border-base-content/5 flex items-center justify-center">
                                     <% const movies = (list.recent_movies || []).slice().reverse(); %>
                                     <% if (movies.length === 0) { %>
-                                        <div class="relative w-24 aspect-[2/3] rounded-xl border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
+                                        <div class="relative w-20 sm:w-24 aspect-[2/3] rounded-xl border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 opacity-40 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                                             </svg>
@@ -171,36 +176,40 @@
                                     <% } else { %>
                                         <%
                                         const count = movies.length;
-                                        const classMap = {
-                                            1: ['w-26 aspect-[2/3] rounded-xl overflow-hidden shadow-xl ring-1 ring-white/10 group-hover:scale-105 transition-transform duration-300'],
+                                        const posMap = {
+                                            1: [
+                                                { w: 'w-20 sm:w-28', left: '50%', hoverLeft: '50%', z: 10 }
+                                            ],
                                             2: [
-                                                'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-6 z-10 opacity-90 group-hover:-translate-x-9 transition-all duration-300',
-                                                'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-xl ring-1 ring-white/15 translate-x-5 z-20 group-hover:translate-x-8 transition-all duration-300'
+                                                { w: 'w-16 sm:w-24', left: '34%', hoverLeft: '26%', z: 10 },
+                                                { w: 'w-16 sm:w-24', left: '66%', hoverLeft: '74%', z: 20 }
                                             ],
                                             3: [
-                                                'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-12 scale-90 z-10 opacity-80 group-hover:-translate-x-16 group-hover:scale-95 transition-all duration-300',
-                                                'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 translate-x-0 scale-95 z-20 opacity-90 group-hover:scale-100 transition-all duration-300',
-                                                'absolute w-24 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 translate-x-12 scale-100 z-30 group-hover:translate-x-16 group-hover:scale-105 transition-all duration-300'
+                                                { w: 'w-16 sm:w-20', left: '24%', hoverLeft: '18%', z: 10 },
+                                                { w: 'w-16 sm:w-20', left: '50%', hoverLeft: '50%', z: 20 },
+                                                { w: 'w-16 sm:w-20', left: '76%', hoverLeft: '82%', z: 30 }
                                             ],
                                             4: [
-                                                'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-16 scale-85 z-10 opacity-75 group-hover:-translate-x-20 transition-all duration-300',
-                                                'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-5 scale-90 z-20 opacity-85 group-hover:-translate-x-7 transition-all duration-300',
-                                                'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 translate-x-5 scale-95 z-30 opacity-95 group-hover:translate-x-7 transition-all duration-300',
-                                                'absolute w-22 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 translate-x-16 scale-100 z-40 group-hover:translate-x-20 group-hover:scale-105 transition-all duration-300'
+                                                { w: 'w-16 sm:w-20', left: '20%', hoverLeft: '15%', z: 10 },
+                                                { w: 'w-16 sm:w-20', left: '40%', hoverLeft: '38%', z: 20 },
+                                                { w: 'w-16 sm:w-20', left: '60%', hoverLeft: '62%', z: 30 },
+                                                { w: 'w-16 sm:w-20', left: '80%', hoverLeft: '85%', z: 40 }
                                             ],
                                             5: [
-                                                'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-16 scale-80 z-10 opacity-70 group-hover:-translate-x-20 transition-all duration-300',
-                                                'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-md ring-1 ring-white/10 -translate-x-8 scale-85 z-20 opacity-80 group-hover:-translate-x-10 transition-all duration-300',
-                                                'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 translate-x-0 scale-90 z-30 opacity-90 group-hover:scale-95 transition-all duration-300',
-                                                'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-xl ring-1 ring-white/15 translate-x-8 scale-95 z-40 opacity-95 group-hover:translate-x-10 transition-all duration-300',
-                                                'absolute w-20 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 translate-x-16 scale-100 z-50 group-hover:translate-x-20 group-hover:scale-105 transition-all duration-300'
+                                                { w: 'w-16 sm:w-20', left: '18%', hoverLeft: '13%', z: 10 },
+                                                { w: 'w-16 sm:w-20', left: '34%', hoverLeft: '31%', z: 20 },
+                                                { w: 'w-16 sm:w-20', left: '50%', hoverLeft: '50%', z: 30 },
+                                                { w: 'w-16 sm:w-20', left: '66%', hoverLeft: '69%', z: 40 },
+                                                { w: 'w-16 sm:w-20', left: '82%', hoverLeft: '87%', z: 50 }
                                             ]
                                         };
-                                        const itemClasses = classMap[count] || classMap[5];
+                                        const items = posMap[count] || posMap[5];
                                         %>
                                         <div class="relative flex items-center justify-center h-full w-full">
                                             <% movies.forEach((movie, idx) => { %>
-                                                <div class="<%= itemClasses[idx] || itemClasses[itemClasses.length - 1] %>">
+                                                <% const cfg = items[idx] || items[items.length - 1]; %>
+                                                <div class="poster-stack-item absolute <%= cfg.w %> aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/15 -translate-x-1/2 group-hover:scale-105 transition-all duration-300"
+                                                     style="--pos: <%= cfg.left %>; --pos-hover: <%= cfg.hoverLeft %>; z-index: <%= cfg.z %>;">
                                                     <% if (movie.poster_path) { %>
                                                         <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                              alt="<%= movie.title %>" title="<%= movie.title %>" loading="lazy"
