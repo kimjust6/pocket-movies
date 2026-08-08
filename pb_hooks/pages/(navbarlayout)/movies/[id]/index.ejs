@@ -37,7 +37,7 @@
                         <div class="absolute inset-0">
                             <% if (data.movie.backdrop_path) { %>
                                 <img src="https://image.tmdb.org/t/p/original<%= data.movie.backdrop_path %>"
-                                    alt="Backdrop" class="h-full w-full object-cover opacity-30 blur-sm" />
+                                    alt="Backdrop" fetchpriority="high" decoding="async" class="h-full w-full object-cover opacity-30 blur-sm" />
                                 <% } else { %>
                                     <div class="h-full w-full bg-base-300 opacity-30"></div>
                                     <% } %>
@@ -65,7 +65,7 @@
                                         <figure class="aspect-[2/3] w-full bg-base-300">
                                             <% if (data.movie.poster_path) { %>
                                                 <img src="https://image.tmdb.org/t/p/w500<%= data.movie.poster_path %>"
-                                                    alt="<%= data.movie.title %>" class="h-full w-full object-cover" />
+                                                    alt="<%= data.movie.title %>" fetchpriority="high" decoding="async" class="h-full w-full object-cover" />
                                                 <% } else { %>
                                                     <div
                                                         class="flex h-full w-full items-center justify-center text-base-content/30">
@@ -195,7 +195,7 @@
                                             <% if (person.profile_path) { %>
                                                 <img src="https://image.tmdb.org/t/p/w185<%= person.profile_path %>"
                                                     alt="<%= person.name %>" class="h-full w-full object-cover"
-                                                    loading="lazy" />
+                                                    loading="lazy" decoding="async" />
                                                 <% } else { %>
                                                     <div
                                                         class="flex h-full w-full items-center justify-center text-4xl font-bold opacity-10">

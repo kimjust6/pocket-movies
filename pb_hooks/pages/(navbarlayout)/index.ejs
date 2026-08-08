@@ -76,7 +76,7 @@
                                 class="aspect-[2/3] rounded-lg bg-base-200 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
                                 <% if (movie.poster_path) { %>
                                     <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
-                                        alt="<%= movie.title %>" class="w-full h-full object-cover">
+                                        alt="<%= movie.title %>" loading="lazy" decoding="async" class="w-full h-full object-cover">
                                     <% } else { %>
                                         <div class="absolute inset-0 flex items-center justify-center bg-base-300">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,8 @@
                                         <div class="flex -space-x-2">
                                             <% if (list.posters.length> 0) { %>
                                                 <% list.posters.forEach(poster=> { %>
-                                                    <img src="https://image.tmdb.org/t/p/w92<%= poster %>"
+                                                    <img src="https://image.tmdb.org/t/p/w92<%= poster %>" alt="Poster"
+                                                        loading="lazy" decoding="async"
                                                         class="w-10 h-14 rounded object-cover border-2 border-base-100">
                                                     <% }); %>
                                                         <% for (let i=list.posters.length; i < 3; i++) { %>
