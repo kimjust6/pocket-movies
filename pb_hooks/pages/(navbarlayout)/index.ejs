@@ -133,8 +133,13 @@
                                     <div class="card-body p-4 flex-row items-center gap-4">
                                         <div class="flex -space-x-2">
                                             <% if (list.posters.length> 0) { %>
-                                                <% list.posters.forEach(poster=> { %>
-                                                    <img src="https://image.tmdb.org/t/p/w92<%= poster %>" alt="Poster"
+                                                <% list.posters.forEach(poster=> { 
+                                                    let pUrl = poster || '';
+                                                    if (pUrl && !pUrl.startsWith('http')) {
+                                                        pUrl = 'https://image.tmdb.org/t/p/w92' + (pUrl.startsWith('/') ? '' : '/') + pUrl;
+                                                    }
+                                                %>
+                                                    <img src="<%= pUrl %>" alt="Poster"
                                                         loading="lazy" decoding="async"
                                                         class="w-10 h-14 rounded object-cover border-2 border-base-100">
                                                     <% }); %>

@@ -774,43 +774,108 @@ module.exports = {
     getRecentActivity: function (limit = 4) {
         const recentActivity = []
 
-        try {
-            // Recent movie adds
-            const recentAdds = $app.findRecordsByFilter(
-                TABLES.WATCHED_HISTORY,
-                `${COLS.LIST} != ''`,
-                `-${COLS.CREATED}`,
-                limit,
-                0
-            )
-            $app.expandRecords(recentAdds, [COLS.MOVIE, COLS.LIST])
+        const parseTime = (dateStr) => {
+            if (!dateStr) return 0;
+            const normalized = String(dateStr).trim().replace(' ', 'T');
+            const parsed = Date.parse(normalized);
+            return isNaN(parsed) ? 0 : parsed;
+        };
 
-            for (const r of recentAdds) {
-                const movie = r.expandedOne(COLS.MOVIE)
-                const list = r.expandedOne(COLS.LIST)
-                if (movie && list && !list.getBool(COLS.IS_DELETED) && !list.getBool(COLS.IS_PRIVATE)) {
-                    recentActivity.push({
-                        type: 'add',
-                        created: r.getString(COLS.CREATED),
-                        movieTitle: movie.getString(COLS.TITLE),
-                        movieId: movie.getString(COLS.TMDB_ID),
-                        listTitle: list.getString(COLS.LIST_TITLE),
-                        listId: list.id,
-                        url: module.exports.getWatchlistUrl(list)
-                    })
+        try {
+            // 1. Fetch all public (non-private, non-deleted) lists
+            const publicLists = $app.findRecordsByFilter(
+                TABLES.LISTS,
+                `${COLS.IS_PRIVATE} = false && (${COLS.IS_DELETED} = false || ${COLS.IS_DELETED} = null)`
+            )
+
+            const publicListMap = new Map()
+            for (const l of publicLists) {
+                publicListMap.set(l.id, l)
+            }
+
+            const existingKeys = new Set()
+
+            // 2. Fetch recent adds for each public list to ensure items from lists like Movie Buffs are included
+            for (const list of publicLists) {
+                try {
+                    const listAdds = $app.findRecordsByFilter(
+                        TABLES.WATCHED_HISTORY,
+                        `${COLS.LIST} = '${list.id}'`,
+                        `-${COLS.WATCHED},-${COLS.CREATED}`,
+                        limit,
+                        0
+                    )
+                    $app.expandRecords(listAdds, [COLS.MOVIE])
+
+                    for (const r of listAdds) {
+                        const movie = r.expandedOne(COLS.MOVIE)
+                        if (movie) {
+                            const key = `${list.id}_${movie.id}`
+                            if (!existingKeys.has(key)) {
+                                existingKeys.add(key)
+                                const dateVal = r.getString(COLS.WATCHED) || r.getString(COLS.CREATED)
+                                recentActivity.push({
+                                    type: 'add',
+                                    created: dateVal,
+                                    movieTitle: movie.getString(COLS.TITLE),
+                                    movieId: movie.getString(COLS.TMDB_ID),
+                                    listTitle: list.getString(COLS.LIST_TITLE),
+                                    listId: list.id,
+                                    url: module.exports.getWatchlistUrl(list)
+                                })
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error('[common.js] Failed to get adds for list ' + list.id, e)
                 }
             }
+
+            // 3. Also fetch general recent adds across all lists as coverage
+            try {
+                const generalAdds = $app.findRecordsByFilter(
+                    TABLES.WATCHED_HISTORY,
+                    `${COLS.LIST} != ''`,
+                    `-${COLS.WATCHED},-${COLS.CREATED}`,
+                    50,
+                    0
+                )
+                $app.expandRecords(generalAdds, [COLS.MOVIE, COLS.LIST])
+
+                for (const r of generalAdds) {
+                    const movie = r.expandedOne(COLS.MOVIE)
+                    const list = r.expandedOne(COLS.LIST)
+                    if (movie && list && publicListMap.has(list.id)) {
+                        const key = `${list.id}_${movie.id}`
+                        if (!existingKeys.has(key)) {
+                            existingKeys.add(key)
+                            const dateVal = r.getString(COLS.WATCHED) || r.getString(COLS.CREATED)
+                            recentActivity.push({
+                                type: 'add',
+                                created: dateVal,
+                                movieTitle: movie.getString(COLS.TITLE),
+                                movieId: movie.getString(COLS.TMDB_ID),
+                                listTitle: list.getString(COLS.LIST_TITLE),
+                                listId: list.id,
+                                url: module.exports.getWatchlistUrl(list)
+                            })
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('[common.js] Failed to get general adds:', e)
+            }
         } catch (e) {
-            console.error('[common.js] Failed to get recent adds:', e)
+            console.error('[common.js] Failed to process public lists for recent activity:', e)
         }
 
         try {
-            // Recent reviews
+            // 4. Fetch recent reviews / ratings
             const recentReviews = $app.findRecordsByFilter(
                 TABLES.WATCH_HISTORY_USER,
                 `${COLS.REVIEW} != '' || ${COLS.RATING} > 0`,
                 `-${COLS.CREATED}`,
-                limit,
+                limit * 5,
                 0
             )
             $app.expandRecords(recentReviews, [COLS.USER, COLS.WATCH_HISTORY])
@@ -824,9 +889,10 @@ module.exports = {
                     if (movie) {
                         const rating = r.getFloat(COLS.RATING)
                         const review = r.getString(COLS.REVIEW)
+                        const dateVal = r.getString(COLS.WATCHED) || r.getString(COLS.CREATED) || watchHistory.getString(COLS.WATCHED) || watchHistory.getString(COLS.CREATED)
                         recentActivity.push({
                             type: review ? 'review' : 'rating',
-                            created: r.getString(COLS.CREATED),
+                            created: dateVal,
                             userName: user.getString(COLS.NAME) || user.getString(COLS.USERNAME) || 'User',
                             userInitials: (user.getString(COLS.SHORTHAND) || user.getString(COLS.NAME) || 'U').substring(0, 2).toUpperCase(),
                             movieTitle: movie.getString(COLS.TITLE),
@@ -841,8 +907,8 @@ module.exports = {
             console.error('[common.js] Failed to get recent reviews:', e)
         }
 
-        // Sort by created date and take top items
-        recentActivity.sort((a, b) => new Date(b.created) - new Date(a.created))
+        // 5. Sort by created date descending (newest first)
+        recentActivity.sort((a, b) => parseTime(b.created) - parseTime(a.created))
         return recentActivity.slice(0, limit)
     }
 }

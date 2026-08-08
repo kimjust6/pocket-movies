@@ -4856,58 +4856,6 @@ html::-webkit-scrollbar,
   left: 50%;
 }
 
-.left-\[16\%\] {
-  left: 16%;
-}
-
-.left-\[18\%\] {
-  left: 18%;
-}
-
-.left-\[22\%\] {
-  left: 22%;
-}
-
-.left-\[32\%\] {
-  left: 32%;
-}
-
-.left-\[33\%\] {
-  left: 33%;
-}
-
-.left-\[39\%\] {
-  left: 39%;
-}
-
-.left-\[50\%\] {
-  left: 50%;
-}
-
-.left-\[61\%\] {
-  left: 61%;
-}
-
-.left-\[67\%\] {
-  left: 67%;
-}
-
-.left-\[68\%\] {
-  left: 68%;
-}
-
-.left-\[78\%\] {
-  left: 78%;
-}
-
-.left-\[82\%\] {
-  left: 82%;
-}
-
-.left-\[84\%\] {
-  left: 84%;
-}
-
 .right-0 {
   right: 0px;
 }
@@ -4948,16 +4896,8 @@ html::-webkit-scrollbar,
   z-index: 10;
 }
 
-.z-20 {
-  z-index: 20;
-}
-
 .z-30 {
   z-index: 30;
-}
-
-.z-40 {
-  z-index: 40;
 }
 
 .z-50 {
@@ -5164,12 +5104,12 @@ html::-webkit-scrollbar,
   height: 0.75rem;
 }
 
-.h-4 {
-  height: 1rem;
+.h-36 {
+  height: 9rem;
 }
 
-.h-44 {
-  height: 11rem;
+.h-4 {
+  height: 1rem;
 }
 
 .h-5 {
@@ -5202,10 +5142,6 @@ html::-webkit-scrollbar,
 
 .h-screen {
   height: 100vh;
-}
-
-.h-36 {
-  height: 9rem;
 }
 
 .max-h-\[55vh\] {
@@ -5755,6 +5691,10 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity, 1)));
 }
 
+.bg-base-100\/30 {
+  background-color: var(--fallback-b1,oklch(var(--b1)/0.3));
+}
+
 .bg-base-100\/40 {
   background-color: var(--fallback-b1,oklch(var(--b1)/0.4));
 }
@@ -5871,10 +5811,6 @@ html::-webkit-scrollbar,
 
 .bg-warning\/10 {
   background-color: var(--fallback-wa,oklch(var(--wa)/0.1));
-}
-
-.bg-base-100\/30 {
-  background-color: var(--fallback-b1,oklch(var(--b1)/0.3));
 }
 
 .bg-\[linear-gradient\(to_right\2c \#80808008_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#80808008_1px\2c transparent_1px\)\] {
@@ -6671,10 +6607,6 @@ html::-webkit-scrollbar,
   --tw-ring-color: rgb(255 255 255 / 0.15);
 }
 
-.ring-white\/20 {
-  --tw-ring-color: rgb(255 255 255 / 0.2);
-}
-
 .ring-offset-2 {
   --tw-ring-offset-width: 2px;
 }
@@ -7154,58 +7086,6 @@ html::-webkit-scrollbar,
 
 .focus\:ring-secondary\/20:focus {
   --tw-ring-color: var(--fallback-s,oklch(var(--s)/0.2));
-}
-
-.group:hover .group-hover\:left-\[11\%\] {
-  left: 11%;
-}
-
-.group:hover .group-hover\:left-\[13\%\] {
-  left: 13%;
-}
-
-.group:hover .group-hover\:left-\[16\%\] {
-  left: 16%;
-}
-
-.group:hover .group-hover\:left-\[25\%\] {
-  left: 25%;
-}
-
-.group:hover .group-hover\:left-\[30\%\] {
-  left: 30%;
-}
-
-.group:hover .group-hover\:left-\[37\%\] {
-  left: 37%;
-}
-
-.group:hover .group-hover\:left-\[50\%\] {
-  left: 50%;
-}
-
-.group:hover .group-hover\:left-\[63\%\] {
-  left: 63%;
-}
-
-.group:hover .group-hover\:left-\[70\%\] {
-  left: 70%;
-}
-
-.group:hover .group-hover\:left-\[75\%\] {
-  left: 75%;
-}
-
-.group:hover .group-hover\:left-\[84\%\] {
-  left: 84%;
-}
-
-.group:hover .group-hover\:left-\[87\%\] {
-  left: 87%;
-}
-
-.group:hover .group-hover\:left-\[89\%\] {
-  left: 89%;
 }
 
 .group:hover .group-hover\:w-full {
