@@ -2718,18 +2718,6 @@ html::-webkit-scrollbar,
   align-items: center;
 }
 
-.progress {
-  position: relative;
-  width: 100%;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  overflow: hidden;
-  height: 0.5rem;
-  border-radius: var(--rounded-box, 1rem);
-  background-color: var(--fallback-bc,oklch(var(--bc)/0.2));
-}
-
 .radio {
   flex-shrink: 0;
   --chkbg: var(--bc);
@@ -2971,6 +2959,11 @@ html::-webkit-scrollbar,
   color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity)));
   --alert-bg: var(--fallback-er,oklch(var(--er)/1));
   --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
+}
+
+.avatar-group {
+  display: flex;
+  overflow: hidden;
 }
 
 .avatar-group :where(.avatar) {
@@ -3812,49 +3805,6 @@ html::-webkit-scrollbar,
   0% {
     opacity: 0;
   }
-}
-
-.progress::-moz-progress-bar {
-  border-radius: var(--rounded-box, 1rem);
-  background-color: currentColor;
-}
-
-.progress:indeterminate {
-  --progress-color: var(--fallback-bc,oklch(var(--bc)/1));
-  background-image: repeating-linear-gradient(
-    90deg,
-    var(--progress-color) -1%,
-    var(--progress-color) 10%,
-    transparent 10%,
-    transparent 90%
-  );
-  background-size: 200%;
-  background-position-x: 15%;
-  animation: progress-loading 5s ease-in-out infinite;
-}
-
-.progress::-webkit-progress-bar {
-  border-radius: var(--rounded-box, 1rem);
-  background-color: transparent;
-}
-
-.progress::-webkit-progress-value {
-  border-radius: var(--rounded-box, 1rem);
-  background-color: currentColor;
-}
-
-.progress:indeterminate::-moz-progress-bar {
-  background-color: transparent;
-  background-image: repeating-linear-gradient(
-    90deg,
-    var(--progress-color) -1%,
-    var(--progress-color) 10%,
-    transparent 10%,
-    transparent 90%
-  );
-  background-size: 200%;
-  background-position-x: 15%;
-  animation: progress-loading 5s ease-in-out infinite;
 }
 
 @keyframes progress-loading {
@@ -4840,6 +4790,14 @@ html::-webkit-scrollbar,
   bottom: -0.25rem;
 }
 
+.-bottom-40 {
+  bottom: -10rem;
+}
+
+.-top-40 {
+  top: -10rem;
+}
+
 .bottom-0 {
   bottom: 0px;
 }
@@ -4966,6 +4924,10 @@ html::-webkit-scrollbar,
   margin-bottom: 3rem;
 }
 
+.mb-16 {
+  margin-bottom: 4rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -5048,6 +5010,10 @@ html::-webkit-scrollbar,
   display: flex;
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
 .table {
   display: table;
 }
@@ -5092,6 +5058,10 @@ html::-webkit-scrollbar,
   height: 4rem;
 }
 
+.h-2 {
+  height: 0.5rem;
+}
+
 .h-20 {
   height: 5rem;
 }
@@ -5122,6 +5092,10 @@ html::-webkit-scrollbar,
 
 .h-8 {
   height: 2rem;
+}
+
+.h-96 {
+  height: 24rem;
 }
 
 .h-\[600px\] {
@@ -5208,6 +5182,10 @@ html::-webkit-scrollbar,
   width: 4rem;
 }
 
+.w-2 {
+  width: 0.5rem;
+}
+
 .w-20 {
   width: 5rem;
 }
@@ -5248,12 +5226,20 @@ html::-webkit-scrollbar,
   width: 1.5rem;
 }
 
+.w-7 {
+  width: 1.75rem;
+}
+
 .w-72 {
   width: 18rem;
 }
 
 .w-8 {
   width: 2rem;
+}
+
+.w-96 {
+  width: 24rem;
 }
 
 .w-\[1200px\] {
@@ -5266,6 +5252,11 @@ html::-webkit-scrollbar,
 
 .w-\[90\%\] {
   width: 90%;
+}
+
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .w-full {
@@ -5322,6 +5313,10 @@ html::-webkit-scrollbar,
 
 .max-w-sm {
   max-width: 24rem;
+}
+
+.max-w-xl {
+  max-width: 36rem;
 }
 
 .max-w-xs {
@@ -5527,6 +5522,12 @@ html::-webkit-scrollbar,
   margin-left: calc(-0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.-space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(-0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(-0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
@@ -5641,6 +5642,11 @@ html::-webkit-scrollbar,
   border-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-border-opacity, 1)));
 }
 
+.border-base-200 {
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity, 1)));
+}
+
 .border-base-300 {
   --tw-border-opacity: 1;
   border-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-border-opacity, 1)));
@@ -5680,6 +5686,11 @@ html::-webkit-scrollbar,
 
 .bg-\[linear-gradient\(to_right\2c \#80808012_1px\2c transparent_1px\)\2c linear_gradient\(to_bottom\2c \#80808012_1px\2c transparent_1px\)\] {
   background-color: linear-gradient(to right,#80808012 1px,transparent 1px),linear gradient(to bottom,#80808012 1px,transparent 1px);
+}
+
+.bg-accent {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-a,oklch(var(--a)/var(--tw-bg-opacity, 1)));
 }
 
 .bg-accent\/10 {
@@ -5722,6 +5733,10 @@ html::-webkit-scrollbar,
 
 .bg-base-200\/20 {
   background-color: var(--fallback-b2,oklch(var(--b2)/0.2));
+}
+
+.bg-base-200\/40 {
+  background-color: var(--fallback-b2,oklch(var(--b2)/0.4));
 }
 
 .bg-base-200\/50 {
@@ -5783,6 +5798,11 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-p,oklch(var(--p)/0.05));
 }
 
+.bg-secondary {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-s,oklch(var(--s)/var(--tw-bg-opacity, 1)));
+}
+
 .bg-secondary\/10 {
   background-color: var(--fallback-s,oklch(var(--s)/0.1));
 }
@@ -5791,13 +5811,13 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-s,oklch(var(--s)/0.15));
 }
 
+.bg-secondary\/5 {
+  background-color: var(--fallback-s,oklch(var(--s)/0.05));
+}
+
 .bg-success {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-su,oklch(var(--su)/var(--tw-bg-opacity, 1)));
-}
-
-.bg-success\/10 {
-  background-color: var(--fallback-su,oklch(var(--su)/0.1));
 }
 
 .bg-transparent {
@@ -5807,10 +5827,6 @@ html::-webkit-scrollbar,
 .bg-warning {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-wa,oklch(var(--wa)/var(--tw-bg-opacity, 1)));
-}
-
-.bg-warning\/10 {
-  background-color: var(--fallback-wa,oklch(var(--wa)/0.1));
 }
 
 .bg-\[linear-gradient\(to_right\2c \#80808008_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#80808008_1px\2c transparent_1px\)\] {
@@ -5893,6 +5909,12 @@ html::-webkit-scrollbar,
 
 .from-primary\/10 {
   --tw-gradient-from: var(--fallback-p,oklch(var(--p)/0.1)) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.from-primary\/30 {
+  --tw-gradient-from: var(--fallback-p,oklch(var(--p)/0.3)) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
@@ -6003,6 +6025,10 @@ html::-webkit-scrollbar,
   --tw-gradient-to: var(--fallback-s,oklch(var(--s)/0.1)) var(--tw-gradient-to-position);
 }
 
+.to-secondary\/30 {
+  --tw-gradient-to: var(--fallback-s,oklch(var(--s)/0.3)) var(--tw-gradient-to-position);
+}
+
 .to-secondary\/40 {
   --tw-gradient-to: var(--fallback-s,oklch(var(--s)/0.4)) var(--tw-gradient-to-position);
 }
@@ -6055,6 +6081,10 @@ html::-webkit-scrollbar,
 
 .p-2 {
   padding: 0.5rem;
+}
+
+.p-2\.5 {
+  padding: 0.625rem;
 }
 
 .p-3 {
@@ -6112,6 +6142,11 @@ html::-webkit-scrollbar,
   padding-bottom: 0px;
 }
 
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .py-10 {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
@@ -6135,6 +6170,11 @@ html::-webkit-scrollbar,
 .py-20 {
   padding-top: 5rem;
   padding-bottom: 5rem;
+}
+
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 
 .py-4 {
@@ -6353,6 +6393,11 @@ html::-webkit-scrollbar,
   color: var(--fallback-ac,oklch(var(--ac)/var(--tw-text-opacity, 1)));
 }
 
+.text-amber-400 {
+  --tw-text-opacity: 1;
+  color: rgb(251 191 36 / var(--tw-text-opacity, 1));
+}
+
 .text-base-content {
   --tw-text-opacity: 1;
   color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity, 1)));
@@ -6419,6 +6464,11 @@ html::-webkit-scrollbar,
 .text-secondary {
   --tw-text-opacity: 1;
   color: var(--fallback-s,oklch(var(--s)/var(--tw-text-opacity, 1)));
+}
+
+.text-secondary-content {
+  --tw-text-opacity: 1;
+  color: var(--fallback-sc,oklch(var(--sc)/var(--tw-text-opacity, 1)));
 }
 
 .text-success {
@@ -6626,6 +6676,11 @@ html::-webkit-scrollbar,
 
 .blur-\[120px\] {
   --tw-blur: blur(120px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.blur-\[128px\] {
+  --tw-blur: blur(128px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
@@ -6911,6 +6966,10 @@ html::-webkit-scrollbar,
   background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity, 1)));
 }
 
+.hover\:bg-base-200\/70:hover {
+  background-color: var(--fallback-b2,oklch(var(--b2)/0.7));
+}
+
 .hover\:bg-base-content\/10:hover {
   background-color: var(--fallback-bc,oklch(var(--bc)/0.1));
 }
@@ -7108,6 +7167,12 @@ html::-webkit-scrollbar,
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.group:hover .group-hover\:scale-110 {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .group:hover .group-hover\:text-accent {
   --tw-text-opacity: 1;
   color: var(--fallback-a,oklch(var(--a)/var(--tw-text-opacity, 1)));
@@ -7162,6 +7227,10 @@ html::-webkit-scrollbar,
 }
 
 @media (min-width: 640px) {
+  .sm\:inline {
+    display: inline;
+  }
+
   .sm\:h-48 {
     height: 12rem;
   }
@@ -7202,6 +7271,10 @@ html::-webkit-scrollbar,
 }
 
 @media (min-width: 768px) {
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
   .md\:block {
     display: block;
   }
@@ -7250,6 +7323,10 @@ html::-webkit-scrollbar,
     align-items: flex-start;
   }
 
+  .md\:items-end {
+    align-items: flex-end;
+  }
+
   .md\:justify-start {
     justify-content: flex-start;
   }
@@ -7285,9 +7362,19 @@ html::-webkit-scrollbar,
     line-height: 2.5rem;
   }
 
+  .md\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
   .md\:text-6xl {
     font-size: 3.75rem;
     line-height: 1;
+  }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
   .md\:text-xl {
