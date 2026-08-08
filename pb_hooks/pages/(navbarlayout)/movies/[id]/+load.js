@@ -12,6 +12,7 @@
  */
 module.exports = function (context) {
     const tmdb = require('../../../../lib/tmdb.js')
+    const omdb = require('../../../../lib/omdb.js')
     const common = require('../../../../lib/common.js')
     const watchlistActions = require('../../../../lib/watchlist-actions.js')
 
@@ -75,6 +76,24 @@ module.exports = function (context) {
                 lists: [],
                 message
             }
+        }
+
+        // Fetch OMDB scores (IMDb and Rotten Tomatoes)
+        try {
+            let omdbScores = null
+            if (movie.imdb_id) {
+                omdbScores = omdb.getScoresByImdbId(movie.imdb_id)
+            } else if (movie.title) {
+                const year = movie.release_date ? movie.release_date.substring(0, 4) : null
+                omdbScores = omdb.getScoresByTitle(movie.title, year)
+            }
+
+            if (omdbScores) {
+                movie.imdb_score = omdbScores.imdb_score
+                movie.rt_score = omdbScores.rt_score
+            }
+        } catch (omdbErr) {
+            console.error("Failed to fetch OMDB scores for movie detail:", omdbErr)
         }
 
         const credits = tmdb.getCredits(movieId)

@@ -4,7 +4,7 @@
 
 ## Features
 
--   **Movie Discovery**: Instantly search for millions of movies powered by the **TMDB API**.
+-   **Movie Discovery & Ratings**: Search millions of movies powered by **TMDB API** and fetch **IMDb** & **Rotten Tomatoes** ratings via **OMDB API**.
 -   **Smart Watchlists**: Create unlimited public or private watchlists to organize your movie backlog.
 -   **Collaboration**: Share private watchlists with specific users for collaborative planning.
 -   **Secure & Private**: Built-in User Authentication (Email/Password & Google OAuth) keeps your lists secure.
@@ -29,6 +29,7 @@ Follow these steps to get your own instance running locally.
 -   **Node.js** (LTS version recommended)
 -   **PocketBase**: Download the binary for your OS from [pocketbase.io/docs](https://pocketbase.io/docs/) and ensure it's in your PATH (or placed in the project root).
 -   **TMDB API Key**: Get a free API key from [The Movie Database](https://www.themoviedb.org/documentation/api).
+-   **OMDB API Key**: Get a free API key from [OMDb API](https://www.omdbapi.com/apikey.aspx).
 
 ### Installation
 
@@ -44,9 +45,10 @@ Follow these steps to get your own instance running locally.
     ```
 
 3.  **Set Environment Variables**:
-    Create a `.env` file or export the variable in your shell:
+    Create a `.env` file or export the variables in your shell:
     ```bash
     export TMDB_API_KEY="your_tmdb_api_key_here"
+    export OMDB_API_KEY="your_omdb_api_key_here"
     ```
 
 4.  **Run the App**:

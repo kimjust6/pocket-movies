@@ -24,6 +24,10 @@ module.exports = function (context) {
                 return dateB - dateA
             })
             .slice(0, 5)
+            .map(list => ({
+                ...list,
+                url: common.getWatchlistUrl(list)
+            }))
 
         // Assign to locals for view access
         if (context.locals) {

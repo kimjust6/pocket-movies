@@ -34,6 +34,7 @@ function handlePostAction(context, list, isOwner, userId, explicitData = null) {
     try {
         if (action === 'update_list') {
             message = handleUpdateList(list, data, isOwner)
+            redirect = common.getWatchlistUrl(list)
         } else if (action === 'delete_list') {
             handleDeleteList(list, isOwner)
             redirect = '/watchlists'
@@ -434,6 +435,7 @@ function handleDeleteAttendance(list, data, userId) {
 }
 
 const tmdb = require('./tmdb.js')
+const omdb = require('./omdb.js')
 
 /**
  * Adds a movie to a watchlist (finding/creating movie and list as needed).
@@ -561,6 +563,28 @@ function addMovieToWatchlist(user, tmdbId, targetListId) {
 
         if (movieData.vote_average) {
             watchItem.set('tmdb_score', movieData.vote_average)
+        }
+
+        // Fetch IMDb and Rotten Tomatoes scores from OMDB
+        try {
+            let omdbScores = null
+            if (movieData.imdb_id) {
+                omdbScores = omdb.getScoresByImdbId(movieData.imdb_id)
+            } else if (movieData.title) {
+                const year = movieData.release_date ? movieData.release_date.substring(0, 4) : null
+                omdbScores = omdb.getScoresByTitle(movieData.title, year)
+            }
+
+            if (omdbScores) {
+                if (omdbScores.imdb_score !== null && omdbScores.imdb_score !== undefined) {
+                    watchItem.set('imdb_score', omdbScores.imdb_score)
+                }
+                if (omdbScores.rt_score !== null && omdbScores.rt_score !== undefined) {
+                    watchItem.set('rt_score', omdbScores.rt_score)
+                }
+            }
+        } catch (omdbErr) {
+            console.error('Failed to fetch OMDB scores when adding to watchlist:', omdbErr)
         }
 
         $app.save(watchItem)

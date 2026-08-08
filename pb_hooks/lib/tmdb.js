@@ -2,12 +2,13 @@
  * TMDB API Helper
  */
 
-// We can access environment variables via $os.getenv() or process.env depending on JSVM vs Node.
-// In PocketBase JSVM (Go), use $os.getenv(). In Node, process.env.
-// Try $os.getenv first if available (Go environment), else process.env (testing).
-const apiKey = process.env.TMDB_API_KEY || $os.getenv('TMDB_API_KEY') || ''
+const { getEnv } = require('./env.js')
 
 const BASE_URL = 'https://api.themoviedb.org/3'
+
+function getApiKey() {
+    return getEnv('TMDB_API_KEY')
+}
 
 /**
  * Fetches data from the TMDB API.
@@ -17,6 +18,7 @@ const BASE_URL = 'https://api.themoviedb.org/3'
  * @throws {Error} If TMDB_API_KEY is not set or if the API returns an error.
  */
 function fetchTMDB(endpoint, params = {}) {
+    const apiKey = getApiKey()
     if (!apiKey) {
         throw new Error('TMDB_API_KEY is not set')
     }
@@ -33,19 +35,26 @@ function fetchTMDB(endpoint, params = {}) {
     // $http.send returns { statusCode, headers, raw, json, ... }
 
     try {
-        const res = $http.send({
-            url: url,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        if (typeof $http !== 'undefined') {
+            const res = $http.send({
+                url: url,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
 
-        if (res.statusCode >= 400) {
-            throw new Error(`TMDB API Error: ${res.statusCode} ${res.raw}`)
+            if (res.statusCode >= 400) {
+                throw new Error(`TMDB API Error: ${res.statusCode} ${res.raw}`)
+            }
+
+            return res.json
+        } else {
+            // Fallback for Node environment
+            const syncFetch = require('child_process').execSync
+            const stdout = syncFetch(`curl -s "${url}"`).toString()
+            return JSON.parse(stdout)
         }
-
-        return res.json
     } catch (e) {
         console.error('TMDB Fetch Error:', e)
         throw e

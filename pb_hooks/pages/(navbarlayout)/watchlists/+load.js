@@ -114,21 +114,43 @@ module.exports = function (context) {
     // 2. Fetch lists
     result.myLists = []
     result.publicLists = []
+    result.myListsPagination = null
 
     // A. Fetch My Lists (Owned + Shared) if logged in
     if (userId) {
         try {
             // Use common function to get Owned + Shared
             const allLists = common.getWatchlists(client, user)
+            const page = Math.max(1, parseInt(context.query?.page || 1))
+            const perPage = 8
+            const totalItems = allLists.length
+            const totalPages = Math.ceil(totalItems / perPage) || 1
+            const currentPage = Math.min(page, totalPages)
 
-            result.myLists = allLists.map(list => ({
-                id: list.id,
-                list_title: list.list_title,
-                description: list.description,
-                created: list.created,
-                is_owner: list.owner === userId,
-                owner_id: list.owner
-            }))
+            const paginatedLists = allLists.slice((currentPage - 1) * perPage, currentPage * perPage)
+
+            result.myLists = paginatedLists.map(list => {
+                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-watched,-created' })
+                const total_movies = common.countWatchlistMovies(list.id)
+                return {
+                    id: list.id,
+                    list_title: list.list_title,
+                    description: list.description,
+                    created: list.created,
+                    is_owner: list.owner === userId,
+                    owner_id: list.owner,
+                    url: common.getWatchlistUrl(list),
+                    recent_movies,
+                    total_movies
+                }
+            })
+
+            result.myListsPagination = {
+                currentPage,
+                totalPages,
+                totalItems,
+                perPage
+            }
         } catch (e) {
             console.error('Failed to load my lists:', e)
         }
@@ -151,13 +173,18 @@ module.exports = function (context) {
             .filter(list => !myIds.has(list.id)) // Exclude if already in "My Lists"
             .map((list) => {
                 const owner = list.expand?.owner
+                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-watched,-created' })
+                const total_movies = common.countWatchlistMovies(list.id)
                 return {
                     id: list.id,
                     list_title: list.list_title,
                     description: list.description,
                     created: list.created,
                     is_owner: list.owner === userId,
-                    owner_name: owner ? (owner.name || owner.username) : 'Unknown'
+                    owner_name: owner ? (owner.name || owner.username) : 'Unknown',
+                    url: common.getWatchlistUrl(list),
+                    recent_movies,
+                    total_movies
                 }
             })
     } catch (e) {

@@ -1,4 +1,4 @@
-﻿<!-- Hero Section with Dark Gradient Background -->
+<!-- Hero Section with Dark Gradient Background -->
 <div class="min-h-screen" id="home">
     <!-- Hero -->
     <div class="hero relative min-h-[80vh] overflow-hidden bg-gradient-to-b from-base-200 via-base-100">
@@ -76,7 +76,7 @@
                                 class="aspect-[2/3] rounded-lg bg-base-200 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
                                 <% if (movie.poster_path) { %>
                                     <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
-                                        alt="<%= movie.title %>" class="w-full h-full object-cover">
+                                        alt="<%= movie.title %>" loading="lazy" decoding="async" class="w-full h-full object-cover">
                                     <% } else { %>
                                         <div class="absolute inset-0 flex items-center justify-center bg-base-300">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -128,13 +128,19 @@
                     <div class="space-y-4">
                         <% if (data.topLists && data.topLists.length> 0) { %>
                             <% data.topLists.forEach(list=> { %>
-                                <a href="/watchlists/<%= list.id %>"
+                                <a href="<%= list.url || ('/watchlists/' + list.id) %>"
                                     class="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group">
                                     <div class="card-body p-4 flex-row items-center gap-4">
                                         <div class="flex -space-x-2">
                                             <% if (list.posters.length> 0) { %>
-                                                <% list.posters.forEach(poster=> { %>
-                                                    <img src="https://image.tmdb.org/t/p/w92<%= poster %>"
+                                                <% list.posters.forEach(poster=> { 
+                                                    let pUrl = poster || '';
+                                                    if (pUrl && !pUrl.startsWith('http')) {
+                                                        pUrl = 'https://image.tmdb.org/t/p/w92' + (pUrl.startsWith('/') ? '' : '/') + pUrl;
+                                                    }
+                                                %>
+                                                    <img src="<%= pUrl %>" alt="Poster"
+                                                        loading="lazy" decoding="async"
                                                         class="w-10 h-14 rounded object-cover border-2 border-base-100">
                                                     <% }); %>
                                                         <% for (let i=list.posters.length; i < 3; i++) { %>
@@ -220,7 +226,7 @@
                                                         <% if (activity.type==='add' ) { %>
                                                             <span class="text-base-content/60">A movie was added to
                                                             </span>
-                                                            <a href="/watchlists/<%= activity.listId %>"
+                                                            <a href="<%= activity.url || ('/watchlists/' + activity.listId) %>"
                                                                 class="font-semibold hover:text-primary">
                                                                 <%= activity.listTitle %>
                                                             </a>

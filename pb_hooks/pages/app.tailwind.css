@@ -90,6 +90,13 @@
     [x-cloak] {
         display: none !important;
     }
+
+    .poster-stack-item {
+        left: var(--pos);
+    }
+    .group:hover .poster-stack-item {
+        left: var(--pos-hover);
+    }
 }
 
 /* View Transitions API */

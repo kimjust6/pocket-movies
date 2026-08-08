@@ -19,7 +19,7 @@
             <% const activeList=locals.data && locals.data.list; const isOwner=activeList && activeList.is_owner; %>
 
                 <!-- Default Logo Link (visible if no mobile title or on desktop/no list) -->
-                <a href="/" class="flex items-center gap-3 transition-opacity hover:opacity-80"
+                <a href="<%= locals.auth ? '/watchlists' : '/' %>" class="flex items-center gap-3 transition-opacity hover:opacity-80"
                     :class="{ 'hidden md:block': mobileTitle, 'block': !mobileTitle }" <% if (activeList) { %>
                     class="hidden md:hidden" <% } %>>
 
@@ -46,7 +46,7 @@
                                 Back
                             </a>
                         </div>
-                        <a href="/">
+                        <a href="<%= locals.auth ? '/watchlists' : '/' %>">
                             <h1
                                 class="text-xl font-bold bg-gradient-to-br from-base-content to-base-content/70 bg-clip-text text-transparent leading-tight">
                                 <%= activeList.title %>
@@ -180,7 +180,7 @@
                                             (userLists.length> 0) {
                                             %>
                                             <% userLists.forEach(function(list) { %>
-                                    <li><a href="/watchlists/<%= list.id %>" class="truncate max-w-[200px]">
+                                    <li><a href="<%= list.url || ('/watchlists/' + list.id) %>" class="truncate max-w-[200px]">
                                             <%= list.list_title %>
                                         </a></li>
                                     <% }); %>
