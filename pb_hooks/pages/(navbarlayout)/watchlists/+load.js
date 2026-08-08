@@ -127,7 +127,8 @@ module.exports = function (context) {
                 description: list.description,
                 created: list.created,
                 is_owner: list.owner === userId,
-                owner_id: list.owner
+                owner_id: list.owner,
+                url: common.getWatchlistUrl(list)
             }))
         } catch (e) {
             console.error('Failed to load my lists:', e)
@@ -157,7 +158,8 @@ module.exports = function (context) {
                     description: list.description,
                     created: list.created,
                     is_owner: list.owner === userId,
-                    owner_name: owner ? (owner.name || owner.username) : 'Unknown'
+                    owner_name: owner ? (owner.name || owner.username) : 'Unknown',
+                    url: common.getWatchlistUrl(list)
                 }
             })
     } catch (e) {

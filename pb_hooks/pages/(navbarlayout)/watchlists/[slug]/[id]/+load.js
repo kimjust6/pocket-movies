@@ -1,0 +1,128 @@
+/**
+ * Loader for the watchlist detail page with slug route (/watchlists/:slug/:id).
+ * Handles:
+ * - Fetching list details and movie items.
+ * - Enforcing canonical slug in URL.
+ * - Checking user permissions (view/edit/owner).
+ * - Handling list management actions via watchlist-actions module.
+ * @type {import('pocketpages').PageDataLoaderFunc}
+ */
+const common = require('../../../../../lib/common.js')
+const actions = require('../../../../../lib/watchlist-actions.js')
+const { TABLES, COLS } = common
+
+module.exports = function (context) {
+    const { client, user } = common.init(context)
+
+    // Get params
+    const listId = context.params?.id || context.pathParams?.id
+    const slugParam = context.params?.slug || context.pathParams?.slug
+
+    if (!listId) {
+        return {
+            list: null,
+            movies: [],
+            error: "List ID is missing."
+        }
+    }
+
+    // 1. Fetch list and check access
+    const { list, hasAccess, isOwner, error: accessError } = common.getWatchlistWithAccess(listId, user)
+
+    if (!list) {
+        context.response.redirect('/watchlists')
+        return
+    }
+
+    // Enforce canonical slug in URL
+    const expectedSlug = common.slugify(list.getString('list_title'))
+    if (slugParam !== expectedSlug) {
+        const canonicalUrl = `/watchlists/${expectedSlug}/${listId}`
+        const queryString = context.request?.url?.rawQuery ? `?${context.request.url.rawQuery}` : ''
+        context.response.redirect(canonicalUrl + queryString)
+        return
+    }
+
+    if (!hasAccess) {
+        return {
+            list: null,
+            movies: [],
+            error: accessError || "You do not have permission to view this list."
+        }
+    }
+
+    // 2. Handle POST actions
+    let message = null
+    let error = null
+
+    if (user && context.request.method === 'POST') {
+        const result = actions.handlePostAction(context, list, isOwner, user.id)
+        message = result.message
+        error = result.error
+        if (result.redirect) {
+            context.response.redirect(result.redirect)
+            return
+        }
+    }
+
+    // 3. Fetch movies (fetch all items for watchlists up to 300)
+    const pageSize = 300
+
+    // Handle Sorting
+    const sortParam = common.getParam(context, 'sort') || 'watched_at'
+    const dirParam = common.getParam(context, 'dir') || 'desc'
+
+    let dbSort = '-watched' // default
+
+    const colMap = {
+        'watched_at': 'watched',
+        'title': 'movie.title',
+        'release_date': 'movie.release_date',
+        'runtime': 'movie.runtime',
+        'tmdb_score': 'tmdb_score',
+        'imdb_score': 'imdb_score',
+        'rt_score': 'rt_score'
+    }
+
+    if (colMap[sortParam]) {
+        const dir = (dirParam === 'asc') ? '+' : '-'
+        dbSort = dir + colMap[sortParam]
+    }
+
+    const allMovies = common.fetchWatchlistMovies(listId, {
+        limit: pageSize + 1,
+        sort: dbSort
+    })
+    const hasMore = (allMovies.totalFetched !== undefined ? allMovies.totalFetched : allMovies.length) > pageSize
+    const movies = hasMore ? allMovies.slice(0, pageSize) : allMovies
+
+    // 4. Fetch List Members (for columns)
+    const members = common.fetchListMembers(listId, list.getString('owner'))
+
+    // 5. Attach Attendance Data
+    common.attachAttendance(movies, listId)
+
+    // 6. Fetch potential users to invite (if owner)
+    const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner, listId)
+
+    const responseData = {
+        list: {
+            id: list.id,
+            title: list.getString('list_title'),
+            description: list.getString('description'),
+            created: list.getString('created'),
+            is_owner: !!isOwner,
+            is_private: list.getBool('is_private')
+        },
+        movies,
+        hasMore,
+        members,
+        users: potentialUsers,
+        user: user ? { id: user.id } : null,
+        error,
+        message,
+        formatDateTime: common.formatDateTime
+    }
+
+    return responseData
+}

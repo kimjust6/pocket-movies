@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1786168786238,
+    "generatedTime": 1786208408440,
     "data": [
         {
             "type": "file",
@@ -498,8 +498,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 175547,
-            "hash": "721a057cc0dc4efd1819b2d4934707b2a1fc3da5d43593df4f8f9dd1373a082b"
+            "size": 174549,
+            "hash": "2bf26a5c2fdf81222725a1ff5eedda18956d094cdfe8d6894da5dcd249ee547f"
         },
         {
             "type": "folder",
@@ -582,10 +582,6 @@
         {
             "type": "folder",
             "name": "pb_hooks/pages/api/watchlists"
-        },
-        {
-            "type": "folder",
-            "name": "pb_hooks/pages/api/watchlists/seed"
         },
         {
             "type": "folder",
@@ -682,8 +678,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/header.ejs",
-            "size": 14459,
-            "hash": "a3f372c5aa67443d7180d1cdeeff5df27893f4cee7684f4235293e7310293f48"
+            "size": 14556,
+            "hash": "bef39fb0adb3f7f73081bc423327343550f892e05b8d7d815d8b9a1260bcce5d"
         },
         {
             "type": "file",
@@ -754,18 +750,14 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/index.ejs",
-            "size": 29303,
-            "hash": "db3c66fcbad47337b9dba0ed3795dd077460b0422e64a6148dade0a8f9495d80"
-        },
-        {
-            "type": "folder",
-            "name": "pb_hooks/pages/(navbarlayout)/debug-seed"
+            "size": 29342,
+            "hash": "e84efc54a4cffadd553040ed349048de7897add7780bccac6ff3ace3dc74d68f"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/+middleware.js",
-            "size": 2890,
-            "hash": "4bcec84dab6ccedc0967618d94c6476bfcbcedb884bc1430d1a5ca33649a1740"
+            "size": 3013,
+            "hash": "4fea27f90af0cf37bc4be29b2e5d39992ad1a162b6d60a73ab00faf65bda8739"
         },
         {
             "type": "file",
@@ -782,8 +774,12 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/index.ejs",
-            "size": 24581,
-            "hash": "d2098fe13e2373e3ba0132979d8135dba771f888add5988655279f2972b1c5dc"
+            "size": 24619,
+            "hash": "6bcb64e49cb78dc1ce1af71861eb631665fb2e30668d11cc3c940efc79caddcc"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[slug]"
         },
         {
             "type": "folder",
@@ -792,20 +788,30 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/+load.js",
-            "size": 6277,
-            "hash": "125c11d7a048047fd3caaa1e31b64daa7d9ec3927cce128750477ce6a8d4084e"
+            "size": 6385,
+            "hash": "f55853f0eeabf3d295b89c7a8d6814403c912c3022cf8800b888d129684fcea9"
+        },
+        {
+            "type": "folder",
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[slug]/[id]"
         },
         {
             "type": "file",
-            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/index.ejs",
-            "size": 13906,
-            "hash": "21acf9a48d7642e21f4f83bd029286baf927c48d6853970da1904e6b9393f15a"
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[slug]/[id]/index.ejs",
+            "size": 13761,
+            "hash": "077f496e8de9b1424a9f1fd397b0bfc484b76e56e121c2bd25bc7c5f51ea0fd2"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/pages/(navbarlayout)/watchlists/[slug]/[id]/+load.js",
+            "size": 3995,
+            "hash": "6664f5869ef6b80d9e83e9865ad6b5c523307bb3e1aca1b7788cf2313f4f16b1"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/[id]/+load.js",
-            "size": 3741,
-            "hash": "d8648f6e2869bcd3849e75314117f1f24a6aec92e56b41ac5730f835f2dec6cd"
+            "size": 879,
+            "hash": "933ecea3de3a4fd031697858bd77f15e7a7a524d237ce25ca0c6db3d8e278ae8"
         },
         {
             "type": "file",
@@ -870,8 +876,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/watchlist-actions.js",
-            "size": 22083,
-            "hash": "2561754f905138884470eaea4a2e26aa7acc0c0cdb9ba9196bf69683e30fda47"
+            "size": 22136,
+            "hash": "87e7f015756fe301138cf0a0a41ea8af70eb4a537860def4143cd676ad4fef3e"
         },
         {
             "type": "file",
@@ -900,8 +906,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/common.js",
-            "size": 32147,
-            "hash": "666e5bfeb5a022b59663b0f69e541606a1760b6a1ac031aa67ec66b06d1766f3"
+            "size": 33697,
+            "hash": "1ea172f1369dfbde0d85a0b388a8b1dde14444672f5eb235d0761826aa9a41b0"
         }
     ]
 }

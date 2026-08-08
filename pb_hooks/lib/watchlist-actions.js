@@ -34,6 +34,7 @@ function handlePostAction(context, list, isOwner, userId, explicitData = null) {
     try {
         if (action === 'update_list') {
             message = handleUpdateList(list, data, isOwner)
+            redirect = common.getWatchlistUrl(list)
         } else if (action === 'delete_list') {
             handleDeleteList(list, isOwner)
             redirect = '/watchlists'

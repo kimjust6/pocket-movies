@@ -182,6 +182,46 @@ module.exports = {
     },
 
     /**
+     * Converts a title string into a URL-friendly slug.
+     * @param {string} text - The input text to slugify
+     * @returns {string} The slugified string
+     */
+    slugify: function (text) {
+        if (!text) return 'watchlist'
+        const slug = text
+            .toString()
+            .toLowerCase()
+            .trim()
+            .replace(/[\s\W_]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+        return slug || 'watchlist'
+    },
+
+    /**
+     * Constructs a canonical watchlist URL with slug and ID.
+     * @param {object|string} list - Record object, list metadata object, or list ID string
+     * @returns {string} Watchlist URL (/watchlists/:slug/:id)
+     */
+    getWatchlistUrl: function (list) {
+        if (!list) return '/watchlists'
+        let id = ''
+        let title = ''
+        if (typeof list === 'string') {
+            id = list
+        } else if (typeof list === 'object' && list !== null) {
+            id = list.id || ''
+            if (typeof list.getString === 'function') {
+                title = list.getString(COLS.LIST_TITLE) || list.getString(COLS.TITLE)
+            } else {
+                title = list.list_title || list.title || list.name || ''
+            }
+        }
+        if (!id) return '/watchlists'
+        const slug = module.exports.slugify(title)
+        return `/watchlists/${slug}/${id}`
+    },
+
+    /**
      * Fetch all watchlists (owned and shared) for a user.
      * @param {any} client - The initialized PocketBase client
      * @param {any} user - The user object
@@ -626,7 +666,8 @@ module.exports = {
                     title: listRecord.getString(COLS.LIST_TITLE),
                     description: listRecord.getString(COLS.DESCRIPTION),
                     count: count,
-                    posters: posters
+                    posters: posters,
+                    url: module.exports.getWatchlistUrl(listRecord)
                 })
             }
 
@@ -732,7 +773,8 @@ module.exports = {
                         movieTitle: movie.getString(COLS.TITLE),
                         movieId: movie.getString(COLS.TMDB_ID),
                         listTitle: list.getString(COLS.LIST_TITLE),
-                        listId: list.id
+                        listId: list.id,
+                        url: module.exports.getWatchlistUrl(list)
                     })
                 }
             }
