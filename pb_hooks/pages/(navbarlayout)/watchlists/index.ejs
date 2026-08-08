@@ -48,7 +48,7 @@
                         class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-secondary/20 hover:border-secondary/30 flex flex-col overflow-hidden">
                         <!-- Movie Preview Header (Stacked Posters up to 5) -->
                         <div class="relative h-48 w-full overflow-hidden bg-gradient-to-b from-base-300/40 via-base-300/20 to-transparent p-4 border-b border-base-content/5 flex items-center justify-center">
-                            <% const movies = list.recent_movies || []; %>
+                            <% const movies = (list.recent_movies || []).slice().reverse(); %>
                             <% if (movies.length === 0) { %>
                                 <div class="relative w-24 aspect-[2/3] rounded-xl border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 opacity-40 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -160,7 +160,7 @@
                                 class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-accent/20 hover:border-accent/30 flex flex-col overflow-hidden">
                                 <!-- Movie Preview Header (Stacked Posters up to 5) -->
                                 <div class="relative h-48 w-full overflow-hidden bg-gradient-to-b from-base-300/40 via-base-300/20 to-transparent p-4 border-b border-base-content/5 flex items-center justify-center">
-                                    <% const movies = list.recent_movies || []; %>
+                                    <% const movies = (list.recent_movies || []).slice().reverse(); %>
                                     <% if (movies.length === 0) { %>
                                         <div class="relative w-24 aspect-[2/3] rounded-xl border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 opacity-40 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">

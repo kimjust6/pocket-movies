@@ -122,7 +122,7 @@ module.exports = function (context) {
             const allLists = common.getWatchlists(client, user)
 
             result.myLists = allLists.map(list => {
-                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-created' })
+                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-watched,-created' })
                 const total_movies = common.countWatchlistMovies(list.id)
                 return {
                     id: list.id,
@@ -158,7 +158,7 @@ module.exports = function (context) {
             .filter(list => !myIds.has(list.id)) // Exclude if already in "My Lists"
             .map((list) => {
                 const owner = list.expand?.owner
-                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-created' })
+                const recent_movies = common.fetchWatchlistMovies(list.id, { limit: 5, sort: '-watched,-created' })
                 const total_movies = common.countWatchlistMovies(list.id)
                 return {
                     id: list.id,

@@ -352,13 +352,13 @@ module.exports = {
     /**
      * Fetch movies for a watchlist.
      * @param {string} listId - The watchlist ID
-     * @param {object} options - Fetch options { limit: 20, offset: 0, sort: '-created' }
+     * @param {object} options - Fetch options { limit: 20, offset: 0, sort: '-watched,-created' }
      * @returns {Array} Array of movie objects with history data
      */
     fetchWatchlistMovies: function (listId, options = {}) {
         const limit = options.limit || 20
         const offset = options.offset || 0
-        const sort = options.sort || '-created'
+        const sort = options.sort || '-watched,-created'
 
         try {
             const historyRecords = $app.findRecordsByFilter(
