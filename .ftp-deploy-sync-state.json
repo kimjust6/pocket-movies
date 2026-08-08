@@ -1,13 +1,13 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1778203633753,
+    "generatedTime": 1786164657874,
     "data": [
         {
             "type": "file",
             "name": "package.json",
-            "size": 1863,
-            "hash": "8cb2e0a23c23cee0d654e2c67c7d8d7e5de944826b9ab3e975497b8905396054"
+            "size": 1624,
+            "hash": "884c1f92048369347389107a065f132a9d019596dfff2112caf6cf6013c518a2"
         },
         {
             "type": "file",
@@ -460,8 +460,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pocketpages.pb.js",
-            "size": 23,
-            "hash": "83f80163c8424e9245990124ea42a8b74425828cf66395cb680498225d26f275"
+            "size": 113,
+            "hash": "78bfc58937865fd612aacd4f2548e9dfcb38cff320abfb4fb4acd69a4c66cc22"
         },
         {
             "type": "folder",
@@ -498,8 +498,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 181236,
-            "hash": "157cd9063642102f053e7b0bd4e9dd5d13f6699bb43981eb6782b06578d1e963"
+            "size": 174549,
+            "hash": "2bf26a5c2fdf81222725a1ff5eedda18956d094cdfe8d6894da5dcd249ee547f"
         },
         {
             "type": "folder",
@@ -850,32 +850,44 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/index.ejs",
-            "size": 19502,
-            "hash": "247da52c094cf1ea5a25fe90eb7fe888ed159404b54fab8cac085767e6d318d7"
+            "size": 20744,
+            "hash": "7a6a7e1e0aaa245a71db7894d6657950d63eb9efa81e409df576f4c7e9e532d3"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/+load.js",
-            "size": 2801,
-            "hash": "c0b8458bd39a4ee59e17ea84382d7083407eb7fbecf1d48537cd3f588dd34212"
+            "size": 3568,
+            "hash": "b52ae61f7a45fffd52e7c2aa6d134284f47322b60594a8ee51582df08d2d7548"
         },
         {
             "type": "file",
             "name": "pb_hooks/lib/watchlist-actions.js",
-            "size": 21049,
-            "hash": "a07bf9cbd2934d76a3603d820bac6ca568ab566eea3daecdaae42a1257f1d6f9"
+            "size": 22083,
+            "hash": "2561754f905138884470eaea4a2e26aa7acc0c0cdb9ba9196bf69683e30fda47"
         },
         {
             "type": "file",
             "name": "pb_hooks/lib/tmdb.js",
-            "size": 2886,
-            "hash": "fe8c0d371c5c376ef0d7832aac030611d4a50f5db7d5ae34c8b016de59f3f2e3"
+            "size": 3030,
+            "hash": "2851e23c9110b7f228c94de52b4b46bafb68b4ae0be748f7691f9e3d00e9947e"
         },
         {
             "type": "file",
             "name": "pb_hooks/lib/pocketbase-types.ts",
             "size": 8577,
             "hash": "ff5f8d041063dc0d8bf65d88c8bdeacfe1b009eb0b811069185f466e570f8cfa"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/lib/omdb.js",
+            "size": 5134,
+            "hash": "20db0a13415203e7987a1496b5567a4ce6c9c2b37577c3568055267ce4440718"
+        },
+        {
+            "type": "file",
+            "name": "pb_hooks/lib/env.js",
+            "size": 3829,
+            "hash": "7e9acd99c71b739a4b2d449bf39e4990f1288f33927347dbc004c7793793742e"
         },
         {
             "type": "file",
