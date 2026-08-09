@@ -890,10 +890,9 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
 
             // If Didn't Watch is selected, remove rating/attendance if existing or close
             if (this.editWatchStatus === 'didnt_watch') {
+                this.showRatingModal = false;
                 if (this.hasExistingRating) {
                     await this.confirmDeleteRating(this.editHistoryId);
-                } else {
-                    this.showRatingModal = false;
                 }
                 return;
             }
@@ -975,33 +974,18 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             }
         },
 
-        deleteRating() {
+        async deleteRating() {
             if (!this.editHistoryId) return;
-
-            // Store context for the confirmation
             const historyId = this.editHistoryId;
-            const movieTitle = this.editMovieTitle;
-
-            // Close rating modal and show confirmation
             this.showRatingModal = false;
-
-            this.confirmModal = {
-                show: true,
-                title: 'Delete Rating?',
-                subtitle: movieTitle,
-                message: 'Are you sure you want to delete your rating for this movie?',
-                confirmText: 'Delete',
-                onConfirm: () => this.confirmDeleteRating(historyId),
-                onCancel: () => {
-                    this.confirmModal.show = false;
-                    this.showRatingModal = true;
-                }
-            };
+            await this.confirmDeleteRating(historyId);
         },
 
         async confirmDeleteRating(historyId) {
-            // Close confirmation modal
-            this.confirmModal.show = false;
+            // Close modals
+            this.showRatingModal = false;
+            if (this.confirmModal) this.confirmModal.show = false;
+            this.hasExistingRating = false;
 
             // 1. Find the item
             const index = this.movies.findIndex(m => m.history_id === historyId);
@@ -1015,6 +999,11 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
                 delete this.movies[index].attendance[this.currentUserId];
                 // Trigger reactivity
                 this.movies = [...this.movies];
+            }
+
+            // Re-sort if sorted by this user's rating
+            if (this.sortColumn === 'user_' + this.currentUserId) {
+                this.applySort();
             }
 
             const formData = new FormData();

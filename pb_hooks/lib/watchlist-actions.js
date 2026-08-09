@@ -560,11 +560,12 @@ function handleDeleteAttendance(list, data, userId) {
             `watch_history = '${historyId}' && user = '${userId}'`
         )
     } catch (e) {
-        throw new Error("Rating not found.")
+        // Record doesn't exist or is already deleted; treat as success
+        return "Rating deleted!"
     }
 
     if (!attendance) {
-        throw new Error("Rating not found.")
+        return "Rating deleted!"
     }
 
     const attendanceId = attendance.id
