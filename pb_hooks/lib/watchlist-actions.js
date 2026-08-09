@@ -595,7 +595,8 @@ function addMovieToWatchlist(user, tmdbId, targetListId) {
         }
 
     } catch (err) {
-        throw new Error("Failed to add to watchlist.")
+        console.error('[addMovieToWatchlist Error]:', err)
+        throw new Error(`Failed to add to watchlist: ${err.message}`)
     }
 }
 

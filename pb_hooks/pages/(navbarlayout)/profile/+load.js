@@ -10,7 +10,8 @@ module.exports = function (context) {
     const { client, user } = common.init(context)
 
     if (!user) {
-        return context.redirect('/login')
+        context.response.redirect('/login')
+        return
     }
 
     // Fetch fresh user data

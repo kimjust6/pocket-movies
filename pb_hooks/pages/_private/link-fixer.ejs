@@ -20,13 +20,12 @@
                 // Only modify internal links
                 if (url.origin !== window.location.origin) return;
 
-                // Merge existing params with current page params
+                // Merge existing params with current page params (excluding ephemeral params like search query, messages, page)
                 const linkParams = url.searchParams;
+                const skipParams = ['q', 'message', 'error', 'page', 'sort', 'dir'];
                 currentParams.forEach((value, key) => {
-                    // Only add if not already present (optional choice: could override or append)
-                    // Strategy: Preserve param if NOT present on target link.
-                    // This allows specific links to override defaults if they want.
-                    if (!linkParams.has(key)) {
+                    // Only add if not already present and not an ephemeral param
+                    if (!skipParams.includes(key) && !linkParams.has(key)) {
                         linkParams.set(key, value);
                     }
                 });

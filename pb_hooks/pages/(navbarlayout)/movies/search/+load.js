@@ -21,7 +21,8 @@ module.exports = function (context) {
     // Initialize using common (gets client and user)
     const { client, user } = common.init(context)
 
-    const q = context?.params?.q || ''
+    const q = context?.params?.q || context?.query?.q || ''
+    const watchlistId = context?.params?.watchlistId || context?.query?.watchlistId || ''
 
     // Get page parameter from either params or query
     const pageParam = context?.params?.page || context?.query?.page
@@ -60,7 +61,7 @@ module.exports = function (context) {
 
         // $app.logger().info(`[ADD_MOVIE] Extracted values: tmdb_id=${tmdbId}, watchlist_id=${targetListId}`)
 
-        targetListId = targetListId || ''
+        targetListId = targetListId || watchlistId || ''
 
         if (user && tmdbId) {
             try {
@@ -68,8 +69,13 @@ module.exports = function (context) {
                 message = result.message || `Movie added to watchlist!`
 
                 // PRG: Redirect to prevent double submission
-                const redirectUrl = `/movies/search?q=${encodeURIComponent(q)}&message=${encodeURIComponent(message)}`
-                return context.redirect(redirectUrl)
+                const redirectParams = []
+                if (q) redirectParams.push(`q=${encodeURIComponent(q)}`)
+                if (watchlistId) redirectParams.push(`watchlistId=${encodeURIComponent(watchlistId)}`)
+                if (message) redirectParams.push(`message=${encodeURIComponent(message)}`)
+                const redirectUrl = `/movies/search${redirectParams.length ? '?' + redirectParams.join('&') : ''}`
+                context.response.redirect(redirectUrl)
+                return
 
             } catch (e) {
                 // Global error for this flow
@@ -97,6 +103,7 @@ module.exports = function (context) {
     return {
         results,
         q,
+        watchlistId,
         currentPage: page,
         totalPages,
         message,

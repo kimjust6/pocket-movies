@@ -24,7 +24,8 @@ module.exports = function (context) {
     // Handle POST (Add to Watchlist)
     if (context.request.method === 'POST') {
         if (!user) {
-            return context.redirect(`/login`)
+            context.response.redirect(`/login`)
+            return
         }
 
         try {
@@ -42,7 +43,8 @@ module.exports = function (context) {
                 const res = watchlistActions.addMovieToWatchlist(user, tmdbId, targetListId)
 
                 // Redirect to self to show message
-                return context.redirect(`/movies/${movieId}?message=${encodeURIComponent(res.message)}`)
+                context.response.redirect(`/movies/${movieId}?message=${encodeURIComponent(res.message)}`)
+                return
             }
         } catch (e) {
             return {

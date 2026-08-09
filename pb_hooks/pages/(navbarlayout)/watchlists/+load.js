@@ -33,7 +33,8 @@ module.exports = function (context) {
                     const record = client.collection('lists').getOne(watchlistId)
                     if (record.owner === userId) {
                         client.collection('lists').delete(watchlistId)
-                        return context.redirect('/watchlists?message=Watchlist+deleted+successfully')
+                        context.response.redirect('/watchlists?message=Watchlist+deleted+successfully')
+                        return
                     }
                 } catch (e) {
                     // Ignore if not found
@@ -53,7 +54,8 @@ module.exports = function (context) {
 
                     client.collection('lists').create(record)
 
-                    return context.redirect('/watchlists?message=Watchlist+created+successfully')
+                    context.response.redirect('/watchlists?message=Watchlist+created+successfully')
+                    return
 
                 } catch (e) {
                     console.error("Error creating watchlist:", e)

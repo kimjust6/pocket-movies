@@ -536,29 +536,32 @@ module.exports = {
         const historyIds = movies.map(m => m.history_id).filter(Boolean)
         if (historyIds.length === 0) return
 
-        // Construct filter: watch_history = 'id1' || watch_history = 'id2' ...
-        const filter = historyIds.map(id => `watch_history = '${id}'`).join(' || ')
-
         const attendanceMap = {} // history_id -> { user_id: { ... } }
+        const chunkSize = 50
 
-        try {
-            const records = $app.findRecordsByFilter("watch_history_user", filter)
-            records.forEach(rec => {
-                const hid = rec.getString('watch_history')
-                const uid = rec.getString('user')
+        for (let i = 0; i < historyIds.length; i += chunkSize) {
+            const chunk = historyIds.slice(i, i + chunkSize)
+            const filter = chunk.map(id => `watch_history = '${id}'`).join(' || ')
 
-                if (!attendanceMap[hid]) attendanceMap[hid] = {}
+            try {
+                const records = $app.findRecordsByFilter("watch_history_user", filter)
+                records.forEach(rec => {
+                    const hid = rec.getString('watch_history')
+                    const uid = rec.getString('user')
 
-                attendanceMap[hid][uid] = {
-                    id: rec.id,
-                    rating: rec.getFloat('rating'),
-                    review: rec.getString('review'),
-                    failed: rec.getBool('failed'),
-                    created: rec.getString('created')
-                }
-            })
-        } catch (e) {
-            console.error('[common.js] Failed to fetch attendance:', e)
+                    if (!attendanceMap[hid]) attendanceMap[hid] = {}
+
+                    attendanceMap[hid][uid] = {
+                        id: rec.id,
+                        rating: rec.getFloat('rating'),
+                        review: rec.getString('review'),
+                        failed: rec.getBool('failed'),
+                        created: rec.getString('created')
+                    }
+                })
+            } catch (e) {
+                console.error('[common.js] Failed to fetch attendance chunk:', e)
+            }
         }
 
         // Attach to movies

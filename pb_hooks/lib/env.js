@@ -33,7 +33,7 @@ function parseDotEnv(content) {
 }
 
 function loadDotEnv() {
-    if (cachedEnv !== null) {
+    if (cachedEnv !== null && Object.keys(cachedEnv).length > 0) {
         return cachedEnv
     }
     cachedEnv = {}
@@ -53,8 +53,8 @@ function loadDotEnv() {
                 try {
                     const raw = $os.readFile(pathsToTry[i])
                     if (raw) {
-                        content = typeof toString === 'function' ? toString(raw) : String(raw)
-                        if (content) break
+                        content = typeof raw === 'string' ? raw : String(raw)
+                        if (content && content.indexOf('=') !== -1) break
                     }
                 } catch (_) {}
             }
@@ -103,21 +103,27 @@ function loadDotEnv() {
 }
 
 function getEnv(key, defaultValue = '') {
+    let val = ''
+
     // 1. Check process.env
     if (typeof process !== 'undefined' && process.env && process.env[key]) {
-        return process.env[key]
+        val = process.env[key]
     }
-
     // 2. Check $os.getenv in PocketBase JSVM
-    if (typeof $os !== 'undefined' && typeof $os.getenv === 'function') {
-        const val = $os.getenv(key)
-        if (val) return val
+    else if (typeof $os !== 'undefined' && typeof $os.getenv === 'function') {
+        val = $os.getenv(key)
     }
 
-    // 3. Check loaded .env
-    const env = loadDotEnv()
-    if (env && env[key]) {
-        return env[key]
+    if (!val) {
+        // 3. Check loaded .env
+        const env = loadDotEnv()
+        if (env && env[key]) {
+            val = env[key]
+        }
+    }
+
+    if (val) {
+        return String(val).replace(/[\r\n]/g, '').trim()
     }
 
     return defaultValue
