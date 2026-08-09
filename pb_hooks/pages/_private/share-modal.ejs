@@ -43,7 +43,7 @@
 
         <!-- Column Headers -->
         <div
-            class="flex items-center justify-between px-4 py-2 mb-2 text-xs font-semibold uppercase tracking-wider text-base-content/40">
+            class="flex items-center justify-between px-4 py-2 mb-2 text-xs font-semibold uppercase tracking-wider text-base-content/60">
             <span>User</span>
             <span>Access Level</span>
         </div>
@@ -58,24 +58,26 @@
                         <div class="flex items-center gap-4">
                             <div class="avatar placeholder">
                                 <div
-                                    class="<%= u.is_invited ? 'bg-gradient-to-br from-secondary to-primary' : 'bg-neutral' %> text-white rounded-full w-11 h-11 ring-2 ring-white/10 group-hover:ring-white/20 transition-all duration-300 shadow-md">
-                                    <span class="text-sm font-bold">
+                                    class="<%= u.is_invited ? 'bg-gradient-to-br from-secondary to-primary' : 'bg-neutral' %> text-white mask mask-squircle w-11 h-11 transition-all duration-300 shadow-md">
+                                    <span class="text-sm font-bold flex h-full w-full items-center justify-center">
                                         <%= u.email.substring(0, 2).toUpperCase() %>
                                     </span>
                                 </div>
                             </div>
                             <div class="flex flex-col">
                                 <span
-                                    class="font-medium text-base-content group-hover:text-white transition-colors duration-300">
+                                    class="font-medium text-base-content group-hover:text-yellow-700 dark:group-hover:text-primary transition-colors duration-300">
                                     <%= u.email %>
                                 </span>
                                 <% if (u.is_invited) { %>
                                     <div class="flex items-center gap-1.5 mt-0.5">
-                                        <div class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></div>
-                                        <span class="text-[11px] text-success font-medium">Active Member</span>
+                                        <div class="badge badge-success badge-xs gap-1 py-1 px-1.5">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+                                            <span class="text-[10px] font-semibold">Active</span>
+                                        </div>
                                     </div>
                                     <% } else { %>
-                                        <span class="text-[11px] text-base-content/40">Not invited yet</span>
+                                        <span class="text-[11px] text-base-content/60">Not invited yet</span>
                                         <% } %>
                             </div>
                         </div>
@@ -101,7 +103,7 @@
 
                                 <% if (u.is_invited) { %>
                                     <button type="submit"
-                                        class="btn btn-sm btn-ghost text-primary hover:bg-primary hover:text-primary-content font-semibold transition-all duration-300">
+                                        class="btn btn-sm btn-ghost text-yellow-700 dark:text-primary hover:bg-primary/10 font-semibold transition-all duration-300">
                                         Update
                                     </button>
                                     <% } else { %>
@@ -117,15 +119,15 @@
                         <% } else { %>
                             <div class="text-center py-12">
                                 <div
-                                    class="w-16 h-16 mx-auto mb-4 rounded-full bg-base-300 flex items-center justify-center">
+                                    class="w-16 h-16 mx-auto mb-4 mask mask-squircle bg-base-300 flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-base-content/30"
                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
-                                <p class="text-base-content/40 font-medium">No other users available</p>
-                                <p class="text-base-content/30 text-sm mt-1">Invite users by creating accounts first</p>
+                                <p class="text-base-content/65 font-medium">No other users available</p>
+                                <p class="text-base-content/55 text-sm mt-1">Invite users by creating accounts first</p>
                             </div>
                             <% } %>
         </div>

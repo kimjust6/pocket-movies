@@ -22,14 +22,14 @@
                     <div class="flex-shrink-0">
                         <div class="avatar placeholder">
                             <div
-                                class="w-32 md:w-40 rounded-full ring-4 ring-primary/20 ring-offset-base-100 ring-offset-4 overflow-hidden shadow-xl shadow-primary/10 transition-transform hover:scale-105 duration-300">
+                                class="w-32 md:w-40 mask mask-squircle shadow-xl shadow-primary/10 transition-transform hover:scale-105 duration-300">
                                 <% if (data.profile.getString('avatar')) { %>
                                     <img src="<%= '/api/files/' + data.profile.collection().id + '/' + data.profile.id + '/' + data.profile.getString('avatar') %>"
                                         alt="Avatar" class="w-full h-full object-cover" />
                                     <% } else { %>
                                         <div
                                             class="bg-gradient-to-br from-primary to-secondary text-primary-content w-full h-full flex items-center justify-center text-5xl font-bold">
-                                            <%= data.profile.email().slice(0, 1).toUpperCase() %>
+                                            <%= (data.profile.getString('name') || data.profile.email()).slice(0, 1).toUpperCase() %>
                                         </div>
                                         <% } %>
                             </div>
@@ -70,15 +70,16 @@
                             <% } %>
 
                                 <!-- Stats Row -->
-                                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                                    <div class="stat bg-base-200/50 rounded-xl p-4 min-w-[140px]">
+                                <div
+                                    class="stats stats-vertical sm:stats-horizontal bg-base-200/50 border border-base-content/5 shadow-sm rounded-box">
+                                    <div class="stat p-4 min-w-[140px]">
                                         <div class="stat-title text-xs">Member Since</div>
                                         <div class="stat-value text-lg text-primary">
                                             <%= data.formatDateTime(data.profile.getString('created')) %>
                                         </div>
                                     </div>
                                     <% if (data.profile.getString('shortHand')) { %>
-                                        <div class="stat bg-base-200/50 rounded-xl p-4 min-w-[140px]">
+                                        <div class="stat p-4 min-w-[140px]">
                                             <div class="stat-title text-xs">Handle</div>
                                             <div class="stat-value text-lg text-secondary">
                                                 @<%= data.profile.getString('shortHand') %>

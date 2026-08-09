@@ -65,8 +65,8 @@ module.exports = function (context) {
         }
     }
 
-    // 3. Fetch movies (fetch all items for watchlists up to 300)
-    const pageSize = 300
+    // 3. Fetch initial movies (fast SSR batch; infinite scroll loads further pages)
+    const pageSize = 40
 
     // Handle Sorting
     const sortParam = common.getParam(context, 'sort') || 'watched_at'
@@ -102,8 +102,8 @@ module.exports = function (context) {
     // 5. Attach Attendance Data
     common.attachAttendance(movies, listId)
 
-    // 6. Fetch potential users to invite (if owner)
-    const potentialUsers = common.fetchPotentialInviteUsers(user?.id, isOwner, listId)
+    // 6. Fetch potential users to invite (only if owner)
+    const potentialUsers = isOwner ? common.fetchPotentialInviteUsers(user?.id, isOwner, listId) : []
 
     const responseData = {
         list: {

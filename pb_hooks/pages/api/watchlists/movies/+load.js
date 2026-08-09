@@ -41,7 +41,8 @@ module.exports = function (context) {
                 message: result.message,
                 tmdb_score: result.syncData.tmdb_score,
                 imdb_score: result.syncData.imdb_score,
-                rt_score: result.syncData.rt_score
+                rt_score: result.syncData.rt_score,
+                poster_path: result.syncData.poster_path
             }
         }
 

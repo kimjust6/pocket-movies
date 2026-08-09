@@ -35,35 +35,45 @@ module.exports = function (context) {
             if (bio) record.set("bio", bio)
             if (shortHand) record.set("shortHand", shortHand)
 
-            // Handle avatar upload
-            try {
-                let avatar = null
+            // Handle avatar removal or upload
+            let removeAvatar = formData.remove_avatar === '1' || formData.remove_avatar === 'true' || formData.remove_avatar === 1
+            if (!removeAvatar && context.request.event && context.request.event.request && typeof context.request.event.request.formValue === 'function') {
+                const val = context.request.event.request.formValue("remove_avatar")
+                if (val === '1' || val === 'true') removeAvatar = true
+            }
 
-                // Try to access the file via the native request object on the event
-                // In PocketBase JS hooks, we often need to use internal helpers for file handling
-                if (context.request.event && context.request.event.request) {
-                    try {
-                        const userFile = context.request.event.request.formFile("avatar")
-                        if (userFile && Array.isArray(userFile)) {
-                            const header = userFile[1]
+            if (removeAvatar) {
+                record.set("avatar", "")
+            } else {
+                try {
+                    let avatar = null
 
-                            // Use $filesystem global helper to convert multipart header to File object
-                            if (typeof $filesystem !== 'undefined' && $filesystem.fileFromMultipart) {
-                                avatar = $filesystem.fileFromMultipart(header)
+                    // Try to access the file via the native request object on the event
+                    // In PocketBase JS hooks, we often need to use internal helpers for file handling
+                    if (context.request.event && context.request.event.request) {
+                        try {
+                            const userFile = context.request.event.request.formFile("avatar")
+                            if (userFile && Array.isArray(userFile)) {
+                                const header = userFile[1]
+
+                                // Use $filesystem global helper to convert multipart header to File object
+                                if (typeof $filesystem !== 'undefined' && $filesystem.fileFromMultipart) {
+                                    avatar = $filesystem.fileFromMultipart(header)
+                                }
                             }
+                        } catch (e) {
+                            // usage of event.request.formFile might fail if no file provided
                         }
-                    } catch (e) {
-                        // usage of event.request.formFile might fail if no file provided
                     }
-                }
 
-                // Only update avatar if a valid file with content is uploaded
-                if (avatar && avatar.size > 0) {
-                    record.set("avatar", avatar)
+                    // Only update avatar if a valid file with content is uploaded
+                    if (avatar && avatar.size > 0) {
+                        record.set("avatar", avatar)
+                    }
+                } catch (e) {
+                    // Ignore avatar errors, just don't update the field
+                    console.error("Avatar processing error:", e)
                 }
-            } catch (e) {
-                // Ignore avatar errors, just don't update the field
-                console.error("Avatar processing error:", e)
             }
 
             $app.save(record)

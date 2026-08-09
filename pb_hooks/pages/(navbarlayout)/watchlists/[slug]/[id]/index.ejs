@@ -1,20 +1,15 @@
-<script src="/js/watchlist-detail.js?v=<%= new Date().getTime() %>"></script>
+<script src="/js/watchlist-detail.js?v=2.0"></script>
 <script id="watchlist-context" type="application/json">
     {
         "movies": <%- JSON.stringify(data.movies || []) %>,
         "isOwner": <%= data.list ? data.list.is_owner : false %>,
         "listId": "<%= data.list ? data.list.id : '' %>",
         "hasMore": <%= data.hasMore !== undefined ? data.hasMore : true %>,
-        "currentUserId": "<%= data.user ? data.user.id : '' %>"
+        "currentUserId": "<%= data.user ? data.user.id : '' %>",
+        "members": <%- JSON.stringify(data.members || []) %>
     }
 </script>
-<div class="w-full" x-data="watchlistDetail(
-    <%= JSON.stringify(data.movies || []) %>,
-    <%= data.list ? data.list.is_owner : false %>,
-    '<%= data.list ? data.list.id : '' %>',
-    <%= data.hasMore !== undefined ? data.hasMore : true %>,
-    '<%= data.user ? data.user.id : '' %>'
-)" x-init="
+<div class="w-full" x-data="watchlistDetail()" x-init="
     $dispatch('set-mobile-navbar-title', { 
         title: '<%= data.list ? data.list.title : (data.error ? 'Error' : 'Dank Movies') %>',
         subtitle: '<%= data.list && data.list.description ? data.list.description : '' %>'
@@ -93,7 +88,7 @@
                                                                             <div
                                                                                 class="btm-nav md:hidden z-50 bg-base-100/95 backdrop-blur border-t border-base-content/10">
                                                                                 <a href="/watchlists"
-                                                                                    class="text-base-content/70 hover:text-primary">
+                                                                                    class="text-base-content/70 hover:text-yellow-700 dark:hover:text-primary">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         class="h-5 w-5" fill="none"
                                                                                         viewBox="0 0 24 24"
@@ -109,7 +104,7 @@
 
                                                                                 <button
                                                                                     @click="$dispatch('toggle-mobile-header')"
-                                                                                    class="text-base-content/70 hover:text-primary">
+                                                                                    class="text-base-content/70 hover:text-yellow-700 dark:hover:text-primary">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         class="h-5 w-5" fill="none"
                                                                                         viewBox="0 0 24 24"
@@ -126,7 +121,7 @@
                                                                                 <% if (data.list.is_owner) { %>
                                                                                     <button
                                                                                         @click="showEditModal = true"
-                                                                                        class="text-base-content/70 hover:text-primary">
+                                                                                        class="text-base-content/70 hover:text-yellow-700 dark:hover:text-primary">
                                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                                             class="h-5 w-5"
                                                                                             viewBox="0 0 20 20"
@@ -140,7 +135,7 @@
 
                                                                                     <button
                                                                                         @click="showShareModal = true"
-                                                                                        class="text-base-content/70 hover:text-primary">
+                                                                                        class="text-base-content/70 hover:text-yellow-700 dark:hover:text-primary">
                                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                                             class="h-5 w-5"
                                                                                             viewBox="0 0 20 20"
