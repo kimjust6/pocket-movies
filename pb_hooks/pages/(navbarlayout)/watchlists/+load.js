@@ -143,7 +143,8 @@ module.exports = function (context) {
                     owner_id: list.owner,
                     url: common.getWatchlistUrl(list),
                     recent_movies,
-                    total_movies
+                    total_movies,
+                    last_watched_at: recent_movies.length > 0 ? recent_movies[0].watched_at : null
                 }
             })
 
@@ -186,7 +187,8 @@ module.exports = function (context) {
                     owner_name: owner ? (owner.name || owner.username) : 'Unknown',
                     url: common.getWatchlistUrl(list),
                     recent_movies,
-                    total_movies
+                    total_movies,
+                    last_watched_at: recent_movies.length > 0 ? recent_movies[0].watched_at : null
                 }
             })
     } catch (e) {
