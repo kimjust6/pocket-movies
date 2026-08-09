@@ -56,7 +56,7 @@
                 <h3 class="mb-2 text-xl font-bold">Your watchlist is empty</h3>
                 <p class="max-w-md mx-auto text-sm">Start building your collection by searching for movies you want to
                     watch later.</p>
-                <a href="/movies/search" class="btn btn-ghost mt-4 font-normal text-primary hover:bg-primary/10">Browse
+                <a href="/movies/search" class="btn btn-ghost mt-4 font-normal text-yellow-700 dark:text-primary hover:bg-primary/10">Browse
                     Movies &rarr;</a>
             </div>
             <% } else { %>
@@ -167,7 +167,7 @@
 
                             <% if (!list.is_owner) { %>
                                 <div
-                                    class="absolute top-3 left-3 z-30 px-2 py-0.5 rounded-full bg-secondary/30 border border-secondary/40 text-[10px] font-semibold text-secondary tracking-wide uppercase">
+                                    class="badge badge-secondary badge-sm absolute top-3 left-3 z-30 font-semibold tracking-wide uppercase">
                                     Shared
                                 </div>
                                 <% } %>
@@ -175,7 +175,7 @@
                                     <!-- Last watched date bottom-right -->
                                     <% if (list.last_watched_at) { %>
                                         <div
-                                            class="absolute bottom-3 right-3 z-30 flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/55 backdrop-blur-md border border-white/10 text-[10px] font-medium text-white/85">
+                                            class="badge badge-sm absolute bottom-3 right-3 z-30 flex items-center gap-1 bg-black/60 backdrop-blur-md border border-white/10 text-white/90 text-[10px]">
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="h-2.5 w-2.5 text-secondary/80" fill="none" viewBox="0 0 24 24"
                                                 stroke="currentColor">
@@ -270,31 +270,33 @@
 
             <!-- Pagination Controls for Your Lists -->
             <% if (data.myListsPagination && data.myListsPagination.totalPages> 1) { %>
-                <div class="mt-8 flex justify-center items-center gap-2">
-                    <% if (data.myListsPagination.currentPage> 1) { %>
-                        <a href="/watchlists?page=<%= data.myListsPagination.currentPage - 1 %>"
-                            class="btn btn-sm btn-outline gap-1">
-                            &laquo; Previous
-                        </a>
-                        <% } else { %>
-                            <button class="btn btn-sm btn-outline btn-disabled opacity-40 gap-1" disabled>&laquo;
-                                Previous</button>
-                            <% } %>
+                <div class="mt-8 flex justify-center items-center">
+                    <div class="join">
+                        <% if (data.myListsPagination.currentPage> 1) { %>
+                            <a href="/watchlists?page=<%= data.myListsPagination.currentPage - 1 %>"
+                                class="join-item btn btn-sm btn-outline">
+                                &laquo; Previous
+                            </a>
+                            <% } else { %>
+                                <button class="join-item btn btn-sm btn-outline btn-disabled" disabled>&laquo;
+                                    Previous</button>
+                                <% } %>
 
-                                <span class="text-sm font-medium px-4 text-base-content/70">
-                                    Page <%= data.myListsPagination.currentPage %> of <%=
-                                            data.myListsPagination.totalPages %>
-                                </span>
+                                    <button class="join-item btn btn-sm btn-outline pointer-events-none">
+                                        Page <%= data.myListsPagination.currentPage %> of <%=
+                                                data.myListsPagination.totalPages %>
+                                    </button>
 
-                                <% if (data.myListsPagination.currentPage < data.myListsPagination.totalPages) { %>
-                                    <a href="/watchlists?page=<%= data.myListsPagination.currentPage + 1 %>"
-                                        class="btn btn-sm btn-outline gap-1">
-                                        Next &raquo;
-                                    </a>
-                                    <% } else { %>
-                                        <button class="btn btn-sm btn-outline btn-disabled opacity-40 gap-1"
-                                            disabled>Next &raquo;</button>
-                                        <% } %>
+                                    <% if (data.myListsPagination.currentPage < data.myListsPagination.totalPages) { %>
+                                        <a href="/watchlists?page=<%= data.myListsPagination.currentPage + 1 %>"
+                                            class="join-item btn btn-sm btn-outline">
+                                            Next &raquo;
+                                        </a>
+                                        <% } else { %>
+                                            <button class="join-item btn btn-sm btn-outline btn-disabled"
+                                                disabled>Next &raquo;</button>
+                                            <% } %>
+                    </div>
                 </div>
                 <% } %>
         </div>
@@ -328,7 +330,7 @@
                                     <!-- Last watched date bottom-right -->
                                     <% if (list.last_watched_at) { %>
                                         <div
-                                            class="absolute bottom-3 right-3 z-30 flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/55 backdrop-blur-md border border-white/10 text-[10px] font-medium text-white/85">
+                                            class="badge badge-sm absolute bottom-3 right-3 z-30 flex items-center gap-1 bg-black/60 backdrop-blur-md border border-white/10 text-white/90 text-[10px]">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5 text-accent/80"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
