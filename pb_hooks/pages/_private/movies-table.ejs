@@ -16,7 +16,7 @@
                     <% sortableColumns.forEach(col=> { %>
                         <th class="sticky z-30 bg-base-300 backdrop-blur-md" style="top: 0">
                             <button type=" button" @click.prevent="sortBy('<%= col.key %>')"
-                                class="flex items-center gap-1 hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
+                                class="flex items-center gap-1 hover:text-yellow-700 dark:hover:text-primary cursor-pointer select-none bg-transparent border-none p-0 font-inherit">
                                 <%= col.label %> <span class="opacity-50 text-xs"
                                         x-text="getSortIcon('<%= col.key %>')"></span>
                             </button>
@@ -83,7 +83,7 @@
                     <td>
                         <div class="font-bold text-lg">
                             <a :href="'/movies/' + movie.tmdb_id"
-                                class="hover:text-primary hover:underline transition-colors" x-text="movie.title"></a>
+                                class="hover:text-yellow-700 dark:hover:text-primary hover:underline transition-colors" x-text="movie.title"></a>
                         </div>
                         <template x-if="movie.tagline">
                             <div class="text-sm opacity-60 italic max-w-xs truncate" :title="movie.tagline"

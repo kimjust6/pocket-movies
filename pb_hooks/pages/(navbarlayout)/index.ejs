@@ -73,10 +73,11 @@
                     <% data.recentMovies.forEach(movie=> { %>
                         <a href="/movies/<%= movie.tmdb_id %>" class="group cursor-pointer block">
                             <div
-                                class="aspect-[2/3] mask mask-squircle bg-base-200 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
+                                class="aspect-[2/3] mask rounded bg-base-200 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
                                 <% if (movie.poster_path) { %>
                                     <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
-                                        alt="<%= movie.title %>" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                        alt="<%= movie.title %>" loading="lazy" decoding="async"
+                                        class="w-full h-full object-cover">
                                     <% } else { %>
                                         <div class="absolute inset-0 flex items-center justify-center bg-base-300">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -133,14 +134,14 @@
                                     <div class="card-body p-4 flex-row items-center gap-4">
                                         <div class="flex -space-x-2">
                                             <% if (list.posters.length> 0) { %>
-                                                <% list.posters.forEach(poster=> { 
+                                                <% list.posters.forEach(poster=> {
                                                     let pUrl = poster || '';
                                                     if (pUrl && !pUrl.startsWith('http')) {
-                                                        pUrl = 'https://image.tmdb.org/t/p/w92' + (pUrl.startsWith('/') ? '' : '/') + pUrl;
+                                                    pUrl = 'https://image.tmdb.org/t/p/w92' + (pUrl.startsWith('/') ? ''
+                                                    : '/') + pUrl;
                                                     }
-                                                %>
-                                                    <img src="<%= pUrl %>" alt="Poster"
-                                                        loading="lazy" decoding="async"
+                                                    %>
+                                                    <img src="<%= pUrl %>" alt="Poster" loading="lazy" decoding="async"
                                                         class="w-10 h-14 mask mask-squircle object-cover border-2 border-base-100">
                                                     <% }); %>
                                                         <% for (let i=list.posters.length; i < 3; i++) { %>
@@ -162,7 +163,7 @@
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <h3
-                                                class="font-semibold group-hover:text-primary transition-colors truncate">
+                                                class="font-semibold group-hover:text-yellow-700 dark:group-hover:text-primary transition-colors truncate">
                                                 <%= list.title %>
                                             </h3>
                                             <p class="text-sm text-base-content/60">
@@ -176,7 +177,7 @@
                                                 <% } %>
                                         </div>
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 text-base-content/30 group-hover:text-primary transition-colors"
+                                            class="h-5 w-5 text-base-content/30 group-hover:text-yellow-700 dark:group-hover:text-primary transition-colors"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M9 5l7 7-7 7" />
@@ -216,7 +217,8 @@
                                                 <div class="avatar placeholder">
                                                     <div
                                                         class="mask mask-squircle bg-<%= colors[index % 4] %> text-<%= colors[index % 4] %>-content w-10">
-                                                        <span class="text-sm font-bold flex h-full w-full items-center justify-center">
+                                                        <span
+                                                            class="text-sm font-bold flex h-full w-full items-center justify-center">
                                                             <%= activity.userInitials || 'U' %>
                                                         </span>
                                                     </div>
@@ -227,7 +229,7 @@
                                                             <span class="text-base-content/60">A movie was added to
                                                             </span>
                                                             <a href="<%= activity.url || ('/watchlists/' + activity.listId) %>"
-                                                                class="font-semibold hover:text-primary">
+                                                                class="font-semibold hover:text-yellow-700 dark:hover:text-primary">
                                                                 <%= activity.listTitle %>
                                                             </a>
                                                             <span class="text-base-content/60">: </span>

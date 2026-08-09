@@ -37,7 +37,7 @@
                     <div class="hidden md:flex flex-col items-start gap-1">
                         <div class="flex items-center gap-2">
                             <a href="/watchlists"
-                                class="btn btn-ghost btn-xs gap-1 text-base-content/70 hover:text-primary pl-0 -ml-1">
+                                class="btn btn-ghost btn-xs gap-1 text-base-content/70 hover:text-yellow-700 dark:hover:text-primary pl-0 -ml-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -91,7 +91,7 @@
                         class="input input-sm input-bordered w-full md:w-64 pr-10 bg-base-100/50 focus:bg-base-100"
                         placeholder="Search movies..." @keydown.escape="searchOpen = false">
                     <button type="submit"
-                        class="absolute right-0 top-0 h-full px-3 text-base-content/50 hover:text-primary transition-colors">
+                        class="absolute right-0 top-0 h-full px-3 text-base-content/50 hover:text-yellow-700 dark:hover:text-primary transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -103,7 +103,7 @@
 
             <template x-for="item in navigation" :key="item.title">
                 <a :href="item.href"
-                    class="group relative text-sm font-medium tracking-wide text-base-content/80 transition-colors duration-200 hover:text-primary"
+                    class="group relative text-sm font-medium tracking-wide text-base-content/80 transition-colors duration-200 hover:text-yellow-700 dark:hover:text-primary"
                     x-text="item.title" x-show="item.desktop">
                     <span
                         class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>

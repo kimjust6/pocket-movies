@@ -154,7 +154,7 @@
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 <% data.myLists.forEach(list=> { %>
                     <a href="<%= list.url || ('/watchlists/' + list.id) %>"
-                        class="group flex flex-col overflow-hidden rounded-2xl border border-base-content/8 bg-base-100/50 shadow-md backdrop-blur-sm transition-all duration-200 hover:brightness-75 hover:shadow-2xl hover:shadow-black/30 hover:border-secondary/25">
+                        class="group flex flex-col overflow-hidden rounded-2xl bg-base-100/50 shadow-md backdrop-blur-sm transition-all duration-200 hover:brightness-75 hover:shadow-2xl hover:shadow-black/30 hover:border-secondary/25">
 
                         <!-- Poster Preview -->
                         <div
@@ -201,33 +201,19 @@
                                                             List</span>
                                                     </div>
                                                     <% } else { %>
-                                                        <% const count=movies.length; const posMap={ 1: [{
-                                                            w: 'w-24 sm:w-32' , left: '50%' , hoverLeft: '50%' , z: 10
-                                                            }], 2: [ { w: 'w-20 sm:w-28' , left: '32%' ,
-                                                            hoverLeft: '28%' , z: 10 }, { w: 'w-20 sm:w-28' ,
-                                                            left: '68%' , hoverLeft: '72%' , z: 20 } ], 3: [ {
-                                                            w: 'w-18 sm:w-24' , left: '22%' , hoverLeft: '18%' , z: 10
-                                                            }, { w: 'w-18 sm:w-24' , left: '50%' , hoverLeft: '50%' , z:
-                                                            20 }, { w: 'w-18 sm:w-24' , left: '78%' , hoverLeft: '82%' ,
-                                                            z: 30 } ], 4: [ { w: 'w-16 sm:w-22' , left: '18%' ,
-                                                            hoverLeft: '14%' , z: 10 }, { w: 'w-16 sm:w-22' ,
-                                                            left: '38%' , hoverLeft: '36%' , z: 20 }, {
-                                                            w: 'w-16 sm:w-22' , left: '62%' , hoverLeft: '64%' , z: 30
-                                                            }, { w: 'w-16 sm:w-22' , left: '82%' , hoverLeft: '86%' , z:
-                                                            40 } ], 5: [ { w: 'w-16 sm:w-20' , left: '15%' ,
-                                                            hoverLeft: '11%' , z: 10 }, { w: 'w-16 sm:w-20' ,
-                                                            left: '31%' , hoverLeft: '29%' , z: 20 }, {
-                                                            w: 'w-16 sm:w-20' , left: '50%' , hoverLeft: '50%' , z: 30
-                                                            }, { w: 'w-16 sm:w-20' , left: '69%' , hoverLeft: '71%' , z:
-                                                            40 }, { w: 'w-16 sm:w-20' , left: '85%' , hoverLeft: '89%' ,
-                                                            z: 50 } ] }; const items=posMap[count] || posMap[5]; %>
+                                                        <% const count=movies.length; const posMap={ 
+                                                            1: [{ w: 'w-24 sm:w-32', left: 'left-[50%]', z: 'z-10' }], 
+                                                            2: [ { w: 'w-20 sm:w-28', left: 'left-[32%]', z: 'z-10' }, { w: 'w-20 sm:w-28', left: 'left-[68%]', z: 'z-20' } ], 
+                                                            3: [ { w: 'w-18 sm:w-24', left: 'left-[22%]', z: 'z-10' }, { w: 'w-18 sm:w-24', left: 'left-[50%]', z: 'z-20' }, { w: 'w-18 sm:w-24', left: 'left-[78%]', z: 'z-30' } ], 
+                                                            4: [ { w: 'w-16 sm:w-22', left: 'left-[18%]', z: 'z-10' }, { w: 'w-16 sm:w-22', left: 'left-[38%]', z: 'z-20' }, { w: 'w-16 sm:w-22', left: 'left-[62%]', z: 'z-30' }, { w: 'w-16 sm:w-22', left: 'left-[82%]', z: 'z-40' } ], 
+                                                            5: [ { w: 'w-16 sm:w-20', left: 'left-[15%]', z: 'z-10' }, { w: 'w-16 sm:w-20', left: 'left-[31%]', z: 'z-20' }, { w: 'w-16 sm:w-20', left: 'left-[50%]', z: 'z-30' }, { w: 'w-16 sm:w-20', left: 'left-[69%]', z: 'z-40' }, { w: 'w-16 sm:w-20', left: 'left-[85%]', z: 'z-50' } ] 
+                                                        }; const items=posMap[count] || posMap[5]; %>
                                                             <div
                                                                 class="relative flex items-center justify-center h-full w-full">
                                                                 <% movies.forEach((movie, idx)=> { %>
                                                                     <% const cfg=items[idx] || items[items.length - 1];
                                                                         %>
-                                                                        <div class="poster-stack-item absolute <%= cfg.w %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300"
-                                                                            <%- 'style="left: ' + cfg.left + '; z-index: ' + cfg.z + ';"' %>>
+                                                                        <div class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
                                                                             <% if (movie.poster_path) { %>
                                                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                                                     alt="<%= movie.title %>"
@@ -253,7 +239,7 @@
                         <div class="flex flex-col flex-1 px-5 pt-4 pb-5 gap-3">
                             <!-- Title -->
                             <div>
-                                <h3 class="font-bold text-base leading-snug text-base-content group-hover:text-secondary transition-colors duration-200 line-clamp-1"
+                                <h3 class="font-bold text-base leading-snug text-base-content group-hover:text-yellow-700 dark:group-hover:text-secondary transition-colors duration-200 line-clamp-1"
                                     title="<%= list.list_title %>">
                                     <%= list.list_title %>
                                 </h3>
@@ -273,7 +259,7 @@
                                             <%= count===1 ? 'film' : 'films' %>
                                     </span>
                                     <span
-                                        class="text-xs font-semibold text-secondary/70 group-hover:text-secondary transition-colors duration-200 flex items-center gap-0.5">
+                                        class="text-xs font-semibold text-yellow-700 dark:text-secondary/70 group-hover:text-yellow-700 dark:group-hover:text-secondary transition-colors duration-200 flex items-center gap-0.5">
                                         Browse &rarr;
                                     </span>
                             </div>
@@ -367,33 +353,19 @@
                                                             List</span>
                                                     </div>
                                                     <% } else { %>
-                                                        <% const count=movies.length; const posMap={ 1: [{
-                                                            w: 'w-24 sm:w-32' , left: '50%' , hoverLeft: '50%' , z: 10
-                                                            }], 2: [ { w: 'w-20 sm:w-28' , left: '32%' ,
-                                                            hoverLeft: '28%' , z: 10 }, { w: 'w-20 sm:w-28' ,
-                                                            left: '68%' , hoverLeft: '72%' , z: 20 } ], 3: [ {
-                                                            w: 'w-18 sm:w-24' , left: '22%' , hoverLeft: '18%' , z: 10
-                                                            }, { w: 'w-18 sm:w-24' , left: '50%' , hoverLeft: '50%' , z:
-                                                            20 }, { w: 'w-18 sm:w-24' , left: '78%' , hoverLeft: '82%' ,
-                                                            z: 30 } ], 4: [ { w: 'w-16 sm:w-22' , left: '18%' ,
-                                                            hoverLeft: '14%' , z: 10 }, { w: 'w-16 sm:w-22' ,
-                                                            left: '38%' , hoverLeft: '36%' , z: 20 }, {
-                                                            w: 'w-16 sm:w-22' , left: '62%' , hoverLeft: '64%' , z: 30
-                                                            }, { w: 'w-16 sm:w-22' , left: '82%' , hoverLeft: '86%' , z:
-                                                            40 } ], 5: [ { w: 'w-16 sm:w-20' , left: '15%' ,
-                                                            hoverLeft: '11%' , z: 10 }, { w: 'w-16 sm:w-20' ,
-                                                            left: '31%' , hoverLeft: '29%' , z: 20 }, {
-                                                            w: 'w-16 sm:w-20' , left: '50%' , hoverLeft: '50%' , z: 30
-                                                            }, { w: 'w-16 sm:w-20' , left: '69%' , hoverLeft: '71%' , z:
-                                                            40 }, { w: 'w-16 sm:w-20' , left: '85%' , hoverLeft: '89%' ,
-                                                            z: 50 } ] }; const items=posMap[count] || posMap[5]; %>
+                                                        <% const count=movies.length; const posMap={ 
+                                                            1: [{ w: 'w-24 sm:w-32', left: 'left-[50%]', z: 'z-10' }], 
+                                                            2: [ { w: 'w-20 sm:w-28', left: 'left-[32%]', z: 'z-10' }, { w: 'w-20 sm:w-28', left: 'left-[68%]', z: 'z-20' } ], 
+                                                            3: [ { w: 'w-18 sm:w-24', left: 'left-[22%]', z: 'z-10' }, { w: 'w-18 sm:w-24', left: 'left-[50%]', z: 'z-20' }, { w: 'w-18 sm:w-24', left: 'left-[78%]', z: 'z-30' } ], 
+                                                            4: [ { w: 'w-16 sm:w-22', left: 'left-[18%]', z: 'z-10' }, { w: 'w-16 sm:w-22', left: 'left-[38%]', z: 'z-20' }, { w: 'w-16 sm:w-22', left: 'left-[62%]', z: 'z-30' }, { w: 'w-16 sm:w-22', left: 'left-[82%]', z: 'z-40' } ], 
+                                                            5: [ { w: 'w-16 sm:w-20', left: 'left-[15%]', z: 'z-10' }, { w: 'w-16 sm:w-20', left: 'left-[31%]', z: 'z-20' }, { w: 'w-16 sm:w-20', left: 'left-[50%]', z: 'z-30' }, { w: 'w-16 sm:w-20', left: 'left-[69%]', z: 'z-40' }, { w: 'w-16 sm:w-20', left: 'left-[85%]', z: 'z-50' } ] 
+                                                        }; const items=posMap[count] || posMap[5]; %>
                                                             <div
                                                                 class="relative flex items-center justify-center h-full w-full">
                                                                 <% movies.forEach((movie, idx)=> { %>
                                                                     <% const cfg=items[idx] || items[items.length - 1];
                                                                         %>
-                                                                        <div class="poster-stack-item absolute <%= cfg.w %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300"
-                                                                            <%- 'style="left: ' + cfg.left + '; z-index: ' + cfg.z + ';"' %>>
+                                                                        <div class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
                                                                             <% if (movie.poster_path) { %>
                                                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                                                     alt="<%= movie.title %>"
@@ -419,7 +391,7 @@
                                 <div class="flex flex-col flex-1 px-5 pt-4 pb-5 gap-3">
                                     <!-- Title -->
                                     <div>
-                                        <h3 class="font-bold text-base leading-snug text-base-content group-hover:text-accent transition-colors duration-200 line-clamp-1"
+                                        <h3 class="font-bold text-base leading-snug text-base-content group-hover:text-yellow-700 dark:group-hover:text-accent transition-colors duration-200 line-clamp-1"
                                             title="<%= list.list_title %>">
                                             <%= list.list_title %>
                                         </h3>
@@ -440,7 +412,7 @@
                                                     <%= count===1 ? 'film' : 'films' %>
                                             </span>
                                             <span
-                                                class="text-xs font-semibold text-accent/70 group-hover:text-accent transition-colors duration-200 flex items-center gap-0.5">
+                                                class="text-xs font-semibold text-yellow-700 dark:text-accent/70 group-hover:text-yellow-700 dark:group-hover:text-accent transition-colors duration-200 flex items-center gap-0.5">
                                                 Browse &rarr;
                                             </span>
                                     </div>
