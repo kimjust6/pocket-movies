@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+    :root,
+    [data-theme] {
+        --rounded-badge: var(--rounded-btn, 0.5rem);
+    }
+
     body {
         font-family: 'Inter', sans-serif;
     }
@@ -36,6 +41,66 @@
 @layer components {
 
     /* Reusable component classes */
+    .badge,
+    .badge-squircle {
+        border-radius: var(--rounded-btn, 0.5rem) !important;
+    }
+
+    /* Date input calendar picker icon styling */
+    input[type="date"] {
+        color-scheme: dark;
+    }
+
+    [data-theme="light"] input[type="date"],
+    [data-theme="cupcake"] input[type="date"],
+    [data-theme="bumblebee"] input[type="date"],
+    [data-theme="emerald"] input[type="date"],
+    [data-theme="corporate"] input[type="date"],
+    [data-theme="garden"] input[type="date"],
+    [data-theme="lofi"] input[type="date"],
+    [data-theme="pastel"] input[type="date"],
+    [data-theme="fantasy"] input[type="date"],
+    [data-theme="wireframe"] input[type="date"],
+    [data-theme="cmyk"] input[type="date"],
+    [data-theme="autumn"] input[type="date"],
+    [data-theme="acid"] input[type="date"],
+    [data-theme="lemonade"] input[type="date"],
+    [data-theme="winter"] input[type="date"],
+    [data-theme="nord"] input[type="date"] {
+        color-scheme: light;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        opacity: 0.8;
+        filter: brightness(0) invert(1);
+        transition: filter 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    [data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="cupcake"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="bumblebee"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="emerald"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="corporate"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="garden"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="lofi"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="pastel"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="fantasy"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="wireframe"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="cmyk"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="autumn"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="acid"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="lemonade"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="winter"] input[type="date"]::-webkit-calendar-picker-indicator,
+    [data-theme="nord"] input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: none;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator:hover {
+        opacity: 1;
+        transform: scale(1.1);
+        filter: brightness(0) saturate(100%) invert(80%) sepia(85%) saturate(850%) hue-rotate(350deg);
+    }
     .section-title {
         @apply script-font text-4xl sm:text-5xl lg:text-7xl xl:text-8xl text-center text-base-content;
     }
