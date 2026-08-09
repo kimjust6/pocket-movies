@@ -112,7 +112,7 @@
                                target="_blank" rel="noopener noreferrer"
                                class="badge badge-sm badge-ghost whitespace-nowrap hover:badge-error transition-colors"
                                title="View on Rotten Tomatoes">RT:
-                                <span class="ml-1" x-text="movie.rt_score ? movie.rt_score + '%' : '-'"></span>
+                                <span class="ml-1" x-text="(movie.rt_score !== null && movie.rt_score !== undefined && movie.rt_score >= 0) ? movie.rt_score + '%' : '-'"></span>
                             </a>
                         </div>
                     </td>

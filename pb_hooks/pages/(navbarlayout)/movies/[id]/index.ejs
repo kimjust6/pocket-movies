@@ -139,7 +139,7 @@
                                                                              </a>
                                                                          <% } %>
 
-                                                                         <% if (data.movie.rt_score) { %>
+                                                                         <% if (data.movie.rt_score !== null && data.movie.rt_score !== undefined && data.movie.rt_score >= 0) { %>
                                                                              <a href="https://www.rottentomatoes.com/search?search=<%= encodeURIComponent(data.movie.title) %>"
                                                                                 target="_blank" rel="noopener noreferrer"
                                                                                 class="badge badge-error badge-lg gap-2 p-3 text-error-content hover:scale-105 transition-transform" title="View on Rotten Tomatoes">

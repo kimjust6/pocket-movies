@@ -222,11 +222,11 @@ function handleUpdateHistoryItem(list, data, isOwner) {
         }
         if (data.rt_score !== undefined) {
             if (data.rt_score === "" || data.rt_score === null) {
-                historyItem.set('rt_score', 0)
+                historyItem.set('rt_score', -1)
             } else {
                 const score = parseInt(data.rt_score)
                 if (isNaN(score)) {
-                    historyItem.set('rt_score', 0)
+                    historyItem.set('rt_score', -1)
                 } else {
                     if (score < 0 || score > 100) throw new Error("Rotten Tomatoes score must be between 0 and 100.")
                     historyItem.set('rt_score', score)
@@ -696,7 +696,11 @@ function addMovieToWatchlist(user, tmdbId, targetListId) {
                 }
                 if (omdbScores.rt_score !== null && omdbScores.rt_score !== undefined) {
                     watchItem.set('rt_score', omdbScores.rt_score)
+                } else {
+                    watchItem.set('rt_score', -1)
                 }
+            } else {
+                watchItem.set('rt_score', -1)
             }
         } catch (omdbErr) {
             console.error('Failed to fetch OMDB scores when adding to watchlist:', omdbErr)

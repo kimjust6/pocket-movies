@@ -656,7 +656,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             this.editDateValue = movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '';
             this.editTmdbScore = (movie.tmdb_score !== undefined && movie.tmdb_score !== null && movie.tmdb_score !== 0) ? Number(movie.tmdb_score).toFixed(1) : '';
             this.editImdbScore = (movie.imdb_score !== undefined && movie.imdb_score !== null && movie.imdb_score !== 0) ? Number(movie.imdb_score).toFixed(1) : '';
-            this.editRtScore = (movie.rt_score !== undefined && movie.rt_score !== null) ? movie.rt_score : '';
+            this.editRtScore = (movie.rt_score !== undefined && movie.rt_score !== null && movie.rt_score >= 0) ? movie.rt_score : '';
             this.isSyncingRatings = false;
             this.showDateModal = true;
         },
@@ -681,7 +681,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                 if (result.success) {
                     this.editTmdbScore = (result.tmdb_score !== null && result.tmdb_score !== undefined && result.tmdb_score !== 0) ? Number(result.tmdb_score).toFixed(1) : '';
                     this.editImdbScore = (result.imdb_score !== null && result.imdb_score !== undefined && result.imdb_score !== 0) ? Number(result.imdb_score).toFixed(1) : '';
-                    this.editRtScore = (result.rt_score !== null && result.rt_score !== undefined) ? result.rt_score : '';
+                    this.editRtScore = (result.rt_score !== null && result.rt_score !== undefined && result.rt_score >= 0) ? result.rt_score : '';
                 } else {
                     alert(result.error || 'Failed to sync ratings.');
                 }
@@ -754,7 +754,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                 watched_at: this.editDateValue ? new Date(this.editDateValue).toISOString() : originalMovie.watched_at,
                 tmdb_score: this.editTmdbScore ? parseFloat(this.editTmdbScore) : 0,
                 imdb_score: this.editImdbScore ? parseFloat(this.editImdbScore) : 0,
-                rt_score: this.editRtScore ? parseInt(this.editRtScore) : 0
+                rt_score: (this.editRtScore !== "" && this.editRtScore !== null && this.editRtScore !== undefined) ? parseInt(this.editRtScore) : -1
             };
 
             // Re-sort the list immediately
