@@ -1,7 +1,7 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1786309890390,
+    "generatedTime": 1786312090160,
     "data": [
         {
             "type": "file",
@@ -74,8 +74,8 @@
         {
             "type": "file",
             "name": "pb_public/css/app.css",
-            "size": 183118,
-            "hash": "88bddb72b58a372ecbee61576656509650191fa763c3d1069002ce0bec1e1f36"
+            "size": 187672,
+            "hash": "57acedc0df9f40217988bf42f933549c08594a92fa01a8641e964405caf3f431"
         },
         {
             "type": "file",
@@ -508,14 +508,14 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.tailwind.css",
-            "size": 4046,
-            "hash": "967be7c045048e91159fdb1cb7f29ad16ed184d9c1b486cc971ba22602b6cb52"
+            "size": 8958,
+            "hash": "b7ab01a0e28f07175a28682fe93f581014cfb93257c2350baaf69171357306eb"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 183399,
-            "hash": "c578d4cccc7dcbe3c2bcdf888817df3181679566e972691f4555a17448af292c"
+            "size": 189039,
+            "hash": "e5f4f6dd5106d0f33a8cdd3f69b54daeeb7e997026c0bd342f8eac5d2a5bce38"
         },
         {
             "type": "folder",
@@ -676,8 +676,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/movies-table.ejs",
-            "size": 14960,
-            "hash": "ef96c06da9367d5f29a74fb444e822b6cc2474af36d6350f563c03f4923e8594"
+            "size": 15150,
+            "hash": "a284a526c61ec4e997f310a73b4e3b960e6d394739efbb97755c3e97af8d266e"
         },
         {
             "type": "file",
@@ -694,8 +694,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/header.ejs",
-            "size": 14665,
-            "hash": "1ae87c567e4183cbb3ea92042daa1283c081d841071177816400e7665b0531c1"
+            "size": 14742,
+            "hash": "45e26579cb8f499157ac00e0097fa5b8f7c75236853248124e33535619e379ff"
         },
         {
             "type": "file",
@@ -766,8 +766,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/index.ejs",
-            "size": 30161,
-            "hash": "846886abf7bbdd9d85c306dd54b5b6273bf82f0f1a520690b14fa543af1783c5"
+            "size": 30185,
+            "hash": "288efe55216b778905313ff184db6fb487238bb52e8cb2b885c632b4de63cb29"
         },
         {
             "type": "file",
@@ -790,8 +790,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/index.ejs",
-            "size": 40386,
-            "hash": "89cfe4d386ba3e8cb493d3e4ed06865c778154ed3d65e795f52e5cec2454372d"
+            "size": 40472,
+            "hash": "8799a5b28ee04300f67384d1264b2221f098d42af1dfb68a62a288c88ce63278"
         },
         {
             "type": "folder",
@@ -868,8 +868,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/search/index.ejs",
-            "size": 30123,
-            "hash": "0fe427de44205e4701295905b9883fe2d4cfe61b08be72e4dd76ff5a8baf8524"
+            "size": 30145,
+            "hash": "b2d3bea6b2007b9e6e35aef5f6f3a6150d26413ac7b2feabb7a15c6fc1e7d91e"
         },
         {
             "type": "file",
@@ -880,8 +880,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/index.ejs",
-            "size": 22909,
-            "hash": "058aedb70514dedc388c3533407904b91d6ff68134e256a61f978f0b1e31eb0d"
+            "size": 22936,
+            "hash": "d8edfac66c39350b4b19383cc3a67ec7b9a0344563410ba196298eba15ac29d5"
         },
         {
             "type": "file",
