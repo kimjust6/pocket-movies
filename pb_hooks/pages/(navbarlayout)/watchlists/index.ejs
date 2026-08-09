@@ -56,7 +56,8 @@
                 <h3 class="mb-2 text-xl font-bold">Your watchlist is empty</h3>
                 <p class="max-w-md mx-auto text-sm">Start building your collection by searching for movies you want to
                     watch later.</p>
-                <a href="/movies/search" class="btn btn-ghost mt-4 font-normal text-yellow-700 dark:text-primary hover:bg-primary/10">Browse
+                <a href="/movies/search"
+                    class="btn btn-ghost mt-4 font-normal text-yellow-700 dark:text-primary hover:bg-primary/10">Browse
                     Movies &rarr;</a>
             </div>
             <% } else { %>
@@ -65,7 +66,7 @@
                         <div
                             class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
                             <a href="/movies/<%= movie.tmdb_id %>" class="block cursor-pointer">
-                                <figure class="relative aspect-[2/3] mask mask-squircle overflow-hidden bg-base-300">
+                                <figure class="relative aspect-[2/3] mask overflow-hidden bg-base-300">
                                     <% if (movie.poster_path) { %>
                                         <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
                                             alt="<%= movie.title %>" loading="lazy" decoding="async"
@@ -189,7 +190,7 @@
                                             <% const movies=(list.recent_movies || []).slice().reverse(); %>
                                                 <% if (movies.length===0) { %>
                                                     <div
-                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask mask-squircle border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
+                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             class="h-6 w-6 mb-1 opacity-40 text-secondary" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -201,19 +202,30 @@
                                                             List</span>
                                                     </div>
                                                     <% } else { %>
-                                                        <% const count=movies.length; const posMap={ 
-                                                            1: [{ w: 'w-24 sm:w-32', left: 'left-[50%]', z: 'z-10' }], 
-                                                            2: [ { w: 'w-20 sm:w-28', left: 'left-[32%]', z: 'z-10' }, { w: 'w-20 sm:w-28', left: 'left-[68%]', z: 'z-20' } ], 
-                                                            3: [ { w: 'w-18 sm:w-24', left: 'left-[22%]', z: 'z-10' }, { w: 'w-18 sm:w-24', left: 'left-[50%]', z: 'z-20' }, { w: 'w-18 sm:w-24', left: 'left-[78%]', z: 'z-30' } ], 
-                                                            4: [ { w: 'w-16 sm:w-22', left: 'left-[18%]', z: 'z-10' }, { w: 'w-16 sm:w-22', left: 'left-[38%]', z: 'z-20' }, { w: 'w-16 sm:w-22', left: 'left-[62%]', z: 'z-30' }, { w: 'w-16 sm:w-22', left: 'left-[82%]', z: 'z-40' } ], 
-                                                            5: [ { w: 'w-16 sm:w-20', left: 'left-[15%]', z: 'z-10' }, { w: 'w-16 sm:w-20', left: 'left-[31%]', z: 'z-20' }, { w: 'w-16 sm:w-20', left: 'left-[50%]', z: 'z-30' }, { w: 'w-16 sm:w-20', left: 'left-[69%]', z: 'z-40' }, { w: 'w-16 sm:w-20', left: 'left-[85%]', z: 'z-50' } ] 
-                                                        }; const items=posMap[count] || posMap[5]; %>
+                                                        <% const count=movies.length; const posMap={ 1: [{
+                                                            w: 'w-24 sm:w-32' , left: 'left-[50%]' , z: 'z-10' }], 2: [
+                                                            { w: 'w-20 sm:w-28' , left: 'left-[32%]' , z: 'z-10' }, {
+                                                            w: 'w-20 sm:w-28' , left: 'left-[68%]' , z: 'z-20' } ], 3: [
+                                                            { w: 'w-18 sm:w-24' , left: 'left-[22%]' , z: 'z-10' }, {
+                                                            w: 'w-18 sm:w-24' , left: 'left-[50%]' , z: 'z-20' }, {
+                                                            w: 'w-18 sm:w-24' , left: 'left-[78%]' , z: 'z-30' } ], 4: [
+                                                            { w: 'w-16 sm:w-22' , left: 'left-[18%]' , z: 'z-10' }, {
+                                                            w: 'w-16 sm:w-22' , left: 'left-[38%]' , z: 'z-20' }, {
+                                                            w: 'w-16 sm:w-22' , left: 'left-[62%]' , z: 'z-30' }, {
+                                                            w: 'w-16 sm:w-22' , left: 'left-[82%]' , z: 'z-40' } ], 5: [
+                                                            { w: 'w-16 sm:w-20' , left: 'left-[15%]' , z: 'z-10' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[31%]' , z: 'z-20' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[50%]' , z: 'z-30' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[69%]' , z: 'z-40' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[85%]' , z: 'z-50' } ] };
+                                                            const items=posMap[count] || posMap[5]; %>
                                                             <div
                                                                 class="relative flex items-center justify-center h-full w-full">
                                                                 <% movies.forEach((movie, idx)=> { %>
                                                                     <% const cfg=items[idx] || items[items.length - 1];
                                                                         %>
-                                                                        <div class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
+                                                                        <div
+                                                                            class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
                                                                             <% if (movie.poster_path) { %>
                                                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                                                     alt="<%= movie.title %>"
@@ -293,8 +305,8 @@
                                             Next &raquo;
                                         </a>
                                         <% } else { %>
-                                            <button class="join-item btn btn-sm btn-outline btn-disabled"
-                                                disabled>Next &raquo;</button>
+                                            <button class="join-item btn btn-sm btn-outline btn-disabled" disabled>Next
+                                                &raquo;</button>
                                             <% } %>
                     </div>
                 </div>
@@ -343,7 +355,7 @@
                                             <% const movies=(list.recent_movies || []).slice().reverse(); %>
                                                 <% if (movies.length===0) { %>
                                                     <div
-                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask mask-squircle border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
+                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             class="h-6 w-6 mb-1 opacity-40 text-accent" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -355,19 +367,30 @@
                                                             List</span>
                                                     </div>
                                                     <% } else { %>
-                                                        <% const count=movies.length; const posMap={ 
-                                                            1: [{ w: 'w-24 sm:w-32', left: 'left-[50%]', z: 'z-10' }], 
-                                                            2: [ { w: 'w-20 sm:w-28', left: 'left-[32%]', z: 'z-10' }, { w: 'w-20 sm:w-28', left: 'left-[68%]', z: 'z-20' } ], 
-                                                            3: [ { w: 'w-18 sm:w-24', left: 'left-[22%]', z: 'z-10' }, { w: 'w-18 sm:w-24', left: 'left-[50%]', z: 'z-20' }, { w: 'w-18 sm:w-24', left: 'left-[78%]', z: 'z-30' } ], 
-                                                            4: [ { w: 'w-16 sm:w-22', left: 'left-[18%]', z: 'z-10' }, { w: 'w-16 sm:w-22', left: 'left-[38%]', z: 'z-20' }, { w: 'w-16 sm:w-22', left: 'left-[62%]', z: 'z-30' }, { w: 'w-16 sm:w-22', left: 'left-[82%]', z: 'z-40' } ], 
-                                                            5: [ { w: 'w-16 sm:w-20', left: 'left-[15%]', z: 'z-10' }, { w: 'w-16 sm:w-20', left: 'left-[31%]', z: 'z-20' }, { w: 'w-16 sm:w-20', left: 'left-[50%]', z: 'z-30' }, { w: 'w-16 sm:w-20', left: 'left-[69%]', z: 'z-40' }, { w: 'w-16 sm:w-20', left: 'left-[85%]', z: 'z-50' } ] 
-                                                        }; const items=posMap[count] || posMap[5]; %>
+                                                        <% const count=movies.length; const posMap={ 1: [{
+                                                            w: 'w-24 sm:w-32' , left: 'left-[50%]' , z: 'z-10' }], 2: [
+                                                            { w: 'w-20 sm:w-28' , left: 'left-[32%]' , z: 'z-10' }, {
+                                                            w: 'w-20 sm:w-28' , left: 'left-[68%]' , z: 'z-20' } ], 3: [
+                                                            { w: 'w-18 sm:w-24' , left: 'left-[22%]' , z: 'z-10' }, {
+                                                            w: 'w-18 sm:w-24' , left: 'left-[50%]' , z: 'z-20' }, {
+                                                            w: 'w-18 sm:w-24' , left: 'left-[78%]' , z: 'z-30' } ], 4: [
+                                                            { w: 'w-16 sm:w-22' , left: 'left-[18%]' , z: 'z-10' }, {
+                                                            w: 'w-16 sm:w-22' , left: 'left-[38%]' , z: 'z-20' }, {
+                                                            w: 'w-16 sm:w-22' , left: 'left-[62%]' , z: 'z-30' }, {
+                                                            w: 'w-16 sm:w-22' , left: 'left-[82%]' , z: 'z-40' } ], 5: [
+                                                            { w: 'w-16 sm:w-20' , left: 'left-[15%]' , z: 'z-10' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[31%]' , z: 'z-20' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[50%]' , z: 'z-30' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[69%]' , z: 'z-40' }, {
+                                                            w: 'w-16 sm:w-20' , left: 'left-[85%]' , z: 'z-50' } ] };
+                                                            const items=posMap[count] || posMap[5]; %>
                                                             <div
                                                                 class="relative flex items-center justify-center h-full w-full">
                                                                 <% movies.forEach((movie, idx)=> { %>
                                                                     <% const cfg=items[idx] || items[items.length - 1];
                                                                         %>
-                                                                        <div class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
+                                                                        <div
+                                                                            class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
                                                                             <% if (movie.poster_path) { %>
                                                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                                                     alt="<%= movie.title %>"

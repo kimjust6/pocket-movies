@@ -12,26 +12,28 @@
                     class="input input-md sm:input-lg join-item input-bordered flex items-center gap-2 flex-1 min-w-0 bg-base-100/50 backdrop-blur-sm transition-all duration-300 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20">
                     <% if (data.watchlistId) { %>
                         <input type="hidden" name="watchlistId" value="<%= data.watchlistId %>">
-                    <% } %>
-                    <input type="text" name="q" placeholder="Search for movies..."
-                        class="grow min-w-0 bg-transparent border-none focus:outline-none placeholder:text-base-content/50 text-sm sm:text-base"
-                        x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
-                        x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
-                        x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
+                        <% } %>
+                            <input type="text" name="q" placeholder="Search for movies..."
+                                class="grow min-w-0 bg-transparent border-none focus:outline-none placeholder:text-base-content/50 text-sm sm:text-base"
+                                x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
+                                x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
+                                x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
 
-                    <button type="button" class="btn btn-ghost btn-xs btn-circle opacity-50 hover:opacity-100 shrink-0"
-                        @click="query = ''; const url = new URL(window.location.href); if (url.searchParams.has('q')) { url.searchParams.delete('q'); window.location.href = url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : ''); } else { $nextTick(() => $refs.searchInput.focus()); }"
-                        x-show="query && query.length > 0" x-transition.opacity>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                            <button type="button"
+                                class="btn btn-ghost btn-xs btn-circle opacity-50 hover:opacity-100 shrink-0"
+                                @click="query = ''; const url = new URL(window.location.href); if (url.searchParams.has('q')) { url.searchParams.delete('q'); window.location.href = url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : ''); } else { $nextTick(() => $refs.searchInput.focus()); }"
+                                x-show="query && query.length > 0" x-transition.opacity>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                 </label>
-                <button type="submit" class="btn btn-primary join-item btn-md sm:btn-lg px-4 sm:px-8 shrink-0 flex items-center gap-1.5 sm:gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
+                <button type="submit"
+                    class="btn btn-primary join-item btn-md sm:btn-lg px-4 sm:px-8 shrink-0 flex items-center gap-1.5 sm:gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -148,10 +150,11 @@
                                                         class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
                                                         <a href="/movies/<%= movie.id %>" class="block cursor-pointer">
                                                             <figure
-                                                                class="relative aspect-[2/3] mask mask-squircle overflow-hidden bg-base-300">
+                                                                class="relative aspect-[2/3] mask rounded overflow-hidden bg-base-300">
                                                                 <% if (movie.poster_path) { %>
                                                                     <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
-                                                                        alt="<%= movie.title %>" loading="lazy" decoding="async"
+                                                                        alt="<%= movie.title %>" loading="lazy"
+                                                                        decoding="async"
                                                                         class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                                                     <% } else { %>
                                                                         <div
