@@ -35,6 +35,16 @@ module.exports = function (context) {
             return { success: false, error: result.error }
         }
 
+        if (data.action === 'sync_ratings' && result.syncData) {
+            return {
+                success: true,
+                message: result.message,
+                tmdb_score: result.syncData.tmdb_score,
+                imdb_score: result.syncData.imdb_score,
+                rt_score: result.syncData.rt_score
+            }
+        }
+
         // If successful update, fetch the single updated movie to return
         if (data.action === 'update_history_item' && data.history_id) {
             try {

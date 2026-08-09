@@ -96,15 +96,24 @@
                     </td>
                     <td>
                         <div class="flex flex-col gap-1">
-                            <span class="badge badge-sm badge-ghost whitespace-nowrap" title="TMDB Score">TMDB:
-                                <span x-text="movie.tmdb_score ? movie.tmdb_score : '-'"></span>
-                            </span>
-                            <span class="badge badge-sm badge-ghost whitespace-nowrap" title="IMDB Score">IMDB:
-                                <span x-text="movie.imdb_score ? movie.imdb_score : '-'"></span>
-                            </span>
-                            <span class="badge badge-sm badge-ghost whitespace-nowrap" title="RT Score">RT:
-                                <span x-text="movie.rt_score ? movie.rt_score + '%' : '-'"></span>
-                            </span>
+                            <a :href="'https://www.themoviedb.org/movie/' + (movie.tmdb_id || movie.id)"
+                               target="_blank" rel="noopener noreferrer"
+                               class="badge badge-sm badge-ghost whitespace-nowrap hover:badge-warning transition-colors"
+                               title="View on TMDB">TMDB:
+                                <span class="ml-1" x-text="movie.tmdb_score ? Number(movie.tmdb_score).toFixed(1) : '-'"></span>
+                            </a>
+                            <a :href="movie.imdb_id ? 'https://www.imdb.com/title/' + movie.imdb_id + '/' : 'https://www.imdb.com/find/?q=' + encodeURIComponent(movie.title)"
+                               target="_blank" rel="noopener noreferrer"
+                               class="badge badge-sm badge-ghost whitespace-nowrap hover:badge-accent transition-colors"
+                               title="View on IMDb">IMDB:
+                                <span class="ml-1" x-text="movie.imdb_score ? Number(movie.imdb_score).toFixed(1) : '-'"></span>
+                            </a>
+                            <a :href="'https://www.rottentomatoes.com/search?search=' + encodeURIComponent(movie.title)"
+                               target="_blank" rel="noopener noreferrer"
+                               class="badge badge-sm badge-ghost whitespace-nowrap hover:badge-error transition-colors"
+                               title="View on Rotten Tomatoes">RT:
+                                <span class="ml-1" x-text="movie.rt_score ? movie.rt_score + '%' : '-'"></span>
+                            </a>
                         </div>
                     </td>
 

@@ -50,6 +50,10 @@ function handlePostAction(context, list, isOwner, userId, explicitData = null) {
             message = handleUpdateAttendance(list, data, userId)
         } else if (action === 'delete_attendance') {
             message = handleDeleteAttendance(list, data, userId)
+        } else if (action === 'sync_ratings') {
+            const syncRes = handleSyncRatings(list, data, isOwner)
+            message = syncRes.message
+            return { message, error: null, redirect: null, syncData: syncRes }
         }
     } catch (e) {
         error = e.message
@@ -189,27 +193,138 @@ function handleUpdateHistoryItem(list, data, isOwner) {
             historyItem.set('watched', newDate)
         }
 
-        // Update scores if provided
-        if (data.tmdb_score !== undefined && data.tmdb_score !== "") {
-            const score = parseFloat(data.tmdb_score)
-            if (score < 0 || score > 10) throw new Error("TMDB score must be between 0 and 10.")
-            historyItem.set('tmdb_score', score)
+        // Update scores if provided (empty string or null clears rating to 0)
+        if (data.tmdb_score !== undefined) {
+            if (data.tmdb_score === "" || data.tmdb_score === null) {
+                historyItem.set('tmdb_score', 0)
+            } else {
+                const score = parseFloat(data.tmdb_score)
+                if (isNaN(score)) {
+                    historyItem.set('tmdb_score', 0)
+                } else {
+                    if (score < 0 || score > 10) throw new Error("TMDB score must be between 0 and 10.")
+                    historyItem.set('tmdb_score', score)
+                }
+            }
         }
-        if (data.imdb_score !== undefined && data.imdb_score !== "") {
-            const score = parseFloat(data.imdb_score)
-            if (score < 0 || score > 10) throw new Error("IMDB score must be between 0 and 10.")
-            historyItem.set('imdb_score', score)
+        if (data.imdb_score !== undefined) {
+            if (data.imdb_score === "" || data.imdb_score === null) {
+                historyItem.set('imdb_score', 0)
+            } else {
+                const score = parseFloat(data.imdb_score)
+                if (isNaN(score)) {
+                    historyItem.set('imdb_score', 0)
+                } else {
+                    if (score < 0 || score > 10) throw new Error("IMDB score must be between 0 and 10.")
+                    historyItem.set('imdb_score', score)
+                }
+            }
         }
-        if (data.rt_score !== undefined && data.rt_score !== "") {
-            const score = parseInt(data.rt_score)
-            if (score < 0 || score > 100) throw new Error("Rotten Tomatoes score must be between 0 and 100.")
-            historyItem.set('rt_score', score)
+        if (data.rt_score !== undefined) {
+            if (data.rt_score === "" || data.rt_score === null) {
+                historyItem.set('rt_score', 0)
+            } else {
+                const score = parseInt(data.rt_score)
+                if (isNaN(score)) {
+                    historyItem.set('rt_score', 0)
+                } else {
+                    if (score < 0 || score > 100) throw new Error("Rotten Tomatoes score must be between 0 and 100.")
+                    historyItem.set('rt_score', score)
+                }
+            }
         }
 
         $app.save(historyItem)
         return "Entry updated successfully!"
     }
     return null
+}
+
+/**
+ * Syncs rating scores from TMDB and OMDB for a movie in a watch history item.
+ * @param {import('pocketbase').Record} list
+ * @param {object} data - Form data with history_id
+ * @param {boolean} isOwner
+ * @returns {{ tmdb_score: number|null, imdb_score: number|null, rt_score: number|null, message: string }}
+ */
+function handleSyncRatings(list, data, isOwner) {
+    const historyId = data.history_id
+    if (!historyId) throw new Error("History ID is missing.")
+
+    if (!isOwner) throw new Error("Only the owner can sync ratings.")
+
+    const historyItem = $app.findRecordById('watched_history', historyId)
+    if (historyItem.getString('list') !== list.id) {
+        throw new Error("Item does not belong to this list.")
+    }
+
+    const tempArray = [historyItem]
+    $app.expandRecords(tempArray, ['movie'])
+    const movieRecord = historyItem.expandedOne('movie')
+
+    if (!movieRecord) {
+        throw new Error("Associated movie not found.")
+    }
+
+    const tmdbId = movieRecord.getString('tmdb_id')
+    const movieTitle = movieRecord.getString('title')
+    const releaseDate = movieRecord.getString('release_date')
+    let imdbId = movieRecord.getString('imdb_id')
+
+    let tmdbScore = null
+    let imdbScore = null
+    let rtScore = null
+
+    // 1. Fetch TMDB details
+    if (tmdbId) {
+        try {
+            const movieData = tmdb.getMovie(tmdbId)
+            if (movieData) {
+                if (movieData.vote_average) {
+                    tmdbScore = parseFloat(movieData.vote_average.toFixed(1))
+                }
+                if (movieData.imdb_id) {
+                    imdbId = movieData.imdb_id
+                    if (!movieRecord.getString('imdb_id')) {
+                        movieRecord.set('imdb_id', imdbId)
+                        $app.save(movieRecord)
+                    }
+                }
+            }
+        } catch (e) {
+            console.error("Failed to fetch TMDB data for sync:", e)
+        }
+    }
+
+    // 2. Fetch OMDB scores
+    try {
+        let omdbScores = null
+        if (imdbId) {
+            omdbScores = omdb.getScoresByImdbId(imdbId)
+        } else if (movieTitle) {
+            const year = releaseDate ? releaseDate.substring(0, 4) : null
+            omdbScores = omdb.getScoresByTitle(movieTitle, year)
+        }
+
+        if (omdbScores) {
+            if (omdbScores.imdb_score !== null && omdbScores.imdb_score !== undefined) {
+                imdbScore = parseFloat(omdbScores.imdb_score.toFixed(1))
+            }
+            if (omdbScores.rt_score !== null && omdbScores.rt_score !== undefined) {
+                rtScore = omdbScores.rt_score
+            }
+        }
+    } catch (e) {
+        console.error("Failed to fetch OMDB data for sync:", e)
+    }
+
+    // Do not save to historyItem DB record here; only return fetched values to modal form
+    return {
+        tmdb_score: tmdbScore !== null ? tmdbScore : historyItem.getFloat('tmdb_score'),
+        imdb_score: imdbScore !== null ? imdbScore : historyItem.getFloat('imdb_score'),
+        rt_score: rtScore !== null ? rtScore : historyItem.getInt('rt_score'),
+        message: "Ratings fetched from site!"
+    }
 }
 
 /**

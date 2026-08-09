@@ -101,6 +101,12 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
         showDateModal: false,
 
         /**
+         * State for ratings sync operation in modal.
+         * @type {boolean}
+         */
+        isSyncingRatings: false,
+
+        /**
          * State for the generic confirmation modal.
          * @type {object}
          */
@@ -648,10 +654,43 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
             this.editHistoryId = movie.history_id;
             this.editMovieTitle = movie.title || '';
             this.editDateValue = movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '';
-            this.editTmdbScore = movie.tmdb_score || '';
-            this.editImdbScore = movie.imdb_score || '';
-            this.editRtScore = movie.rt_score || '';
+            this.editTmdbScore = (movie.tmdb_score !== undefined && movie.tmdb_score !== null && movie.tmdb_score !== 0) ? Number(movie.tmdb_score).toFixed(1) : '';
+            this.editImdbScore = (movie.imdb_score !== undefined && movie.imdb_score !== null && movie.imdb_score !== 0) ? Number(movie.imdb_score).toFixed(1) : '';
+            this.editRtScore = (movie.rt_score !== undefined && movie.rt_score !== null) ? movie.rt_score : '';
+            this.isSyncingRatings = false;
             this.showDateModal = true;
+        },
+
+        async syncRatings() {
+            if (!this.editHistoryId) return;
+
+            this.isSyncingRatings = true;
+
+            const formData = new FormData();
+            formData.append('action', 'sync_ratings');
+            formData.append('history_id', this.editHistoryId);
+            formData.append('list_id', this.listId);
+
+            try {
+                const response = await fetch('/api/watchlists/movies', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    this.editTmdbScore = (result.tmdb_score !== null && result.tmdb_score !== undefined && result.tmdb_score !== 0) ? Number(result.tmdb_score).toFixed(1) : '';
+                    this.editImdbScore = (result.imdb_score !== null && result.imdb_score !== undefined && result.imdb_score !== 0) ? Number(result.imdb_score).toFixed(1) : '';
+                    this.editRtScore = (result.rt_score !== null && result.rt_score !== undefined) ? result.rt_score : '';
+                } else {
+                    alert(result.error || 'Failed to sync ratings.');
+                }
+            } catch (error) {
+                console.error('Failed to sync ratings:', error);
+                alert('An error occurred while syncing ratings.');
+            } finally {
+                this.isSyncingRatings = false;
+            }
         },
 
         /**

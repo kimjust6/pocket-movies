@@ -30,22 +30,35 @@
                 <input type="date" name="watched_date" x-model="editDateValue" class="input input-bordered w-full" />
             </div>
 
-            <div class="grid grid-cols-3 gap-2">
-                <% const scores=[ { label: 'TMDB' , name: 'tmdb_score' , model: 'editTmdbScore' , max: 10, step: 'any'
-                    }, { label: 'IMDB' , name: 'imdb_score' , model: 'editImdbScore' , max: 10, step: 'any' }, {
-                    label: 'RT' , name: 'rt_score' , model: 'editRtScore' , max: 100, step: '1' } ];
-                    scores.forEach(score=> { %>
-                    <div class="form-control">
-                        <label class="label p-1">
-                            <span class="label-text text-xs">
-                                <%= score.label %>
-                            </span>
-                        </label>
-                        <input type="number" step="<%= score.step %>" min="0" max="<%= score.max %>"
-                            name="<%= score.name %>" x-model="<%= score.model %>"
-                            class="input input-bordered w-full px-2 text-center" placeholder="-" />
-                    </div>
-                    <% }); %>
+            <div class="form-control">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="label-text text-sm font-semibold">Ratings</span>
+                    <button type="button" @click="syncRatings()" :disabled="isSyncingRatings"
+                        class="btn btn-xs btn-ghost text-primary hover:bg-primary/10 gap-1 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" :class="{ 'animate-spin': isSyncingRatings }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span x-text="isSyncingRatings ? 'Syncing...' : 'Sync Ratings'">Sync Ratings</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <% const scores=[ { label: 'TMDB' , name: 'tmdb_score' , model: 'editTmdbScore' , max: 10, step: 'any'
+                        }, { label: 'IMDB' , name: 'imdb_score' , model: 'editImdbScore' , max: 10, step: 'any' }, {
+                        label: 'RT' , name: 'rt_score' , model: 'editRtScore' , max: 100, step: '1' } ];
+                        scores.forEach(score=> { %>
+                        <div class="form-control">
+                            <label class="label p-1">
+                                <span class="label-text text-xs">
+                                    <%= score.label %>
+                                </span>
+                            </label>
+                            <input type="number" step="<%= score.step %>" min="0" max="<%= score.max %>"
+                                name="<%= score.name %>" x-model="<%= score.model %>"
+                                class="input input-bordered w-full px-2 text-center" placeholder="-" />
+                        </div>
+                        <% }); %>
+                </div>
             </div>
             <!-- Hidden submit button for Enter key support -->
             <input type="submit" hidden />
