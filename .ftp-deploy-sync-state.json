@@ -1,13 +1,13 @@
 {
     "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
     "version": "1.0.0",
-    "generatedTime": 1786241486556,
+    "generatedTime": 1786252686856,
     "data": [
         {
             "type": "file",
             "name": "package.json",
-            "size": 1628,
-            "hash": "6fe35fe455076ee18b0646948e2f3f87ffb75025cb6c5bdd9ef9512238c0e9dc"
+            "size": 1671,
+            "hash": "cc41e5799f693d0f0b26ee7ba3c7b259caa83c4d5826c0af5cfd0f922856aab8"
         },
         {
             "type": "file",
@@ -58,8 +58,8 @@
         {
             "type": "file",
             "name": "pb_public/js/watchlist-detail.js",
-            "size": 34480,
-            "hash": "ce2560bcd691b86ab54b5a9490e4c9cd5b1f4e4a46ea6f1f104428621e11a081"
+            "size": 36556,
+            "hash": "aa74126bd58249e1f8dd050906e51f48615d0c93a80214cb46072ba11b76f759"
         },
         {
             "type": "file",
@@ -498,14 +498,14 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/app.tailwind.css",
-            "size": 4017,
-            "hash": "ecd5f17cf3b4b8b9bffc52ea8fef0842af1315e15d1bef7b9e6664ffe3f9cc26"
+            "size": 3945,
+            "hash": "b24b62b15eefe6a263390e839c8f4660e9435d60fdc81b224a80b7557548b54b"
         },
         {
             "type": "file",
             "name": "pb_hooks/pages/app.css",
-            "size": 176178,
-            "hash": "23b23308ab69b7e929ffbccc3f720cec028a83efd6199190fd841106192ff85e"
+            "size": 178258,
+            "hash": "6e591e6b4b68970ab7e6942317282e5dba3b27e9793ea6cdfba65cbf116d85d8"
         },
         {
             "type": "folder",
@@ -606,8 +606,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/api/watchlists/movies/+load.js",
-            "size": 6060,
-            "hash": "681123f435c89be26ca1ae991173b723af1d1e4b8b075ed8da491a1f35bd3fe0"
+            "size": 6416,
+            "hash": "e42c249999e52c39ba6b735142538b44eb97a55b832ad8a79006564036138deb"
         },
         {
             "type": "file",
@@ -666,8 +666,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/movies-table.ejs",
-            "size": 13923,
-            "hash": "017e62e3b43bab8a6f53315c83dacb27a5e3ca5d0a7c862245168f8a39039c5a"
+            "size": 14900,
+            "hash": "782b3a12b480bb76e8fe505bd99c07f723c9edcd7b52afd18cef04498cc39b83"
         },
         {
             "type": "file",
@@ -714,8 +714,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/_private/edit-entry-modal.ejs",
-            "size": 3669,
-            "hash": "ff34ca607945359904f437c820b5d10498dc15fa859fbed86ff0793af5971cf9"
+            "size": 4755,
+            "hash": "331a990bcf56903679e3811d3e6bf78e727ede898ffe6a78453426712534c760"
         },
         {
             "type": "file",
@@ -780,8 +780,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/index.ejs",
-            "size": 30945,
-            "hash": "278e57b48ffe52aa83c625a3e3b9dc4f0fd3c433983ed461a7fe464d7bcf7a74"
+            "size": 40834,
+            "hash": "251101ed2e6bd8e17dc70fa50f52b98d9a55e59c87852398ac6911fb4e3146ba"
         },
         {
             "type": "folder",
@@ -794,8 +794,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/watchlists/+load.js",
-            "size": 7648,
-            "hash": "e52906f128e975dd3cc893fdcd1ad3d281a7d229624e60c40a55bc74be3ec1e2"
+            "size": 7850,
+            "hash": "7aae778afdf1038e51dd39089407bc0988d8cec1133c649662a3583fe2aaa511"
         },
         {
             "type": "folder",
@@ -870,8 +870,8 @@
         {
             "type": "file",
             "name": "pb_hooks/pages/(navbarlayout)/movies/[id]/index.ejs",
-            "size": 20837,
-            "hash": "11030225f866cad05f5178ab84848e9d98faf3bab67f20467414dcf572c2974c"
+            "size": 21886,
+            "hash": "10009d61c23cc86837e608229c214690aca932c7f842d3982e44bc335e17b2ff"
         },
         {
             "type": "file",
@@ -882,8 +882,8 @@
         {
             "type": "file",
             "name": "pb_hooks/lib/watchlist-actions.js",
-            "size": 22211,
-            "hash": "9059d0ad0f32109908076a55f6622d7ec82fb5fe83921f30c5422d2b8041f726"
+            "size": 26728,
+            "hash": "0439e8f18d4b50cb266f8a32e681b90dafd60791e656c13c647d4e4bae815357"
         },
         {
             "type": "file",

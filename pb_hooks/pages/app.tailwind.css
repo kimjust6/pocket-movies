@@ -91,12 +91,7 @@
         display: none !important;
     }
 
-    .poster-stack-item {
-        left: var(--pos);
-    }
-    .group:hover .poster-stack-item {
-        left: var(--pos-hover);
-    }
+    /* poster-stack-item: positioned via inline left + z-index */
 }
 
 /* View Transitions API */
