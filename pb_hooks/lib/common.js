@@ -101,10 +101,22 @@ const COLS = {
     WATCH_HISTORY: 'watch_history'
 };
 
+/**
+ * 3-state movie completion status enum.
+ * @readonly
+ * @enum {string}
+ */
+const WATCH_STATUS = {
+    DIDNT_WATCH: 'didnt_watch',
+    WATCHED: 'watched',
+    BAILED: 'bailed'
+};
+
 module.exports = {
     // Export constants
     TABLES,
     COLS,
+    WATCH_STATUS,
 
     /**
      * Format a date string or Date object to a human-readable format.
@@ -551,11 +563,13 @@ module.exports = {
 
                     if (!attendanceMap[hid]) attendanceMap[hid] = {}
 
+                    const rawRating = rec.getFloat('rating')
                     attendanceMap[hid][uid] = {
                         id: rec.id,
-                        rating: rec.getFloat('rating'),
+                        rating: (rawRating !== null && rawRating !== undefined && rawRating >= 0) ? rawRating : -1,
                         review: rec.getString('review'),
                         failed: rec.getBool('failed'),
+                        status: rec.getBool('failed') ? WATCH_STATUS.BAILED : WATCH_STATUS.WATCHED,
                         created: rec.getString('created')
                     }
                 })
@@ -876,7 +890,7 @@ module.exports = {
             // 4. Fetch recent reviews / ratings
             const recentReviews = $app.findRecordsByFilter(
                 TABLES.WATCH_HISTORY_USER,
-                `${COLS.REVIEW} != '' || ${COLS.RATING} > 0`,
+                `${COLS.REVIEW} != '' || ${COLS.RATING} >= 0`,
                 `-${COLS.CREATED}`,
                 limit * 5,
                 0
@@ -893,6 +907,7 @@ module.exports = {
                         const rating = r.getFloat(COLS.RATING)
                         const review = r.getString(COLS.REVIEW)
                         const dateVal = r.getString(COLS.WATCHED) || r.getString(COLS.CREATED) || watchHistory.getString(COLS.WATCHED) || watchHistory.getString(COLS.CREATED)
+                        const parsedRating = (rating !== null && rating !== undefined && rating >= 0) ? Math.round(rating) / 2 : -1
                         recentActivity.push({
                             type: review ? 'review' : 'rating',
                             created: dateVal,
@@ -900,7 +915,7 @@ module.exports = {
                             userInitials: (user.getString(COLS.SHORTHAND) || user.getString(COLS.NAME) || 'U').substring(0, 2).toUpperCase(),
                             movieTitle: movie.getString(COLS.TITLE),
                             movieId: movie.getString(COLS.TMDB_ID),
-                            rating: Math.round(rating) / 2,
+                            rating: parsedRating,
                             review: review
                         })
                     }

@@ -256,11 +256,11 @@
                                                             <%= activity.review %>
                                                         </p>
                                                         <% } %>
-                                                            <% if (activity.rating> 0) { %>
+                                                            <% if (activity.rating !== undefined && activity.rating !== null && activity.rating >= 0) { %>
                                                                 <div class="flex items-center gap-1 mt-2">
                                                                     <div class="rating rating-sm rating-half">
                                                                         <input type="radio" name="rating-<%= index %>"
-                                                                            class="rating-hidden" />
+                                                                            class="rating-hidden" disabled <%= activity.rating === 0 ? 'checked' : '' %> />
                                                                         <% for (let i=1; i <=5; i++) { %>
                                                                             <input type="radio"
                                                                                 name="rating-<%= index %>"

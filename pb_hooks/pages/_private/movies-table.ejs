@@ -119,13 +119,13 @@
                     <% if (data.members && data.members.length> 0) { %>
                         <% data.members.forEach(member=> { %>
                             <td class="text-center p-0 align-middle">
-                                <button type="button" @click.stop="openRatingModal(movie, '<%= member.id %>')"
+                                <button type="button" @click.stop="openRatingModal(movie, '<%= member.id %>', '<%= (member.name || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'") %>')"
                                     class="w-full h-full flex flex-col items-center justify-center p-2 min-h-[60px] hover:bg-base-content/5 transition-colors cursor-pointer rounded-lg bg-transparent border-none">
                                     <div x-show="movie.attendance && movie.attendance['<%= member.id %>']" class="flex flex-col items-center gap-1 pointer-events-none">
-                                        <div x-show="movie.attendance && movie.attendance['<%= member.id %>'] && movie.attendance['<%= member.id %>'].rating"
+                                        <div x-show="movie.attendance && movie.attendance['<%= member.id %>'] && movie.attendance['<%= member.id %>'].rating !== null && movie.attendance['<%= member.id %>'].rating !== undefined && movie.attendance['<%= member.id %>'].rating >= 0"
                                             class="badge badge-sm rounded-md font-bold"
                                             :class="movie.attendance && movie.attendance['<%= member.id %>'] && movie.attendance['<%= member.id %>'].failed ? 'badge-error' : 'badge-success'"
-                                            x-text="movie.attendance && movie.attendance['<%= member.id %>'] && movie.attendance['<%= member.id %>'].rating ? formatRating(movie.attendance['<%= member.id %>'].rating) + '/10' : ''">
+                                            x-text="movie.attendance && movie.attendance['<%= member.id %>'] && movie.attendance['<%= member.id %>'].rating >= 0 ? formatRating(movie.attendance['<%= member.id %>'].rating) + '/10' : ''">
                                         </div>
 
                                         <svg x-show="movie.attendance && movie.attendance['<%= member.id %>'] && !movie.attendance['<%= member.id %>'].failed"

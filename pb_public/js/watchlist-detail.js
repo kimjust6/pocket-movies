@@ -20,8 +20,15 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
     const resolvedListId = listId !== null ? listId : (contextData.listId || '');
     const resolvedHasMore = initialHasMore !== null ? initialHasMore : (contextData.hasMore !== undefined ? contextData.hasMore : true);
     const resolvedCurrentUserId = currentUserId !== null ? currentUserId : (contextData.currentUserId || '');
+    const resolvedMembers = contextData.members || [];
 
     return {
+        /**
+         * List members with IDs and names.
+         * @type {Array}
+         */
+        members: resolvedMembers,
+
         /**
          * Movies array for the watchlist.
          * @type {Array}
@@ -187,10 +194,10 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         showRatingModal: false,
 
         /**
-         * The current user rating for the edit form.
-         * @type {number}
+         * The user's rating score for the edit form.
+         * @type {number|string}
          */
-        editUserRating: 0,
+        editUserRating: '',
 
         /**
          * The current user failed status for the edit form.
@@ -199,16 +206,34 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         editUserFailed: false,
 
         /**
+         * The 3-state movie completion status: 'watched' | 'didnt_watch' | 'bailed'.
+         * @type {string}
+         */
+        editWatchStatus: 'didnt_watch',
+
+        /**
          * The current user review for the edit form.
          * @type {string}
          */
         editUserReview: '',
 
         /**
+         * The user ID for the rating modal.
+         * @type {string}
+         */
+        editRatingUserId: '',
+
+        /**
+         * The user name for the rating modal.
+         * @type {string}
+         */
+        editRatingUserName: '',
+
+        /**
          * The title for the rating modal.
          * @type {string}
          */
-        ratingModalTitle: 'Edit Rating',
+        ratingModalTitle: 'Update My Score',
 
         init() {
             // Parse URL params for sort
@@ -403,11 +428,13 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
                 this.movies[movieIndex].attendance = {};
             }
 
+            const recRating = (record.rating !== undefined && record.rating !== null && record.rating >= 0) ? record.rating : -1;
             this.movies[movieIndex].attendance[userId] = {
                 id: record.id,
-                rating: record.rating || 0,
+                rating: recRating,
                 review: record.review || '',
                 failed: record.failed || false,
+                status: record.failed ? 'bailed' : 'watched',
                 created: record.created
             };
 
@@ -576,8 +603,10 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
 
                 if (col.startsWith('user_')) {
                     const userId = col.split('_')[1];
-                    valA = (a.attendance && a.attendance[userId] && a.attendance[userId].rating) ? a.attendance[userId].rating : -1;
-                    valB = (b.attendance && b.attendance[userId] && b.attendance[userId].rating) ? b.attendance[userId].rating : -1;
+                    const hasA = a.attendance && a.attendance[userId] && a.attendance[userId].rating !== undefined && a.attendance[userId].rating !== null && a.attendance[userId].rating >= 0;
+                    const hasB = b.attendance && b.attendance[userId] && b.attendance[userId].rating !== undefined && b.attendance[userId].rating !== null && b.attendance[userId].rating >= 0;
+                    valA = hasA ? a.attendance[userId].rating : -1;
+                    valB = hasB ? b.attendance[userId].rating : -1;
                 } else {
                     valA = a[col];
                     valB = b[col];
@@ -609,8 +638,9 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         },
 
         formatRating(val) {
+            if (val === null || val === undefined || val === '') return '-';
             const num = parseFloat(val);
-            if (isNaN(num)) return '-';
+            if (isNaN(num) || num < 0) return '-';
             if (num % 1 === 0) return num.toFixed(1);
             return num.toString();
         },
@@ -735,25 +765,40 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
          * Opens the user rating modal for a specific movie and user.
          * @param {object} movie - The movie object.
          * @param {string} userId - The user ID whose rating we are viewing/editing.
+         * @param {string} [userName] - Optional display name of the user.
          */
-        openRatingModal(movie, userId) {
+        openRatingModal(movie, userId, userName = '') {
             this.editHistoryId = movie.history_id;
             this.editMovieTitle = movie.title || '';
+            this.editRatingUserId = userId;
+
+            if (!userName) {
+                const member = this.members ? this.members.find(m => m.id === userId) : null;
+                userName = member ? member.name : (userId === this.currentUserId ? 'My' : 'User');
+            }
+            this.editRatingUserName = userName;
 
             // Determine if read-only
             this.isRatingReadOnly = (userId !== this.currentUserId);
-            this.ratingModalTitle = this.isRatingReadOnly ? 'View Review' : 'Edit Rating';
+            if (this.isRatingReadOnly) {
+                const possessive = userName ? (userName.endsWith('s') || userName.endsWith('S') ? `${userName}'` : `${userName}'s`) : "User's";
+                this.ratingModalTitle = `${possessive} Rating`;
+            } else {
+                this.ratingModalTitle = 'Update My Score';
+            }
 
             // Get existing attendance if any
             const attendance = movie.attendance && movie.attendance[userId];
             if (attendance) {
-                this.editUserRating = attendance.rating || 0;
-                this.editUserFailed = attendance.failed || false;
+                this.editUserRating = (attendance.rating !== undefined && attendance.rating !== null && attendance.rating >= 0) ? attendance.rating : '';
+                this.editUserFailed = !!attendance.failed;
+                this.editWatchStatus = attendance.failed ? 'bailed' : 'watched';
                 this.editUserReview = attendance.review || '';
                 this.hasExistingRating = true;
             } else {
-                this.editUserRating = 0;
+                this.editUserRating = '';
                 this.editUserFailed = false;
+                this.editWatchStatus = 'didnt_watch';
                 this.editUserReview = '';
                 this.hasExistingRating = false;
             }
@@ -843,11 +888,30 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         async updateRating() {
             if (!this.editHistoryId) return;
 
-            // Validation
-            if (this.editUserRating !== "" && (this.editUserRating < 0 || this.editUserRating > 10)) {
-                alert("Rating must be between 0 and 10");
+            // If Didn't Watch is selected, remove rating/attendance if existing or close
+            if (this.editWatchStatus === 'didnt_watch') {
+                if (this.hasExistingRating) {
+                    await this.confirmDeleteRating(this.editHistoryId);
+                } else {
+                    this.showRatingModal = false;
+                }
                 return;
             }
+
+            this.editUserFailed = (this.editWatchStatus === 'bailed');
+
+            // Validation
+            if (this.editUserRating !== "" && this.editUserRating !== null) {
+                const num = parseFloat(this.editUserRating);
+                if (isNaN(num) || num < 0 || num > 10) {
+                    alert("Rating must be between 0 and 10");
+                    return;
+                }
+            }
+
+            const parsedRating = (this.editUserRating !== "" && this.editUserRating !== null && !isNaN(parseFloat(this.editUserRating)) && parseFloat(this.editUserRating) >= 0)
+                ? parseFloat(this.editUserRating)
+                : -1;
 
             // 1. Find the item
             const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);
@@ -862,9 +926,10 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
 
             this.movies[index].attendance[this.currentUserId] = {
                 ...this.movies[index].attendance[this.currentUserId],
-                rating: this.editUserRating ? parseFloat(this.editUserRating) : 0,
+                rating: parsedRating,
                 review: this.editUserReview,
-                failed: this.editUserFailed
+                failed: this.editUserFailed,
+                status: this.editWatchStatus
             };
 
             // Re-sort the list immediately
@@ -876,8 +941,9 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             const formData = new FormData();
             formData.append('action', 'update_attendance');
             formData.append('history_id', this.editHistoryId);
-            formData.append('rating', this.editUserRating);
+            formData.append('rating', parsedRating >= 0 ? parsedRating.toString() : '-1');
             formData.append('review', this.editUserReview);
+            formData.append('status', this.editWatchStatus);
             formData.append('failed', this.editUserFailed ? 'on' : 'off');
             formData.append('list_id', this.listId);
 

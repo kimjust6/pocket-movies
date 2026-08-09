@@ -455,10 +455,32 @@ function handleUpdateAttendance(list, data, userId) {
         )
     } catch (e) { }
 
+    // Handle 3-state status: 'didnt_watch', 'watched', 'bailed'
+    if (data.status === 'didnt_watch' || data.status === '0') {
+        return handleDeleteAttendance(list, data, userId)
+    }
+
+    let isFailed = false
+    if (data.status === 'bailed' || data.status === 'failed' || data.status === '2') {
+        isFailed = true
+    } else if (data.status === 'watched' || data.status === '1') {
+        isFailed = false
+    } else if (data.failed !== undefined) {
+        isFailed = (data.failed === 'on' || data.failed === 'true' || data.failed === true)
+    }
+
+    let ratingVal = -1
+    if (data.rating !== undefined && data.rating !== null && data.rating !== '') {
+        const parsed = parseFloat(data.rating)
+        if (!isNaN(parsed) && parsed >= 0) {
+            ratingVal = parsed
+        }
+    }
+
     if (attendance) {
         // Update
-        if (data.rating !== undefined) attendance.set('rating', parseFloat(data.rating))
-        if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
+        if (data.rating !== undefined) attendance.set('rating', ratingVal)
+        attendance.set('failed', isFailed)
         if (data.review !== undefined) attendance.set('review', data.review)
 
         $app.save(attendance)
@@ -469,8 +491,8 @@ function handleUpdateAttendance(list, data, userId) {
         attendance = new Record(collection)
         attendance.set('watch_history', historyId)
         attendance.set('user', userId)
-        if (data.rating !== undefined) attendance.set('rating', parseFloat(data.rating))
-        if (data.failed !== undefined) attendance.set('failed', data.failed === 'on' || data.failed === 'true')
+        attendance.set('rating', ratingVal)
+        attendance.set('failed', isFailed)
         if (data.review !== undefined) attendance.set('review', data.review)
 
         $app.save(attendance)

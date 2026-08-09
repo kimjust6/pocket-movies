@@ -5,7 +5,8 @@
         "isOwner": <%= data.list ? data.list.is_owner : false %>,
         "listId": "<%= data.list ? data.list.id : '' %>",
         "hasMore": <%= data.hasMore !== undefined ? data.hasMore : true %>,
-        "currentUserId": "<%= data.user ? data.user.id : '' %>"
+        "currentUserId": "<%= data.user ? data.user.id : '' %>",
+        "members": <%- JSON.stringify(data.members || []) %>
     }
 </script>
 <div class="w-full" x-data="watchlistDetail()" x-init="

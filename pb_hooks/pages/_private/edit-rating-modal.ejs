@@ -3,7 +3,7 @@
     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
     @click.self="showRatingModal = false" @keydown.escape.window="showRatingModal = false">
 
     <div x-show="showRatingModal" x-transition:enter="transition ease-out duration-200"
@@ -12,64 +12,180 @@
         x-transition:leave-end="opacity-0 scale-95"
         class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
 
-        <h3 class="text-xl font-bold mb-4">Update My Score</h3>
+        <!-- Modal Title -->
+        <h3 class="text-xl font-bold mb-4 text-base-content" x-text="ratingModalTitle">Update My Score</h3>
 
         <!-- Update Form -->
         <form method="POST" id="updateRatingForm" class="space-y-4" @submit.prevent="updateRating()">
             <input type="hidden" name="action" value="update_attendance">
             <input type="hidden" name="history_id" :value="editHistoryId">
+            <input type="hidden" name="status" :value="editWatchStatus">
 
             <label class="label flex flex-col justify-start items-start">
                 <span class="label-text font-semibold text-base-content/80">Movie</span>
                 <p class="text-lg font-medium truncate w-full" x-text="editMovieTitle"></p>
             </label>
 
-            <!-- Rating -->
-            <div class="form-control">
+            <!-- Movie Completion Status (Read-Only Mode) -->
+            <div class="form-control" x-show="isRatingReadOnly">
+                <label class="label pb-1.5">
+                    <span class="label-text font-semibold text-base-content/80">Status</span>
+                </label>
+                <!-- Watched -->
+                <div x-show="editWatchStatus === 'watched'"
+                    class="flex items-center gap-3 p-3 rounded-xl bg-success/10 border border-success/20">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-success/20 text-success flex items-center justify-center flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-success"
+                            x-text="editRatingUserName + ' watched this movie'"></p>
+                        <p class="text-xs text-success/70">Completed</p>
+                    </div>
+                </div>
+
+                <!-- Bailed / Failed -->
+                <div x-show="editWatchStatus === 'bailed'"
+                    class="flex items-center gap-3 p-3 rounded-xl bg-error/10 border border-error/20">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-error/20 text-error flex items-center justify-center flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-error"
+                            x-text="editRatingUserName + ' bailed on this movie'"></p>
+                        <p class="text-xs text-error/70">Bailed / Did not finish</p>
+                    </div>
+                </div>
+
+                <!-- Didn't Watch -->
+                <div x-show="editWatchStatus === 'didnt_watch'"
+                    class="flex items-center gap-3 p-3 rounded-xl bg-base-300/40 border border-base-content/10">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-base-content/10 text-base-content/60 flex items-center justify-center flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-base-content/70"
+                            x-text="editRatingUserName + ' didn\'t watch this movie'"></p>
+                        <p class="text-xs text-base-content/50">Did not attend / unrated</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Movie Completion Status (Edit Mode) -->
+            <div class="form-control" x-show="!isRatingReadOnly">
+                <label class="label pb-1.5">
+                    <span class="label-text font-semibold text-base-content/80">Status</span>
+                </label>
+                <div class="grid grid-cols-3 gap-2">
+                    <!-- Watched -->
+                    <button type="button" @click="editWatchStatus = 'watched'"
+                        class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl border transition-all duration-150 cursor-pointer text-center"
+                        :class="editWatchStatus === 'watched' ? 'bg-success/15 border-success text-success shadow-sm ring-1 ring-success/30 font-bold' : 'bg-base-300/40 border-base-content/10 text-base-content/60 hover:bg-base-300/70 hover:text-base-content'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mb-1" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="text-xs font-semibold">Watched</span>
+                    </button>
+
+                    <!-- Bailed -->
+                    <button type="button" @click="editWatchStatus = 'bailed'"
+                        class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl border transition-all duration-150 cursor-pointer text-center"
+                        :class="editWatchStatus === 'bailed' ? 'bg-error/15 border-error text-error shadow-sm ring-1 ring-error/30 font-bold' : 'bg-base-300/40 border-base-content/10 text-base-content/60 hover:bg-base-300/70 hover:text-base-content'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mb-1" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <span class="text-xs font-semibold">Bailed</span>
+                    </button>
+
+                    <!-- Didn't Watch -->
+                    <button type="button" @click="editWatchStatus = 'didnt_watch'"
+                        class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl border transition-all duration-150 cursor-pointer text-center"
+                        :class="editWatchStatus === 'didnt_watch' ? 'bg-base-content/15 border-base-content/40 text-base-content shadow-sm ring-1 ring-base-content/20 font-bold' : 'bg-base-300/40 border-base-content/10 text-base-content/60 hover:bg-base-300/70 hover:text-base-content'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mb-1" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                        </svg>
+                        <span class="text-xs font-semibold">Didn't Watch</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notice when Didn't Watch is selected in edit mode -->
+            <div x-show="!isRatingReadOnly && editWatchStatus === 'didnt_watch'"
+                class="p-3.5 rounded-xl bg-base-300/50 border border-base-content/10 text-xs text-base-content/70 flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0 text-base-content/50" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span x-show="hasExistingRating">Marking as <strong>Didn't Watch</strong> will remove your score and
+                    review for this movie.</span>
+                <span x-show="!hasExistingRating">Currently marked as <strong>Didn't Watch</strong>. Select
+                    <strong>Watched</strong> or <strong>Bailed</strong> above to add a score and review.</span>
+            </div>
+
+            <!-- Rating (Visible when not didn't watch in edit mode, or always in read only) -->
+            <div class="form-control" x-show="isRatingReadOnly || editWatchStatus !== 'didnt_watch'">
                 <label class="label">
                     <span class="label-text">Rating (0-10)</span>
                 </label>
                 <div class="flex items-center gap-4">
                     <input type="number" step="any" min="0" max="10"
-                        class="input input-bordered w-full text-center text-xl font-bold" placeholder="0.0"
-                        x-model="editUserRating" name="rating" :disabled="isRatingReadOnly" />
+                        class="input input-bordered w-full text-center text-xl font-bold transition-all"
+                        :class="isRatingReadOnly ? 'bg-base-300/40 border-base-content/10 cursor-default opacity-90' : 'bg-base-300/60 focus:bg-base-300'"
+                        :placeholder="isRatingReadOnly ? '-' : '-'" x-model="editUserRating" name="rating"
+                        :disabled="isRatingReadOnly" />
                 </div>
                 <div class="label" x-show="!isRatingReadOnly">
-                    <span class="label-text-alt text-base-content/65">Enter a score between 0 and 10</span>
+                    <span class="label-text-alt text-base-content/65">Enter a score between 0 and 10 (or leave for no
+                        rating) </span>
                 </div>
             </div>
 
-            <!-- Review -->
-            <div class="form-control">
+            <!-- Review (Visible when not didn't watch in edit mode, or always in read only) -->
+            <div class="form-control" x-show="isRatingReadOnly || editWatchStatus !== 'didnt_watch'">
                 <label class="label">
                     <span class="label-text">Review (Optional)</span>
                 </label>
-                <textarea class="textarea textarea-bordered h-24" name="review" x-model="editUserReview"
-                    placeholder="What did you think?" :disabled="isRatingReadOnly"></textarea>
+                <textarea class="textarea textarea-bordered h-24 transition-all"
+                    :class="isRatingReadOnly ? 'bg-base-300/40 border-base-content/10 cursor-default opacity-90 resize-none' : 'bg-base-300/60 focus:bg-base-300'"
+                    name="review" x-model="editUserReview"
+                    :placeholder="isRatingReadOnly ? 'No review was provided.' : 'What did you think?'"
+                    :disabled="isRatingReadOnly"></textarea>
             </div>
 
-            <!-- Failed/Bailed -->
-            <div class="form-control">
-                <label class="label cursor-pointer justify-start gap-4">
-                    <input type="checkbox" name="failed" class="checkbox checkbox-error" x-model="editUserFailed"
-                        :disabled="isRatingReadOnly" />
-                    <span class="label-text">I bailed on this movie (Failed)</span>
-                </label>
-            </div>
             <!-- Hidden submit button for Enter key support -->
             <input type="submit" hidden />
         </form>
 
-        <div class="grid grid-cols-3 gap-3 mt-6">
-            <!-- Delete (only show if user has existing rating) -->
+        <div class="mt-6" :class="isRatingReadOnly ? 'flex justify-end' : 'grid grid-cols-3 gap-3'">
+            <!-- Delete (only show if user has existing rating and editable) -->
             <button type="button" @click="deleteRating()" class="btn btn-error btn-outline w-full"
                 x-show="!isRatingReadOnly && hasExistingRating">Delete</button>
-            <!-- Empty space when no existing rating -->
-            <div x-show="isRatingReadOnly || !hasExistingRating"></div>
+
+            <!-- Empty space when no existing rating in edit mode -->
+            <div x-show="!isRatingReadOnly && !hasExistingRating"></div>
 
             <!-- Cancel/Close -->
-            <button type="button" @click="showRatingModal = false" class="btn btn-outline w-full"
-                x-text="isRatingReadOnly ? 'Close' : 'Cancel'"></button>
+            <button type="button" @click="showRatingModal = false" class="btn btn-outline"
+                :class="isRatingReadOnly ? 'btn-md px-6' : 'w-full'"
+                x-text="isRatingReadOnly ? 'Close' : 'Cancel'">Close</button>
 
             <!-- Save -->
             <button type="button" @click="updateRating()" class="btn btn-primary w-full"
