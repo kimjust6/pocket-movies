@@ -14,7 +14,7 @@
                             <% } else { %>
                                 <span
                                     class="text-xl font-bold flex h-full w-full items-center justify-center bg-neutral text-neutral-content">
-                                    <%= auth.email().slice(0, 1).toUpperCase() %>
+                                    <%= (auth.getString('name') || auth.email()).slice(0, 1).toUpperCase() %>
                                 </span>
                                 <% } %>
                     </div>
