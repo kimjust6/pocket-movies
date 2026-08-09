@@ -20,7 +20,7 @@
             <input type="hidden" name="history_id" :value="editHistoryId">
 
             <label class="label flex flex-col justify-start items-start">
-                <span class="label-text font-semibold text-base-content/70">Movie</span>
+                <span class="label-text font-semibold text-base-content/80">Movie</span>
                 <p class="text-lg font-medium truncate w-full" x-text="editMovieTitle"></p>
             </label>
 
@@ -35,7 +35,7 @@
                         x-model="editUserRating" name="rating" :disabled="isRatingReadOnly" />
                 </div>
                 <div class="label" x-show="!isRatingReadOnly">
-                    <span class="label-text-alt text-base-content/50">Enter a score between 0 and 10</span>
+                    <span class="label-text-alt text-base-content/65">Enter a score between 0 and 10</span>
                 </div>
             </div>
 

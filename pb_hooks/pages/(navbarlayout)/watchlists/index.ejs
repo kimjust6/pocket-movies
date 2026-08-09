@@ -258,7 +258,7 @@
                                     <%= list.list_title %>
                                 </h3>
                                 <% if (list.description) { %>
-                                    <p class="mt-1 text-xs leading-relaxed text-base-content/50 line-clamp-2">
+                                    <p class="mt-1 text-xs leading-relaxed text-base-content/65 line-clamp-2">
                                         <%= list.description %>
                                     </p>
                                     <% } %>
@@ -268,7 +268,7 @@
                             <div class="mt-auto flex items-center justify-between pt-3 border-t border-base-content/8">
                                 <% const count=list.total_movies !==undefined ? list.total_movies : (list.recent_movies
                                     || []).length; %>
-                                    <span class="text-xs text-base-content/45 font-medium">
+                                    <span class="text-xs text-base-content/65 font-medium">
                                         <%= count %>
                                             <%= count===1 ? 'film' : 'films' %>
                                     </span>
@@ -424,7 +424,7 @@
                                             <%= list.list_title %>
                                         </h3>
                                         <% if (list.description) { %>
-                                            <p class="mt-1 text-xs leading-relaxed text-base-content/50 line-clamp-2">
+                                            <p class="mt-1 text-xs leading-relaxed text-base-content/65 line-clamp-2">
                                                 <%= list.description %>
                                             </p>
                                             <% } %>
@@ -435,7 +435,7 @@
                                         class="mt-auto flex items-center justify-between pt-3 border-t border-base-content/8">
                                         <% const count=list.total_movies !==undefined ? list.total_movies :
                                             (list.recent_movies || []).length; %>
-                                            <span class="text-xs text-base-content/45 font-medium">
+                                            <span class="text-xs text-base-content/65 font-medium">
                                                 <%= count %>
                                                     <%= count===1 ? 'film' : 'films' %>
                                             </span>

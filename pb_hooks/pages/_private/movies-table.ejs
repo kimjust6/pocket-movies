@@ -86,7 +86,7 @@
                                 class="hover:text-primary hover:underline transition-colors" x-text="movie.title"></a>
                         </div>
                         <template x-if="movie.tagline">
-                            <div class="text-sm opacity-50 italic max-w-xs truncate" :title="movie.tagline"
+                            <div class="text-sm opacity-60 italic max-w-xs truncate" :title="movie.tagline"
                                 x-text="movie.tagline">
                             </div>
                         </template>
@@ -201,7 +201,7 @@
             </div>
         </template>
         <template x-if="!hasMore && movies.length > 0 && !isLoading">
-            <div class="text-center py-4 text-base-content/50">
+            <div class="text-center py-4 text-base-content/65">
                 <p>You've reached the end of the list</p>
             </div>
         </template>

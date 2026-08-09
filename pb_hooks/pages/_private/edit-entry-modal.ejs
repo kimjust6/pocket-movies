@@ -3,78 +3,102 @@
     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm px-4 pb-4 sm:pb-0"
     @click.self="showDateModal = false" @keydown.escape.window="showDateModal = false">
 
-    <div x-show="showDateModal" x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
-        x-transition:leave-end="opacity-0 scale-95"
-        class="relative w-full max-w-md rounded-2xl border border-base-content/10 bg-base-200/95 p-6 shadow-2xl backdrop-blur-xl">
+    <div x-show="showDateModal" x-transition:enter="transition ease-out duration-250"
+        x-transition:enter-start="opacity-0 translate-y-4 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+        x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+        class="relative w-full max-w-sm rounded-2xl border border-white/[0.08] bg-base-200 shadow-2xl overflow-hidden">
 
+        <!-- Header -->
+        <div class="flex items-start justify-between px-5 pt-5 pb-4 border-b border-base-content/[0.08]">
+            <div class="min-w-0 flex-1 pr-3">
+                <p class="text-xs font-medium uppercase tracking-widest text-base-content/60 mb-1">Edit Entry</p>
+                <h2 class="text-base font-semibold text-base-content truncate" x-text="editMovieTitle">Movie Title</h2>
+            </div>
+            <button type="button" @click="showDateModal = false"
+                class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-base-content/[0.08] hover:bg-base-content/[0.15] text-base-content/50 hover:text-base-content transition-all duration-150 -mt-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
 
-
-        <!-- Update Form -->
-        <form method="POST" id="updateDateForm" class="space-y-4" @submit.prevent="updateDate()">
-            <label class="label flex flex-col justify-start items-start">
-                <span class="label-text">Title</span>
-                <p class="text-base-content/60 text-sm truncate" x-text="editMovieTitle"></p>
-            </label>
+        <!-- Form Body -->
+        <form method="POST" id="updateDateForm" @submit.prevent="updateDate()" class="px-5 py-4 space-y-5">
             <input type="hidden" name="action" value="update_history_item">
             <input type="hidden" name="history_id" :value="editHistoryId">
 
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Date Watched</span>
-                </label>
-                <input type="date" name="watched_date" x-model="editDateValue" class="input input-bordered w-full" />
+            <!-- Date Watched -->
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold uppercase tracking-widest text-base-content/60">Date Watched</label>
+                <input type="date" name="watched_date" x-model="editDateValue"
+                    class="input input-bordered w-full rounded-xl bg-base-300/60 border-base-content/10 focus:border-primary/60 focus:bg-base-300 transition-all" />
             </div>
 
-            <div class="form-control">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="label-text text-sm font-semibold">Ratings</span>
+            <!-- Ratings -->
+            <div class="space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <label class="block text-xs font-semibold uppercase tracking-widest text-base-content/60">Ratings</label>
                     <button type="button" @click="syncRatings()" :disabled="isSyncingRatings"
-                        class="btn btn-xs btn-ghost text-primary hover:bg-primary/10 gap-1 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" :class="{ 'animate-spin': isSyncingRatings }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-primary bg-primary/10 hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" :class="{ 'animate-spin': isSyncingRatings }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
-                        <span x-text="isSyncingRatings ? 'Syncing...' : 'Sync Ratings'">Sync Ratings</span>
+                        <span x-text="isSyncingRatings ? 'Syncing…' : 'Sync'"></span>
                     </button>
                 </div>
 
                 <div class="grid grid-cols-3 gap-2">
-                    <% const scores=[ { label: 'TMDB' , name: 'tmdb_score' , model: 'editTmdbScore' , max: 10, step: 'any'
-                        }, { label: 'IMDB' , name: 'imdb_score' , model: 'editImdbScore' , max: 10, step: 'any' }, {
-                        label: 'RT' , name: 'rt_score' , model: 'editRtScore' , max: 100, step: '1' } ];
-                        scores.forEach(score=> { %>
-                        <div class="form-control">
-                            <label class="label p-1">
-                                <span class="label-text text-xs">
-                                    <%= score.label %>
-                                </span>
-                            </label>
-                            <input type="number" step="<%= score.step %>" min="0" max="<%= score.max %>"
-                                name="<%= score.name %>" x-model="<%= score.model %>"
-                                class="input input-bordered w-full px-2 text-center" placeholder="-" />
-                        </div>
-                        <% }); %>
+                    <% const scores = [
+                        { label: 'TMDB', name: 'tmdb_score', model: 'editTmdbScore', max: 10, step: 'any' },
+                        { label: 'IMDb', name: 'imdb_score', model: 'editImdbScore', max: 10, step: 'any' },
+                        { label: 'RT',   name: 'rt_score',   model: 'editRtScore',   max: 100, step: '1'  }
+                    ];
+                    scores.forEach(score => { %>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-xs font-semibold text-center text-base-content/60 uppercase tracking-wider"><%= score.label %></span>
+                        <input type="number" step="<%= score.step %>" min="0" max="<%= score.max %>"
+                            name="<%= score.name %>" x-model="<%= score.model %>"
+                            class="input input-sm input-bordered w-full text-center rounded-xl bg-base-300/60 border-base-content/10 focus:border-primary/60 transition-all font-mono tracking-tight"
+                            placeholder="—" />
+                    </div>
+                    <% }); %>
                 </div>
             </div>
-            <!-- Hidden submit button for Enter key support -->
+
+            <!-- Hidden submit for Enter key -->
             <input type="submit" hidden />
         </form>
 
-        <div class="grid grid-cols-3 gap-3 mt-6">
+        <!-- Footer Actions -->
+        <div class="px-5 pb-5 flex items-center gap-2">
             <!-- Remove -->
-            <form method="POST" @submit.prevent="openItemDeleteModal()">
-                <button type="submit" class="btn btn-error btn-outline w-full">Remove</button>
+            <form method="POST" @submit.prevent="openItemDeleteModal()" class="flex-shrink-0">
+                <button type="submit"
+                    class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium text-error bg-error/10 hover:bg-error/20 border border-error/20 hover:border-error/40 transition-all duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Remove
+                </button>
             </form>
 
+            <div class="flex-1"></div>
+
             <!-- Cancel -->
-            <button type="button" @click="showDateModal = false" class="btn btn-outline w-full">Cancel</button>
+            <button type="button" @click="showDateModal = false"
+                class="px-4 py-2 rounded-xl text-sm font-medium text-base-content/60 hover:text-base-content bg-base-content/[0.06] hover:bg-base-content/[0.12] border border-base-content/[0.08] transition-all duration-150">
+                Cancel
+            </button>
 
             <!-- Save -->
-            <button type="button" @click="updateDate()" class="btn btn-primary w-full">Save</button>
+            <button type="button" @click="updateDate()"
+                class="px-5 py-2 rounded-xl text-sm font-semibold bg-primary text-primary-content hover:brightness-110 active:scale-95 shadow-sm transition-all duration-150">
+                Save
+            </button>
         </div>
     </div>
 </div>
