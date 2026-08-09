@@ -164,15 +164,28 @@
     .mask-squircle-sm,
     .mask-squircle-subtle,
     .mask-squircle-poster,
-    .mask-squircle-long {
+    .mask-squircle-portrait {
         -webkit-mask-image: url("data:image/svg+xml,%3csvg width='200' height='300' viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M24 0 L176 0 C195.2 0 200 4.8 200 24 L200 276 C200 295.2 195.2 300 176 300 L24 300 C4.8 300 0 295.2 0 276 L0 24 C0 4.8 4.8 0 24 0 Z'/%3e%3c/svg%3e");
         mask-image: url("data:image/svg+xml,%3csvg width='200' height='300' viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M24 0 L176 0 C195.2 0 200 4.8 200 24 L200 276 C200 295.2 195.2 300 176 300 L24 300 C4.8 300 0 295.2 0 276 L0 24 C0 4.8 4.8 0 24 0 Z'/%3e%3c/svg%3e");
         -webkit-mask-size: 100% 100% !important;
         mask-size: 100% 100% !important;
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        mask-position: center;
+        -webkit-mask-repeat: no-repeat !important;
+        mask-repeat: no-repeat !important;
+        -webkit-mask-position: center !important;
+        mask-position: center !important;
+    }
+
+    .mask-squircle-card,
+    .mask-squircle-long,
+    .mask-squircle-tall {
+        -webkit-mask-image: url("data:image/svg+xml,%3csvg width='200' height='480' viewBox='0 0 200 480' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M22 0 L178 0 C195.2 0 200 4.8 200 22 L200 458 C200 475.2 195.2 480 178 480 L22 480 C4.8 480 0 475.2 0 458 L0 22 C0 4.8 4.8 0 22 0 Z'/%3e%3c/svg%3e");
+        mask-image: url("data:image/svg+xml,%3csvg width='200' height='480' viewBox='0 0 200 480' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M22 0 L178 0 C195.2 0 200 4.8 200 22 L200 458 C200 475.2 195.2 480 178 480 L22 480 C4.8 480 0 475.2 0 458 L0 22 C0 4.8 4.8 0 22 0 Z'/%3e%3c/svg%3e");
+        -webkit-mask-size: 100% 100% !important;
+        mask-size: 100% 100% !important;
+        -webkit-mask-repeat: no-repeat !important;
+        mask-repeat: no-repeat !important;
+        -webkit-mask-position: center !important;
+        mask-position: center !important;
     }
 
     /* poster-stack-item: positioned via inline left + z-index */

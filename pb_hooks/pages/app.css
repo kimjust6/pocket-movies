@@ -5243,6 +5243,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   -webkit-line-clamp: 2;
 }
 
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 .block {
   display: block;
 }
@@ -5365,6 +5372,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .max-h-\[60vh\] {
   max-height: 60vh;
+}
+
+.min-h-\[3\.75rem\] {
+  min-height: 3.75rem;
 }
 
 .min-h-\[3rem\] {
@@ -6088,6 +6099,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .bg-warning\/10 {
   background-color: var(--fallback-wa,oklch(var(--wa)/0.1));
+}
+
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 
 .bg-\[linear-gradient\(to_right\2c \#80808008_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#80808008_1px\2c transparent_1px\)\] {
@@ -7071,15 +7087,28 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .mask-squircle-sm,
     .mask-squircle-subtle,
     .mask-squircle-poster,
-    .mask-squircle-long {
+    .mask-squircle-portrait {
   -webkit-mask-image: url("data:image/svg+xml,%3csvg width='200' height='300' viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M24 0 L176 0 C195.2 0 200 4.8 200 24 L200 276 C200 295.2 195.2 300 176 300 L24 300 C4.8 300 0 295.2 0 276 L0 24 C0 4.8 4.8 0 24 0 Z'/%3e%3c/svg%3e");
   mask-image: url("data:image/svg+xml,%3csvg width='200' height='300' viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M24 0 L176 0 C195.2 0 200 4.8 200 24 L200 276 C200 295.2 195.2 300 176 300 L24 300 C4.8 300 0 295.2 0 276 L0 24 C0 4.8 4.8 0 24 0 Z'/%3e%3c/svg%3e");
   -webkit-mask-size: 100% 100% !important;
   mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+.mask-squircle-card,
+    .mask-squircle-long,
+    .mask-squircle-tall {
+  -webkit-mask-image: url("data:image/svg+xml,%3csvg width='200' height='480' viewBox='0 0 200 480' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M22 0 L178 0 C195.2 0 200 4.8 200 22 L200 458 C200 475.2 195.2 480 178 480 L22 480 C4.8 480 0 475.2 0 458 L0 22 C0 4.8 4.8 0 22 0 Z'/%3e%3c/svg%3e");
+  mask-image: url("data:image/svg+xml,%3csvg width='200' height='480' viewBox='0 0 200 480' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M22 0 L178 0 C195.2 0 200 4.8 200 22 L200 458 C200 475.2 195.2 480 178 480 L22 480 C4.8 480 0 475.2 0 458 L0 22 C0 4.8 4.8 0 22 0 Z'/%3e%3c/svg%3e");
+  -webkit-mask-size: 100% 100% !important;
+  mask-size: 100% 100% !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
 }
 
 /* poster-stack-item: positioned via inline left + z-index */
@@ -7396,6 +7425,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: rgb(255 255 255 / 0.05);
 }
 
+.hover\:bg-neutral-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:text-base-content:hover {
   --tw-text-opacity: 1;
   color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity, 1)));
@@ -7578,6 +7612,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.dark\:bg-white:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
 .dark\:text-accent\/70:is(.dark *) {
   color: var(--fallback-a,oklch(var(--a)/0.7));
 }
@@ -7594,6 +7633,16 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .dark\:text-secondary\/70:is(.dark *) {
   color: var(--fallback-s,oklch(var(--s)/0.7));
+}
+
+.dark\:text-black:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+}
+
+.dark\:hover\:bg-neutral-200:hover:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 229 229 / var(--tw-bg-opacity, 1));
 }
 
 .dark\:hover\:text-primary:hover:is(.dark *) {
