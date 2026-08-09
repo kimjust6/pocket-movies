@@ -1,4 +1,4 @@
-<script src="/js/watchlist-detail.js?v=<%= new Date().getTime() %>"></script>
+<script src="/js/watchlist-detail.js?v=2.0"></script>
 <script id="watchlist-context" type="application/json">
     {
         "movies": <%- JSON.stringify(data.movies || []) %>,
@@ -8,13 +8,7 @@
         "currentUserId": "<%= data.user ? data.user.id : '' %>"
     }
 </script>
-<div class="w-full" x-data="watchlistDetail(
-    <%= JSON.stringify(data.movies || []) %>,
-    <%= data.list ? data.list.is_owner : false %>,
-    '<%= data.list ? data.list.id : '' %>',
-    <%= data.hasMore !== undefined ? data.hasMore : true %>,
-    '<%= data.user ? data.user.id : '' %>'
-)" x-init="
+<div class="w-full" x-data="watchlistDetail()" x-init="
     $dispatch('set-mobile-navbar-title', { 
         title: '<%= data.list ? data.list.title : (data.error ? 'Error' : 'Dank Movies') %>',
         subtitle: '<%= data.list && data.list.description ? data.list.description : '' %>'

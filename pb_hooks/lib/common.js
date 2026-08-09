@@ -505,21 +505,21 @@ module.exports = {
         // 2. Add Invited Users
         try {
             const invites = $app.findRecordsByFilter("list_user", `list = '${listId}'`)
-            invites.forEach(invite => {
-                const uid = invite.getString('invited_user')
-                if (!seenIds.has(uid)) {
-                    try {
-                        const u = $app.findRecordById("users", uid)
+            if (invites && invites.length > 0) {
+                $app.expandRecords(invites, ['invited_user'])
+                invites.forEach(invite => {
+                    const u = invite.expandedOne('invited_user')
+                    if (u && !seenIds.has(u.id)) {
                         members.push({
                             id: u.id,
                             name: u.getString('name') || u.getString('username'),
                             avatar: u.getString('avatar'),
                             is_owner: false
                         })
-                        seenIds.add(uid)
-                    } catch (e) { }
-                }
-            })
+                        seenIds.add(u.id)
+                    }
+                })
+            }
         } catch (e) { }
 
         return members

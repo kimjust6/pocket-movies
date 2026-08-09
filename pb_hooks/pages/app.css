@@ -5141,10 +5141,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   margin-bottom: 1rem;
 }
 
-.-ml-1 {
-  margin-left: -0.25rem;
-}
-
 .-mt-0\.5 {
   margin-top: -0.125rem;
 }
@@ -6030,6 +6026,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: var(--fallback-bc,oklch(var(--bc)/0.08));
 }
 
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+
 .bg-black\/50 {
   background-color: rgb(0 0 0 / 0.5);
 }
@@ -6099,11 +6100,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .bg-warning\/10 {
   background-color: var(--fallback-wa,oklch(var(--wa)/0.1));
-}
-
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 
 .bg-\[linear-gradient\(to_right\2c \#80808008_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#80808008_1px\2c transparent_1px\)\] {
@@ -6475,10 +6471,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .pb-8 {
   padding-bottom: 2rem;
-}
-
-.pl-0 {
-  padding-left: 0px;
 }
 
 .pr-1 {
@@ -7394,6 +7386,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity, 1)));
 }
 
+.hover\:bg-neutral-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-primary:hover {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity, 1)));
@@ -7423,11 +7420,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .hover\:bg-white\/5:hover {
   background-color: rgb(255 255 255 / 0.05);
-}
-
-.hover\:bg-neutral-800:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-base-content:hover {
@@ -7626,6 +7618,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   color: rgb(252 211 77 / var(--tw-text-opacity, 1));
 }
 
+.dark\:text-black:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+}
+
 .dark\:text-primary:is(.dark *) {
   --tw-text-opacity: 1;
   color: var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity, 1)));
@@ -7633,11 +7630,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .dark\:text-secondary\/70:is(.dark *) {
   color: var(--fallback-s,oklch(var(--s)/0.7));
-}
-
-.dark\:text-black:is(.dark *) {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 
 .dark\:hover\:bg-neutral-200:hover:is(.dark *) {

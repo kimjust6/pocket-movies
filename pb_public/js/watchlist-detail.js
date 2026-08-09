@@ -2,31 +2,49 @@
  * Alpine.js component for the watchlist detail page.
  * Manages the state of Share and Edit modals, table sorting, and infinite scroll.
  */
-function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initialHasMore = true, currentUserId = '') {
+function watchlistDetail(initialMovies = null, isOwner = null, listId = null, initialHasMore = null, currentUserId = null) {
+    let contextData = {};
+    if (initialMovies === null || listId === null) {
+        try {
+            const contextEl = document.getElementById('watchlist-context');
+            if (contextEl && contextEl.textContent) {
+                contextData = JSON.parse(contextEl.textContent);
+            }
+        } catch (e) {
+            console.error('[watchlistDetail] Error parsing context:', e);
+        }
+    }
+
+    const resolvedMovies = initialMovies !== null ? initialMovies : (contextData.movies || []);
+    const resolvedIsOwner = isOwner !== null ? isOwner : (contextData.isOwner || false);
+    const resolvedListId = listId !== null ? listId : (contextData.listId || '');
+    const resolvedHasMore = initialHasMore !== null ? initialHasMore : (contextData.hasMore !== undefined ? contextData.hasMore : true);
+    const resolvedCurrentUserId = currentUserId !== null ? currentUserId : (contextData.currentUserId || '');
+
     return {
         /**
          * Movies array for the watchlist.
          * @type {Array}
          */
-        movies: initialMovies,
+        movies: resolvedMovies,
 
         /**
          * Whether the current user is the owner.
          * @type {boolean}
          */
-        isOwner: isOwner,
+        isOwner: resolvedIsOwner,
 
         /**
          * The ID of the current logged-in user.
          * @type {string}
          */
-        currentUserId: currentUserId,
+        currentUserId: resolvedCurrentUserId,
 
         /**
          * The watchlist ID for API calls.
          * @type {string}
          */
-        listId: listId,
+        listId: resolvedListId,
 
         /**
          * Current page for pagination.
@@ -38,7 +56,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
          * Whether there are more items to load.
          * @type {boolean}
          */
-        hasMore: initialHasMore,
+        hasMore: resolvedHasMore,
 
         /**
          * Whether we are currently loading more items.
@@ -50,7 +68,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
          * Items per page for API requests.
          * @type {number}
          */
-        pageSize: 20,
+        pageSize: 30,
 
         /**
          * Current sort column.
@@ -199,7 +217,11 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                 this.sortDirection = dirParam;
             }
 
-            this.applySort();
+            // Only run client-side sort on init if sort parameter is user-specific (server handles standard columns)
+            if (this.sortColumn && this.sortColumn.startsWith('user_')) {
+                this.applySort();
+            }
+
             this.updateNavbarHeight();
 
             // Set up intersection observer for infinite scroll
@@ -413,7 +435,7 @@ function watchlistDetail(initialMovies = [], isOwner = false, listId = '', initi
                     }
                 });
             }, {
-                rootMargin: '100px'
+                rootMargin: '200px'
             });
 
             observer.observe(sentinel);
