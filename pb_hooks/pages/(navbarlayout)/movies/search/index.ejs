@@ -150,7 +150,7 @@
                                                         class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
                                                         <a href="/movies/<%= movie.id %>" class="block cursor-pointer">
                                                             <figure
-                                                                class="relative aspect-[2/3] mask rounded overflow-hidden bg-base-300">
+                                                                class="relative aspect-[2/3] mask mask-squircle-sm overflow-hidden bg-base-300">
                                                                 <% if (movie.poster_path) { %>
                                                                     <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
                                                                         alt="<%= movie.title %>" loading="lazy"

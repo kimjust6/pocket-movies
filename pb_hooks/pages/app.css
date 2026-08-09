@@ -2498,12 +2498,6 @@ html::-webkit-scrollbar,
   margin-inline-end: -0px;
 }
 
-.input-lg[type="number"]::-webkit-inner-spin-button {
-  margin-top: -1.5rem;
-  margin-bottom: -1.5rem;
-  margin-inline-end: -1.5rem;
-}
-
 .join {
   display: inline-flex;
   align-items: stretch;
@@ -4444,15 +4438,6 @@ html::-webkit-scrollbar,
   line-height: 2;
 }
 
-.input-lg {
-  height: 4rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  line-height: 2;
-}
-
 .input-sm {
   height: 2rem;
   padding-left: 0.75rem;
@@ -5781,10 +5766,6 @@ html::-webkit-scrollbar,
   white-space: nowrap;
 }
 
-.rounded {
-  border-radius: 0.25rem;
-}
-
 .rounded-2xl {
   border-radius: 1rem;
 }
@@ -6284,6 +6265,11 @@ html::-webkit-scrollbar,
   padding: 2rem;
 }
 
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .px-1\.5 {
   padding-left: 0.375rem;
   padding-right: 0.375rem;
@@ -6372,11 +6358,6 @@ html::-webkit-scrollbar,
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-
-.px-0 {
-  padding-left: 0px;
-  padding-right: 0px;
 }
 
 .pb-2 {
@@ -6989,6 +6970,20 @@ html::-webkit-scrollbar,
   mask-size: 100% 100%;
 }
 
+.mask-squircle-sm,
+    .mask-squircle-subtle,
+    .mask-squircle-poster,
+    .mask-squircle-long {
+  -webkit-mask-image: url("data:image/svg+xml,%3csvg width='200' height='300' viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M24 0 L176 0 C195.2 0 200 4.8 200 24 L200 276 C200 295.2 195.2 300 176 300 L24 300 C4.8 300 0 295.2 0 276 L0 24 C0 4.8 4.8 0 24 0 Z'/%3e%3c/svg%3e");
+  mask-image: url("data:image/svg+xml,%3csvg width='200' height='300' viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M24 0 L176 0 C195.2 0 200 4.8 200 24 L200 276 C200 295.2 195.2 300 176 300 L24 300 C4.8 300 0 295.2 0 276 L0 24 C0 4.8 4.8 0 24 0 Z'/%3e%3c/svg%3e");
+  -webkit-mask-size: 100% 100% !important;
+  mask-size: 100% 100% !important;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
 /* poster-stack-item: positioned via inline left + z-index */
 
 /* View Transitions API */
@@ -7575,11 +7570,6 @@ html::-webkit-scrollbar,
     padding: 1.5rem;
   }
 
-  .sm\:py-10 {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-  }
-
   .sm\:px-4 {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -7588,6 +7578,11 @@ html::-webkit-scrollbar,
   .sm\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .sm\:py-10 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
 
   .sm\:py-12 {
@@ -7599,14 +7594,14 @@ html::-webkit-scrollbar,
     padding-bottom: 0px;
   }
 
-  .sm\:text-5xl {
-    font-size: 3rem;
-    line-height: 1;
-  }
-
   .sm\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+  }
+
+  .sm\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
   }
 
   .sm\:text-base {
@@ -7699,6 +7694,11 @@ html::-webkit-scrollbar,
     line-height: 2.5rem;
   }
 
+  .md\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
   .md\:text-6xl {
     font-size: 3.75rem;
     line-height: 1;
@@ -7707,11 +7707,6 @@ html::-webkit-scrollbar,
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
-  }
-
-  .md\:text-5xl {
-    font-size: 3rem;
-    line-height: 1;
   }
 }
 

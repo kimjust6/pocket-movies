@@ -66,7 +66,7 @@
                         <div
                             class="group card border border-base-content/5 bg-base-100/40 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/10 hover:shadow-2xl hover:border-primary/20">
                             <a href="/movies/<%= movie.tmdb_id %>" class="block cursor-pointer">
-                                <figure class="relative aspect-[2/3] mask overflow-hidden bg-base-300">
+                                <figure class="relative aspect-[2/3] mask mask-squircle-sm overflow-hidden bg-base-300">
                                     <% if (movie.poster_path) { %>
                                         <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
                                             alt="<%= movie.title %>" loading="lazy" decoding="async"
@@ -190,7 +190,7 @@
                                             <% const movies=(list.recent_movies || []).slice().reverse(); %>
                                                 <% if (movies.length===0) { %>
                                                     <div
-                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
+                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask mask-squircle-sm border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             class="h-6 w-6 mb-1 opacity-40 text-secondary" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -225,7 +225,7 @@
                                                                     <% const cfg=items[idx] || items[items.length - 1];
                                                                         %>
                                                                         <div
-                                                                            class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
+                                                                            class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] mask mask-squircle-sm overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
                                                                             <% if (movie.poster_path) { %>
                                                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                                                     alt="<%= movie.title %>"
@@ -355,7 +355,7 @@
                                             <% const movies=(list.recent_movies || []).slice().reverse(); %>
                                                 <% if (movies.length===0) { %>
                                                     <div
-                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
+                                                        class="relative w-20 sm:w-24 aspect-[2/3] mask mask-squircle-sm border-2 border-dashed border-base-content/15 flex flex-col items-center justify-center text-base-content/30 bg-base-200/20 shadow-inner">
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             class="h-6 w-6 mb-1 opacity-40 text-accent" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -390,7 +390,7 @@
                                                                     <% const cfg=items[idx] || items[items.length - 1];
                                                                         %>
                                                                         <div
-                                                                            class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
+                                                                            class="poster-stack-item absolute <%= cfg.w %> <%= cfg.left %> <%= cfg.z %> aspect-[2/3] mask mask-squircle-sm overflow-hidden shadow-2xl ring-1 ring-white/10 -translate-x-1/2 transition-all duration-300">
                                                                             <% if (movie.poster_path) { %>
                                                                                 <img src="https://image.tmdb.org/t/p/w185<%= movie.poster_path %>"
                                                                                     alt="<%= movie.title %>"
