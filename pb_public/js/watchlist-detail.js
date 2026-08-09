@@ -125,6 +125,12 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         isSyncingRatings: false,
 
         /**
+         * Poster path for the movie currently being edited in the modal.
+         * @type {string}
+         */
+        editPosterPath: '',
+
+        /**
          * State for the generic confirmation modal.
          * @type {object}
          */
@@ -675,6 +681,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         openEditMovieModal(movie) {
             this.editHistoryId = movie.history_id;
             this.editMovieTitle = movie.title || '';
+            this.editPosterPath = movie.poster_path || '';
             this.editDateValue = movie.watched_at ? new Date(movie.watched_at).toISOString().slice(0, 10) : '';
             this.editTmdbScore = (movie.tmdb_score !== undefined && movie.tmdb_score !== null && movie.tmdb_score !== 0) ? Number(movie.tmdb_score).toFixed(1) : '';
             this.editImdbScore = (movie.imdb_score !== undefined && movie.imdb_score !== null && movie.imdb_score !== 0) ? Number(movie.imdb_score).toFixed(1) : '';
@@ -704,6 +711,15 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
                     this.editTmdbScore = (result.tmdb_score !== null && result.tmdb_score !== undefined && result.tmdb_score !== 0) ? Number(result.tmdb_score).toFixed(1) : '';
                     this.editImdbScore = (result.imdb_score !== null && result.imdb_score !== undefined && result.imdb_score !== 0) ? Number(result.imdb_score).toFixed(1) : '';
                     this.editRtScore = (result.rt_score !== null && result.rt_score !== undefined && result.rt_score >= 0) ? result.rt_score : '';
+
+                    if (result.poster_path !== undefined) {
+                        this.editPosterPath = result.poster_path || '';
+                        const index = this.movies.findIndex(m => m.history_id === this.editHistoryId);
+                        if (index !== -1) {
+                            this.movies[index].poster_path = result.poster_path;
+                            this.movies = [...this.movies];
+                        }
+                    }
                 } else {
                     alert(result.error || 'Failed to sync ratings.');
                 }

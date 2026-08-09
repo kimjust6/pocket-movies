@@ -241,11 +241,11 @@ function handleUpdateHistoryItem(list, data, isOwner) {
 }
 
 /**
- * Syncs rating scores from TMDB and OMDB for a movie in a watch history item.
+ * Syncs rating scores and poster data from TMDB and OMDB for a movie in a watch history item.
  * @param {import('pocketbase').Record} list
  * @param {object} data - Form data with history_id
  * @param {boolean} isOwner
- * @returns {{ tmdb_score: number|null, imdb_score: number|null, rt_score: number|null, message: string }}
+ * @returns {{ tmdb_score: number|null, imdb_score: number|null, rt_score: number|null, poster_path: string, message: string }}
  */
 function handleSyncRatings(list, data, isOwner) {
     const historyId = data.history_id
@@ -266,20 +266,39 @@ function handleSyncRatings(list, data, isOwner) {
         throw new Error("Associated movie not found.")
     }
 
-    const tmdbId = movieRecord.getString('tmdb_id')
+    let tmdbId = movieRecord.getString('tmdb_id')
     const movieTitle = movieRecord.getString('title')
     const releaseDate = movieRecord.getString('release_date')
     let imdbId = movieRecord.getString('imdb_id')
+    let posterPath = movieRecord.getString('poster_path') || ''
 
     let tmdbScore = null
     let imdbScore = null
     let rtScore = null
 
-    // 1. Fetch TMDB details
+    // 1. If TMDB ID is missing, try searching TMDB by title
+    if (!tmdbId && movieTitle) {
+        try {
+            const searchRes = tmdb.searchMovies(movieTitle)
+            if (searchRes && searchRes.results && searchRes.results.length > 0) {
+                const found = searchRes.results[0]
+                if (found && found.id) {
+                    tmdbId = String(found.id)
+                    movieRecord.set('tmdb_id', tmdbId)
+                    $app.save(movieRecord)
+                }
+            }
+        } catch (e) {
+            console.error("Failed to search TMDB for sync:", e)
+        }
+    }
+
+    // 2. Fetch TMDB details
     if (tmdbId) {
         try {
             const movieData = tmdb.getMovie(tmdbId)
             if (movieData) {
+                let shouldSaveMovie = false
                 if (movieData.vote_average) {
                     tmdbScore = parseFloat(movieData.vote_average.toFixed(1))
                 }
@@ -287,8 +306,24 @@ function handleSyncRatings(list, data, isOwner) {
                     imdbId = movieData.imdb_id
                     if (!movieRecord.getString('imdb_id')) {
                         movieRecord.set('imdb_id', imdbId)
-                        $app.save(movieRecord)
+                        shouldSaveMovie = true
                     }
+                }
+                if (movieData.poster_path) {
+                    posterPath = movieData.poster_path
+                    if (movieRecord.getString('poster_path') !== posterPath) {
+                        movieRecord.set('poster_path', posterPath)
+                        shouldSaveMovie = true
+                    }
+                }
+                if (movieData.backdrop_path) {
+                    if (movieRecord.getString('backdrop_path') !== movieData.backdrop_path) {
+                        movieRecord.set('backdrop_path', movieData.backdrop_path)
+                        shouldSaveMovie = true
+                    }
+                }
+                if (shouldSaveMovie) {
+                    $app.save(movieRecord)
                 }
             }
         } catch (e) {
@@ -296,7 +331,7 @@ function handleSyncRatings(list, data, isOwner) {
         }
     }
 
-    // 2. Fetch OMDB scores
+    // 3. Fetch OMDB scores
     try {
         let omdbScores = null
         if (imdbId) {
@@ -318,12 +353,13 @@ function handleSyncRatings(list, data, isOwner) {
         console.error("Failed to fetch OMDB data for sync:", e)
     }
 
-    // Do not save to historyItem DB record here; only return fetched values to modal form
+    // Return fetched values to modal form
     return {
         tmdb_score: tmdbScore !== null ? tmdbScore : historyItem.getFloat('tmdb_score'),
         imdb_score: imdbScore !== null ? imdbScore : historyItem.getFloat('imdb_score'),
         rt_score: rtScore !== null ? rtScore : historyItem.getInt('rt_score'),
-        message: "Ratings fetched from site!"
+        poster_path: posterPath,
+        message: "Ratings and poster synced from TMDB/OMDB!"
     }
 }
 
