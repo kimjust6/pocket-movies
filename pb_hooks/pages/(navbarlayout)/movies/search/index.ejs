@@ -1,22 +1,25 @@
 <div class="min-h-screen bg-base-200" x-data="{ query: <%= JSON.stringify(data.q || '') %>, showAddModal: false }"
     @close-add-modal.window="showAddModal = false">
     <!-- Hero / Search Section -->
-    <div class="hero bg-base-100 py-12 shadow-sm">
-        <div class="hero-content w-full max-w-4xl flex-col text-center">
-            <h1 class="mb-6 text-base-content drop-shadow-lg filter text-5xl font-bold">
+    <div class="hero bg-base-100 py-8 sm:py-12 shadow-sm px-4">
+        <div class="hero-content w-full max-w-4xl flex-col text-center px-0 sm:px-4">
+            <h1 class="mb-4 sm:mb-6 text-base-content drop-shadow-lg filter text-3xl sm:text-4xl md:text-5xl font-bold">
                 Search for a Film
             </h1>
 
             <form method="GET" class="join relative w-full max-w-2xl">
                 <label
-                    class="input input-lg join-item input-bordered flex items-center gap-2 w-full bg-base-100/50 backdrop-blur-sm transition-all duration-300 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20">
+                    class="input input-md sm:input-lg join-item input-bordered flex items-center gap-2 flex-1 min-w-0 bg-base-100/50 backdrop-blur-sm transition-all duration-300 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20">
+                    <% if (data.watchlistId) { %>
+                        <input type="hidden" name="watchlistId" value="<%= data.watchlistId %>">
+                    <% } %>
                     <input type="text" name="q" placeholder="Search for movies..."
-                        class="grow bg-transparent border-none focus:outline-none placeholder:text-base-content/50"
+                        class="grow min-w-0 bg-transparent border-none focus:outline-none placeholder:text-base-content/50 text-sm sm:text-base"
                         x-model="query" value="<%= data.q || '' %>" autofocus x-ref="searchInput"
                         x-init="$nextTick(() => { $refs.searchInput.selectionStart = $refs.searchInput.selectionEnd = $refs.searchInput.value.length })"
                         x-on:focus="$el.selectionStart = $el.selectionEnd = $el.value.length" />
 
-                    <button type="button" class="btn btn-ghost btn-xs btn-circle opacity-50 hover:opacity-100"
+                    <button type="button" class="btn btn-ghost btn-xs btn-circle opacity-50 hover:opacity-100 shrink-0"
                         @click="query = ''; const url = new URL(window.location.href); if (url.searchParams.has('q')) { url.searchParams.delete('q'); window.location.href = url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : ''); } else { $nextTick(() => $refs.searchInput.focus()); }"
                         x-show="query && query.length > 0" x-transition.opacity>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -26,13 +29,13 @@
                         </svg>
                     </button>
                 </label>
-                <button type="submit" class="btn btn-primary join-item btn-lg px-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                <button type="submit" class="btn btn-primary join-item btn-md sm:btn-lg px-4 sm:px-8 shrink-0 flex items-center gap-1.5 sm:gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    Search
+                    <span>Search</span>
                 </button>
             </form>
         </div>
@@ -85,7 +88,7 @@
                         <% } %>
 
                             <!-- Results Section -->
-                            <div class="mx-auto max-w-7xl p-6 md:p-10">
+                            <div class="mx-auto max-w-7xl p-4 sm:p-6 md:p-10">
                                 <% if (data.results && data.results.length> 0) { %>
 
                                     <!-- Top Pagination Controls -->
