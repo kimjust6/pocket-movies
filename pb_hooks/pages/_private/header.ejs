@@ -73,7 +73,7 @@
         <div class="hidden items-center gap-4 md:flex lg:gap-6">
             <!-- Search Component -->
             <div class="flex items-center">
-                <button class="btn btn-ghost btn-circle btn-sm" x-show="!searchOpen"
+                <button class="btn btn-ghost btn-square mask mask-squircle btn-sm" x-show="!searchOpen"
                     @click="searchOpen = true; $nextTick(() => $refs.searchInput.focus())">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -150,10 +150,10 @@
                         <% if (locals.auth) { %>
                             <div class="dropdown dropdown-end" x-data="{ open: false }"
                                 :class="{ 'dropdown-open': open }" @click.outside="open = false">
-                                <div role="button" class="btn btn-ghost btn-circle avatar"
+                                <div role="button" class="btn btn-ghost btn-square mask mask-squircle avatar"
                                     @click="open = !open; if(!open) $el.blur()">
                                     <div
-                                        class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 hover:ring-accent transition-all duration-200 overflow-hidden">
+                                        class="w-10 mask mask-squircle ring ring-primary ring-offset-base-100 ring-offset-2 hover:ring-accent transition-all duration-200">
                                         <%# Check if avatarUrl exists, otherwise use UI Avatars %>
                                             <% if (auth.getString('avatar')) { %>
                                                 <img src="<%= '/api/files/' + auth.collection().id + '/' + auth.id + '/' + auth.getString('avatar') %>"

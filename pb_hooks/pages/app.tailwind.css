@@ -91,6 +91,11 @@
         display: none !important;
     }
 
+    .mask-squircle {
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+    }
+
     /* poster-stack-item: positioned via inline left + z-index */
 }
 

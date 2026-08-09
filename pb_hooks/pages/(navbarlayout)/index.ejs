@@ -73,7 +73,7 @@
                     <% data.recentMovies.forEach(movie=> { %>
                         <a href="/movies/<%= movie.tmdb_id %>" class="group cursor-pointer block">
                             <div
-                                class="aspect-[2/3] rounded-lg bg-base-200 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
+                                class="aspect-[2/3] mask mask-squircle bg-base-200 overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl relative">
                                 <% if (movie.poster_path) { %>
                                     <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
                                         alt="<%= movie.title %>" loading="lazy" decoding="async" class="w-full h-full object-cover">
@@ -141,22 +141,22 @@
                                                 %>
                                                     <img src="<%= pUrl %>" alt="Poster"
                                                         loading="lazy" decoding="async"
-                                                        class="w-10 h-14 rounded object-cover border-2 border-base-100">
+                                                        class="w-10 h-14 mask mask-squircle object-cover border-2 border-base-100">
                                                     <% }); %>
                                                         <% for (let i=list.posters.length; i < 3; i++) { %>
                                                             <div
-                                                                class="w-10 h-14 rounded bg-gradient-to-br from-primary/40 to-secondary/40 border-2 border-base-100">
+                                                                class="w-10 h-14 mask mask-squircle bg-gradient-to-br from-primary/40 to-secondary/40 border-2 border-base-100">
                                                             </div>
                                                             <% } %>
                                                                 <% } else { %>
                                                                     <div
-                                                                        class="w-10 h-14 rounded bg-gradient-to-br from-primary/40 to-secondary/40">
+                                                                        class="w-10 h-14 mask mask-squircle bg-gradient-to-br from-primary/40 to-secondary/40">
                                                                     </div>
                                                                     <div
-                                                                        class="w-10 h-14 rounded bg-gradient-to-br from-secondary/40 to-accent/40">
+                                                                        class="w-10 h-14 mask mask-squircle bg-gradient-to-br from-secondary/40 to-accent/40">
                                                                     </div>
                                                                     <div
-                                                                        class="w-10 h-14 rounded bg-gradient-to-br from-accent/40 to-primary/40">
+                                                                        class="w-10 h-14 mask mask-squircle bg-gradient-to-br from-accent/40 to-primary/40">
                                                                     </div>
                                                                     <% } %>
                                         </div>
@@ -215,8 +215,8 @@
                                             <div class="flex items-start gap-3">
                                                 <div class="avatar placeholder">
                                                     <div
-                                                        class="bg-<%= colors[index % 4] %> text-<%= colors[index % 4] %>-content rounded-full w-10">
-                                                        <span class="text-sm font-bold">
+                                                        class="mask mask-squircle bg-<%= colors[index % 4] %> text-<%= colors[index % 4] %>-content w-10">
+                                                        <span class="text-sm font-bold flex h-full w-full items-center justify-center">
                                                             <%= activity.userInitials || 'U' %>
                                                         </span>
                                                     </div>

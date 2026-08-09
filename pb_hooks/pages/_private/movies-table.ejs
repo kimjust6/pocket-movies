@@ -31,7 +31,7 @@
                                             @click.prevent="sortByUser('<%= member.id %>')"
                                             title="Sort by <%= member.name %>'s rating">
                                             <div class="avatar placeholder">
-                                                <div class="bg-neutral text-neutral-content rounded-full w-8 h-8 ring ring-offset-base-100 ring-offset-2"
+                                                <div class="mask mask-squircle bg-neutral text-neutral-content w-8 h-8 ring ring-offset-base-100 ring-offset-2"
                                                     :class="sortColumn === 'user_<%= member.id %>' ? 'ring-primary' : 'ring-transparent'">
                                                     <% if (member.avatar) { %>
                                                         <img src="/api/files/users/<%= member.id %>/<%= member.avatar %>"

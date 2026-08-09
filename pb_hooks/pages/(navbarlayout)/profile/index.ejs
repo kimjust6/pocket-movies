@@ -22,7 +22,7 @@
                     <div class="flex-shrink-0">
                         <div class="avatar placeholder">
                             <div
-                                class="w-32 md:w-40 rounded-full ring-4 ring-primary/20 ring-offset-base-100 ring-offset-4 overflow-hidden shadow-xl shadow-primary/10 transition-transform hover:scale-105 duration-300">
+                                class="w-32 md:w-40 mask mask-squircle shadow-xl shadow-primary/10 transition-transform hover:scale-105 duration-300">
                                 <% if (data.profile.getString('avatar')) { %>
                                     <img src="<%= '/api/files/' + data.profile.collection().id + '/' + data.profile.id + '/' + data.profile.getString('avatar') %>"
                                         alt="Avatar" class="w-full h-full object-cover" />

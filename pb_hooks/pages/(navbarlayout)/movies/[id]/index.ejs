@@ -61,7 +61,7 @@
                                 <!-- Poster Card -->
                                 <div class="shrink-0">
                                     <div
-                                        class="card w-72 overflow-hidden shadow-2xl shadow-black/50 transition-transform hover:scale-105 duration-500">
+                                        class="w-72 mask mask-squircle shadow-2xl shadow-black/50 transition-transform hover:scale-105 duration-500">
                                         <figure class="aspect-[2/3] w-full bg-base-300">
                                             <% if (data.movie.poster_path) { %>
                                                 <img src="https://image.tmdb.org/t/p/w500<%= data.movie.poster_path %>"
@@ -196,7 +196,7 @@
                                 <% data.credits.cast.slice(0, 15).forEach(person=> { %>
                                     <div
                                         class="card w-36 shrink-0 bg-base-100 shadow-sm snap-start transition-colors hover:bg-base-100/80">
-                                        <figure class="aspect-[2/3] w-full overflow-hidden bg-base-300 rounded-t-xl">
+                                        <figure class="aspect-[2/3] w-full overflow-hidden bg-base-300 mask mask-squircle">
                                             <% if (person.profile_path) { %>
                                                 <img src="https://image.tmdb.org/t/p/w185<%= person.profile_path %>"
                                                     alt="<%= person.name %>" class="h-full w-full object-cover"
