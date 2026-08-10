@@ -43,6 +43,7 @@ module.exports = function (context) {
     if (request.method === 'POST') {
         let tmdbId = ''
         let targetListId = ''
+        let addedBy = ''
 
         // form extraction
         try {
@@ -51,21 +52,21 @@ module.exports = function (context) {
             if (typeof fd.get === 'function') {
                 tmdbId = fd.get('tmdb_id')
                 targetListId = fd.get('watchlist_id')
+                addedBy = fd.get('added_by')
             } else {
                 tmdbId = fd.tmdb_id
                 targetListId = fd.watchlist_id
+                addedBy = fd.added_by
             }
         } catch (err) {
             $app.logger().error('Error processing form data:', err)
         }
 
-        // $app.logger().info(`[ADD_MOVIE] Extracted values: tmdb_id=${tmdbId}, watchlist_id=${targetListId}`)
-
         targetListId = targetListId || watchlistId || ''
 
         if (user && tmdbId) {
             try {
-                const result = watchlistActions.addMovieToWatchlist(user, tmdbId, targetListId)
+                const result = watchlistActions.addMovieToWatchlist(user, tmdbId, targetListId, addedBy)
                 message = result.message || `Movie added to watchlist!`
 
                 // PRG: Redirect to prevent double submission

@@ -188,6 +188,12 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         editRtScore: '',
 
         /**
+         * The user ID of who suggested the film for the edit form.
+         * @type {string}
+         */
+        editAddedBy: '',
+
+        /**
          * Controls the visibility of the User Rating modal.
          * @type {boolean}
          */
@@ -263,6 +269,18 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             window.addEventListener('resize', () => {
                 this.updateNavbarHeight();
             });
+
+            // Check query params for opening charts modal and setting fullscreen
+            const chartsParam = urlParams.get('charts');
+            const fullscreenParam = urlParams.get('fullscreen');
+            if (chartsParam === 'open' || chartsParam === '1' || chartsParam === 'true') {
+                if (fullscreenParam === 'true' || fullscreenParam === '1') {
+                    this.isChartsFullscreen = true;
+                }
+                this.$nextTick(() => {
+                    this.openChartsModal();
+                });
+            }
 
             // Set up realtime subscription for watched_history updates
             this.setupRealtimeSubscription();
@@ -607,6 +625,9 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
                     const hasB = b.attendance && b.attendance[userId] && b.attendance[userId].rating !== undefined && b.attendance[userId].rating !== null && b.attendance[userId].rating >= 0;
                     valA = hasA ? a.attendance[userId].rating : -1;
                     valB = hasB ? b.attendance[userId].rating : -1;
+                } else if (col === 'added_by') {
+                    valA = a.added_by ? (a.added_by.name || a.added_by.email || '') : '';
+                    valB = b.added_by ? (b.added_by.name || b.added_by.email || '') : '';
                 } else {
                     valA = a[col];
                     valB = b[col];
@@ -716,6 +737,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             this.editTmdbScore = (movie.tmdb_score !== undefined && movie.tmdb_score !== null && movie.tmdb_score !== 0) ? Number(movie.tmdb_score).toFixed(1) : '';
             this.editImdbScore = (movie.imdb_score !== undefined && movie.imdb_score !== null && movie.imdb_score !== 0) ? Number(movie.imdb_score).toFixed(1) : '';
             this.editRtScore = (movie.rt_score !== undefined && movie.rt_score !== null && movie.rt_score >= 0) ? movie.rt_score : '';
+            this.editAddedBy = movie.added_by ? movie.added_by.id : '';
             this.isSyncingRatings = false;
             this.showDateModal = true;
         },
@@ -832,12 +854,21 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
 
             // 3. Optimistic Update
             // We construct a temporary movie object merging old data with form values
+            const foundMember = this.members ? this.members.find(m => m.id === this.editAddedBy) : null;
+            const newAddedByObj = foundMember ? {
+                id: foundMember.id,
+                name: foundMember.name || foundMember.email || 'Unknown',
+                email: foundMember.email || '',
+                avatar: foundMember.avatar || ''
+            } : (this.editAddedBy ? { id: this.editAddedBy, name: 'User', email: '', avatar: '' } : null);
+
             this.movies[index] = {
                 ...originalMovie,
                 watched_at: this.editDateValue ? new Date(this.editDateValue).toISOString() : originalMovie.watched_at,
                 tmdb_score: this.editTmdbScore ? parseFloat(this.editTmdbScore) : 0,
                 imdb_score: this.editImdbScore ? parseFloat(this.editImdbScore) : 0,
-                rt_score: (this.editRtScore !== "" && this.editRtScore !== null && this.editRtScore !== undefined) ? parseInt(this.editRtScore) : -1
+                rt_score: (this.editRtScore !== "" && this.editRtScore !== null && this.editRtScore !== undefined) ? parseInt(this.editRtScore) : -1,
+                added_by: newAddedByObj
             };
 
             // Re-sort the list immediately
@@ -853,6 +884,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             formData.append('tmdb_score', this.editTmdbScore);
             formData.append('imdb_score', this.editImdbScore);
             formData.append('rt_score', this.editRtScore);
+            formData.append('added_by', this.editAddedBy);
             formData.append('list_id', this.listId);
 
             try {
@@ -1067,6 +1099,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
 
         toggleChartsFullscreen() {
             this.isChartsFullscreen = !this.isChartsFullscreen;
+            this.updateUrlParams();
             this.$nextTick(() => {
                 this.renderActiveTabCharts();
             });
@@ -1101,6 +1134,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         async openChartsModal() {
             this.showChartsModal = true;
             this.isChartsLoading = true;
+            this.updateUrlParams();
 
             let sourceMovies = [...this.movies];
 
@@ -1128,6 +1162,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         closeChartsModal() {
             this.showChartsModal = false;
             this.isChartsFullscreen = false;
+            this.updateUrlParams();
             this.destroyCharts();
         },
 
@@ -1818,7 +1853,20 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             const url = new URL(window.location);
             url.searchParams.set('sort', this.sortColumn);
             url.searchParams.set('dir', this.sortDirection);
-            window.history.pushState({}, '', url);
+
+            if (this.showChartsModal) {
+                url.searchParams.set('charts', 'open');
+                if (this.isChartsFullscreen) {
+                    url.searchParams.set('fullscreen', 'true');
+                } else {
+                    url.searchParams.delete('fullscreen');
+                }
+            } else {
+                url.searchParams.delete('charts');
+                url.searchParams.delete('fullscreen');
+            }
+
+            window.history.replaceState({}, '', url);
         }
     };
 }

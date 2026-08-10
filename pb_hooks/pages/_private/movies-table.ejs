@@ -7,7 +7,7 @@
     <table class="table w-full">
         <!-- head -->
         <thead>
-            <% const sortableColumns=[ { label: 'Watched On' , key: 'watched_at' }, { label: 'Title' , key: 'title' }, {
+            <% const sortableColumns=[ { label: 'Suggested By' , key: 'added_by' }, { label: 'Watched On' , key: 'watched_at' }, { label: 'Title' , key: 'title' }, {
                 label: 'Release Date' , key: 'release_date' }, { label: 'Runtime' , key: 'runtime' }, { label: 'Score' ,
                 key: 'tmdb_score' } ]; %>
                 <tr class="bg-base-300 shadow-sm border-b border-base-content/10">
@@ -74,6 +74,27 @@
                                 </div>
                             </div>
                         </div>
+                    </td>
+                    <!-- Suggested By Cell -->
+                    <td>
+                        <template x-if="movie.added_by">
+                            <div class="flex items-center gap-2" :title="'Suggested by ' + (movie.added_by.name || movie.added_by.email)">
+                                <div class="avatar placeholder">
+                                    <div class="mask mask-squircle bg-neutral text-neutral-content w-7 h-7 ring ring-offset-base-100 ring-1 ring-base-content/10">
+                                        <template x-if="movie.added_by.avatar">
+                                            <img :src="'/api/files/users/' + movie.added_by.id + '/' + movie.added_by.avatar" :alt="movie.added_by.name" />
+                                        </template>
+                                        <template x-if="!movie.added_by.avatar">
+                                            <span class="text-[10px] font-bold" x-text="(movie.added_by.name || movie.added_by.email || 'U').charAt(0).toUpperCase()"></span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-medium max-w-[85px] truncate" x-text="movie.added_by.name || movie.added_by.email"></span>
+                            </div>
+                        </template>
+                        <template x-if="!movie.added_by">
+                            <span class="text-xs text-base-content/40 italic">-</span>
+                        </template>
                     </td>
                     <td>
                         <div class="flex items-center gap-2">

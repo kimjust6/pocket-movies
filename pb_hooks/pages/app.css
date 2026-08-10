@@ -5534,12 +5534,20 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   height: 100vh;
 }
 
+.h-7 {
+  height: 1.75rem;
+}
+
 .max-h-\[55vh\] {
   max-height: 55vh;
 }
 
 .max-h-\[60vh\] {
   max-height: 60vh;
+}
+
+.max-h-\[92vh\] {
+  max-height: 92vh;
 }
 
 .max-h-\[94vh\] {
@@ -5694,6 +5702,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   width: 100vw;
 }
 
+.w-7 {
+  width: 1.75rem;
+}
+
 .min-w-0 {
   min-width: 0px;
 }
@@ -5742,16 +5754,20 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   max-width: 28rem;
 }
 
-.max-w-none {
-  max-width: none;
-}
-
 .max-w-sm {
   max-width: 24rem;
 }
 
 .max-w-xs {
   max-width: 20rem;
+}
+
+.max-w-none {
+  max-width: none;
+}
+
+.max-w-\[85px\] {
+  max-width: 85px;
 }
 
 .flex-1 {
@@ -6093,24 +6109,24 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   border-radius: 0.375rem;
 }
 
-.rounded-none {
-  border-radius: 0px;
-}
-
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded-none {
+  border-radius: 0px;
 }
 
 .border {
   border-width: 1px;
 }
 
-.border-0 {
-  border-width: 0px;
-}
-
 .border-2 {
   border-width: 2px;
+}
+
+.border-0 {
+  border-width: 0px;
 }
 
 .border-b {
@@ -6255,10 +6271,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: var(--fallback-b2,oklch(var(--b2)/0.5));
 }
 
-.bg-base-200\/60 {
-  background-color: var(--fallback-b2,oklch(var(--b2)/0.6));
-}
-
 .bg-base-200\/95 {
   background-color: var(--fallback-b2,oklch(var(--b2)/0.95));
 }
@@ -6398,6 +6410,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .bg-warning\/10 {
   background-color: var(--fallback-wa,oklch(var(--wa)/0.1));
+}
+
+.bg-base-200\/60 {
+  background-color: var(--fallback-b2,oklch(var(--b2)/0.6));
 }
 
 .bg-\[linear-gradient\(to_right\2c \#80808008_1px\2c transparent_1px\)\2c linear-gradient\(to_bottom\2c \#80808008_1px\2c transparent_1px\)\] {
@@ -6773,11 +6789,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   padding-bottom: 5rem;
 }
 
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-}
-
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -6796,6 +6807,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .pb-1\.5 {
@@ -7315,6 +7331,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .ring-white\/10 {
   --tw-ring-color: rgb(255 255 255 / 0.1);
+}
+
+.ring-base-content\/10 {
+  --tw-ring-color: var(--fallback-bc,oklch(var(--bc)/0.1));
 }
 
 .ring-offset-2 {
