@@ -20,22 +20,24 @@ module.exports = function (context) {
     try {
         const data = common.parseFormData(context)
 
-        let tmdbId = '', watchlistId = ''
+        let tmdbId = '', watchlistId = '', addedBy = ''
 
         // Handle map-like access if needed
         if (typeof data.get === 'function') {
             tmdbId = data.get('tmdb_id')
             watchlistId = data.get('watchlist_id')
+            addedBy = data.get('added_by')
         } else {
             tmdbId = data.tmdb_id
             watchlistId = data.watchlist_id
+            addedBy = data.added_by
         }
 
         if (!tmdbId) {
             return { success: false, error: "Movie ID is required" }
         }
 
-        const result = watchlistActions.addMovieToWatchlist(user, tmdbId, watchlistId)
+        const result = watchlistActions.addMovieToWatchlist(user, tmdbId, watchlistId, addedBy)
 
         return {
             success: true,

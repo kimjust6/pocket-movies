@@ -49,6 +49,20 @@
                     class="input input-bordered w-full rounded-xl bg-base-300/60 border-base-content/10 focus:border-primary/60 focus:bg-base-300 transition-all" />
             </div>
 
+            <!-- Suggested By -->
+            <% if (data.members && data.members.length > 0) { %>
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-semibold uppercase tracking-widest text-base-content/60">Suggested By</label>
+                    <select name="added_by" x-model="editAddedBy"
+                        class="select select-bordered select-sm w-full rounded-xl bg-base-300/60 border-base-content/10 focus:border-primary/60 transition-all text-xs font-medium">
+                        <option value="">(None / Unknown)</option>
+                        <% data.members.forEach(member => { %>
+                            <option value="<%= member.id %>"><%= member.name || member.email %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            <% } %>
+
             <!-- Ratings -->
             <div class="space-y-2.5">
                 <div class="flex items-center justify-between">

@@ -29,6 +29,7 @@
                 message: '',
                 error: '',
                 tmdbId: '',
+                selectedAddedBy: '<%= data.user ? data.user.id : "" %>',
                 async addToWatchlist(listId) {
                     this.submitting = true;
                     this.message = '';
@@ -44,6 +45,9 @@
                         const formData = new FormData();
                         formData.append('tmdb_id', this.tmdbId);
                         formData.append('watchlist_id', listId);
+                        if (this.selectedAddedBy) {
+                            formData.append('added_by', this.selectedAddedBy);
+                        }
 
                         const res = await fetch('/api/watchlists/add', {
                             method: 'POST',
@@ -73,6 +77,22 @@
                     }
                 }
             }" @set-watchlist-movie.window="tmdbId = $event.detail.id; error = ''; message = ''">
+
+            <!-- Suggested By Selector -->
+            <% if (data.members && data.members.length > 0) { %>
+                <div class="form-control mb-2">
+                    <label class="label py-1">
+                        <span class="label-text font-semibold text-xs text-base-content/70 uppercase tracking-wider">Suggested By</span>
+                    </label>
+                    <select x-model="selectedAddedBy" class="select select-sm select-bordered w-full rounded-xl bg-base-300/60 text-xs font-medium focus:border-primary">
+                        <% data.members.forEach(member => { %>
+                            <option value="<%= member.id %>" <%= data.user && data.user.id === member.id ? 'selected' : '' %>>
+                                <%= member.name || member.email %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+            <% } %>
 
             <!-- Messages -->
             <div x-show="message" x-transition class="alert alert-success shadow-sm mb-2 p-2 text-sm text-center">

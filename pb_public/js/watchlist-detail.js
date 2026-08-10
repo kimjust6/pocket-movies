@@ -188,6 +188,12 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
         editRtScore: '',
 
         /**
+         * The user ID of who suggested the film for the edit form.
+         * @type {string}
+         */
+        editAddedBy: '',
+
+        /**
          * Controls the visibility of the User Rating modal.
          * @type {boolean}
          */
@@ -264,17 +270,68 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
                 this.updateNavbarHeight();
             });
 
+            // Check query params for opening charts modal and setting fullscreen
+            const chartsParam = urlParams.get('charts');
+            const fullscreenParam = urlParams.get('fullscreen');
+            if (chartsParam === 'open' || chartsParam === '1' || chartsParam === 'true') {
+                if (fullscreenParam === 'true' || fullscreenParam === '1') {
+                    this.isChartsFullscreen = true;
+                }
+                this.$nextTick(() => {
+                    this.openChartsModal();
+                });
+            }
+
             // Set up realtime subscription for watched_history updates
             this.setupRealtimeSubscription();
+        },
+
+        loadPocketBaseSdk() {
+            if (typeof window.PocketBase !== 'undefined') return Promise.resolve();
+            if (window._pbSdkPromise) return window._pbSdkPromise;
+            window._pbSdkPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/pocketbase@0.25.1/dist/pocketbase.umd.js';
+                script.integrity = 'sha384-lAdH7s0mlWhU7+uSjCPNjfA9PBSbMScM/Gt+EQnm8JXngjoi2k38I/MozwHLYZZr';
+                script.crossOrigin = 'anonymous';
+                script.onload = () => resolve();
+                script.onerror = (err) => reject(err);
+                document.head.appendChild(script);
+            });
+            return window._pbSdkPromise;
+        },
+
+        loadChartJs() {
+            if (typeof window.Chart !== 'undefined') return Promise.resolve();
+            if (window._chartJsPromise) return window._chartJsPromise;
+            window._chartJsPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js';
+                script.integrity = 'sha384-T/4KgSWuZEPozpPz7rnnp/5lDSnpY1VPJCojf1S81uTHS1E38qgLfMgVsAeRCWc4';
+                script.crossOrigin = 'anonymous';
+                script.onload = () => resolve();
+                script.onerror = (err) => reject(err);
+                document.head.appendChild(script);
+            });
+            return window._chartJsPromise;
         },
 
         /**
          * Sets up PocketBase realtime subscription for watched_history and watch_history_user tables.
          * Subscribes to changes filtered by the current list ID.
          */
-        setupRealtimeSubscription() {
-            if (!this.listId || typeof PocketBase === 'undefined') {
-                console.warn('[Realtime] PocketBase not available or listId missing');
+        async setupRealtimeSubscription() {
+            if (!this.listId) return;
+
+            try {
+                await this.loadPocketBaseSdk();
+            } catch (err) {
+                console.warn('[Realtime] Failed to load PocketBase SDK', err);
+                return;
+            }
+
+            if (typeof PocketBase === 'undefined') {
+                console.warn('[Realtime] PocketBase not available');
                 return;
             }
 
@@ -607,6 +664,9 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
                     const hasB = b.attendance && b.attendance[userId] && b.attendance[userId].rating !== undefined && b.attendance[userId].rating !== null && b.attendance[userId].rating >= 0;
                     valA = hasA ? a.attendance[userId].rating : -1;
                     valB = hasB ? b.attendance[userId].rating : -1;
+                } else if (col === 'added_by') {
+                    valA = a.added_by ? (a.added_by.name || a.added_by.email || '') : '';
+                    valB = b.added_by ? (b.added_by.name || b.added_by.email || '') : '';
                 } else {
                     valA = a[col];
                     valB = b[col];
@@ -716,6 +776,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             this.editTmdbScore = (movie.tmdb_score !== undefined && movie.tmdb_score !== null && movie.tmdb_score !== 0) ? Number(movie.tmdb_score).toFixed(1) : '';
             this.editImdbScore = (movie.imdb_score !== undefined && movie.imdb_score !== null && movie.imdb_score !== 0) ? Number(movie.imdb_score).toFixed(1) : '';
             this.editRtScore = (movie.rt_score !== undefined && movie.rt_score !== null && movie.rt_score >= 0) ? movie.rt_score : '';
+            this.editAddedBy = movie.added_by ? movie.added_by.id : '';
             this.isSyncingRatings = false;
             this.showDateModal = true;
         },
@@ -832,12 +893,21 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
 
             // 3. Optimistic Update
             // We construct a temporary movie object merging old data with form values
+            const foundMember = this.members ? this.members.find(m => m.id === this.editAddedBy) : null;
+            const newAddedByObj = foundMember ? {
+                id: foundMember.id,
+                name: foundMember.name || foundMember.email || 'Unknown',
+                email: foundMember.email || '',
+                avatar: foundMember.avatar || ''
+            } : (this.editAddedBy ? { id: this.editAddedBy, name: 'User', email: '', avatar: '' } : null);
+
             this.movies[index] = {
                 ...originalMovie,
                 watched_at: this.editDateValue ? new Date(this.editDateValue).toISOString() : originalMovie.watched_at,
                 tmdb_score: this.editTmdbScore ? parseFloat(this.editTmdbScore) : 0,
                 imdb_score: this.editImdbScore ? parseFloat(this.editImdbScore) : 0,
-                rt_score: (this.editRtScore !== "" && this.editRtScore !== null && this.editRtScore !== undefined) ? parseInt(this.editRtScore) : -1
+                rt_score: (this.editRtScore !== "" && this.editRtScore !== null && this.editRtScore !== undefined) ? parseInt(this.editRtScore) : -1,
+                added_by: newAddedByObj
             };
 
             // Re-sort the list immediately
@@ -853,6 +923,7 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             formData.append('tmdb_score', this.editTmdbScore);
             formData.append('imdb_score', this.editImdbScore);
             formData.append('rt_score', this.editRtScore);
+            formData.append('added_by', this.editAddedBy);
             formData.append('list_id', this.listId);
 
             try {
@@ -1032,11 +1103,815 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             }
         },
 
+        /**
+         * State for Watchlist Charts Modal
+         */
+        showChartsModal: false,
+        activeChartTab: 'overview',
+        isChartsLoading: false,
+        isChartsFullscreen: false,
+        selectedUserFilter: 'all',
+        selectedTimeMetric: 'movies_month',
+        chartInstances: {},
+        allMoviesForCharts: [],
+        chartStats: {
+            totalCount: 0,
+            watchedCount: 0,
+            bailedCount: 0,
+            completionRate: 0,
+            totalRuntimeMinutes: 0,
+            formattedRuntime: '0h',
+            avgRuntime: 0,
+            avgTmdb: null,
+            avgImdb: null,
+            avgRt: null,
+            avgMemberScore: null,
+            topMovieTitle: '',
+            topMovieScore: null,
+            longestMovieTitle: '',
+            longestMovieRuntime: 0,
+            shortestMovieTitle: '',
+            shortestMovieRuntime: 0,
+            hasMemberRatings: false,
+            memberStatusData: { labels: [], watched: [], bailed: [], unrated: [] }
+        },
+
+        toggleChartsFullscreen() {
+            this.isChartsFullscreen = !this.isChartsFullscreen;
+            this.updateUrlParams();
+            this.$nextTick(() => {
+                this.renderActiveTabCharts();
+            });
+        },
+
+        onUserFilterChange() {
+            const source = this.allMoviesForCharts.length > 0 ? this.allMoviesForCharts : this.movies;
+            this.computeWatchlistStats(source);
+            this.$nextTick(() => {
+                this.renderActiveTabCharts();
+            });
+        },
+
+        onTimeMetricChange() {
+            this.$nextTick(() => {
+                this.renderActiveTabCharts();
+            });
+        },
+
+        getTimeMetricLabel() {
+            switch (this.selectedTimeMetric) {
+                case 'hours_month': return 'Watch Hours per Month';
+                case 'movies_year': return 'Movies Logged per Year';
+                case 'hours_year': return 'Watch Hours per Year';
+                case 'cumulative_movies': return 'Cumulative Movies Logged';
+                case 'cumulative_hours': return 'Cumulative Hours Watched';
+                case 'movies_month':
+                default: return 'Movies Logged per Month';
+            }
+        },
+
+        async openChartsModal() {
+            this.showChartsModal = true;
+            this.isChartsLoading = true;
+            this.updateUrlParams();
+
+            try {
+                await this.loadChartJs();
+            } catch (err) {
+                console.error('[Charts] Failed to load Chart.js:', err);
+            }
+
+            let sourceMovies = [...this.movies];
+
+            if (this.hasMore && this.listId) {
+                try {
+                    const res = await fetch(`/api/watchlists/movies?listId=${this.listId}&page=1&limit=500&sort=${this.sortColumn}`);
+                    const data = await res.json();
+                    if (data.success && Array.isArray(data.movies)) {
+                        sourceMovies = data.movies;
+                        this.allMoviesForCharts = data.movies;
+                    }
+                } catch (e) {
+                    console.warn('[Charts] Failed to fetch full dataset, falling back to loaded movies:', e);
+                }
+            }
+
+            this.computeWatchlistStats(sourceMovies);
+            this.isChartsLoading = false;
+
+            this.$nextTick(() => {
+                this.renderActiveTabCharts();
+            });
+        },
+
+        closeChartsModal() {
+            this.showChartsModal = false;
+            this.isChartsFullscreen = false;
+            this.updateUrlParams();
+            this.destroyCharts();
+        },
+
+        setActiveChartTab(tab) {
+            this.activeChartTab = tab;
+            this.$nextTick(() => {
+                this.renderActiveTabCharts();
+            });
+        },
+
+        destroyCharts() {
+            if (!this.chartInstances) return;
+            Object.keys(this.chartInstances).forEach(key => {
+                if (this.chartInstances[key] && typeof this.chartInstances[key].destroy === 'function') {
+                    this.chartInstances[key].destroy();
+                    delete this.chartInstances[key];
+                }
+            });
+        },
+
+        computeWatchlistStats(movieList) {
+            if (!Array.isArray(movieList) || movieList.length === 0) {
+                this.chartStats = {
+                    totalCount: 0,
+                    watchedCount: 0,
+                    bailedCount: 0,
+                    completionRate: 0,
+                    totalRuntimeMinutes: 0,
+                    formattedRuntime: '0h',
+                    avgRuntime: 0,
+                    avgTmdb: null,
+                    avgImdb: null,
+                    avgRt: null,
+                    avgMemberScore: null,
+                    topMovieTitle: 'N/A',
+                    topMovieScore: null,
+                    longestMovieTitle: 'N/A',
+                    longestMovieRuntime: 0,
+                    shortestMovieTitle: 'N/A',
+                    shortestMovieRuntime: 0,
+                    hasMemberRatings: false,
+                    ratingBuckets: [0, 0, 0, 0, 0],
+                    decades: {},
+                    runtimeBuckets: [0, 0, 0, 0],
+                    timeSeriesMonthly: [],
+                    timeSeriesYearly: [],
+                    memberStats: [],
+                    memberStatusData: { labels: [], watched: [], bailed: [], unrated: [] }
+                };
+                return;
+            }
+
+            let filteredList = movieList;
+            if (this.selectedUserFilter && this.selectedUserFilter !== 'all') {
+                const targetUid = this.selectedUserFilter;
+                filteredList = movieList.filter(m => {
+                    if (!m.attendance) return false;
+                    const att = m.attendance[targetUid];
+                    return att && (att.status === 'watched' || att.status === 'bailed' || att.rating > 0);
+                });
+            }
+
+            let watchedCount = 0;
+            let bailedCount = 0;
+            let totalRuntime = 0;
+            let runtimeMovieCount = 0;
+
+            let tmdbSum = 0, tmdbCount = 0;
+            let imdbSum = 0, imdbCount = 0;
+            let rtSum = 0, rtCount = 0;
+            let memberSumCombined = 0, memberCountCombined = 0;
+
+            let topMovie = null;
+            let topScore = -1;
+            let longestMovie = null;
+            let longestRuntime = -1;
+            let shortestMovie = null;
+            let shortestRuntime = Infinity;
+
+            const ratingBuckets = [0, 0, 0, 0, 0];
+            const decades = {};
+            const runtimeBuckets = [0, 0, 0, 0];
+
+            const monthlyMap = {};
+            const yearlyMap = {};
+
+            const memberMap = {};
+            const memberStatusMap = {};
+
+            (this.members || []).forEach(mem => {
+                memberStatusMap[mem.id] = {
+                    name: mem.name || mem.email || mem.id,
+                    watched: 0,
+                    bailed: 0,
+                    unrated: 0
+                };
+            });
+
+            movieList.forEach(m => {
+                (this.members || []).forEach(mem => {
+                    const statusObj = memberStatusMap[mem.id];
+                    if (statusObj) {
+                        const att = m.attendance ? m.attendance[mem.id] : null;
+                        if (att) {
+                            if (att.status === 'bailed') statusObj.bailed++;
+                            else statusObj.watched++;
+                        } else {
+                            statusObj.unrated++;
+                        }
+                    }
+                });
+            });
+
+            filteredList.forEach(m => {
+                const rt = parseInt(m.runtime, 10);
+
+                if (m.attendance) {
+                    if (this.selectedUserFilter !== 'all') {
+                        const att = m.attendance[this.selectedUserFilter];
+                        if (att && att.status === 'bailed') bailedCount++;
+                        else watchedCount++;
+                    } else {
+                        let hasBailed = false;
+                        Object.keys(m.attendance).forEach(uid => {
+                            const att = m.attendance[uid];
+                            if (att && att.status === 'bailed') hasBailed = true;
+                        });
+                        if (hasBailed) bailedCount++;
+                        else watchedCount++;
+                    }
+
+                    Object.keys(m.attendance).forEach(uid => {
+                        const att = m.attendance[uid];
+                        if (att && typeof att.rating === 'number' && att.rating > 0) {
+                            if (this.selectedUserFilter === 'all' || this.selectedUserFilter === uid) {
+                                memberSumCombined += att.rating;
+                                memberCountCombined++;
+
+                                if (!memberMap[uid]) {
+                                    const mem = (this.members || []).find(x => x.id === uid);
+                                    memberMap[uid] = {
+                                        name: mem ? (mem.name || mem.email || uid) : uid,
+                                        sum: 0,
+                                        count: 0
+                                    };
+                                }
+                                memberMap[uid].sum += att.rating;
+                                memberMap[uid].count += 1;
+                            }
+                        }
+                    });
+                } else {
+                    watchedCount++;
+                }
+
+                if (!isNaN(rt) && rt > 0) {
+                    totalRuntime += rt;
+                    runtimeMovieCount++;
+
+                    if (rt > longestRuntime) {
+                        longestRuntime = rt;
+                        longestMovie = m;
+                    }
+                    if (rt < shortestRuntime) {
+                        shortestRuntime = rt;
+                        shortestMovie = m;
+                    }
+
+                    if (rt < 90) runtimeBuckets[0]++;
+                    else if (rt < 120) runtimeBuckets[1]++;
+                    else if (rt < 150) runtimeBuckets[2]++;
+                    else runtimeBuckets[3]++;
+                }
+
+                const tmdb = parseFloat(m.tmdb_score);
+                if (!isNaN(tmdb) && tmdb > 0) {
+                    tmdbSum += tmdb;
+                    tmdbCount++;
+
+                    if (tmdb > topScore) {
+                        topScore = tmdb;
+                        topMovie = m;
+                    }
+
+                    if (tmdb >= 9) ratingBuckets[4]++;
+                    else if (tmdb >= 8) ratingBuckets[3]++;
+                    else if (tmdb >= 7) ratingBuckets[2]++;
+                    else if (tmdb >= 6) ratingBuckets[1]++;
+                    else ratingBuckets[0]++;
+                }
+
+                const imdb = parseFloat(m.imdb_score);
+                if (!isNaN(imdb) && imdb > 0) {
+                    imdbSum += imdb;
+                    imdbCount++;
+                }
+
+                const rts = parseFloat(m.rt_score);
+                if (!isNaN(rts) && rts >= 0) {
+                    rtSum += rts;
+                    rtCount++;
+                }
+
+                if (m.release_date) {
+                    const year = new Date(m.release_date).getFullYear();
+                    if (!isNaN(year) && year > 1900) {
+                        const dec = Math.floor(year / 10) * 10 + 's';
+                        decades[dec] = (decades[dec] || 0) + 1;
+                    }
+                }
+
+                const watchDateStr = m.watched_at || m.history_created;
+                if (watchDateStr) {
+                    const d = new Date(watchDateStr);
+                    if (!isNaN(d.getTime())) {
+                        const y = d.getFullYear();
+                        const monthKey = y + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                        const yearKey = String(y);
+                        const movieRt = (!isNaN(rt) && rt > 0) ? rt : 0;
+
+                        if (!monthlyMap[monthKey]) monthlyMap[monthKey] = { count: 0, runtimeMinutes: 0 };
+                        monthlyMap[monthKey].count++;
+                        monthlyMap[monthKey].runtimeMinutes += movieRt;
+
+                        if (!yearlyMap[yearKey]) yearlyMap[yearKey] = { count: 0, runtimeMinutes: 0 };
+                        yearlyMap[yearKey].count++;
+                        yearlyMap[yearKey].runtimeMinutes += movieRt;
+                    }
+                }
+            });
+
+            const hours = Math.floor(totalRuntime / 60);
+            const mins = totalRuntime % 60;
+            const days = Math.floor(hours / 24);
+            const remainingHours = hours % 24;
+
+            let formattedRuntime = `${hours}h ${mins}m`;
+            if (days > 0) {
+                formattedRuntime = `${days}d ${remainingHours}h`;
+            }
+
+            const avgRuntime = runtimeMovieCount > 0 ? Math.round(totalRuntime / runtimeMovieCount) : 0;
+            const avgTmdb = tmdbCount > 0 ? (tmdbSum / tmdbCount).toFixed(1) : null;
+            const avgImdb = imdbCount > 0 ? (imdbSum / imdbCount).toFixed(1) : null;
+            const avgRt = rtCount > 0 ? Math.round(rtSum / rtCount) : null;
+            const avgMemberScore = memberCountCombined > 0 ? (memberSumCombined / memberCountCombined).toFixed(1) : null;
+            const completionRate = (watchedCount + bailedCount) > 0 ? Math.round((watchedCount / (watchedCount + bailedCount)) * 100) : 0;
+
+            const memberStats = Object.keys(memberMap).map(uid => ({
+                name: memberMap[uid].name,
+                avg: (memberMap[uid].sum / memberMap[uid].count).toFixed(1),
+                count: memberMap[uid].count
+            }));
+
+            const sortedMonths = Object.keys(monthlyMap).sort();
+            let runningMovieCount = 0;
+            let runningRuntimeMins = 0;
+
+            const timeSeriesMonthly = sortedMonths.map(key => {
+                const parts = key.split('-');
+                const y = parseInt(parts[0], 10);
+                const m = parseInt(parts[1], 10);
+                const monthName = new Date(y, m - 1, 1).toLocaleString('default', { month: 'short' });
+                const item = monthlyMap[key];
+                runningMovieCount += item.count;
+                runningRuntimeMins += item.runtimeMinutes;
+                return {
+                    key,
+                    label: `${monthName} ${y}`,
+                    count: item.count,
+                    hours: Math.round((item.runtimeMinutes / 60) * 10) / 10,
+                    cumMovies: runningMovieCount,
+                    cumHours: Math.round((runningRuntimeMins / 60) * 10) / 10
+                };
+            });
+
+            const sortedYears = Object.keys(yearlyMap).sort();
+            const timeSeriesYearly = sortedYears.map(key => {
+                const item = yearlyMap[key];
+                return {
+                    key,
+                    label: key,
+                    count: item.count,
+                    hours: Math.round((item.runtimeMinutes / 60) * 10) / 10
+                };
+            });
+
+            const memberStatusData = {
+                labels: Object.keys(memberStatusMap).map(k => memberStatusMap[k].name),
+                watched: Object.keys(memberStatusMap).map(k => memberStatusMap[k].watched),
+                bailed: Object.keys(memberStatusMap).map(k => memberStatusMap[k].bailed),
+                unrated: Object.keys(memberStatusMap).map(k => memberStatusMap[k].unrated)
+            };
+
+            this.chartStats = {
+                totalCount: filteredList.length,
+                watchedCount,
+                bailedCount,
+                completionRate,
+                totalRuntimeMinutes: totalRuntime,
+                formattedRuntime,
+                avgRuntime,
+                avgTmdb,
+                avgImdb,
+                avgRt,
+                avgMemberScore,
+                topMovieTitle: topMovie ? topMovie.title : 'N/A',
+                topMovieScore: topMovie ? topMovie.tmdb_score : null,
+                longestMovieTitle: longestMovie ? longestMovie.title : 'N/A',
+                longestMovieRuntime: longestRuntime > 0 ? longestRuntime : 0,
+                shortestMovieTitle: shortestMovie && shortestRuntime < Infinity ? shortestMovie.title : 'N/A',
+                shortestMovieRuntime: shortestRuntime < Infinity ? shortestRuntime : 0,
+                ratingBuckets,
+                decades,
+                runtimeBuckets,
+                timeSeriesMonthly,
+                timeSeriesYearly,
+                memberStats,
+                memberStatusData,
+                hasMemberRatings: memberStats.length > 0
+            };
+        },
+
+        getTimelineConfig() {
+            const stats = this.chartStats;
+            let labels = [];
+            let data = [];
+            let labelText = 'Movies Logged';
+            let unit = 'movies';
+
+            switch (this.selectedTimeMetric) {
+                case 'hours_month':
+                    labels = (stats.timeSeriesMonthly || []).map(t => t.label);
+                    data = (stats.timeSeriesMonthly || []).map(t => t.hours);
+                    labelText = 'Watch Hours';
+                    unit = 'hrs';
+                    break;
+                case 'movies_year':
+                    labels = (stats.timeSeriesYearly || []).map(t => t.label);
+                    data = (stats.timeSeriesYearly || []).map(t => t.count);
+                    labelText = 'Movies Logged';
+                    unit = 'movies';
+                    break;
+                case 'hours_year':
+                    labels = (stats.timeSeriesYearly || []).map(t => t.label);
+                    data = (stats.timeSeriesYearly || []).map(t => t.hours);
+                    labelText = 'Watch Hours';
+                    unit = 'hrs';
+                    break;
+                case 'cumulative_movies':
+                    labels = (stats.timeSeriesMonthly || []).map(t => t.label);
+                    data = (stats.timeSeriesMonthly || []).map(t => t.cumMovies);
+                    labelText = 'Cumulative Movies';
+                    unit = 'movies';
+                    break;
+                case 'cumulative_hours':
+                    labels = (stats.timeSeriesMonthly || []).map(t => t.label);
+                    data = (stats.timeSeriesMonthly || []).map(t => t.cumHours);
+                    labelText = 'Cumulative Hours';
+                    unit = 'hrs';
+                    break;
+                case 'movies_month':
+                default:
+                    labels = (stats.timeSeriesMonthly || []).map(t => t.label);
+                    data = (stats.timeSeriesMonthly || []).map(t => t.count);
+                    labelText = 'Movies Logged';
+                    unit = 'movies';
+                    break;
+            }
+
+            return {
+                labels: labels.length ? labels : ['Current'],
+                data: data.length ? data : [stats.totalCount],
+                labelText,
+                unit
+            };
+        },
+
+        renderActiveTabCharts() {
+            if (typeof Chart === 'undefined') {
+                console.warn('[Charts] Chart.js is not loaded.');
+                return;
+            }
+
+            this.destroyCharts();
+
+            const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+            const textColor = isDark ? '#9ca3af' : '#4b5563';
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+
+            const chartDefaults = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: textColor, font: { family: 'Inter', size: 12, weight: '500' } }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                        titleColor: '#f9fafb',
+                        bodyColor: '#e5e7eb',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1,
+                        padding: 10,
+                        cornerRadius: 10
+                    }
+                }
+            };
+
+            const stats = this.chartStats;
+            const timelineCfg = this.getTimelineConfig();
+
+            if (this.activeChartTab === 'overview') {
+                const ratingCtx = document.getElementById('overviewRatingDistChart');
+                if (ratingCtx) {
+                    this.chartInstances.overviewRating = new Chart(ratingCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['< 6.0', '6.0 - 6.9', '7.0 - 7.9', '8.0 - 8.9', '9.0 - 10'],
+                            datasets: [{
+                                label: 'Films Count',
+                                data: stats.ratingBuckets || [0, 0, 0, 0, 0],
+                                backgroundColor: [
+                                    'rgba(239, 68, 68, 0.75)',
+                                    'rgba(249, 115, 22, 0.75)',
+                                    'rgba(234, 179, 8, 0.75)',
+                                    'rgba(59, 130, 246, 0.75)',
+                                    'rgba(16, 185, 129, 0.75)'
+                                ],
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            scales: {
+                                x: { ticks: { color: textColor }, grid: { display: false } },
+                                y: { ticks: { color: textColor, precision: 0 }, grid: { color: gridColor }, beginAtZero: true }
+                            }
+                        }
+                    });
+                }
+
+                const decadesCtx = document.getElementById('overviewDecadesChart');
+                if (decadesCtx) {
+                    const decadeLabels = Object.keys(stats.decades || {}).sort();
+                    const decadeCounts = decadeLabels.map(k => stats.decades[k]);
+
+                    this.chartInstances.overviewDecades = new Chart(decadesCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: decadeLabels.length ? decadeLabels : ['No Data'],
+                            datasets: [{
+                                data: decadeCounts.length ? decadeCounts : [1],
+                                backgroundColor: [
+                                    'rgba(245, 158, 11, 0.8)',
+                                    'rgba(59, 130, 246, 0.8)',
+                                    'rgba(16, 185, 129, 0.8)',
+                                    'rgba(236, 72, 153, 0.8)',
+                                    'rgba(139, 92, 246, 0.8)',
+                                    'rgba(6, 182, 212, 0.8)'
+                                ],
+                                borderWidth: 2,
+                                borderColor: isDark ? '#1f2937' : '#ffffff'
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            plugins: {
+                                ...chartDefaults.plugins,
+                                legend: { position: 'right', labels: { color: textColor } }
+                            }
+                        }
+                    });
+                }
+
+                const timelineCtx = document.getElementById('overviewTimelineChart');
+                if (timelineCtx) {
+                    this.chartInstances.overviewTimeline = new Chart(timelineCtx, {
+                        type: 'line',
+                        data: {
+                            labels: timelineCfg.labels,
+                            datasets: [{
+                                label: timelineCfg.labelText,
+                                data: timelineCfg.data,
+                                borderColor: 'rgb(245, 158, 11)',
+                                backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                                fill: true,
+                                tension: 0.3,
+                                pointBackgroundColor: 'rgb(245, 158, 11)',
+                                pointRadius: 4
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            scales: {
+                                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                                y: { ticks: { color: textColor }, grid: { color: gridColor }, beginAtZero: true }
+                            }
+                        }
+                    });
+                }
+            } else if (this.activeChartTab === 'ratings') {
+                const statusCtx = document.getElementById('memberStatusChart');
+                if (statusCtx && stats.memberStatusData && stats.memberStatusData.labels.length > 0) {
+                    this.chartInstances.memberStatus = new Chart(statusCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: stats.memberStatusData.labels,
+                            datasets: [
+                                {
+                                    label: 'Watched',
+                                    data: stats.memberStatusData.watched,
+                                    backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                                    borderRadius: 6
+                                },
+                                {
+                                    label: 'Bailed',
+                                    data: stats.memberStatusData.bailed,
+                                    backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                                    borderRadius: 6
+                                },
+                                {
+                                    label: 'Unrated / Didn\'t Watch',
+                                    data: stats.memberStatusData.unrated,
+                                    backgroundColor: 'rgba(156, 163, 175, 0.35)',
+                                    borderRadius: 6
+                                }
+                            ]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            scales: {
+                                x: { stacked: true, ticks: { color: textColor }, grid: { display: false } },
+                                y: { stacked: true, ticks: { color: textColor, precision: 0 }, grid: { color: gridColor }, beginAtZero: true }
+                            }
+                        }
+                    });
+                }
+
+                const sourcesCtx = document.getElementById('ratingsSourcesChart');
+                if (sourcesCtx) {
+                    const providerLabels = ['TMDB (0-10)', 'IMDb (0-10)', 'RT (0-10)'];
+                    const providerData = [
+                        stats.avgTmdb || 0,
+                        stats.avgImdb || 0,
+                        stats.avgRt ? (stats.avgRt / 10).toFixed(1) : 0
+                    ];
+                    const bgColors = [
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(234, 179, 8, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ];
+
+                    if (stats.avgMemberScore) {
+                        providerLabels.push('Members Avg (0-10)');
+                        providerData.push(stats.avgMemberScore);
+                        bgColors.push('rgba(59, 130, 246, 0.85)');
+                    }
+
+                    this.chartInstances.sourcesChart = new Chart(sourcesCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: providerLabels,
+                            datasets: [{
+                                label: 'Average Score',
+                                data: providerData,
+                                backgroundColor: bgColors,
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            scales: {
+                                x: { ticks: { color: textColor }, grid: { display: false } },
+                                y: { ticks: { color: textColor }, grid: { color: gridColor }, min: 0, max: 10 }
+                            }
+                        }
+                    });
+                }
+
+                const memberCtx = document.getElementById('memberRatingsChart');
+                if (memberCtx && stats.hasMemberRatings) {
+                    const memberNames = stats.memberStats.map(m => m.name);
+                    const memberAvgs = stats.memberStats.map(m => m.avg);
+
+                    this.chartInstances.memberChart = new Chart(memberCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: memberNames,
+                            datasets: [{
+                                label: 'Avg Rating Given',
+                                data: memberAvgs,
+                                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            indexAxis: 'y',
+                            scales: {
+                                x: { ticks: { color: textColor }, grid: { color: gridColor }, min: 0, max: 10 },
+                                y: { ticks: { color: textColor }, grid: { display: false } }
+                            }
+                        }
+                    });
+                }
+            } else if (this.activeChartTab === 'timeline') {
+                const detTimelineCtx = document.getElementById('detailedTimelineChart');
+                if (detTimelineCtx) {
+                    this.chartInstances.detTimeline = new Chart(detTimelineCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: timelineCfg.labels,
+                            datasets: [{
+                                label: timelineCfg.labelText,
+                                data: timelineCfg.data,
+                                backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            scales: {
+                                x: { ticks: { color: textColor }, grid: { display: false } },
+                                y: { ticks: { color: textColor }, grid: { color: gridColor }, beginAtZero: true }
+                            }
+                        }
+                    });
+                }
+
+                const detDecadesCtx = document.getElementById('detailedDecadesChart');
+                if (detDecadesCtx) {
+                    const decadeLabels = Object.keys(stats.decades || {}).sort();
+                    const decadeCounts = decadeLabels.map(k => stats.decades[k]);
+
+                    this.chartInstances.detDecades = new Chart(detDecadesCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: decadeLabels.length ? decadeLabels : ['No Data'],
+                            datasets: [{
+                                label: 'Films Count',
+                                data: decadeCounts.length ? decadeCounts : [0],
+                                backgroundColor: 'rgba(236, 72, 153, 0.8)',
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            scales: {
+                                x: { ticks: { color: textColor }, grid: { display: false } },
+                                y: { ticks: { color: textColor, precision: 0 }, grid: { color: gridColor }, beginAtZero: true }
+                            }
+                        }
+                    });
+                }
+            } else if (this.activeChartTab === 'runtime') {
+                const runtimeCtx = document.getElementById('runtimeDistChart');
+                if (runtimeCtx) {
+                    this.chartInstances.runtimeChart = new Chart(runtimeCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Quick (< 90m)', 'Standard (90-120m)', 'Feature (120-150m)', 'Epic (150m+)'],
+                            datasets: [{
+                                data: stats.runtimeBuckets || [0, 0, 0, 0],
+                                backgroundColor: [
+                                    'rgba(16, 185, 129, 0.8)',
+                                    'rgba(59, 130, 246, 0.8)',
+                                    'rgba(245, 158, 11, 0.8)',
+                                    'rgba(239, 68, 68, 0.8)'
+                                ],
+                                borderWidth: 2,
+                                borderColor: isDark ? '#1f2937' : '#ffffff'
+                            }]
+                        },
+                        options: {
+                            ...chartDefaults,
+                            plugins: {
+                                ...chartDefaults.plugins,
+                                legend: { position: 'right', labels: { color: textColor } }
+                            }
+                        }
+                    });
+                }
+            }
+        },
+
         updateUrlParams() {
             const url = new URL(window.location);
             url.searchParams.set('sort', this.sortColumn);
             url.searchParams.set('dir', this.sortDirection);
-            window.history.pushState({}, '', url);
+
+            if (this.showChartsModal) {
+                url.searchParams.set('charts', 'open');
+                if (this.isChartsFullscreen) {
+                    url.searchParams.set('fullscreen', 'true');
+                } else {
+                    url.searchParams.delete('fullscreen');
+                }
+            } else {
+                url.searchParams.delete('charts');
+                url.searchParams.delete('fullscreen');
+            }
+
+            window.history.replaceState({}, '', url);
         }
     };
 }

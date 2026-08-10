@@ -30,17 +30,19 @@ module.exports = function (context) {
 
         try {
             const fd = common.parseFormData(context)
-            let tmdbId = '', targetListId = ''
+            let tmdbId = '', targetListId = '', addedBy = ''
             if (typeof fd.get === 'function') {
                 tmdbId = fd.get('tmdb_id')
                 targetListId = fd.get('watchlist_id')
+                addedBy = fd.get('added_by')
             } else {
                 tmdbId = fd.tmdb_id
                 targetListId = fd.watchlist_id
+                addedBy = fd.added_by
             }
 
             if (tmdbId) {
-                const res = watchlistActions.addMovieToWatchlist(user, tmdbId, targetListId)
+                const res = watchlistActions.addMovieToWatchlist(user, tmdbId, targetListId, addedBy)
 
                 // Redirect to self to show message
                 context.response.redirect(`/movies/${movieId}?message=${encodeURIComponent(res.message)}`)

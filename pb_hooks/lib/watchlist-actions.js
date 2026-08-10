@@ -234,6 +234,10 @@ function handleUpdateHistoryItem(list, data, isOwner) {
             }
         }
 
+        if (data.added_by !== undefined) {
+            historyItem.set('added_by', data.added_by)
+        }
+
         $app.save(historyItem)
         return "Entry updated successfully!"
     }
@@ -618,7 +622,7 @@ const omdb = require('./omdb.js')
  * @param {string} targetListId
  * @returns {{message: string, error: string}}
  */
-function addMovieToWatchlist(user, tmdbId, targetListId) {
+function addMovieToWatchlist(user, tmdbId, targetListId, addedById = null) {
     if (!user) throw new Error("You must be logged in.")
     if (!tmdbId) throw new Error("Movie ID is missing.")
 
@@ -734,6 +738,7 @@ function addMovieToWatchlist(user, tmdbId, targetListId) {
         watchItem.set('movie', movie.id)
         watchItem.set('list', actualListId)
         watchItem.set('watched', new Date().toISOString())
+        watchItem.set('added_by', addedById || user.id)
 
         if (movieData.vote_average) {
             watchItem.set('tmdb_score', movieData.vote_average)

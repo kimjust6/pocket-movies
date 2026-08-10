@@ -381,10 +381,11 @@ module.exports = {
                 offset
             )
 
-            $app.expandRecords(historyRecords, ['movie'])
+            $app.expandRecords(historyRecords, ['movie', 'added_by'])
 
             const results = historyRecords.map((item) => {
                 const m = item.expandedOne('movie')
+                const addedByUser = item.expandedOne('added_by')
                 if (m) {
                     return {
                         id: m.id,
@@ -404,6 +405,12 @@ module.exports = {
                         tmdb_score: item.getFloat('tmdb_score'),
                         imdb_score: item.getFloat('imdb_score'),
                         rt_score: item.getInt('rt_score'),
+                        added_by: addedByUser ? {
+                            id: addedByUser.id,
+                            name: addedByUser.getString('name') || addedByUser.getString('email') || 'Unknown',
+                            email: addedByUser.getString('email'),
+                            avatar: addedByUser.getString('avatar')
+                        } : null
                     }
                 }
                 return null
