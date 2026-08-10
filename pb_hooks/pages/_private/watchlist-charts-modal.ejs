@@ -1,0 +1,434 @@
+<!-- Watchlist Charts & Analytics Modal -->
+<div x-show="showChartsModal" x-cloak x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    :class="isChartsFullscreen ? 'p-0' : 'p-3 sm:p-6'"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md"
+    @click.self="closeChartsModal()" @keydown.escape.window="closeChartsModal()">
+
+    <div x-show="showChartsModal" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        :class="isChartsFullscreen ? 'fixed inset-0 w-screen h-screen max-w-none max-h-none rounded-none z-50 p-0 m-0 border-0' : 'relative w-full max-w-5xl max-h-[94vh] rounded-3xl border border-white/10'"
+        class="flex flex-col bg-gradient-to-br from-base-200 via-base-200 to-base-300 shadow-2xl overflow-hidden transition-all duration-300">
+
+        <!-- Modal Top Bar -->
+        <div class="flex items-center justify-between px-6 py-4 border-b border-base-content/10 bg-base-100/40 backdrop-blur-md">
+            <div class="flex items-center gap-3.5">
+                <div class="flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-warning/20 to-primary/20 border border-warning/30 shadow-inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 17V9" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 17V5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 17v-3" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-base-content via-base-content to-base-content/70 bg-clip-text text-transparent flex items-center gap-2">
+                        <span>Watchlist Analytics</span>
+                        <span x-show="isChartsLoading" class="loading loading-spinner loading-xs text-primary"></span>
+                    </h3>
+                    <p class="text-xs sm:text-sm text-base-content/60">
+                        Visual stats & insights for <span class="font-semibold text-base-content"><%= data.list ? data.list.title : 'this watchlist' %></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Action Buttons: Fullscreen & Close -->
+            <div class="flex items-center gap-1.5">
+                <button @click="toggleChartsFullscreen()" type="button"
+                    class="btn btn-circle btn-ghost btn-sm opacity-70 hover:opacity-100 transition-all duration-200"
+                    :title="isChartsFullscreen ? 'Exit Fullscreen' : 'Fullscreen modal'">
+                    <template x-if="!isChartsFullscreen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                        </svg>
+                    </template>
+                    <template x-if="isChartsFullscreen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9L4 4m0 0v4m0-4h4m11 5l5-5m0 0v4m0-4h-4M9 15l-5 5m0 0v-4m0 4h4m11-5l5 5m0 0v-4m0 4h-4" />
+                        </svg>
+                    </template>
+                </button>
+                <button @click="closeChartsModal()"
+                    class="btn btn-circle btn-ghost btn-sm opacity-70 hover:opacity-100 hover:rotate-90 transition-all duration-300"
+                    title="Close modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Control Toolbar: Member & Timeline Filters -->
+        <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-3 border-b border-base-content/10 bg-base-200/60 backdrop-blur-md text-xs">
+            <!-- Member Scope Filter -->
+            <div class="flex items-center gap-2">
+                <span class="font-semibold text-base-content/70 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Member Filter:
+                </span>
+                <select x-model="selectedUserFilter" @change="onUserFilterChange()" class="select select-xs select-bordered bg-base-100 border-white/10 text-xs font-semibold focus:outline-none focus:border-primary">
+                    <option value="all">All Members (Combined)</option>
+                    <template x-for="m in (members || [])" :key="m.id">
+                        <option :value="m.id" x-text="m.name || m.email || m.id"></option>
+                    </template>
+                </select>
+            </div>
+
+            <!-- Timeline Unit Switcher -->
+            <div class="flex items-center gap-2">
+                <span class="font-semibold text-base-content/70 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Timeline Scale:
+                </span>
+                <select x-model="selectedTimeMetric" @change="onTimeMetricChange()" class="select select-xs select-bordered bg-base-100 border-white/10 text-xs font-semibold focus:outline-none focus:border-warning">
+                    <option value="movies_month">Movies / Month</option>
+                    <option value="hours_month">Hours / Month</option>
+                    <option value="movies_year">Movies / Year</option>
+                    <option value="hours_year">Hours / Year</option>
+                    <option value="cumulative_movies">Cumulative Movies</option>
+                    <option value="cumulative_hours">Cumulative Hours</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Scrollable Modal Content -->
+        <div class="flex-1 overflow-y-auto p-5 sm:p-7 space-y-6 scrollbar-thin scrollbar-thumb-base-content/15 scrollbar-track-transparent">
+
+            <!-- KPI Cards Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <!-- Total Films -->
+                <div class="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-base-100/90 to-base-100/40 border border-white/5 shadow-sm hover:border-primary/20 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-medium uppercase tracking-wider text-base-content/60">Total Films</span>
+                        <span class="p-1.5 rounded-lg bg-primary/10 text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-base-content" x-text="chartStats.totalCount || 0">0</div>
+                    <div class="text-[11px] text-base-content/60 mt-1 flex items-center gap-1 flex-wrap">
+                        <span class="text-success font-semibold" x-text="chartStats.watchedCount + ' watched'"></span>
+                        <span x-show="chartStats.bailedCount > 0" class="text-error font-semibold" x-text="'• ' + chartStats.bailedCount + ' bailed'"></span>
+                    </div>
+                </div>
+
+                <!-- Watch Time -->
+                <div class="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-base-100/90 to-base-100/40 border border-white/5 shadow-sm hover:border-secondary/20 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-medium uppercase tracking-wider text-base-content/60">Watch Time</span>
+                        <span class="p-1.5 rounded-lg bg-secondary/10 text-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-base-content" x-text="chartStats.formattedRuntime || '0h'">0h</div>
+                    <div class="text-[11px] text-base-content/60 mt-1" x-text="'Avg ' + (chartStats.avgRuntime || 0) + ' min / movie'">Avg 0 min</div>
+                </div>
+
+                <!-- Average Ratings -->
+                <div class="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-base-100/90 to-base-100/40 border border-white/5 shadow-sm hover:border-accent/20 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-medium uppercase tracking-wider text-base-content/60">Average Ratings</span>
+                        <span class="p-1.5 rounded-lg bg-accent/10 text-accent">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-2xl sm:text-3xl font-extrabold text-base-content" x-text="chartStats.avgMemberScore ? chartStats.avgMemberScore + '/10' : (chartStats.avgTmdb ? chartStats.avgTmdb + '/10' : '-')">-</span>
+                        <span class="text-xs font-semibold" :class="chartStats.avgMemberScore ? 'text-primary' : 'text-warning'" x-text="chartStats.avgMemberScore ? 'Members Avg' : 'TMDB'"></span>
+                    </div>
+                    <div class="text-[11px] text-base-content/60 mt-1 flex items-center gap-2">
+                        <span x-show="chartStats.avgTmdb">TMDB: <strong class="text-base-content" x-text="chartStats.avgTmdb"></strong></span>
+                        <span x-show="chartStats.avgImdb">IMDb: <strong class="text-base-content" x-text="chartStats.avgImdb"></strong></span>
+                    </div>
+                </div>
+
+                <!-- Top Rated / Completion Rate -->
+                <div class="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-base-100/90 to-base-100/40 border border-white/5 shadow-sm hover:border-warning/20 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-medium uppercase tracking-wider text-base-content/60">Completion Rate</span>
+                        <span class="p-1.5 rounded-lg bg-warning/10 text-warning">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-base-content" x-text="(chartStats.completionRate || 0) + '%'">0%</div>
+                    <div class="text-[11px] text-warning font-semibold mt-1 truncate" :title="chartStats.topMovieTitle || 'N/A'" x-text="chartStats.topMovieTitle ? 'Top: ' + chartStats.topMovieTitle : 'No ratings yet'"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="flex items-center gap-2 border-b border-base-content/10 pb-2 overflow-x-auto">
+                <button type="button" @click="setActiveChartTab('overview')"
+                    class="btn btn-sm rounded-xl transition-all"
+                    :class="activeChartTab === 'overview' ? 'btn-primary shadow-md shadow-primary/20' : 'btn-ghost text-base-content/70 hover:text-base-content'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                    <span>Overview</span>
+                </button>
+
+                <button type="button" @click="setActiveChartTab('ratings')"
+                    class="btn btn-sm rounded-xl transition-all"
+                    :class="activeChartTab === 'ratings' ? 'btn-primary shadow-md shadow-primary/20' : 'btn-ghost text-base-content/70 hover:text-base-content'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span>Ratings & User Breakdown</span>
+                </button>
+
+                <button type="button" @click="setActiveChartTab('timeline')"
+                    class="btn btn-sm rounded-xl transition-all"
+                    :class="activeChartTab === 'timeline' ? 'btn-primary shadow-md shadow-primary/20' : 'btn-ghost text-base-content/70 hover:text-base-content'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                    </svg>
+                    <span>Watch Timeline & Eras</span>
+                </button>
+
+                <button type="button" @click="setActiveChartTab('runtime')"
+                    class="btn btn-sm rounded-xl transition-all"
+                    :class="activeChartTab === 'runtime' ? 'btn-primary shadow-md shadow-primary/20' : 'btn-ghost text-base-content/70 hover:text-base-content'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Runtime & Length</span>
+                </button>
+            </div>
+
+            <!-- Tab 1: Overview Grid -->
+            <div x-show="activeChartTab === 'overview'" class="space-y-6" x-transition:enter="transition ease-out duration-150">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Rating Distribution Chart Card -->
+                    <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold text-base text-base-content">Scores Distribution</h4>
+                                <p class="text-xs text-base-content/60">Breakdown of movies by rating range</p>
+                            </div>
+                            <span class="badge badge-sm badge-ghost">Ratings</span>
+                        </div>
+                        <div class="relative h-64 sm:h-72 w-full flex items-center justify-center">
+                            <canvas id="overviewRatingDistChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Release Decades Chart Card -->
+                    <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold text-base text-base-content">Release Eras & Decades</h4>
+                                <p class="text-xs text-base-content/60">When were these films made?</p>
+                            </div>
+                            <span class="badge badge-sm badge-ghost">Eras</span>
+                        </div>
+                        <div class="relative h-64 sm:h-72 w-full flex items-center justify-center">
+                            <canvas id="overviewDecadesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Watch Timeline Summary Banner -->
+                <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="font-bold text-base text-base-content" x-text="getTimeMetricLabel()">Watch Activity Timeline</h4>
+                            <p class="text-xs text-base-content/60">Pace of movies added / watched over time</p>
+                        </div>
+                        <span class="badge badge-sm badge-ghost" x-text="selectedTimeMetric.replace('_', ' ').toUpperCase()">Activity</span>
+                    </div>
+                    <div class="relative h-64 sm:h-72 w-full flex items-center justify-center">
+                        <canvas id="overviewTimelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Ratings & User Breakdown Tab -->
+            <div x-show="activeChartTab === 'ratings'" class="space-y-6" x-transition:enter="transition ease-out duration-150">
+                <!-- Member Status Breakdown (Watched vs Bailed vs Unrated) -->
+                <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="font-bold text-base text-base-content">Member Status Breakdown</h4>
+                            <p class="text-xs text-base-content/60">Watched vs Bailed vs Unrated per member</p>
+                        </div>
+                        <span class="badge badge-sm badge-ghost">Attendance</span>
+                    </div>
+                    <div class="relative h-64 sm:h-72 w-full flex items-center justify-center">
+                        <canvas id="memberStatusChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Comparison of Score Sources -->
+                    <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold text-base text-base-content">Score Providers & Members Comparison</h4>
+                                <p class="text-xs text-base-content/60">Average ratings across platforms & users (scaled to 10)</p>
+                            </div>
+                            <span class="badge badge-sm badge-ghost">Providers</span>
+                        </div>
+                        <div class="relative h-64 sm:h-72 w-full flex items-center justify-center">
+                            <canvas id="ratingsSourcesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Member Ratings Comparison (if members exist) -->
+                    <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold text-base text-base-content">List Members Average Ratings</h4>
+                                <p class="text-xs text-base-content/60">Average score given per user</p>
+                            </div>
+                            <span class="badge badge-sm badge-ghost">Members</span>
+                        </div>
+                        <div class="relative h-64 sm:h-72 w-full flex items-center justify-center">
+                            <div x-show="!chartStats.hasMemberRatings" class="text-center text-sm text-base-content/50 py-16">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto mb-2 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                No member ratings recorded yet for this list
+                            </div>
+                            <canvas x-show="chartStats.hasMemberRatings" id="memberRatingsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Timeline & Eras Tab -->
+            <div x-show="activeChartTab === 'timeline'" class="space-y-6" x-transition:enter="transition ease-out duration-150">
+                <!-- Full Timeline Chart -->
+                <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="font-bold text-base text-base-content" x-text="getTimeMetricLabel()">Watch Activity Timeline</h4>
+                            <p class="text-xs text-base-content/60">Pace over time based on selected scale</p>
+                        </div>
+                        <span class="badge badge-sm badge-ghost" x-text="selectedTimeMetric.replace('_', ' ').toUpperCase()">Scale</span>
+                    </div>
+                    <div class="relative h-72 sm:h-80 w-full flex items-center justify-center">
+                        <canvas id="detailedTimelineChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Decades Breakdown Detailed -->
+                <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="font-bold text-base text-base-content">Films by Release Decade</h4>
+                            <p class="text-xs text-base-content/60">Distribution of movie vintage in collection</p>
+                        </div>
+                        <span class="badge badge-sm badge-ghost">Decades</span>
+                    </div>
+                    <div class="relative h-72 sm:h-80 w-full flex items-center justify-center">
+                        <canvas id="detailedDecadesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Runtime & Length Tab -->
+            <div x-show="activeChartTab === 'runtime'" class="space-y-6" x-transition:enter="transition ease-out duration-150">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Runtime Distribution Doughnut -->
+                    <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold text-base text-base-content">Duration Categories</h4>
+                                <p class="text-xs text-base-content/60">Short (<90m), Standard (90-120m), Feature (120-150m), Epic (150m+)</p>
+                            </div>
+                            <span class="badge badge-sm badge-ghost">Duration</span>
+                        </div>
+                        <div class="relative h-64 sm:h-72 w-full flex items-center justify-center">
+                            <canvas id="runtimeDistChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Extreme Runtimes List / Insights -->
+                    <div class="p-5 rounded-2xl bg-base-100/60 border border-white/5 shadow-md backdrop-blur-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-base text-base-content">Runtime Highlights</h4>
+                                <span class="badge badge-sm badge-ghost">Insights</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Longest Film -->
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-base-200/50 border border-white/5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-error/15 text-error flex items-center justify-center font-bold">
+                                            ⏳
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-base-content/60 font-medium">Longest Movie</p>
+                                            <p class="text-sm font-bold text-base-content truncate max-w-[200px] sm:max-w-[260px]" x-text="chartStats.longestMovieTitle || 'N/A'"></p>
+                                        </div>
+                                    </div>
+                                    <div class="badge badge-error badge-outline font-bold" x-text="chartStats.longestMovieRuntime ? chartStats.longestMovieRuntime + ' min' : '-'"></div>
+                                </div>
+
+                                <!-- Shortest Film -->
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-base-200/50 border border-white/5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-success/15 text-success flex items-center justify-center font-bold">
+                                            ⚡
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-base-content/60 font-medium">Shortest Movie</p>
+                                            <p class="text-sm font-bold text-base-content truncate max-w-[200px] sm:max-w-[260px]" x-text="chartStats.shortestMovieTitle || 'N/A'"></p>
+                                        </div>
+                                    </div>
+                                    <div class="badge badge-success badge-outline font-bold" x-text="chartStats.shortestMovieRuntime ? chartStats.shortestMovieRuntime + ' min' : '-'"></div>
+                                </div>
+
+                                <!-- Average Duration -->
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-base-200/50 border border-white/5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-primary/15 text-primary flex items-center justify-center font-bold">
+                                            ⏱️
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-base-content/60 font-medium">Average Duration</p>
+                                            <p class="text-sm font-bold text-base-content" x-text="(chartStats.avgRuntime || 0) + ' minutes'"></p>
+                                        </div>
+                                    </div>
+                                    <div class="badge badge-primary badge-outline font-bold" x-text="Math.round(chartStats.avgRuntime / 60 * 10) / 10 + ' hrs'"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-base-content/50 text-center pt-4">
+                            Calculated across all movies with recorded runtime in this watchlist
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="flex items-center justify-between px-6 py-4 border-t border-base-content/10 bg-base-100/40 backdrop-blur-md">
+            <span class="text-xs text-base-content/50">
+                Showing stats for <strong class="text-base-content" x-text="chartStats.totalCount || 0"></strong> movies
+            </span>
+            <button type="button" @click="closeChartsModal()"
+                class="btn btn-sm btn-outline border-white/15 hover:bg-base-content/10 px-5 rounded-xl">
+                Close
+            </button>
+        </div>
+    </div>
+</div>

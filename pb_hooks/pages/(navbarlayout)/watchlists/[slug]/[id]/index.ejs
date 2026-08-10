@@ -17,6 +17,7 @@
     // Listen for modal events from global header
     window.addEventListener('open-edit-modal', () => showEditModal = true);
     window.addEventListener('open-share-modal', () => showShareModal = true);
+    window.addEventListener('open-charts-modal', () => openChartsModal());
 ">
     <!-- Mobile Header (Removed - Moved to Navbar) -->
     <div class="md:hidden"></div>
@@ -72,6 +73,7 @@
                                 <%- include('../../../_private/delete-list-modal') %>
                                     <%- include('../../../_private/edit-entry-modal') %>
                                         <%- include('../../../_private/edit-rating-modal') %>
+                                            <%- include('../../../_private/watchlist-charts-modal') %>
                                             <% } %>
 
                                                 <!-- Generic Confirmation Modal -->
@@ -101,6 +103,19 @@
                                                                                     <span
                                                                                         class="btm-nav-label text-xs">Back</span>
                                                                                 </a>
+
+                                                                                <button
+                                                                                    @click="openChartsModal()"
+                                                                                    class="text-base-content/70 hover:text-yellow-700 dark:hover:text-primary">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18" />
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 17V9" />
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 17V5" />
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 17v-3" />
+                                                                                    </svg>
+                                                                                    <span
+                                                                                        class="btm-nav-label text-xs">Charts</span>
+                                                                                </button>
 
                                                                                 <button
                                                                                     @click="$dispatch('toggle-mobile-header')"
