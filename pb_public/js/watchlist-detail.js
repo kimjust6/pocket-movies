@@ -286,13 +286,48 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             this.setupRealtimeSubscription();
         },
 
+        loadPocketBaseSdk() {
+            if (typeof window.PocketBase !== 'undefined') return Promise.resolve();
+            if (window._pbSdkPromise) return window._pbSdkPromise;
+            window._pbSdkPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/pocketbase@0.25.1/dist/pocketbase.umd.js';
+                script.onload = () => resolve();
+                script.onerror = (err) => reject(err);
+                document.head.appendChild(script);
+            });
+            return window._pbSdkPromise;
+        },
+
+        loadChartJs() {
+            if (typeof window.Chart !== 'undefined') return Promise.resolve();
+            if (window._chartJsPromise) return window._chartJsPromise;
+            window._chartJsPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js';
+                script.onload = () => resolve();
+                script.onerror = (err) => reject(err);
+                document.head.appendChild(script);
+            });
+            return window._chartJsPromise;
+        },
+
         /**
          * Sets up PocketBase realtime subscription for watched_history and watch_history_user tables.
          * Subscribes to changes filtered by the current list ID.
          */
-        setupRealtimeSubscription() {
-            if (!this.listId || typeof PocketBase === 'undefined') {
-                console.warn('[Realtime] PocketBase not available or listId missing');
+        async setupRealtimeSubscription() {
+            if (!this.listId) return;
+
+            try {
+                await this.loadPocketBaseSdk();
+            } catch (err) {
+                console.warn('[Realtime] Failed to load PocketBase SDK', err);
+                return;
+            }
+
+            if (typeof PocketBase === 'undefined') {
+                console.warn('[Realtime] PocketBase not available');
                 return;
             }
 
@@ -1135,6 +1170,12 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             this.showChartsModal = true;
             this.isChartsLoading = true;
             this.updateUrlParams();
+
+            try {
+                await this.loadChartJs();
+            } catch (err) {
+                console.error('[Charts] Failed to load Chart.js:', err);
+            }
 
             let sourceMovies = [...this.movies];
 
