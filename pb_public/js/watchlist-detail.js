@@ -292,6 +292,8 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             window._pbSdkPromise = new Promise((resolve, reject) => {
                 const script = document.createElement('script');
                 script.src = 'https://cdn.jsdelivr.net/npm/pocketbase@0.25.1/dist/pocketbase.umd.js';
+                script.integrity = 'sha384-lAdH7s0mlWhU7+uSjCPNjfA9PBSbMScM/Gt+EQnm8JXngjoi2k38I/MozwHLYZZr';
+                script.crossOrigin = 'anonymous';
                 script.onload = () => resolve();
                 script.onerror = (err) => reject(err);
                 document.head.appendChild(script);
@@ -305,6 +307,8 @@ function watchlistDetail(initialMovies = null, isOwner = null, listId = null, in
             window._chartJsPromise = new Promise((resolve, reject) => {
                 const script = document.createElement('script');
                 script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js';
+                script.integrity = 'sha384-T/4KgSWuZEPozpPz7rnnp/5lDSnpY1VPJCojf1S81uTHS1E38qgLfMgVsAeRCWc4';
+                script.crossOrigin = 'anonymous';
                 script.onload = () => resolve();
                 script.onerror = (err) => reject(err);
                 document.head.appendChild(script);
