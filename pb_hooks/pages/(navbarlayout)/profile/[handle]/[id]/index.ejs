@@ -107,7 +107,7 @@
 
                             <!-- Bio Section -->
                             <% if (profile.getString('bio')) { %>
-                                <div class="p-4 bg-base-200/50 rounded-2xl border border-base-content/5 text-sm text-base-content/85 leading-relaxed font-serif">
+                                <div class="p-4 bg-base-200/50 rounded-2xl border border-base-content/5 text-sm text-base-content/85 leading-relaxed font-normal">
                                     <%= profile.getString('bio') %>
                                 </div>
                             <% } %>
@@ -196,10 +196,10 @@
 
                                             <% if (r.review) { %>
                                                 <a href="/reviews/<%= r.id %>" class="block group/prev">
-                                                    <p class="text-xs sm:text-sm font-serif leading-relaxed text-base-content/85 line-clamp-3 italic group-hover/prev:text-primary transition-colors">
+                                                    <p class="text-xs sm:text-sm leading-relaxed text-base-content/85 line-clamp-3 italic group-hover/prev:text-primary transition-colors font-normal">
                                                         "<%= r.review %>"
                                                     </p>
-                                                    <span class="text-[11px] text-primary font-sans font-medium mt-1 inline-flex items-center gap-0.5 group-hover/prev:underline">
+                                                    <span class="text-[11px] text-primary font-medium mt-1 inline-flex items-center gap-0.5 group-hover/prev:underline">
                                                         Full review →
                                                     </span>
                                                 </a>

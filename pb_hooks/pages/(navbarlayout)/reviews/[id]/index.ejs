@@ -86,25 +86,25 @@
                             <div>
                                 <div class="flex flex-wrap items-center gap-2 mb-1">
                                     <a href="/movies/<%= review.movie.tmdbId %>"
-                                       class="text-2xl sm:text-3xl md:text-4xl font-black text-base-content hover:text-primary transition-colors">
+                                       class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-base-content hover:text-primary transition-colors">
                                         <%= review.movie.title %>
                                     </a>
                                     <% if (review.movie.releaseYear) { %>
-                                        <span class="text-lg sm:text-xl font-light text-base-content/50">
+                                        <span class="text-lg sm:text-xl font-normal text-base-content/50">
                                             (<%= review.movie.releaseYear %>)
                                         </span>
                                     <% } %>
                                 </div>
 
                                 <% if (review.movie.tagline) { %>
-                                    <p class="text-sm italic text-base-content/60 font-serif">
+                                    <p class="text-sm sm:text-base italic text-base-content/70 font-normal">
                                         "<%= review.movie.tagline %>"
                                     </p>
                                 <% } %>
 
                                 <!-- Scores Badges -->
                                 <div class="flex flex-wrap items-center gap-2 mt-3">
-                                    <a href="/movies/<%= review.movie.tmdbId %>" class="btn btn-xs btn-outline gap-1 text-primary">
+                                    <a href="/movies/<%= review.movie.tmdbId %>" class="btn btn-xs btn-outline gap-1 text-primary font-medium">
                                         Movie Details
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -112,13 +112,13 @@
                                     </a>
 
                                     <% if (review.movie.tmdbScore) { %>
-                                        <span class="badge badge-sm badge-warning font-mono">TMDB <%= Number(review.movie.tmdbScore).toFixed(1) %></span>
+                                        <span class="badge badge-sm badge-warning font-semibold tracking-wide">TMDB <%= Number(review.movie.tmdbScore).toFixed(1) %></span>
                                     <% } %>
                                     <% if (review.movie.imdbScore) { %>
-                                        <span class="badge badge-sm badge-accent font-mono">IMDb <%= Number(review.movie.imdbScore).toFixed(1) %></span>
+                                        <span class="badge badge-sm badge-accent font-semibold tracking-wide">IMDb <%= Number(review.movie.imdbScore).toFixed(1) %></span>
                                     <% } %>
                                     <% if (review.movie.rtScore && review.movie.rtScore > 0) { %>
-                                        <span class="badge badge-sm badge-error font-mono">RT <%= review.movie.rtScore %>%</span>
+                                        <span class="badge badge-sm badge-error font-semibold tracking-wide">RT <%= review.movie.rtScore %>%</span>
                                     <% } %>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                                         <div class="flex items-center gap-2">
                                             <span class="text-xs uppercase tracking-wider text-base-content/50 font-semibold">Review by</span>
                                             <a href="<%= review.user.profileUrl || ('/profile/' + review.user.id) %>"
-                                               class="font-black text-base text-base-content hover:text-primary transition-colors hover:underline">
+                                               class="font-bold text-base text-base-content hover:text-primary transition-colors hover:underline">
                                                 <%= review.user.name %>
                                             </a>
                                             <% if (review.user.handle) { %>
@@ -184,7 +184,7 @@
                                                     </svg>
                                                 <% } %>
                                             </div>
-                                            <span class="font-black text-lg sm:text-xl text-base-content">
+                                            <span class="font-extrabold text-lg sm:text-xl text-base-content">
                                                 <%= Number(review.rating).toFixed(1) %> <span class="text-xs font-normal text-base-content/50">/ 10</span>
                                             </span>
                                         </div>
@@ -204,7 +204,7 @@
                                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
                                 </svg>
                                 
-                                <div class="text-base sm:text-lg md:text-xl font-serif text-base-content/90 leading-relaxed sm:leading-loose whitespace-pre-line pt-2">
+                                <div class="text-base sm:text-lg md:text-xl text-base-content/90 leading-relaxed sm:leading-loose whitespace-pre-line pt-2 font-normal">
                                     <%= review.review %>
                                 </div>
                             </div>
@@ -260,7 +260,7 @@
             <!-- More Reviews for this Movie Section -->
             <% if (review.otherReviewsByMovie && review.otherReviewsByMovie.length > 0) { %>
                 <div class="mb-12">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <h3 class="text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
                         <span>More Community Reviews for <%= review.movie.title %></span>
                     </h3>
 
@@ -275,21 +275,21 @@
                                                 <span><%= other.user.initials %></span>
                                             </div>
                                         </div>
-                                        <span class="font-bold text-xs truncate max-w-[120px]"><%= other.user.name %></span>
+                                        <span class="font-semibold text-xs truncate max-w-[120px]"><%= other.user.name %></span>
                                     </div>
 
                                     <% if (other.rating !== null && other.rating !== undefined && other.rating >= 0) { %>
-                                        <span class="badge badge-warning badge-xs font-bold">★ <%= Number(other.rating).toFixed(1) %></span>
+                                        <span class="badge badge-warning badge-xs font-semibold">★ <%= Number(other.rating).toFixed(1) %></span>
                                     <% } %>
                                 </div>
 
                                 <% if (other.review) { %>
-                                    <p class="text-xs font-serif text-base-content/80 line-clamp-3 italic mb-2">
+                                    <p class="text-xs text-base-content/75 line-clamp-3 italic mb-2 leading-relaxed font-normal">
                                         "<%= other.review %>"
                                     </p>
                                 <% } %>
 
-                                <span class="text-[11px] text-primary group-hover:underline font-semibold mt-auto inline-flex items-center gap-1">
+                                <span class="text-[11px] text-primary group-hover:underline font-medium mt-auto inline-flex items-center gap-1">
                                     Read review →
                                 </span>
                             </a>

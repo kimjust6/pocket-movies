@@ -88,7 +88,7 @@
                                     <h1
                                         class="mb-2 text-4xl font-black tracking-tight md:text-6xl text-base-content drop-shadow-md">
                                         <%= data.movie.title %>
-                                            <span class="text-3xl font-light text-base-content/50 ml-2">
+                                            <span class="text-3xl font-normal text-base-content/50 ml-2">
                                                 (<%= data.movie.release_date ? data.movie.release_date.substring(0, 4)
                                                     : 'N/A' %>)
                                             </span>
@@ -298,10 +298,10 @@
 
                                                             <% if (review.review) { %>
                                                                 <a href="/reviews/<%= review.id %>" class="block group/rev">
-                                                                    <p class="text-sm font-serif leading-relaxed text-base-content/85 line-clamp-4 italic group-hover/rev:text-primary transition-colors">
+                                                                    <p class="text-sm leading-relaxed text-base-content/85 line-clamp-4 italic group-hover/rev:text-primary transition-colors font-normal">
                                                                         "<%= review.review %>"
                                                                     </p>
-                                                                    <span class="inline-flex items-center gap-1 text-xs text-primary font-sans font-medium mt-1 group-hover/rev:underline">
+                                                                    <span class="inline-flex items-center gap-1 text-xs text-primary font-medium mt-1 group-hover/rev:underline">
                                                                         Read full review →
                                                                     </span>
                                                                 </a>
