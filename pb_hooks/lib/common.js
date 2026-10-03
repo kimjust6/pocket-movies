@@ -294,6 +294,29 @@ module.exports = {
     },
 
     /**
+     * Formats a number with comma thousand separators (Goja-safe).
+     * @param {number|string} value - Number to format
+     * @returns {string} Formatted number string with commas
+     */
+    formatNumber: function (value) {
+        if (value === null || value === undefined || value === '') return ''
+        const parts = value.toString().split('.')
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return parts.join('.')
+    },
+
+    /**
+     * Formats an amount as currency with commas (e.g. $3,000,000).
+     * @param {number|string} value - Amount to format
+     * @returns {string} Formatted currency string
+     */
+    formatCurrency: function (value) {
+        const num = Number(value)
+        if (!num || isNaN(num) || num <= 0) return 'Unknown'
+        return '$' + module.exports.formatNumber(Math.round(num))
+    },
+
+    /**
      * Fetch all watchlists (owned and shared) for a user.
      * @param {any} client - The initialized PocketBase client
      * @param {any} user - The user object

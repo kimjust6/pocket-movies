@@ -362,17 +362,13 @@
                                                 <div class="flex justify-between pb-2">
                                                     <span class="opacity-70">Budget</span>
                                                     <span class="font-medium">
-                                                        <%= data.movie.budget> 0 ? '$' +
-                                                            data.movie.budget.toLocaleString() :
-                                                            'Unknown' %>
+                                                        <%= (data.formatCurrency ? data.formatCurrency(data.movie.budget) : (data.movie.budget > 0 ? '$' + data.movie.budget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 'Unknown')) %>
                                                     </span>
                                                 </div>
                                                 <div class="flex justify-between">
                                                     <span class="opacity-70">Revenue</span>
                                                     <span class="font-medium">
-                                                        <%= data.movie.revenue> 0 ? '$' +
-                                                            data.movie.revenue.toLocaleString() :
-                                                            'Unknown' %>
+                                                        <%= (data.formatCurrency ? data.formatCurrency(data.movie.revenue) : (data.movie.revenue > 0 ? '$' + data.movie.revenue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 'Unknown')) %>
                                                     </span>
                                                 </div>
                                             </div>

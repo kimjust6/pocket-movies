@@ -120,7 +120,9 @@ module.exports = function (context) {
             user,
             lists,
             reviews,
-            message
+            message,
+            formatCurrency: common.formatCurrency,
+            formatNumber: common.formatNumber
         }
     } catch (e) {
         return {
