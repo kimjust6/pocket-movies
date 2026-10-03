@@ -1,0 +1,303 @@
+<%
+    const review = data.review;
+    const error = data.error;
+%>
+
+<% if (error || !review) { %>
+    <div class="flex min-h-[60vh] flex-col items-center justify-center p-6 text-center">
+        <div class="w-16 h-16 rounded-full bg-error/10 text-error flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-base-content mb-2">Review Not Found</h1>
+        <p class="text-base-content/60 max-w-sm mb-6"><%= error || "The review you are looking for does not exist or may have been removed." %></p>
+        <a href="/reviews" class="btn btn-primary btn-sm gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Community Reviews
+        </a>
+    </div>
+<% } else { %>
+    <div class="relative min-h-screen bg-base-200/40 pb-20" x-data="{ copied: false }">
+        
+        <!-- Hero Movie Backdrop Header -->
+        <div class="relative w-full h-[45vh] min-h-[300px] overflow-hidden">
+            <% if (review.movie.backdropPath) { %>
+                <img src="https://image.tmdb.org/t/p/original<%= review.movie.backdropPath %>"
+                     alt="<%= review.movie.title %> Backdrop"
+                     class="w-full h-full object-cover opacity-25 blur-sm scale-105 transform" />
+            <% } else { %>
+                <div class="w-full h-full bg-gradient-to-br from-primary/10 via-base-300 to-base-100 opacity-40"></div>
+            <% } %>
+            <div class="absolute inset-0 bg-gradient-to-t from-base-200/90 via-base-200/60 to-transparent"></div>
+        </div>
+
+        <!-- Main Content Overlapping Backdrop -->
+        <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 -mt-44 sm:-mt-52">
+            
+            <!-- Breadcrumbs -->
+            <div class="mb-6 flex items-center justify-between">
+                <nav class="text-sm breadcrumbs bg-base-100/70 backdrop-blur-md px-4 py-1.5 rounded-full border border-base-content/10 shadow-sm">
+                    <ul>
+                        <li><a href="/" class="text-base-content/70 hover:text-primary">Home</a></li>
+                        <li><a href="/reviews" class="text-base-content/70 hover:text-primary">Reviews</a></li>
+                        <li class="font-semibold text-primary truncate max-w-[200px] sm:max-w-xs">
+                            <%= review.movie.title %>
+                        </li>
+                    </ul>
+                </nav>
+
+                <a href="/reviews" class="btn btn-sm btn-ghost bg-base-100/70 backdrop-blur-md gap-1.5 text-base-content/70 hover:text-primary border border-base-content/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    All Reviews
+                </a>
+            </div>
+
+            <!-- Review Card Container -->
+            <article class="card bg-base-100 shadow-2xl border border-base-content/10 rounded-3xl overflow-hidden mb-12">
+                <div class="card-body p-6 sm:p-10">
+                    
+                    <!-- Top Movie & Reviewer Header -->
+                    <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start pb-8 border-b border-base-content/10">
+                        
+                        <!-- Movie Poster -->
+                        <div class="w-32 sm:w-40 aspect-[2/3] mask mask-squircle-poster bg-base-300 shadow-xl shrink-0 overflow-hidden group hover:scale-105 transition-transform duration-300">
+                            <a href="/movies/<%= review.movie.tmdbId %>">
+                                <% if (review.movie.posterPath) { %>
+                                    <img src="https://image.tmdb.org/t/p/w500<%= review.movie.posterPath %>"
+                                         alt="<%= review.movie.title %>"
+                                         class="w-full h-full object-cover" />
+                                <% } else { %>
+                                    <div class="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-base-300 text-base-content/40">
+                                        <span class="text-xs font-bold uppercase tracking-wider">No Poster</span>
+                                    </div>
+                                <% } %>
+                            </a>
+                        </div>
+
+                        <!-- Info & Review Meta -->
+                        <div class="flex-1 min-w-0 w-full space-y-4">
+                            
+                            <!-- Movie Title & Meta -->
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <a href="/movies/<%= review.movie.tmdbId %>"
+                                       class="text-2xl sm:text-3xl md:text-4xl font-black text-base-content hover:text-primary transition-colors">
+                                        <%= review.movie.title %>
+                                    </a>
+                                    <% if (review.movie.releaseYear) { %>
+                                        <span class="text-lg sm:text-xl font-light text-base-content/50">
+                                            (<%= review.movie.releaseYear %>)
+                                        </span>
+                                    <% } %>
+                                </div>
+
+                                <% if (review.movie.tagline) { %>
+                                    <p class="text-sm italic text-base-content/60 font-serif">
+                                        "<%= review.movie.tagline %>"
+                                    </p>
+                                <% } %>
+
+                                <!-- Scores Badges -->
+                                <div class="flex flex-wrap items-center gap-2 mt-3">
+                                    <a href="/movies/<%= review.movie.tmdbId %>" class="btn btn-xs btn-outline gap-1 text-primary">
+                                        Movie Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                    </a>
+
+                                    <% if (review.movie.tmdbScore) { %>
+                                        <span class="badge badge-sm badge-warning font-mono">TMDB <%= Number(review.movie.tmdbScore).toFixed(1) %></span>
+                                    <% } %>
+                                    <% if (review.movie.imdbScore) { %>
+                                        <span class="badge badge-sm badge-accent font-mono">IMDb <%= Number(review.movie.imdbScore).toFixed(1) %></span>
+                                    <% } %>
+                                    <% if (review.movie.rtScore && review.movie.rtScore > 0) { %>
+                                        <span class="badge badge-sm badge-error font-mono">RT <%= review.movie.rtScore %>%</span>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <!-- Reviewer Meta Header -->
+                            <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-base-content/5">
+                                
+                                <!-- Author Profile Block -->
+                                <div class="flex items-center gap-3.5">
+                                    <a href="<%= review.user.profileUrl || ('/profile/' + review.user.id) %>" class="avatar placeholder hover:opacity-85 transition-opacity">
+                                        <% if (review.user.avatarUrl) { %>
+                                            <div class="w-12 h-12 mask mask-squircle ring-2 ring-primary ring-offset-base-100 ring-offset-1">
+                                                <img src="<%= review.user.avatarUrl %>" alt="<%= review.user.name %>" class="object-cover" />
+                                            </div>
+                                        <% } else { %>
+                                            <div class="w-12 h-12 mask mask-squircle bg-gradient-to-br from-primary to-warning text-primary-content font-bold flex items-center justify-center text-base shadow-sm">
+                                                <span><%= review.user.initials %></span>
+                                            </div>
+                                        <% } %>
+                                    </a>
+
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs uppercase tracking-wider text-base-content/50 font-semibold">Review by</span>
+                                            <a href="<%= review.user.profileUrl || ('/profile/' + review.user.id) %>"
+                                               class="font-black text-base text-base-content hover:text-primary transition-colors hover:underline">
+                                                <%= review.user.name %>
+                                            </a>
+                                            <% if (review.user.handle) { %>
+                                                <span class="text-xs text-primary font-medium">@<%= review.user.handle %></span>
+                                            <% } %>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-xs text-base-content/60 mt-0.5">
+                                            <span><%= review.formattedDate %></span>
+                                            <% if (review.list) { %>
+                                                <span>•</span>
+                                                <span>From list <a href="<%= review.list.url %>" class="text-base-content/80 hover:text-primary font-medium underline"><%= review.list.title %></a></span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Rating Display -->
+                                <div class="flex items-center gap-3">
+                                    <% if (review.failed) { %>
+                                        <span class="badge badge-error badge-sm font-bold gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            Bailed
+                                        </span>
+                                    <% } %>
+
+                                    <% if (review.rating !== null && review.rating !== undefined && review.rating >= 0) { %>
+                                        <div class="flex items-center gap-2.5 bg-base-200/80 px-4 py-2 rounded-2xl border border-base-content/5 shadow-inner">
+                                            <div class="flex items-center text-warning">
+                                                <% for (let star = 1; star <= 5; star++) { %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                         class="h-5 w-5 <%= (review.rating / 2) >= star ? 'fill-warning text-warning' : ((review.rating / 2) >= (star - 0.5) ? 'fill-warning/50 text-warning' : 'text-base-content/20') %>"
+                                                         viewBox="0 0 20 20"
+                                                         fill="currentColor">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+                                                <% } %>
+                                            </div>
+                                            <span class="font-black text-lg sm:text-xl text-base-content">
+                                                <%= Number(review.rating).toFixed(1) %> <span class="text-xs font-normal text-base-content/50">/ 10</span>
+                                            </span>
+                                        </div>
+                                    <% } %>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- The Full Review Content Body -->
+                    <div class="py-8">
+                        <% if (review.review) { %>
+                            <div class="relative bg-base-200/40 rounded-3xl p-6 sm:p-10 border border-base-content/5 shadow-inner">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary/20 absolute -top-5 left-6 -scale-x-100 select-none pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                                </svg>
+                                
+                                <div class="text-base sm:text-lg md:text-xl font-serif text-base-content/90 leading-relaxed sm:leading-loose whitespace-pre-line pt-2">
+                                    <%= review.review %>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <div class="p-8 text-center bg-base-200/30 rounded-2xl border border-dashed border-base-content/10">
+                                <p class="text-base-content/50 italic text-base">This film was rated without an accompanying written review.</p>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Review Actions & Share Bar -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-base-content/10">
+                        <div class="flex items-center gap-3">
+                            <a href="/movies/<%= review.movie.tmdbId %>"
+                               class="btn btn-sm btn-primary gap-2 shadow-md shadow-primary/20 hover:scale-105 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                                Movie Details
+                            </a>
+
+                            <% if (review.list) { %>
+                                <a href="<%= review.list.url %>"
+                                   class="btn btn-sm btn-ghost gap-2 border border-base-content/10 hover:border-secondary/40">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                    </svg>
+                                    View Watchlist
+                                </a>
+                            <% } %>
+                        </div>
+
+                        <!-- Share Button -->
+                        <div>
+                            <button type="button"
+                                    @click="
+                                        navigator.clipboard.writeText(window.location.href);
+                                        copied = true;
+                                        setTimeout(() => copied = false, 2500);
+                                    "
+                                    class="btn btn-sm btn-ghost gap-2 border border-base-content/10 hover:bg-base-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                </svg>
+                                <span x-text="copied ? 'Link Copied!' : 'Share Review'">Share Review</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+
+            <!-- More Reviews for this Movie Section -->
+            <% if (review.otherReviewsByMovie && review.otherReviewsByMovie.length > 0) { %>
+                <div class="mb-12">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span>More Community Reviews for <%= review.movie.title %></span>
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <% review.otherReviewsByMovie.forEach(other => { %>
+                            <a href="/reviews/<%= other.id %>"
+                               class="card bg-base-100 p-4 border border-base-content/5 shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-300 group">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="avatar placeholder">
+                                            <div class="w-7 h-7 mask mask-squircle bg-primary text-primary-content font-bold flex items-center justify-center text-xs">
+                                                <span><%= other.user.initials %></span>
+                                            </div>
+                                        </div>
+                                        <span class="font-bold text-xs truncate max-w-[120px]"><%= other.user.name %></span>
+                                    </div>
+
+                                    <% if (other.rating !== null && other.rating !== undefined && other.rating >= 0) { %>
+                                        <span class="badge badge-warning badge-xs font-bold">★ <%= Number(other.rating).toFixed(1) %></span>
+                                    <% } %>
+                                </div>
+
+                                <% if (other.review) { %>
+                                    <p class="text-xs font-serif text-base-content/80 line-clamp-3 italic mb-2">
+                                        "<%= other.review %>"
+                                    </p>
+                                <% } %>
+
+                                <span class="text-[11px] text-primary group-hover:underline font-semibold mt-auto inline-flex items-center gap-1">
+                                    Read review →
+                                </span>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
+            <% } %>
+
+        </div>
+    </div>
+<% } %>

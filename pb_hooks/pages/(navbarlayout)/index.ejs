@@ -214,7 +214,7 @@
                                     <div class="card bg-base-100 shadow-md">
                                         <div class="card-body p-4">
                                             <div class="flex items-start gap-3">
-                                                <a href="<%= activity.userId ? '/profile/' + activity.userId : '#' %>"
+                                                <a href="<%= activity.userProfileUrl || (activity.userId ? '/profile/' + activity.userId : '#') %>"
                                                    class="avatar placeholder hover:opacity-80 transition-opacity"
                                                    title="<%= activity.userName %>">
                                                     <div
@@ -240,7 +240,7 @@
                                                                 <%= activity.movieTitle %>
                                                             </a>
                                                             <% } else { %>
-                                                                <a href="<%= activity.userId ? '/profile/' + activity.userId : '#' %>"
+                                                                <a href="<%= activity.userProfileUrl || (activity.userId ? '/profile/' + activity.userId : '#') %>"
                                                                    class="font-semibold hover:text-primary transition-colors hover:underline">
                                                                     <%= activity.userName %>
                                                                 </a>

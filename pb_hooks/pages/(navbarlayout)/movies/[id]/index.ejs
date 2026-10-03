@@ -265,7 +265,7 @@
                                                         <div>
                                                             <div class="flex items-center justify-between mb-3">
                                                                 <div class="flex items-center gap-3">
-                                                                    <a href="<%= review.user.id ? '/profile/' + review.user.id : '#' %>"
+                                                                    <a href="<%= review.user.profileUrl || (review.user.id ? '/profile/' + review.user.id : '#') %>"
                                                                        class="avatar placeholder hover:opacity-80 transition-opacity"
                                                                        title="View <%= review.user.name %>'s profile">
                                                                         <% if (review.user.avatarUrl) { %>
@@ -279,7 +279,7 @@
                                                                         <% } %>
                                                                     </a>
                                                                     <div>
-                                                                        <a href="<%= review.user.id ? '/profile/' + review.user.id : '#' %>"
+                                                                        <a href="<%= review.user.profileUrl || (review.user.id ? '/profile/' + review.user.id : '#') %>"
                                                                            class="font-bold text-sm hover:text-primary transition-colors hover:underline inline-block"
                                                                            title="View <%= review.user.name %>'s profile"><%= review.user.name %></a>
                                                                         <div class="text-xs text-base-content/50"><%= review.formattedDate %></div>
@@ -297,21 +297,34 @@
                                                             </div>
 
                                                             <% if (review.review) { %>
-                                                                <p class="text-sm font-serif leading-relaxed text-base-content/85 line-clamp-4 italic">
-                                                                    "<%= review.review %>"
-                                                                </p>
+                                                                <a href="/reviews/<%= review.id %>" class="block group/rev">
+                                                                    <p class="text-sm font-serif leading-relaxed text-base-content/85 line-clamp-4 italic group-hover/rev:text-primary transition-colors">
+                                                                        "<%= review.review %>"
+                                                                    </p>
+                                                                    <span class="inline-flex items-center gap-1 text-xs text-primary font-sans font-medium mt-1 group-hover/rev:underline">
+                                                                        Read full review →
+                                                                    </span>
+                                                                </a>
                                                             <% } else { %>
-                                                                <p class="text-xs text-base-content/40 italic">
-                                                                    Rated without a written review.
-                                                                </p>
+                                                                <a href="/reviews/<%= review.id %>" class="block text-xs text-base-content/40 hover:text-primary transition-colors italic">
+                                                                    Rated without a written review • Details →
+                                                                </a>
                                                             <% } %>
                                                         </div>
 
-                                                        <% if (review.list) { %>
-                                                            <div class="mt-4 pt-2 border-t border-base-content/5 text-xs text-base-content/60">
-                                                                From <a href="<%= review.list.url %>" class="font-medium text-base-content/80 hover:text-primary"><%= review.list.title %></a>
+                                                        <div class="mt-4 pt-2 border-t border-base-content/5 text-xs text-base-content/60 flex items-center justify-between gap-2">
+                                                            <div>
+                                                                <% if (review.list) { %>
+                                                                    From <a href="<%= review.list.url %>" class="font-medium text-base-content/80 hover:text-primary"><%= review.list.title %></a>
+                                                                <% } %>
                                                             </div>
-                                                        <% } %>
+                                                            <a href="/reviews/<%= review.id %>" class="btn btn-ghost btn-xs text-primary gap-1 hover:bg-primary/10">
+                                                                <span>Review page</span>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                                                </svg>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 <% }); %>
                                             </div>

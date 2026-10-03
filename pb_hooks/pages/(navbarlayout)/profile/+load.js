@@ -1,6 +1,6 @@
 /**
  * Route loader for /profile
- * Redirects to the user's canonical profile URL: /profile/:id
+ * Redirects to the user's canonical profile URL: /profile/@handle/:id
  * @type {import('pocketpages').PageDataLoaderFunc}
  */
 const common = require('../../../lib/common.js')
@@ -11,7 +11,7 @@ module.exports = function (context) {
     const targetUserId = context.query?.id
 
     if (targetUserId) {
-        context.response.redirect('/profile/' + encodeURIComponent(targetUserId))
+        context.response.redirect(common.getProfileUrl(targetUserId))
         return
     }
 
@@ -20,5 +20,5 @@ module.exports = function (context) {
         return
     }
 
-    context.response.redirect('/profile/' + user.id)
+    context.response.redirect(common.getProfileUrl(user))
 }
