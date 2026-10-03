@@ -241,6 +241,88 @@
                                 <p class="text-base-content/50 italic">No cast information available.</p>
                                 <% } %>
 
+                                    <!-- Community Reviews Section -->
+                                    <div class="mt-12">
+                                        <div class="flex items-center justify-between mb-6">
+                                            <div class="flex items-center gap-3">
+                                                <h2 class="text-2xl font-bold">Community Reviews</h2>
+                                                <% if (data.reviews && data.reviews.length > 0) { %>
+                                                    <span class="badge badge-primary font-bold"><%= data.reviews.length %></span>
+                                                <% } %>
+                                            </div>
+                                            <a href="/reviews" class="btn btn-ghost btn-sm gap-1 hover:text-primary">
+                                                All Community Reviews
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </a>
+                                        </div>
+
+                                        <% if (data.reviews && data.reviews.length > 0) { %>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <% data.reviews.forEach(review => { %>
+                                                    <div class="card bg-base-100 p-5 shadow-sm border border-base-content/5 flex flex-col justify-between">
+                                                        <div>
+                                                            <div class="flex items-center justify-between mb-3">
+                                                                <div class="flex items-center gap-3">
+                                                                    <a href="<%= review.user.id ? '/profile/' + review.user.id : '#' %>"
+                                                                       class="avatar placeholder hover:opacity-80 transition-opacity"
+                                                                       title="View <%= review.user.name %>'s profile">
+                                                                        <% if (review.user.avatarUrl) { %>
+                                                                            <div class="w-9 h-9 mask mask-squircle ring-1 ring-primary/30">
+                                                                                <img src="<%= review.user.avatarUrl %>" alt="<%= review.user.name %>" />
+                                                                            </div>
+                                                                        <% } else { %>
+                                                                            <div class="w-9 h-9 mask mask-squircle bg-primary text-primary-content font-bold flex items-center justify-center text-xs">
+                                                                                <span><%= review.user.initials %></span>
+                                                                            </div>
+                                                                        <% } %>
+                                                                    </a>
+                                                                    <div>
+                                                                        <a href="<%= review.user.id ? '/profile/' + review.user.id : '#' %>"
+                                                                           class="font-bold text-sm hover:text-primary transition-colors hover:underline inline-block"
+                                                                           title="View <%= review.user.name %>'s profile"><%= review.user.name %></a>
+                                                                        <div class="text-xs text-base-content/50"><%= review.formattedDate %></div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <% if (review.rating !== null && review.rating !== undefined && review.rating >= 0) { %>
+                                                                    <div class="flex items-center gap-1.5 bg-base-200 px-2.5 py-1 rounded-lg">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 fill-warning text-warning" viewBox="0 0 20 20">
+                                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                                        </svg>
+                                                                        <span class="text-xs font-bold"><%= Number(review.rating).toFixed(1) %>/10</span>
+                                                                    </div>
+                                                                <% } %>
+                                                            </div>
+
+                                                            <% if (review.review) { %>
+                                                                <p class="text-sm font-serif leading-relaxed text-base-content/85 line-clamp-4 italic">
+                                                                    "<%= review.review %>"
+                                                                </p>
+                                                            <% } else { %>
+                                                                <p class="text-xs text-base-content/40 italic">
+                                                                    Rated without a written review.
+                                                                </p>
+                                                            <% } %>
+                                                        </div>
+
+                                                        <% if (review.list) { %>
+                                                            <div class="mt-4 pt-2 border-t border-base-content/5 text-xs text-base-content/60">
+                                                                From <a href="<%= review.list.url %>" class="font-medium text-base-content/80 hover:text-primary"><%= review.list.title %></a>
+                                                            </div>
+                                                        <% } %>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+                                        <% } else { %>
+                                            <div class="card bg-base-100/60 border border-dashed border-base-content/15 p-8 text-center rounded-2xl">
+                                                <p class="text-sm text-base-content/60 mb-2">No community reviews for this movie yet.</p>
+                                                <p class="text-xs text-base-content/40">Add it to a watchlist to be the first to rate and review!</p>
+                                            </div>
+                                        <% } %>
+                                    </div>
+
                                     <!-- Technical Details Grid -->
                                     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                         <div class="card bg-base-100 p-6 shadow-sm">

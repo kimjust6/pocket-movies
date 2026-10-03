@@ -53,7 +53,17 @@ function loadDotEnv() {
                 try {
                     const raw = $os.readFile(pathsToTry[i])
                     if (raw) {
-                        content = typeof raw === 'string' ? raw : String(raw)
+                        if (typeof raw === 'string') {
+                            content = raw
+                        } else if (raw && typeof raw.length === 'number') {
+                            let chars = []
+                            for (let b = 0; b < raw.length; b++) {
+                                chars.push(String.fromCharCode(raw[b]))
+                            }
+                            content = chars.join('')
+                        } else {
+                            content = String(raw)
+                        }
                         if (content && content.indexOf('=') !== -1) break
                     }
                 } catch (_) {}

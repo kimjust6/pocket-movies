@@ -107,11 +107,19 @@ module.exports = function (context) {
             lists = common.getWatchlists(client, user)
         }
 
+        let reviews = []
+        try {
+            reviews = common.getLatestReviews({ tmdbId: movieId, limit: 10, user })
+        } catch (e) {
+            console.error('Failed to load movie reviews:', e)
+        }
+
         return {
             movie,
             credits,
             user,
             lists,
+            reviews,
             message
         }
     } catch (e) {
@@ -120,6 +128,7 @@ module.exports = function (context) {
             movie: null,
             user,
             lists: [],
+            reviews: [],
             message
         }
     }

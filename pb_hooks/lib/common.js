@@ -918,7 +918,8 @@ module.exports = {
                         recentActivity.push({
                             type: review ? 'review' : 'rating',
                             created: dateVal,
-                            userName: user.getString(COLS.NAME) || user.getString(COLS.USERNAME) || 'User',
+                            userId: user.id,
+                            userName: user.getString(COLS.NAME) || user.getString('email') || 'User',
                             userInitials: (user.getString(COLS.SHORTHAND) || user.getString(COLS.NAME) || 'U').substring(0, 2).toUpperCase(),
                             movieTitle: movie.getString(COLS.TITLE),
                             movieId: movie.getString(COLS.TMDB_ID),
@@ -935,5 +936,188 @@ module.exports = {
         // 5. Sort by created date descending (newest first)
         recentActivity.sort((a, b) => parseTime(b.created) - parseTime(a.created))
         return recentActivity.slice(0, limit)
+    },
+
+    /**
+     * Get latest movie reviews with full movie and user details.
+     * Respects list privacy and soft-delete flags.
+     * @param {Object} [options={}] - Options for fetching reviews
+     * @param {number} [options.limit=50] - Number of reviews to fetch (max 500)
+     * @param {number} [options.offset=0] - Offset for pagination
+     * @param {boolean} [options.onlyWithText=false] - Whether to only return reviews with written text
+     * @param {string} [options.sort='-created'] - Sort order
+     * @param {string} [options.tmdbId] - Optional TMDB ID to filter reviews for a specific movie
+     * @param {any} [options.user=null] - Current user for access checking
+     * @returns {Array<Object>} List of formatted review objects
+     */
+    getLatestReviews: function (options = {}) {
+        const limit = Math.min(options.limit || 50, 500)
+        const offset = options.offset || 0
+        const onlyWithText = !!options.onlyWithText
+        const currentUser = options.user || null
+        const sort = options.sort || `-${COLS.CREATED}`
+        const tmdbId = options.tmdbId || null
+
+        try {
+            const filter = onlyWithText
+                ? `${COLS.REVIEW} != ''`
+                : `(${COLS.REVIEW} != '' || ${COLS.RATING} >= 0)`
+
+            let targetHistoryIds = null
+            if (tmdbId) {
+                try {
+                    const movieRec = $app.findFirstRecordByFilter(TABLES.MOVIES, `${COLS.TMDB_ID} = '${tmdbId}'`)
+                    if (!movieRec) return []
+                    const histories = $app.findRecordsByFilter(
+                        TABLES.WATCHED_HISTORY,
+                        `${COLS.MOVIE} = '${movieRec.id}'`
+                    )
+                    if (!histories || histories.length === 0) return []
+                    targetHistoryIds = new Set(histories.map(h => h.id))
+                } catch (err) {
+                    console.error('[common.js] Failed to find movie records for tmdbId ' + tmdbId, err)
+                    return []
+                }
+            }
+
+            const records = $app.findRecordsByFilter(
+                TABLES.WATCH_HISTORY_USER,
+                filter,
+                sort,
+                limit * 3,
+                offset
+            )
+
+            if (!records || records.length === 0) {
+                return []
+            }
+
+            $app.expandRecords(records, [COLS.USER, COLS.WATCH_HISTORY])
+
+            const watchHistories = []
+            for (const r of records) {
+                const wh = r.expandedOne(COLS.WATCH_HISTORY)
+                if (wh) {
+                    watchHistories.push(wh)
+                }
+            }
+
+            if (watchHistories.length > 0) {
+                $app.expandRecords(watchHistories, [COLS.MOVIE, COLS.LIST])
+            }
+
+            // Cache for list access
+            const listAccessCache = new Map()
+
+            const canAccessList = (list) => {
+                if (!list) return false
+                if (list.getBool(COLS.IS_DELETED)) return false
+                if (!list.getBool(COLS.IS_PRIVATE)) return true
+
+                if (!currentUser) return false
+                if (list.getString(COLS.OWNER) === currentUser.id) return true
+
+                if (listAccessCache.has(list.id)) {
+                    return listAccessCache.get(list.id)
+                }
+
+                try {
+                    const invite = $app.findFirstRecordByFilter(
+                        TABLES.LIST_USER,
+                        `${COLS.LIST} = '${list.id}' && ${COLS.INVITED_USER} = '${currentUser.id}'`
+                    )
+                    const hasAccess = !!invite
+                    listAccessCache.set(list.id, hasAccess)
+                    return hasAccess
+                } catch (e) {
+                    listAccessCache.set(list.id, false)
+                    return false
+                }
+            }
+
+            const results = []
+
+            for (const r of records) {
+                const userRec = r.expandedOne(COLS.USER)
+                const watchHistory = r.expandedOne(COLS.WATCH_HISTORY)
+                if (!watchHistory) continue
+
+                if (targetHistoryIds && !targetHistoryIds.has(watchHistory.id)) {
+                    continue
+                }
+
+                const movie = watchHistory.expandedOne(COLS.MOVIE)
+                const list = watchHistory.expandedOne(COLS.LIST)
+
+                if (!movie) continue
+
+                if (list && !canAccessList(list)) {
+                    continue
+                }
+
+                const ratingVal = r.getFloat(COLS.RATING)
+                const hasValidRating = (ratingVal !== null && ratingVal !== undefined && ratingVal >= 0)
+                const parsedRating = hasValidRating ? Math.round(ratingVal) / 2 : null
+                const rawScore = hasValidRating ? ratingVal : null
+                const reviewText = (r.getString(COLS.REVIEW) || '').trim()
+                const isFailed = r.getBool(COLS.FAILED) || false
+
+                const dateVal = r.getString(COLS.CREATED) || (watchHistory && watchHistory.getString(COLS.WATCHED)) || r.getString('updated')
+
+                let avatarUrl = null
+                if (userRec && userRec.getString(COLS.AVATAR)) {
+                    try {
+                        avatarUrl = `/api/files/${userRec.collection().id}/${userRec.id}/${userRec.getString(COLS.AVATAR)}`
+                    } catch (e) { }
+                }
+
+                const releaseDate = movie.getString(COLS.RELEASE_DATE)
+                const releaseYear = releaseDate ? releaseDate.substring(0, 4) : ''
+
+                results.push({
+                    id: r.id,
+                    created: dateVal,
+                    formattedDate: module.exports.formatDateTime(dateVal),
+                    rating: rawScore,
+                    stars: parsedRating,
+                    review: reviewText,
+                    hasReview: reviewText.length > 0,
+                    failed: isFailed,
+                    user: {
+                        id: userRec ? userRec.id : '',
+                        name: userRec ? (userRec.getString(COLS.NAME) || userRec.getString('email') || 'User') : 'User',
+                        avatarUrl: avatarUrl,
+                        initials: (userRec ? (userRec.getString(COLS.SHORTHAND) || userRec.getString(COLS.NAME) || 'U') : 'U').substring(0, 2).toUpperCase()
+                    },
+                    movie: {
+                        id: movie.id,
+                        tmdbId: movie.getString(COLS.TMDB_ID),
+                        title: movie.getString(COLS.TITLE),
+                        posterPath: movie.getString(COLS.POSTER_PATH),
+                        backdropPath: movie.getString(COLS.BACKDROP_PATH),
+                        releaseYear: releaseYear,
+                        overview: movie.getString(COLS.OVERVIEW),
+                        tmdbScore: movie.getFloat(COLS.TMDB_SCORE),
+                        imdbScore: movie.getFloat(COLS.IMDB_SCORE),
+                        rtScore: movie.getInt(COLS.RT_SCORE)
+                    },
+                    list: list ? {
+                        id: list.id,
+                        title: list.getString(COLS.LIST_TITLE),
+                        isPrivate: list.getBool(COLS.IS_PRIVATE),
+                        url: module.exports.getWatchlistUrl(list)
+                    } : null
+                })
+
+                if (results.length >= limit) {
+                    break
+                }
+            }
+
+            return results
+        } catch (e) {
+            console.error('[common.js] Failed to get latest reviews:', e)
+            return []
+        }
     }
 }
